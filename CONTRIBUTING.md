@@ -65,7 +65,7 @@ TSDoc on every public export. Elsewhere, comment only what the code can't say: w
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `test:`, `docs:`, `chore:`).
 
-A pull request that changes behavior users can observe adds a changeset with `pnpm changeset`. Docs-only and test-only changes don't need one.
+Every change adds a changeset with `pnpm changeset`: pick the bump below and describe the change for users. Don't edit `version` in `package.json` by hand. The "Version Packages" pull request does that, and it also writes `CHANGELOG.md`.
 
 ### Versioning
 

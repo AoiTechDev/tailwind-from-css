@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
@@ -27,6 +29,14 @@ jobs:
       - run: pnpm check
       - name: Generated data is fresh
         run: pnpm gen:check
+      # Every change carries a changeset. The Version Packages PR consumes them, and Dependabot
+      # only bumps CI actions.
+      - name: Changeset present
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.head_ref != 'changeset-release/main' &&
+          github.actor != 'dependabot[bot]'
+        run: pnpm changeset status --since=origin/${{ github.base_ref }}
 
   test:
     name: test (node ${{ matrix.node }}, tailwindcss ${{ matrix.tailwind }})
