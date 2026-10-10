@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-brand: #123456;
+  --color-ink: oklch(20% 0.02 260);
+  --spacing: 0.5rem;
+  --breakpoint-tablet: 40rem;
+}

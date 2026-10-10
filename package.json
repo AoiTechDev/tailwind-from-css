@@ -70,6 +70,7 @@
     "knip": "6.41.0",
     "mdn-data": "2.37.2",
     "publint": "0.3.25",
+    "tailwindcss": "4.3.3",
     "tsdown": "0.23.1",
     "typescript": "7.0.2",
     "vitest": "5.0.3"

@@ -1,4 +1,5 @@
 node_modules/
+!test/fixtures/loader/node_modules/
 dist/
 coverage/
 *.tgz

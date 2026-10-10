@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant theme-midnight (&:where([data-theme="midnight"] *));
+@custom-variant fine-pointer {
+  @media (pointer: fine) {
+    @slot;
+  }
+}

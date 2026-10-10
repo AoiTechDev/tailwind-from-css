@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@utility content-auto {
+  content-visibility: auto;
+}
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility tfc-tab-* {
+  tab-size: --value(integer);
+}

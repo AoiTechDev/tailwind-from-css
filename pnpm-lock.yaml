@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      tailwindcss:
-        specifier: ^4.2.0
-        version: 4.3.3
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: 0.18.5
@@ -39,6 +35,9 @@ importers:
       publint:
         specifier: 0.3.25
         version: 0.3.25
+      tailwindcss:
+        specifier: 4.3.3
+        version: 4.3.3
       tsdown:
         specifier: 0.23.1
         version: 0.23.1(@arethetypeswrong/core@0.18.5)(oxc-resolver@11.24.2)(publint@0.3.25)(typescript@7.0.2)
