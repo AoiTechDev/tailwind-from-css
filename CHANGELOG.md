@@ -1,5 +1,11 @@
 # tailwind-from-css
 
+## 0.0.2
+
+### Patch Changes
+
+- d9f1abd: Internal: commit a test fixture that the ignore rules had left out, so the test suite passes on a fresh checkout. No change to the package.
+
 ## 0.0.1
 
 ### Patch Changes
