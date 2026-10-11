@@ -33,6 +33,8 @@ function parseLayer(layer: string, lengthCount: number): ShadowLayer {
 /** Normal form of an already value-normalized `box-shadow` or `text-shadow`. */
 export function normalizeShadowList(property: string, value: string): string {
   if (value === 'none') return value
+  // An unclosed function swallows the rest of the value, including any default we'd append.
+  if (value.split('(').length !== value.split(')').length) return value
   const lengthCount = property === 'box-shadow' ? 4 : 3
   const visible = splitTopLevel(value, ',')
     .map((layer) => parseLayer(layer, lengthCount))

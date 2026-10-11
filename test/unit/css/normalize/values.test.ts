@@ -71,6 +71,11 @@ describe('N03 whitespace and commas', () => {
     expect(normalValue('--custom', normalValue('--custom', '("'))).toBe('("')
   })
 
+  it('never prints a slash and a star as a comment (property-test seed)', () => {
+    expect(normalValue('--custom', '/ *')).toBe('/ *')
+    expect(normalValue('--custom', normalValue('--custom', '/ *'))).toBe('/ *')
+  })
+
   it('keeps whitespace that separates tokens', () => {
     expect(normalValue('transition-property', 'a b')).not.toBe(
       normalValue('transition-property', 'a,b'),

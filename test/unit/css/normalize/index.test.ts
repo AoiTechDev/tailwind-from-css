@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeDeclaration, normalizeDeclarations } from '../../../../src/css/normalize/index.ts'
+import {
+  normalizeBlock,
+  normalizeDeclaration,
+  normalizeDeclarations,
+} from '../../../../src/css/normalize/index.ts'
 import { splitTopLevel } from '../../../../src/css/normalize/split.ts'
 import { isColorToken, isLengthToken } from '../../../../src/css/normalize/tokens.ts'
 
@@ -48,6 +52,33 @@ describe('normalizeDeclarations', () => {
       options,
     )
     expect(block.at(-1)?.value).toBe('1em')
+  })
+})
+
+describe('normalizeBlock', () => {
+  it('groups the longhands by input declaration', () => {
+    const groups = normalizeBlock(
+      [
+        { property: 'margin', value: '0 auto' },
+        { property: 'color', value: 'red' },
+      ],
+      options,
+    )
+    expect(groups.map((group) => group.map((d) => d.property))).toEqual([
+      ['margin-top', 'margin-right', 'margin-bottom', 'margin-left'],
+      ['color'],
+    ])
+  })
+
+  it('resolves em against the font size of the block', () => {
+    const groups = normalizeBlock(
+      [
+        { property: 'width', value: '2em' },
+        { property: 'font-size', value: '14px' },
+      ],
+      options,
+    )
+    expect(groups[0]?.[0]?.value).toBe('28px')
   })
 })
 

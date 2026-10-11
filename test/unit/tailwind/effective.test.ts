@@ -422,3 +422,22 @@ describe('Tailwind versions', () => {
     ])
   })
 })
+
+describe('vendor prefixes', () => {
+  it('drops a prefixed copy of an unprefixed declaration, like input blocks do', () => {
+    const input: FakeDesignInput = {
+      candidates: {
+        'select-none': ast([
+          rule('.select-none', ['-webkit-user-select: none', 'user-select: none']),
+        ]),
+        'line-clamp': ast([rule('.line-clamp', ['-webkit-line-clamp: 3', 'overflow: hidden'])]),
+      },
+    }
+    expect(effective(input, ['select-none'])).toEqual(['user-select: none'])
+    expect(effective(input, ['line-clamp'])).toEqual([
+      '-webkit-line-clamp: 3',
+      'overflow-x: hidden',
+      'overflow-y: hidden',
+    ])
+  })
+})

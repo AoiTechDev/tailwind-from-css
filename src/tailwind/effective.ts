@@ -7,6 +7,7 @@ import {
   type Specificity,
   specificity,
 } from '../css/selector.ts'
+import { redundantVendorDeclarations } from '../css/vendor.ts'
 import type { Declaration } from '../types.ts'
 import type { CandidateDeclaration, PropertyRule, TailwindDesignSystem } from './adapter.ts'
 
@@ -171,7 +172,8 @@ const overrides = (later: { important: boolean }, earlier: { important: boolean 
 /**
  * Effective declarations of compiled candidates in one normalized context (SPEC §5.6): rules
  * of the context in cascade order, `var()` resolved, `--tw-*` declarations dropped, shorthands
- * expanded and values normalized. Sorted by property.
+ * expanded and values normalized, vendor-prefixed copies of unprefixed declarations dropped.
+ * Sorted by property.
  */
 export function resolveEffective(
   design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
@@ -234,9 +236,13 @@ export function resolveEffective(
       winners.set(declaration.property, declaration)
     }
   }
-  return [...winners.values()].sort((a, b) =>
+  const sorted = [...winners.values()].sort((a, b) =>
     a.property < b.property ? -1 : a.property > b.property ? 1 : 0,
   )
+  // Input blocks drop these too (SPEC §5.4 step 6), so `select-none`, which also sets
+  // `-webkit-user-select`, still equals `user-select: none`.
+  const redundant = redundantVendorDeclarations(sorted, options)
+  return redundant.size === 0 ? sorted : sorted.filter((_, position) => !redundant.has(position))
 }
 
 /**

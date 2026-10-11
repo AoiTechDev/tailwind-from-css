@@ -5,7 +5,7 @@ import {
   quantizedKey,
   toleranceKeys,
 } from '../../../../src/css/normalize/colors.ts'
-import { normalValuesEqual } from '../../../../src/css/normalize/index.ts'
+import { cssText, normalValuesEqual } from '../../../../src/css/normalize/index.ts'
 import { normalValue } from '../../../helpers/normalize.ts'
 
 const color = (value: string): string => normalValue('color', value)
@@ -239,5 +239,37 @@ describe('index keys for the N20 tolerance', () => {
   it('falls back to the rounded key alone beyond the limit', () => {
     expect(toleranceKeys('srgb(0.5 0.5 0.5 / 0.5)', 8)).toEqual(['srgb(1 1 1 / 128)'])
     expect(toleranceKeys('srgb(0.5 0.5 0.5 / 0.5)', 16)).toHaveLength(16)
+  })
+})
+
+describe('normal values as CSS', () => {
+  const roundTrip = (value: string): string => color(cssText(color(value)))
+
+  it('writes srgb() as hex, rgb() or color(srgb …)', () => {
+    expect(cssText(color('#EF4444'))).toBe('#ef4444')
+    expect(cssText(color('rgb(0 0 0 / 0.5)'))).toBe('rgb(0 0 0 / 0.5)')
+    expect(cssText(color('rgb(239.4 68 68)'))).toBe('rgb(239.4 68 68 / 1)')
+    expect(cssText(color('rgb(none 0 0)'))).toBe('rgb(none 0 0 / 1)')
+    expect(cssText(color('color(srgb 1.2 -0.1 0.5)'))).toBe('color(srgb 1.2 -0.1 0.5 / 1)')
+    expect(cssText(color('color(srgb none 1.5 0)'))).toBe('color(srgb none 1.5 0 / 1)')
+    expect(cssText('0 1px 2px srgb(255 0 0 / 1), inset 0 0 srgb(0 0 0 / 0.1)')).toBe(
+      '0 1px 2px #ff0000, inset 0 0 rgb(0 0 0 / 0.1)',
+    )
+  })
+
+  it('normalizes back to the same value', () => {
+    for (const value of [
+      '#ef4444',
+      'rgb(0 0 0 / .5)',
+      'color(srgb 1.2 -0.1 0.5)',
+      'hsl(none 0% 0%)',
+    ]) {
+      expect(roundTrip(value), value).toBe(color(value))
+    }
+  })
+
+  it('leaves everything else alone', () => {
+    expect(cssText('oklch(0.637 0.237 25.331 / 1)')).toBe('oklch(0.637 0.237 25.331 / 1)')
+    expect(cssText('16px')).toBe('16px')
   })
 })

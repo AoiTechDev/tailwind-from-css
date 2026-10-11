@@ -209,7 +209,10 @@ function printTokenStream(nodes: readonly Node[]): string {
         : node.type === 'div'
           ? node.value
           : valueParser.stringify(node)
-    out += (pendingSpace && node.type !== 'div' ? ' ' : '') + text
+    // Divs drop their whitespace, but `/` followed by `*` would open a comment.
+    const separate =
+      (pendingSpace && node.type !== 'div') || (out.endsWith('/') && text.startsWith('*'))
+    out += (separate ? ' ' : '') + text
     pendingSpace = false
   }
   return out

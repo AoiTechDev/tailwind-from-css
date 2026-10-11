@@ -33,6 +33,11 @@ describe('N40 no-op shadow layers', () => {
     expect(normalValue('text-shadow', '#000 1px 1px')).toBe('1px 1px 0 srgb(0 0 0 / 1)')
   })
 
+  it('keeps a value with an unclosed function as written (property-test seed)', () => {
+    expect(shadow('0\ncalc(')).toBe('0 calc(')
+    expect(shadow(shadow('0\ncalc('))).toBe('0 calc(')
+  })
+
   it('keeps visible layers', () => {
     expect(shadow('0 0 0 1px red')).toBe('0 0 0 1px srgb(255 0 0 / 1)')
     expect(shadow('0 0 0 1px red')).not.toBe('none')

@@ -12,6 +12,8 @@ export interface FakeDesignInput {
   readonly candidates: Readonly<Record<string, CandidateAst>>
   /** Candidates `classList()` returns, in order; default: every key of `candidates`. */
   readonly classList?: readonly string[]
+  /** Modifiers `classList()` lists per candidate; default none. */
+  readonly modifiers?: Readonly<Record<string, readonly string[]>>
   readonly theme?: Readonly<Record<string, string>>
   readonly prefix?: string | null
   readonly variants?: readonly VariantEntry[]
@@ -76,7 +78,10 @@ export function fakeDesign(input: FakeDesignInput): TailwindDesignSystem {
     version: input.version ?? '4.3.3',
     prefix: input.prefix ?? null,
     classList: () =>
-      (input.classList ?? names).map((name) => ({ name, modifiers: [] as string[] })),
+      (input.classList ?? names).map((name) => ({
+        name,
+        modifiers: [...(input.modifiers?.[name] ?? [])],
+      })),
     toAst: (candidates) => candidates.map((name) => input.candidates[name] ?? null),
     classOrder: (candidates) =>
       candidates.map((name) => {

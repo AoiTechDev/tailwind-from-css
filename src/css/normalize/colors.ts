@@ -237,6 +237,33 @@ export function toleranceKeys(value: string, limit: number): string[] {
   })
 }
 
+const inByteRange = (text: string): boolean =>
+  text === 'none' || (Number(text) >= 0 && Number(text) <= 255)
+
+const hexByte = (text: string): string | undefined =>
+  Number.isInteger(Number(text)) ? Number(text).toString(16).padStart(2, '0') : undefined
+
+const unitChannel = (text: string): string =>
+  text === 'none' ? text : formatNumber(Number(text) / 255, 6)
+
+/**
+ * Rewrites every `srgb(r g b / a)` as CSS: `#rrggbb` (opaque, integer channels), `rgb(r g b / a)`,
+ * or `color(srgb …)` when a channel is outside 0–255, which `rgb()` would clamp.
+ */
+export const srgbAsCss = (value: string): string =>
+  !value.includes('srgb(')
+    ? value
+    : value.replace(SRGB_ANYWHERE, (match, r: string, g: string, b: string, alpha: string) => {
+        const channels = [r, g, b]
+        if (!channels.every(inByteRange)) {
+          return `color(srgb ${channels.map(unitChannel).join(' ')} / ${alpha})`
+        }
+        const bytes = channels.map(hexByte)
+        return alpha === '1' && bytes.every((byte) => byte !== undefined)
+          ? `#${bytes.join('')}`
+          : `rgb${match.slice('srgb'.length)}`
+      })
+
 // N20: browsers store sRGB colors as 8-bit channels, so two normal forms whose channels differ by
 // less than half a step are the same color. Equality with a tolerance isn't transitive, which is
 // why it can't be folded into the normal form itself.

@@ -1,5 +1,5 @@
 import type { Declaration } from '../../types.ts'
-import { equalWithColorTolerance } from './colors.ts'
+import { equalWithColorTolerance, srgbAsCss } from './colors.ts'
 import { canonicalProperty, expandShorthand } from './shorthands.ts'
 import { normalizeValue } from './values.ts'
 
@@ -66,27 +66,38 @@ function winningFontSize(declarations: readonly NormalDeclaration[]): string | u
 // N10: `em` resolves against the element's own font size, which is known only when the same
 // block sets an absolute one. Normalizing twice keeps the rule out of every value parser.
 /**
- * Normalizes the declarations of one block (one element, one context), in order. Nothing is
- * deduplicated: later declarations still win in the caller's cascade.
+ * Normalizes the declarations of one block (one element, one context), one group of longhands
+ * per input declaration, in order. Nothing is deduplicated: later declarations still win in the
+ * caller's cascade.
  */
-export function normalizeDeclarations(
+export function normalizeBlock(
   declarations: readonly Declaration[],
   options: NormalizeOptions,
-): NormalDeclaration[] {
+): NormalDeclaration[][] {
   const withoutBasis = { ...options, emBasis: undefined }
-  const normalized = declarations.flatMap((declaration) =>
-    normalizeDeclaration(declaration, withoutBasis),
-  )
-  const fontSize = PX.exec(winningFontSize(normalized) ?? '')
-  if (fontSize === null) return normalized
+  const groups = declarations.map((declaration) => normalizeDeclaration(declaration, withoutBasis))
+  const fontSize = PX.exec(winningFontSize(groups.flat()) ?? '')
+  if (fontSize === null) return groups
   const withBasis = { ...options, emBasis: Number(fontSize[1]) }
-  return declarations.flatMap((declaration) => normalizeDeclaration(declaration, withBasis))
+  return declarations.map((declaration) => normalizeDeclaration(declaration, withBasis))
 }
+
+/** {@link normalizeBlock}, flattened. */
+export const normalizeDeclarations = (
+  declarations: readonly Declaration[],
+  options: NormalizeOptions,
+): NormalDeclaration[] => normalizeBlock(declarations, options).flat()
 
 /**
  * Whether two normal values are equal. Exact string equality, except that `srgb()` channels may
  * differ by less than half an 8-bit step (N20).
  */
 export const normalValuesEqual = (a: string, b: string): boolean => equalWithColorTolerance(a, b)
+
+/**
+ * A normal value written as CSS, for arbitrary values: `srgb(r g b / a)`, which isn't CSS,
+ * becomes `#rrggbb` or `rgb(r g b / a)`. Every other part of a normal form is CSS already.
+ */
+export const cssText = (value: string): string => srgbAsCss(value)
 
 export { normalizeValue } from './values.ts'
