@@ -1,0 +1,9 @@
+[
+  {
+    "declarations": "padding: 8px"
+  },
+  {
+    "conditions": ["@media (min-width: 640px)"],
+    "declarations": "padding: 16px"
+  }
+]

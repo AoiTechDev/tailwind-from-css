@@ -1,0 +1,4 @@
+{
+  "selector": ".dark &",
+  "declarations": "color: #fff"
+}

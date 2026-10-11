@@ -1,0 +1,15 @@
+{
+  "className": "text-[#ef4444]",
+  "mappings": [
+    [
+      "text-[#ef4444]",
+      "arbitrary-value",
+      "color: #ef4444"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

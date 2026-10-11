@@ -1,0 +1,18 @@
+{
+  "className": "mt-2 mb-2",
+  "mappings": [
+    [
+      "mt-2",
+      "bare",
+      "margin-top: 0.5rem"
+    ],
+    [
+      "mb-2",
+      "bare",
+      "margin-bottom: 8px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

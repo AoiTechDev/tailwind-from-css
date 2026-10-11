@@ -1,0 +1,4 @@
+{
+  "conditions": ["@media (max-width: 767px)"],
+  "declarations": "display: none"
+}

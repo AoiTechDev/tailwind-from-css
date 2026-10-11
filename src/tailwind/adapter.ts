@@ -109,6 +109,8 @@ interface RawDesignSystem {
   getVariants(): VariantEntry[]
   candidatesToAst(candidates: string[]): RawNode[][]
   getClassOrder(candidates: string[]): [string, bigint | null][]
+  getVariantOrder?(): ReadonlyMap<unknown, number>
+  parseCandidate?(candidate: string): unknown
   resolveThemeValue(path: string): string | undefined
 }
 
@@ -217,6 +219,7 @@ function messageOf(error: unknown): string {
 }
 
 function wrap(raw: RawDesignSystem, version: string): TailwindDesignSystem {
+  const parse = memoizeVariantOrder(raw)
   const prefix = raw.theme.prefix ?? null
   const withPrefix =
     prefix === null ? (name: string) => name : (name: string) => `${prefix}:${name}`
@@ -228,15 +231,49 @@ function wrap(raw: RawDesignSystem, version: string): TailwindDesignSystem {
         name: withPrefix(name),
         modifiers: meta.modifiers,
       })),
-    toAst: (candidates) =>
-      raw
+    toAst: (candidates) => {
+      parse(candidates)
+      return raw
         .candidatesToAst([...candidates])
-        .map((nodes) => (nodes.length === 0 ? null : flatten(nodes))),
-    classOrder: (candidates) => raw.getClassOrder([...candidates]).map(([, order]) => order),
+        .map((nodes) => (nodes.length === 0 ? null : flatten(nodes)))
+    },
+    classOrder: (candidates) => {
+      parse(candidates)
+      return raw.getClassOrder([...candidates]).map(([, order]) => order)
+    },
     variants: () => raw.getVariants(),
     functionalRoots: () => [...new Set(raw.utilities.keys('functional'))].sort(),
     themeValue: (name) => raw.resolveThemeValue(name),
   }
+}
+
+/**
+ * Tailwind (4.2.0 to 4.3.3) compiles every candidate of `candidatesToAst`/`getClassOrder` on
+ * its own, and each compile calls `getVariantOrder()`, which sorts every variant parsed so far.
+ * Once the variant index has parsed a few hundred variants, each compile costs ≈ 0.2 ms more
+ * (the class list then takes 4 s instead of 0.2 s). The order is kept until a compile asks for a
+ * variant it doesn't rank yet; ranks only order variants against each other, so a kept order
+ * that ranks every variant asked for gives the same output. Parsing a batch's candidates first
+ * (Tailwind caches parses) registers all their variants, so a batch recomputes the order at most
+ * once. Returns that parse step.
+ */
+function memoizeVariantOrder(raw: RawDesignSystem): (candidates: readonly string[]) => void {
+  const compute = raw.getVariantOrder?.bind(raw)
+  const parseCandidate = raw.parseCandidate?.bind(raw)
+  const parse = (candidates: readonly string[]): void => {
+    if (parseCandidate !== undefined) for (const candidate of candidates) parseCandidate(candidate)
+  }
+  if (compute === undefined) return () => {}
+  let order: ReadonlyMap<unknown, number> | undefined
+  const view = {
+    get(variant: unknown): number | undefined {
+      order ??= compute()
+      if (!order.has(variant)) order = compute()
+      return order.get(variant)
+    },
+  }
+  raw.getVariantOrder = () => view as unknown as ReadonlyMap<unknown, number>
+  return parse
 }
 
 interface MutableRule {

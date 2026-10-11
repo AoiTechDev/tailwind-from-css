@@ -1,0 +1,4 @@
+{
+  "selector": "&:nth-child(2n+1)",
+  "declarations": "background-color: #f3f4f6"
+}

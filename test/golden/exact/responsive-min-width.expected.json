@@ -1,0 +1,23 @@
+{
+  "className": "p-3.25 min-[1000px]:mt-6 md:p-4",
+  "mappings": [
+    [
+      "p-3.25",
+      "bare",
+      "padding: 13px"
+    ],
+    [
+      "min-[1000px]:mt-6",
+      "bare",
+      "@media (min-width: 1000px) | margin-top: 24px"
+    ],
+    [
+      "md:p-4",
+      "bare",
+      "@media (min-width: 768px) | padding: 16px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

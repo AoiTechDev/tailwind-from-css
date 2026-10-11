@@ -1,0 +1,4 @@
+{
+  "conditions": ["@supports (display: grid)"],
+  "declarations": "display: grid"
+}

@@ -2,6 +2,7 @@ import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
+import process from 'node:process'
 import { pathToFileURL } from 'node:url'
 import { TfcError } from '../errors.ts'
 import type { LoadedModule, LoadedStylesheet } from './adapter.ts'
@@ -31,6 +32,11 @@ const JS: ResolveRules = {
   extensions: ['.js', '.mjs', '.cjs', '.ts', '.mts', '.cts'],
   mainField: 'main',
   index: 'index.js',
+}
+
+/** The process's working directory: the default `tailwind.base` (SPEC §3.4). */
+export function currentDirectory(): string {
+  return process.cwd()
 }
 
 /**

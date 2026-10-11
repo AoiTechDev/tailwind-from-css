@@ -1,0 +1,15 @@
+{
+  "className": "tfc-depth-[5]",
+  "mappings": [
+    [
+      "tfc-depth-[5]",
+      "arbitrary-value",
+      "math-depth: 5"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

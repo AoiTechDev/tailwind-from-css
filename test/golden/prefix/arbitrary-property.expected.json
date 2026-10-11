@@ -1,0 +1,20 @@
+{
+  "className": "tw:mask-type-luminance tw:[--x:1]",
+  "mappings": [
+    [
+      "tw:mask-type-luminance",
+      "named",
+      "mask-type: luminance"
+    ],
+    [
+      "tw:[--x:1]",
+      "arbitrary-property",
+      "--x: 1"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC202"
+  ],
+  "exact": true
+}

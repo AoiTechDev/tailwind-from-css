@@ -24,6 +24,10 @@ export interface NormalizeOptions {
 }
 
 const PX = /^(\d+(?:\.\d+)?)px$/
+// Tailwind's side normalizes the same few thousand values on every verification, so results
+// without caller-supplied variables are kept (cleared when full, like the other caches).
+const CACHE_LIMIT = 8192
+const cache = new Map<string, readonly NormalDeclaration[]>()
 
 /**
  * Normalizes one declaration: the property is lowercased and de-aliased, shorthands are
@@ -37,14 +41,40 @@ export function normalizeDeclaration(
   declaration: Declaration,
   options: NormalizeOptions,
 ): NormalDeclaration[] {
-  const property = canonicalProperty(declaration.property)
   const important = declaration.important === true
+  const key =
+    options.variables === undefined
+      ? [
+          declaration.property,
+          declaration.value,
+          important,
+          options.rootFontSize,
+          options.emBasis,
+        ].join('\u0000')
+      : undefined
+  const cached = key === undefined ? undefined : cache.get(key)
+  if (cached !== undefined) return [...cached]
+  const normalized = normalizeUncached(declaration.property, declaration.value, important, options)
+  if (key !== undefined) {
+    if (cache.size >= CACHE_LIMIT) cache.clear()
+    cache.set(key, Object.freeze([...normalized]))
+  }
+  return normalized
+}
+
+function normalizeUncached(
+  name: string,
+  raw: string,
+  important: boolean,
+  options: NormalizeOptions,
+): NormalDeclaration[] {
+  const property = canonicalProperty(name)
   const valueOptions = {
     rootFontSize: options.rootFontSize,
     emBasis: options.emBasis,
     variables: options.variables,
   }
-  const value = normalizeValue(property, declaration.value, valueOptions)
+  const value = normalizeValue(property, raw, valueOptions)
   const longhands = property.startsWith('--') ? undefined : expandShorthand(property, value)
   if (longhands === undefined) return [{ property, value, important }]
   return longhands.map(([longhand, longhandValue]) => ({

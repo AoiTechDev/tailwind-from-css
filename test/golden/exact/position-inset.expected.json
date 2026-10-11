@@ -1,0 +1,21 @@
+{
+  "className": "absolute inset-0",
+  "mappings": [
+    [
+      "absolute",
+      "named",
+      "position: absolute"
+    ],
+    [
+      "inset-0",
+      "bare",
+      "top: 0",
+      "right: 0",
+      "bottom: 0",
+      "left: 0"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

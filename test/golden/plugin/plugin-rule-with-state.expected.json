@@ -1,0 +1,20 @@
+{
+  "className": "rounded-xl [&:hover]:rounded-2xl",
+  "mappings": [
+    [
+      "rounded-xl",
+      "named",
+      "border-radius: 12px"
+    ],
+    [
+      "[&:hover]:rounded-2xl",
+      "named",
+      "&:hover | border-radius: 16px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC301"
+  ],
+  "exact": true
+}

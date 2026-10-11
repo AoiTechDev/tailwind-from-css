@@ -1,0 +1,20 @@
+{
+  "className": "before:text-white before:content-['x']",
+  "mappings": [
+    [
+      "before:text-white",
+      "named",
+      "&::before | color: #fff"
+    ],
+    [
+      "before:content-['x']",
+      "arbitrary-value",
+      "&::before | content: \"x\""
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

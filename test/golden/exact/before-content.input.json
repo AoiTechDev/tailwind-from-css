@@ -1,0 +1,4 @@
+{
+  "selector": "&::before",
+  "declarations": "content: \"x\"; color: #fff"
+}

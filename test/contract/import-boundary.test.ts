@@ -6,8 +6,9 @@ import { describe, expect, it } from 'vitest'
 const ROOT = resolve(import.meta.dirname, '..', '..')
 
 const COMMENT = /\/\*[\s\S]*?\*\/|(^|[^:\\])\/\/.*$/gm
+// `(?<!@)` skips a CSS `@import` inside a string (the default entry CSS).
 const SPECIFIER =
-  /\b(?:import|export)\s+(?:type\s+)?(?:[\w$*{}\s,]+?\s+from\s+)?['"]([^'"]+)['"]|\b(?:import|require)\s*\(\s*['"]([^'"]+)['"]\s*\)/g
+  /(?<!@)\b(?:import|export)\s+(?:type\s+)?(?:[\w$*{}\s,]+?\s+from\s+)?['"]([^'"]+)['"]|\b(?:import|require)\s*\(\s*['"]([^'"]+)['"]\s*\)/g
 
 function importsOf(source: string): string[] {
   const code = source.replace(COMMENT, '$1')
@@ -62,6 +63,7 @@ describe('import extraction', () => {
       "// import nope from 'commented'",
       "/* import nope from 'block-commented' */",
       "const url = 'https://example.com'",
+      `const css = '@import "tailwindcss";'`,
     ].join('\n')
     expect(importsOf(source)).toEqual(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'])
   })

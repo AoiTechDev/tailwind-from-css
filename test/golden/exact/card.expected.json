@@ -1,0 +1,63 @@
+{
+  "className": "flex flex-col rounded-xl bg-white p-6 text-base text-[#111827] shadow sm:flex-row [&:hover]:bg-[#f9fafb]",
+  "mappings": [
+    [
+      "flex",
+      "named",
+      "display: flex"
+    ],
+    [
+      "flex-col",
+      "named",
+      "flex-direction: column"
+    ],
+    [
+      "rounded-xl",
+      "named",
+      "border-radius: 12px"
+    ],
+    [
+      "bg-white",
+      "named",
+      "background-color: #ffffff"
+    ],
+    [
+      "p-6",
+      "bare",
+      "padding: 24px"
+    ],
+    [
+      "text-base",
+      "named",
+      "font-size: 1rem",
+      "line-height: 1.5"
+    ],
+    [
+      "text-[#111827]",
+      "arbitrary-value",
+      "color: #111827"
+    ],
+    [
+      "shadow",
+      "named",
+      "box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"
+    ],
+    [
+      "sm:flex-row",
+      "named",
+      "@media (min-width: 640px) | flex-direction: row"
+    ],
+    [
+      "[&:hover]:bg-[#f9fafb]",
+      "arbitrary-value",
+      "&:hover | background-color: #f9fafb"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201",
+    "TFC201",
+    "TFC301"
+  ],
+  "exact": true
+}

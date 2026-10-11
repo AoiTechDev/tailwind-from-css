@@ -1,0 +1,21 @@
+{
+  "className": "translate-x-1 [&:hover]:[translate:0_4px]",
+  "mappings": [
+    [
+      "translate-x-1",
+      "bare",
+      "translate: 4px 0"
+    ],
+    [
+      "[&:hover]:[translate:0_4px]",
+      "arbitrary-property",
+      "&:hover | translate: 0 4px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC202",
+    "TFC301"
+  ],
+  "exact": true
+}

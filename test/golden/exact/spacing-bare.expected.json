@@ -1,0 +1,13 @@
+{
+  "className": "p-3.25",
+  "mappings": [
+    [
+      "p-3.25",
+      "bare",
+      "padding: 13px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

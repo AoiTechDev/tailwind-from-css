@@ -1,0 +1,13 @@
+{
+  "className": "w-1/2",
+  "mappings": [
+    [
+      "w-1/2",
+      "bare",
+      "width: 50%"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

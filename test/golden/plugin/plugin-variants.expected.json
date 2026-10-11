@@ -1,0 +1,18 @@
+{
+  "className": "tfc-open:tfc-depth-2 tfc-wide:content-auto",
+  "mappings": [
+    [
+      "tfc-open:tfc-depth-2",
+      "bare",
+      "&[open] | math-depth: 2"
+    ],
+    [
+      "tfc-wide:content-auto",
+      "named",
+      "@media (min-width: 1400px) | content-visibility: auto"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

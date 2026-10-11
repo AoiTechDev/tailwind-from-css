@@ -1,0 +1,9 @@
+[
+  {
+    "declarations": "translate: 4px 0"
+  },
+  {
+    "selector": "&:hover",
+    "declarations": "translate: 0 4px"
+  }
+]

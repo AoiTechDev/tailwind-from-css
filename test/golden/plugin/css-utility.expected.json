@@ -1,0 +1,13 @@
+{
+  "className": "content-auto",
+  "mappings": [
+    [
+      "content-auto",
+      "named",
+      "content-visibility: auto"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

@@ -11,6 +11,7 @@ import { redundantVendorDeclarations } from '../css/vendor.ts'
 import type { TailwindDesignSystem } from '../tailwind/adapter.ts'
 import {
   BASE_CONTEXT,
+  type CompiledCandidate,
   type CompiledRule,
   compileCandidates,
   type EffectiveOptions,
@@ -79,6 +80,8 @@ export interface Matcher {
   readonly spacing: Dimension | undefined
   /** Candidate → effective declarations in the base context, `null` when unusable. */
   readonly compiled: Map<string, readonly NormalDeclaration[] | null>
+  /** Candidate → its rules placed relative to the element, `null` when it doesn't compile. */
+  readonly candidates: Map<string, CompiledCandidate | null>
 }
 
 // `em` depends on the block's font size, so an arbitrary value written with it wouldn't
@@ -200,6 +203,7 @@ export function createMatcher(
     important: options.important,
     spacing: spacing !== undefined && spacing.value > 0 ? spacing : undefined,
     compiled: new Map(),
+    candidates: new Map(),
   }
 }
 
@@ -341,6 +345,7 @@ function compareOptions(a: Option, b: Option): number {
   return (
     b.positions.length - a.positions.length ||
     KIND_RANK[a.kind] - KIND_RANK[b.kind] ||
+    Number(a.core.startsWith('-')) - Number(b.core.startsWith('-')) ||
     a.core.length - b.core.length ||
     compareText(a.core, b.core)
   )

@@ -1,0 +1,15 @@
+{
+  "className": "[.dark_&]:text-white",
+  "mappings": [
+    [
+      "[.dark_&]:text-white",
+      "named",
+      ".dark & | color: #fff"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC301"
+  ],
+  "exact": true
+}

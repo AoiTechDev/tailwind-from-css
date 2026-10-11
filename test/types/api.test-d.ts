@@ -6,9 +6,36 @@ import type {
   CssConversionResult,
   DeclarationsInput,
   RelaxationName,
+  ResolvedOptions,
   StyleInput,
 } from '../../src/index.ts'
-import { TfcError } from '../../src/index.ts'
+import { convertStyles, createConverter, TfcError } from '../../src/index.ts'
+
+describe('createConverter', () => {
+  it('is async and resolves to a Converter', () => {
+    expectTypeOf(createConverter).returns.toEqualTypeOf<Promise<Converter>>()
+    expectTypeOf(createConverter).parameter(0).toEqualTypeOf<ConverterOptions | undefined>()
+  })
+})
+
+describe('convertStyles (one-shot)', () => {
+  it('is async and takes the same input as the converter method', () => {
+    expectTypeOf(convertStyles).returns.toEqualTypeOf<Promise<ConversionResult>>()
+    expectTypeOf(convertStyles).parameter(0).toEqualTypeOf<StyleInput | StyleInput[]>()
+    expectTypeOf(convertStyles).parameter(1).toEqualTypeOf<ConverterOptions | undefined>()
+  })
+})
+
+describe('ResolvedOptions', () => {
+  it('is what a converter exposes, with every field readonly', () => {
+    expectTypeOf<Converter['options']>().toEqualTypeOf<ResolvedOptions>()
+    expectTypeOf<ResolvedOptions['relaxations']>().toEqualTypeOf<readonly RelaxationName[]>()
+    expectTypeOf<ResolvedOptions>().toEqualTypeOf<Readonly<ResolvedOptions>>()
+    expectTypeOf<ResolvedOptions['tailwind']>().toEqualTypeOf<
+      Readonly<ResolvedOptions['tailwind']>
+    >()
+  })
+})
 
 describe('Converter', () => {
   it('converts synchronously', () => {

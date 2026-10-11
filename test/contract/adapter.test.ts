@@ -142,6 +142,34 @@ describe('toAst', () => {
   })
 })
 
+describe('variant order (Tailwind compiles each candidate with getVariantOrder)', () => {
+  it('gives the same ASTs and order after many variants were parsed', async () => {
+    const parsed = await loadEntry('@import "tailwindcss";')
+    const fresh = await loadEntry('@import "tailwindcss";')
+    const probes = parsed
+      .variants()
+      .flatMap((entry) => [entry.name, ...entry.values.map((value) => `${entry.name}-${value}`)])
+      .map((variant) => `${variant}:[--tfc-probe:0]`)
+    parsed.toAst(probes)
+    const candidates = [
+      'p-4',
+      'md:hover:p-4',
+      'hover:md:p-4',
+      'max-lg:md:flex',
+      'dark:group-hover:focus:bg-red-500/50',
+      'not-hover:p-1',
+      '*:p-2',
+      '@md:p-3',
+      'data-[state=open]:underline',
+      'before:[&:hover]:p-1',
+    ]
+    for (const list of [candidates, [...candidates].reverse()]) {
+      expect(parsed.toAst(list)).toEqual(fresh.toAst(list))
+      expect(parsed.classOrder(list)).toEqual(fresh.classOrder(list))
+    }
+  })
+})
+
 describe('RESEARCH §3.4 facts (probe4–7)', () => {
   it('bare spacing accepts any multiple of 0.25', () => {
     for (const value of ['13', '0.75', '2.25', '3.25']) {

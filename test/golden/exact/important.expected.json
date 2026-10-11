@@ -1,0 +1,18 @@
+{
+  "className": "p-4! text-white",
+  "mappings": [
+    [
+      "p-4!",
+      "bare",
+      "padding: 16px !important"
+    ],
+    [
+      "text-white",
+      "named",
+      "color: #fff"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

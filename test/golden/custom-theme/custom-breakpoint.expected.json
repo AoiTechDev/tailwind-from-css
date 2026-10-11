@@ -1,0 +1,18 @@
+{
+  "className": "p-1 sm:p-2",
+  "mappings": [
+    [
+      "p-1",
+      "bare",
+      "padding: 8px"
+    ],
+    [
+      "sm:p-2",
+      "bare",
+      "@media (min-width: 640px) | padding: 16px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

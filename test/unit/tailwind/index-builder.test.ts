@@ -140,6 +140,23 @@ describe('bySignature (SPEC §5.2 steps 3–4)', () => {
     expect(names(findBySignature(index, [d('width', '40px')]))).toEqual(['w-ten', 'w-10'])
   })
 
+  it('orders positive candidates before negative ones of the same kind', () => {
+    const signed = buildUtilityIndex(
+      fakeDesign({
+        roots: ['tracking', '-tracking'],
+        candidates: {
+          '-tracking-wide': ast([rule('.-tracking-wide', ['letter-spacing: -0.025em'])]),
+          'tracking-tight': ast([rule('.tracking-tight', ['letter-spacing: -0.025em'])]),
+        },
+      }),
+      OPTIONS,
+    )
+    expect(names(findBySignature(signed, [d('letter-spacing', '-0.025em')]))).toEqual([
+      'tracking-tight',
+      '-tracking-wide',
+    ])
+  })
+
   it('finds sRGB colors within half an 8-bit step', () => {
     expect(names(findBySignature(index, [d('color', 'srgb(254.6 255 255 / 1)')]))).toEqual([
       'text-white',

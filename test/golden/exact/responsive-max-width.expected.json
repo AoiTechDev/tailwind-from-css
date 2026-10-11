@@ -1,0 +1,15 @@
+{
+  "className": "[@media(max-width:767px)]:hidden",
+  "mappings": [
+    [
+      "[@media(max-width:767px)]:hidden",
+      "named",
+      "@media (max-width: 767px) | display: none"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC302"
+  ],
+  "exact": true
+}

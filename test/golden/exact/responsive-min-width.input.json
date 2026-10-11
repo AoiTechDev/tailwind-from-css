@@ -1,0 +1,13 @@
+[
+  {
+    "declarations": "padding: 13px"
+  },
+  {
+    "conditions": ["@media (min-width: 768px)"],
+    "declarations": "padding: 16px"
+  },
+  {
+    "conditions": ["@media (min-width: 1000px)"],
+    "declarations": "margin-top: 24px"
+  }
+]

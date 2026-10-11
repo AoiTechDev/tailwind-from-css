@@ -1,0 +1,18 @@
+{
+  "className": "font-bold tracking-tight",
+  "mappings": [
+    [
+      "font-bold",
+      "named",
+      "font-weight: bold"
+    ],
+    [
+      "tracking-tight",
+      "named",
+      "letter-spacing: -0.025em"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

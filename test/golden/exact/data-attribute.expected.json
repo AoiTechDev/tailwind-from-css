@@ -1,0 +1,14 @@
+{
+  "className": "data-[state=open]:text-sm/6",
+  "mappings": [
+    [
+      "data-[state=open]:text-sm/6",
+      "named",
+      "&[data-state=open] | font-size: 14px",
+      "&[data-state=open] | line-height: 24px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

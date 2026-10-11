@@ -57,6 +57,7 @@ interface State {
 }
 
 const NO_MISMATCH: Mismatch = { positions: new Set(), extra: false }
+const SHARED_LIMIT = 4096
 
 /**
  * Verifies the classes of every block together (SPEC §5.7): the effective declarations of the
@@ -99,12 +100,23 @@ export function verify(matcher: Matcher, blocks: readonly VerifyBlock[]): Verify
   return { matches: state.matches, issues }
 }
 
+// Compiled classes are kept per matcher (shared across calls) and per call (stable while the
+// shared cache may be cleared).
 function compiledOf(state: State, classNames: readonly string[]): CompiledCandidate[] {
-  const missing = [...new Set(classNames)].filter((name) => !state.compiled.has(name))
+  const shared = state.matcher.candidates
+  const missing: string[] = []
+  for (const name of new Set(classNames)) {
+    if (state.compiled.has(name)) continue
+    const known = shared.get(name)
+    if (known === undefined) missing.push(name)
+    else state.compiled.set(name, known)
+  }
   if (missing.length > 0) {
     const compiled = compileCandidates(state.matcher.design, missing, state.matcher.index.options)
+    if (shared.size + missing.length > SHARED_LIMIT) shared.clear()
     missing.forEach((name, index) => {
       state.compiled.set(name, compiled[index] ?? null)
+      shared.set(name, compiled[index] ?? null)
     })
   }
   return classNames.flatMap((name) => state.compiled.get(name) ?? [])

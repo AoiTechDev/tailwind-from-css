@@ -1,0 +1,18 @@
+{
+  "className": "bg-brand text-ink",
+  "mappings": [
+    [
+      "bg-brand",
+      "named",
+      "background-color: #123456"
+    ],
+    [
+      "text-ink",
+      "named",
+      "color: oklch(20% 0.02 260)"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

@@ -1,0 +1,4 @@
+{
+  "css": "@import \"tailwindcss\";\n@plugin \"./plugin.mjs\";\n\n@utility content-auto {\n  content-visibility: auto;\n}\n",
+  "base": "."
+}

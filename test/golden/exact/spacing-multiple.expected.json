@@ -1,0 +1,13 @@
+{
+  "className": "p-4",
+  "mappings": [
+    [
+      "p-4",
+      "bare",
+      "padding: 16px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

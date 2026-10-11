@@ -1,0 +1,14 @@
+{
+  "className": "",
+  "mappings": [],
+  "unconverted": [
+    [
+      "TFC303",
+      "@media (min-width: 768px) { | &:hover | color: #fff"
+    ]
+  ],
+  "diagnostics": [
+    "TFC303"
+  ],
+  "exact": false
+}

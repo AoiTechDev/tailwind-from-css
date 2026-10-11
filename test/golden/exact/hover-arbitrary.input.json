@@ -1,0 +1,9 @@
+[
+  {
+    "declarations": "color: #fff"
+  },
+  {
+    "selector": "&:hover",
+    "declarations": "color: #000"
+  }
+]

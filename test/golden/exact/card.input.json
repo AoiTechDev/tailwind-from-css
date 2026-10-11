@@ -1,0 +1,27 @@
+[
+  {
+    "declarations": {
+      "display": "flex",
+      "flexDirection": "column",
+      "padding": "24px",
+      "borderRadius": "12px",
+      "backgroundColor": "#ffffff",
+      "boxShadow": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+      "fontSize": "1rem",
+      "lineHeight": 1.5,
+      "color": "#111827"
+    }
+  },
+  {
+    "selector": "&:hover",
+    "declarations": {
+      "backgroundColor": "#f9fafb"
+    }
+  },
+  {
+    "conditions": ["@media (min-width: 640px)"],
+    "declarations": {
+      "flexDirection": "row"
+    }
+  }
+]

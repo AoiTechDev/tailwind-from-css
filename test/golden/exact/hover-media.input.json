@@ -1,0 +1,10 @@
+[
+  {
+    "declarations": "color: #fff"
+  },
+  {
+    "selector": "&:hover",
+    "conditions": ["@media (hover: hover)"],
+    "declarations": "color: #000"
+  }
+]

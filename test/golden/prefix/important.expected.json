@@ -1,0 +1,13 @@
+{
+  "className": "tw:p-4!",
+  "mappings": [
+    [
+      "tw:p-4!",
+      "bare",
+      "padding: 16px !important"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

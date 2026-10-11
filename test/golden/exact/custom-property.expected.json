@@ -1,0 +1,20 @@
+{
+  "className": "text-(--brand) [--brand:#123456]",
+  "mappings": [
+    [
+      "text-(--brand)",
+      "variable",
+      "color: var(--brand)"
+    ],
+    [
+      "[--brand:#123456]",
+      "arbitrary-property",
+      "--brand: #123456"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC202"
+  ],
+  "exact": true
+}

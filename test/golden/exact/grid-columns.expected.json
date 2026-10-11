@@ -1,0 +1,18 @@
+{
+  "className": "grid grid-cols-3",
+  "mappings": [
+    [
+      "grid",
+      "named",
+      "display: grid"
+    ],
+    [
+      "grid-cols-3",
+      "bare",
+      "grid-template-columns: repeat(3, minmax(0, 1fr))"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "selector": "&:focus",
+    "declarations": "outline-style: none"
+  },
+  {
+    "selector": "&:first-child",
+    "declarations": "margin-top: 0"
+  }
+]

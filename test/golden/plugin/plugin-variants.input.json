@@ -1,0 +1,10 @@
+[
+  {
+    "selector": "&[open]",
+    "declarations": "math-depth: 2"
+  },
+  {
+    "conditions": ["@media (min-width: 1400px)"],
+    "declarations": "content-visibility: auto"
+  }
+]

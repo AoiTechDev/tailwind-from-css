@@ -1,0 +1,13 @@
+{
+  "className": "aspect-video",
+  "mappings": [
+    [
+      "aspect-video",
+      "named",
+      "aspect-ratio: 16 / 9"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

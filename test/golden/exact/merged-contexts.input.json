@@ -1,0 +1,12 @@
+[
+  {
+    "selector": "&:hover",
+    "declarations": "color: #fff; padding: 16px"
+  },
+  {
+    "selector": "&:HOVER",
+    "declarations": {
+      "color": "#000"
+    }
+  }
+]

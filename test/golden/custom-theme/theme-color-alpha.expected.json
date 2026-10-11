@@ -1,0 +1,13 @@
+{
+  "className": "bg-brand/50",
+  "mappings": [
+    [
+      "bg-brand/50",
+      "named",
+      "background-color: rgb(18 52 86 / 0.5)"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

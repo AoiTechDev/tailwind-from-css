@@ -51,12 +51,21 @@ export interface CompiledCandidate {
 /** The element itself, with no conditions. */
 export const BASE_CONTEXT: Context = Object.freeze({ selector: '&', conditions: Object.freeze([]) })
 
+const contexts = new Map<string, Context>()
+
 /** Normal form of a context: N50 for the selector, N30–N33 for the conditions. */
 export function normalizeContext(context: Context, options: EffectiveOptions): Context {
-  return {
-    selector: normalizeSelector(context.selector),
-    conditions: normalizeConditions(context.conditions, options),
+  const cacheKey = [options.rootFontSize, context.selector, ...context.conditions].join('\n')
+  let normal = contexts.get(cacheKey)
+  if (normal === undefined) {
+    normal = Object.freeze({
+      selector: normalizeSelector(context.selector),
+      conditions: Object.freeze(normalizeConditions(context.conditions, options)),
+    })
+    if (contexts.size >= CACHE_LIMIT) contexts.clear()
+    contexts.set(cacheKey, normal)
   }
+  return normal
 }
 
 /** A string that is equal for two normalized contexts exactly when they are equal. */

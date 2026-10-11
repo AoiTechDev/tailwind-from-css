@@ -1,0 +1,4 @@
+{
+  "selector": "&::placeholder",
+  "declarations": "color: #9ca3af"
+}

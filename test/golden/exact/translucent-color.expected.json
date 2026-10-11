@@ -1,0 +1,18 @@
+{
+  "className": "rounded-lg bg-black/50",
+  "mappings": [
+    [
+      "rounded-lg",
+      "named",
+      "border-radius: 8px"
+    ],
+    [
+      "bg-black/50",
+      "named",
+      "background-color: rgba(0, 0, 0, 0.5)"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

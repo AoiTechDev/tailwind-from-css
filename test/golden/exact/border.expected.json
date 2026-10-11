@@ -1,0 +1,25 @@
+{
+  "className": "rounded-md border border-[#e5e7eb]",
+  "mappings": [
+    [
+      "rounded-md",
+      "named",
+      "border-radius: 0.375rem"
+    ],
+    [
+      "border",
+      "named",
+      "border: 1px solid #e5e7eb"
+    ],
+    [
+      "border-[#e5e7eb]",
+      "arbitrary-value",
+      "border: 1px solid #e5e7eb"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

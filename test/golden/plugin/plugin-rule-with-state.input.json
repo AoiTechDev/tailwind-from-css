@@ -1,0 +1,9 @@
+[
+  {
+    "declarations": "border-radius: 12px"
+  },
+  {
+    "selector": "&:hover",
+    "declarations": "border-radius: 16px"
+  }
+]

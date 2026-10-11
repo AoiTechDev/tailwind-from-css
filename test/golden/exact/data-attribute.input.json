@@ -1,0 +1,4 @@
+{
+  "selector": "&[data-state=open]",
+  "declarations": "font-size: 14px; line-height: 24px"
+}

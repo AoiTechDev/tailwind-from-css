@@ -1,0 +1,15 @@
+{
+  "className": "placeholder:text-[#9ca3af]",
+  "mappings": [
+    [
+      "placeholder:text-[#9ca3af]",
+      "arbitrary-value",
+      "&::placeholder | color: #9ca3af"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

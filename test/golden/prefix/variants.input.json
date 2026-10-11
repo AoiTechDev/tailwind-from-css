@@ -1,0 +1,13 @@
+[
+  {
+    "declarations": "color: #fff"
+  },
+  {
+    "selector": "&:hover",
+    "declarations": "color: #000"
+  },
+  {
+    "conditions": ["@media (min-width: 768px)"],
+    "declarations": "font-size: 14px; line-height: 24px"
+  }
+]

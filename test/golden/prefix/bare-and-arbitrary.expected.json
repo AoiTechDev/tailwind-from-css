@@ -1,0 +1,20 @@
+{
+  "className": "tw:bg-[#ef4444] tw:p-3.25",
+  "mappings": [
+    [
+      "tw:bg-[#ef4444]",
+      "arbitrary-value",
+      "background-color: #ef4444"
+    ],
+    [
+      "tw:p-3.25",
+      "bare",
+      "padding: 13px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201"
+  ],
+  "exact": true
+}

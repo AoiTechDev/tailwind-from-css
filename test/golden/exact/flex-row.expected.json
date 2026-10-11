@@ -1,0 +1,28 @@
+{
+  "className": "flex items-center justify-between gap-2",
+  "mappings": [
+    [
+      "flex",
+      "named",
+      "display: flex"
+    ],
+    [
+      "items-center",
+      "named",
+      "align-items: center"
+    ],
+    [
+      "justify-between",
+      "named",
+      "justify-content: space-between"
+    ],
+    [
+      "gap-2",
+      "bare",
+      "gap: 8px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

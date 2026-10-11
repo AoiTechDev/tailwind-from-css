@@ -1,0 +1,9 @@
+[
+  {
+    "declarations": "background-color: #fff"
+  },
+  {
+    "conditions": ["@media (prefers-color-scheme: dark)"],
+    "declarations": "background-color: #000"
+  }
+]

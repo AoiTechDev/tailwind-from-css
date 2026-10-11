@@ -1,0 +1,20 @@
+{
+  "className": "text-white [&:hover]:text-black",
+  "mappings": [
+    [
+      "text-white",
+      "named",
+      "color: #fff"
+    ],
+    [
+      "[&:hover]:text-black",
+      "named",
+      "&:hover | color: #000"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC301"
+  ],
+  "exact": true
+}

@@ -1,0 +1,15 @@
+{
+  "className": "select-none",
+  "mappings": [
+    [
+      "select-none",
+      "named",
+      "user-select: none"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC105"
+  ],
+  "exact": true
+}

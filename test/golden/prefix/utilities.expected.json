@@ -1,0 +1,23 @@
+{
+  "className": "tw:w-1/2 tw:p-4 tw:text-brand",
+  "mappings": [
+    [
+      "tw:w-1/2",
+      "bare",
+      "width: 50%"
+    ],
+    [
+      "tw:p-4",
+      "bare",
+      "padding: 16px"
+    ],
+    [
+      "tw:text-brand",
+      "named",
+      "color: #123456"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

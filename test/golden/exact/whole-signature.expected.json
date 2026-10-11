@@ -1,0 +1,15 @@
+{
+  "className": "truncate",
+  "mappings": [
+    [
+      "truncate",
+      "named",
+      "overflow: hidden",
+      "text-overflow: ellipsis",
+      "white-space: nowrap"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

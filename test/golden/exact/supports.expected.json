@@ -1,0 +1,13 @@
+{
+  "className": "supports-[display:grid]:grid",
+  "mappings": [
+    [
+      "supports-[display:grid]:grid",
+      "named",
+      "@supports (display: grid) | display: grid"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

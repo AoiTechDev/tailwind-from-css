@@ -1,0 +1,30 @@
+{
+  "className": "md:[&:hover]:mt-0 md:[&:hover]:mr-auto md:[&:hover]:mb-0 md:[&:hover]:ml-auto",
+  "mappings": [
+    [
+      "md:[&:hover]:mt-0",
+      "bare",
+      "@media (min-width: 768px) | &:hover | margin: 0 auto"
+    ],
+    [
+      "md:[&:hover]:mr-auto",
+      "named",
+      "@media (min-width: 768px) | &:hover | margin: 0 auto"
+    ],
+    [
+      "md:[&:hover]:mb-0",
+      "bare",
+      "@media (min-width: 768px) | &:hover | margin: 0 auto"
+    ],
+    [
+      "md:[&:hover]:ml-auto",
+      "named",
+      "@media (min-width: 768px) | &:hover | margin: 0 auto"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC301"
+  ],
+  "exact": true
+}

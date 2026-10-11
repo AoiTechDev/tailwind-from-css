@@ -1,0 +1,28 @@
+{
+  "className": "mt-0 mr-auto mb-0 ml-auto",
+  "mappings": [
+    [
+      "mt-0",
+      "bare",
+      "margin: 0 auto"
+    ],
+    [
+      "mr-auto",
+      "named",
+      "margin: 0 auto"
+    ],
+    [
+      "mb-0",
+      "bare",
+      "margin: 0 auto"
+    ],
+    [
+      "ml-auto",
+      "named",
+      "margin: 0 auto"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

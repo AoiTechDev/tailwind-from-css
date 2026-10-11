@@ -1,0 +1,21 @@
+{
+  "className": "[&:hover]:p-4 [&:hover]:text-black",
+  "mappings": [
+    [
+      "[&:hover]:p-4",
+      "bare",
+      "&:hover | padding: 16px"
+    ],
+    [
+      "[&:hover]:text-black",
+      "named",
+      "&:HOVER | color: #000"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC106",
+    "TFC301"
+  ],
+  "exact": true
+}

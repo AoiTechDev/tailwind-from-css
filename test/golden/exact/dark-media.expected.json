@@ -1,0 +1,18 @@
+{
+  "className": "bg-white dark:bg-black",
+  "mappings": [
+    [
+      "bg-white",
+      "named",
+      "background-color: #fff"
+    ],
+    [
+      "dark:bg-black",
+      "named",
+      "@media (prefers-color-scheme: dark) | background-color: #000"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

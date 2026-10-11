@@ -1,0 +1,13 @@
+{
+  "className": "tfc-depth-1",
+  "mappings": [
+    [
+      "tfc-depth-1",
+      "bare",
+      "math-depth: 1"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

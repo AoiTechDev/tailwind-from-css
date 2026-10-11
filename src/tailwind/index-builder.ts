@@ -45,6 +45,8 @@ export interface UtilityIndex {
   readonly variants: ReadonlyMap<string, readonly string[]>
 }
 
+// A negative candidate, after the theme prefix if there is one (`-mt-2`, `tw:-mt-2`).
+const NEGATIVE = /^(?:[^:]+:)?-/
 const BARE_VALUE = /-\d+(?:\.\d+)?(?:\/\d+(?:\.\d+)?)?$/
 // A variant applied to an arbitrary custom property shows the variant's context and nothing else.
 const PROBE_PROPERTY = '--tfc-probe'
@@ -52,14 +54,17 @@ const PROBE = `[${PROBE_PROPERTY}:0]`
 // Lookups try every quantized key a value within the sRGB tolerance can have, up to this many.
 const KEY_LIMIT = 64
 const MEMO_SIZE = 8
+const CACHE_LIMIT = 4096
 const CHUNK_SIZE = 1024
 
 const compareText = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0)
 
-// SPEC §5.2: named over bare, then fewer characters, then by code unit.
+// SPEC §5.2: named over bare, positive over negative (`tracking-tight`, not `-tracking-wide`),
+// then fewer characters, then by code unit.
 function comparePreference(a: IndexedUtility, b: IndexedUtility): number {
   return (
     (a.kind === b.kind ? 0 : a.kind === 'named' ? -1 : 1) ||
+    Number(NEGATIVE.test(a.candidate)) - Number(NEGATIVE.test(b.candidate)) ||
     a.candidate.length - b.candidate.length ||
     compareText(a.candidate, b.candidate)
   )
@@ -198,10 +203,22 @@ function buildVariants(
   return sortedBy(variants, (a, b) => a.length - b.length || compareText(a, b))
 }
 
+const valueKeys = new Map<string, readonly string[]>()
+
+function toleranceKeysOf(value: string): readonly string[] {
+  let keys = valueKeys.get(value)
+  if (keys === undefined) {
+    keys = toleranceKeys(value, KEY_LIMIT)
+    if (valueKeys.size >= CACHE_LIMIT) valueKeys.clear()
+    valueKeys.set(value, keys)
+  }
+  return keys
+}
+
 /** Lookup keys of a declaration list: every combination of its values' tolerance keys. */
 function lookupKeys(declarations: readonly NormalDeclaration[]): string[] {
   const options = declarations.map((declaration) =>
-    toleranceKeys(declaration.value, KEY_LIMIT).map((key) => `${declaration.property}:${key}`),
+    toleranceKeysOf(declaration.value).map((key) => `${declaration.property}:${key}`),
   )
   const count = options.reduce((product, keys) => product * keys.length, 1)
   if (count > KEY_LIMIT) return [declarations.map(declarationKey).join(';')]

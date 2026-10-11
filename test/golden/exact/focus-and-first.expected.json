@@ -1,0 +1,18 @@
+{
+  "className": "first:mt-0 focus:outline-none",
+  "mappings": [
+    [
+      "first:mt-0",
+      "bare",
+      "&:first-child | margin-top: 0"
+    ],
+    [
+      "focus:outline-none",
+      "named",
+      "&:focus | outline-style: none"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

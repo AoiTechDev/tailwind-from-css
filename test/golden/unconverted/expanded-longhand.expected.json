@@ -1,0 +1,25 @@
+{
+  "className": "list-inside list-image-none",
+  "mappings": [
+    [
+      "list-inside",
+      "named",
+      "list-style: \"a`b\" inside"
+    ],
+    [
+      "list-image-none",
+      "named",
+      "list-style: \"a`b\" inside"
+    ]
+  ],
+  "unconverted": [
+    [
+      "TFC204",
+      "list-style-type: \"a`b\""
+    ]
+  ],
+  "diagnostics": [
+    "TFC204"
+  ],
+  "exact": false
+}

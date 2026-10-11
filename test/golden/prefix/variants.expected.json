@@ -1,0 +1,26 @@
+{
+  "className": "tw:text-white tw:md:text-sm/6 tw:[&:hover]:text-black",
+  "mappings": [
+    [
+      "tw:text-white",
+      "named",
+      "color: #fff"
+    ],
+    [
+      "tw:md:text-sm/6",
+      "named",
+      "@media (min-width: 768px) | font-size: 14px",
+      "@media (min-width: 768px) | line-height: 24px"
+    ],
+    [
+      "tw:[&:hover]:text-black",
+      "named",
+      "&:hover | color: #000"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC301"
+  ],
+  "exact": true
+}

@@ -1,0 +1,14 @@
+{
+  "className": "text-sm/6",
+  "mappings": [
+    [
+      "text-sm/6",
+      "named",
+      "font-size: 14px",
+      "line-height: 24px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

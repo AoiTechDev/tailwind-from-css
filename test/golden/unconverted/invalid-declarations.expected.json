@@ -1,0 +1,25 @@
+{
+  "className": "p-4",
+  "mappings": [
+    [
+      "p-4",
+      "bare",
+      "padding: 16px"
+    ]
+  ],
+  "unconverted": [
+    [
+      "TFC102",
+      "color: "
+    ],
+    [
+      "TFC102",
+      "width: calc("
+    ]
+  ],
+  "diagnostics": [
+    "TFC102",
+    "TFC102"
+  ],
+  "exact": false
+}

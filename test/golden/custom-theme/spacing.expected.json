@@ -1,0 +1,18 @@
+{
+  "className": "mt-0.75 p-2",
+  "mappings": [
+    [
+      "mt-0.75",
+      "bare",
+      "margin-top: 6px"
+    ],
+    [
+      "p-2",
+      "bare",
+      "padding: 16px"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}
