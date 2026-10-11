@@ -31,9 +31,9 @@ jobs:
       - run: npm install -g npm@^11.5.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm build && pnpm test && pnpm check:package
-      - uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+      # v2 reads what was published from the Changesets CLI v3 output file. v1 parsed
+      # "New tag:" lines that CLI v3 no longer prints, so it pushed no tags or releases.
+      - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          publish: pnpm changeset publish
-          version: pnpm changeset version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish-script: pnpm changeset publish
+          version-script: pnpm changeset version

@@ -31,7 +31,12 @@ describe('release.yml', () => {
     expect(release).toMatch(/^\s+id-token: write$/m)
     expect(release).toMatch(/^\s+runs-on: ubuntu-latest$/m)
     expect(release).toMatch(/npm install -g npm@\^11\.5\.1/)
-    expect(release).toMatch(/publish: pnpm changeset publish/)
+    expect(release).toMatch(/publish-script: pnpm changeset publish/)
+  })
+
+  it('uses changesets/action v2, which detects publishes from the Changesets CLI v3 output', () => {
+    expect(release).toMatch(/uses: changesets\/action@[0-9a-f]{40} # v2\./)
+    expect(release).not.toMatch(/^\s+(publish|version):/m)
   })
 
   it('checks the package before publishing', () => {
