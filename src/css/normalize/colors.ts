@@ -107,8 +107,7 @@ function tryParse(text: string): Color | undefined {
 // N20: every sRGB-family syntax becomes `srgb(r g b / a)` with 0–255 channels. Legacy syntaxes
 // clamp out-of-range channels like browsers do; `color(srgb …)` doesn't. N21: other spaces keep
 // their own space, with culori's channel scale (L as a fraction for oklab/oklch).
-/** Normal form of one color token, or `undefined` when the text isn't a color culori can parse. */
-export function normalizeColor(text: string): string | undefined {
+function parseColorText(text: string): string | undefined {
   const own = SRGB_FORM.exec(text)
   if (own) return printSrgb(parseSrgbForm(own), false)
   const color = tryParse(text)
@@ -120,6 +119,20 @@ export function normalizeColor(text: string): string | undefined {
   const [prefix, channels] = space
   const values = channels.map((name) => channel(color[name]))
   return `${prefix}${values.join(' ')} / ${channel(clamp01(color.alpha ?? 1))})`
+}
+
+// A theme color shows up in every color utility (bg, text, border …), and culori's parser is
+// the slowest part of normalization, so results are kept per token.
+const colorCache = new Map<string, string | undefined>()
+const COLOR_CACHE_SIZE = 4096
+
+/** Normal form of one color token, or `undefined` when the text isn't a color culori can parse. */
+export function normalizeColor(text: string): string | undefined {
+  if (colorCache.has(text)) return colorCache.get(text)
+  const normal = parseColorText(text)
+  if (colorCache.size >= COLOR_CACHE_SIZE) colorCache.clear()
+  colorCache.set(text, normal)
+  return normal
 }
 
 function parseStop(stop: string): { color: string; percent: number | undefined } | undefined {
@@ -165,6 +178,64 @@ const channelEqual = (a: number, b: number, tolerance: number): boolean =>
   Number.isNaN(a) || Number.isNaN(b)
     ? Number.isNaN(a) && Number.isNaN(b)
     : Math.abs(a - b) < tolerance
+
+const roundedStep = (text: string, scale: number): string =>
+  text === 'none' ? text : String(Math.round(Number(text) * scale))
+
+/**
+ * Index key of a normal value: every `srgb()` channel rounded to an 8-bit step, alpha included
+ * (0–255). Values that compare equal under the N20 tolerance can still get neighbouring keys, so
+ * look them up with {@link toleranceKeys}.
+ */
+export const quantizedKey = (value: string): string =>
+  !value.includes('srgb(')
+    ? value
+    : value.replace(
+        SRGB_ANYWHERE,
+        (_match, r: string, g: string, b: string, alpha: string) =>
+          `srgb(${roundedStep(r, 1)} ${roundedStep(g, 1)} ${roundedStep(b, 1)} / ${roundedStep(alpha, 255)})`,
+      )
+
+// A channel x matches values in (x - 0.5, x + 0.5), whose rounded steps are floor(x) and ceil(x).
+function stepOptions(text: string, scale: number): string[] {
+  if (text === 'none') return [text]
+  const scaled = Number(text) * scale
+  const rounded = Math.round(scaled)
+  const others = [Math.floor(scaled), Math.ceil(scaled)].filter((step) => step !== rounded)
+  return [rounded, ...new Set(others)].map(String)
+}
+
+/**
+ * Every {@link quantizedKey} that a value equal to `value` under the N20 tolerance can have, the
+ * rounded key first. Above `limit` combinations, only the rounded key is returned: a lookup may
+ * then miss an equal value, but never finds an unequal one.
+ */
+export function toleranceKeys(value: string, limit: number): string[] {
+  const literals: string[] = []
+  const options: string[][] = []
+  let end = 0
+  for (const match of value.matchAll(SRGB_ANYWHERE)) {
+    literals.push(value.slice(end, match.index))
+    const [, r = '', g = '', b = '', alpha = ''] = match
+    options.push(stepOptions(r, 1), stepOptions(g, 1), stepOptions(b, 1), stepOptions(alpha, 255))
+    end = match.index + match[0].length
+  }
+  const count = options.reduce((product, steps) => product * steps.length, 1)
+  if (count > limit) return [quantizedKey(value)]
+  let combinations: string[][] = [[]]
+  for (const steps of options) {
+    combinations = combinations.flatMap((prefix) => steps.map((step) => [...prefix, step]))
+  }
+  const tail = value.slice(end)
+  return combinations.map((steps) => {
+    let key = ''
+    for (let color = 0; color < literals.length; color++) {
+      const [r, g, b, alpha] = steps.slice(color * 4, color * 4 + 4)
+      key += `${literals[color]}srgb(${r} ${g} ${b} / ${alpha})`
+    }
+    return key + tail
+  })
+}
 
 // N20: browsers store sRGB colors as 8-bit channels, so two normal forms whose channels differ by
 // less than half a step are the same color. Equality with a tolerance isn't transitive, which is

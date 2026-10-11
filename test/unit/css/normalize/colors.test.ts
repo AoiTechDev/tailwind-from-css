@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeColor, normalizeColorMix } from '../../../../src/css/normalize/colors.ts'
+import {
+  normalizeColor,
+  normalizeColorMix,
+  quantizedKey,
+  toleranceKeys,
+} from '../../../../src/css/normalize/colors.ts'
 import { normalValuesEqual } from '../../../../src/css/normalize/index.ts'
 import { normalValue } from '../../../helpers/normalize.ts'
 
@@ -178,5 +183,61 @@ describe('N23 currentcolor', () => {
   it('keeps currentcolor apart from concrete colors and keywords', () => {
     expect(color('currentColor')).not.toBe(color('black'))
     expect(color('currentColor')).not.toBe(color('inherit'))
+  })
+})
+
+describe('normalizeColor cache', () => {
+  it('gives the same answers before and after the cache fills up', () => {
+    const first = normalizeColor('#123456')
+    for (let blue = 0; blue < 5000; blue++) {
+      expect(normalizeColor(`rgb(1 2 ${blue % 256} / ${blue / 5000})`)).toMatch(/^srgb\(1 2 /)
+    }
+    expect(normalizeColor('#123456')).toBe(first)
+    expect(normalizeColor('nope')).toBeUndefined()
+    expect(normalizeColor('nope')).toBeUndefined()
+  })
+})
+
+describe('index keys for the N20 tolerance', () => {
+  it('rounds every srgb() channel to an 8-bit step', () => {
+    expect(quantizedKey('srgb(10.4 20.5 255 / 0.05)')).toBe('srgb(10 21 255 / 13)')
+    expect(quantizedKey('0 1px 2px 0 srgb(0 0 0 / 1), srgb(none 1 2 / 0)')).toBe(
+      '0 1px 2px 0 srgb(0 0 0 / 255), srgb(none 1 2 / 0)',
+    )
+    expect(quantizedKey('oklch(0.637 0.237 25.331 / 1)')).toBe('oklch(0.637 0.237 25.331 / 1)')
+  })
+
+  it('lists every key a color within the tolerance can have, the rounded one first', () => {
+    expect(toleranceKeys('srgb(10 20 30 / 1)', 64)).toEqual(['srgb(10 20 30 / 255)'])
+    expect(toleranceKeys('srgb(10.5 20 30 / 1)', 64)).toEqual([
+      'srgb(11 20 30 / 255)',
+      'srgb(10 20 30 / 255)',
+    ])
+    expect(toleranceKeys('srgb(10.2 none 30 / 0.5)', 64)).toEqual([
+      'srgb(10 none 30 / 128)',
+      'srgb(10 none 30 / 127)',
+      'srgb(11 none 30 / 128)',
+      'srgb(11 none 30 / 127)',
+    ])
+    expect(toleranceKeys('none', 64)).toEqual(['none'])
+  })
+
+  it('finds the key of every value that compares equal', () => {
+    const pairs = [
+      ['srgb(10.4 20 30 / 1)', 'srgb(10.6 20 30 / 1)'],
+      ['srgb(10.5 20 30 / 1)', 'srgb(10.01 20 30 / 1)'],
+      ['srgb(0 0 0 / 0.05)', 'srgb(0 0 0 / 0.0510)'],
+      ['a srgb(0 0 0 / 1) b srgb(1.5 2 3 / 1)', 'a srgb(0.2 0 0 / 1) b srgb(1.9 2 3 / 1)'],
+    ] as const
+    for (const [a, b] of pairs) {
+      expect(normalValuesEqual(a, b)).toBe(true)
+      expect(toleranceKeys(a, 64)).toContain(quantizedKey(b))
+      expect(toleranceKeys(b, 64)).toContain(quantizedKey(a))
+    }
+  })
+
+  it('falls back to the rounded key alone beyond the limit', () => {
+    expect(toleranceKeys('srgb(0.5 0.5 0.5 / 0.5)', 8)).toEqual(['srgb(1 1 1 / 128)'])
+    expect(toleranceKeys('srgb(0.5 0.5 0.5 / 0.5)', 16)).toHaveLength(16)
   })
 })

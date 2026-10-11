@@ -217,12 +217,36 @@ function printComplex(selector: ComplexSelector): string {
 export function normalizeSelector(selector: string): string {
   const spaced = selector.replace(WHITESPACE, ' ')
   const collapsed = spaced.trim()
-  const root = EMPTY_LIST_MEMBER.test(collapsed) ? undefined : parse(spaced)
+  return printRoot(EMPTY_LIST_MEMBER.test(collapsed) ? undefined : parse(spaced), collapsed)
+}
+
+function printRoot(root: selectorParser.Root | undefined, collapsed: string): string {
   let readable = root !== undefined
   root?.walkCombinators((combinator) => {
     if (!COMBINATORS.has(combinator.value.trim())) readable = false
   })
   return root === undefined || !readable ? collapsed : root.nodes.map(printComplex).join(',')
+}
+
+/**
+ * A compiled rule's selector relative to the element: every class named `className` becomes `&`,
+ * and the result is in N50 form. `undefined` when the class doesn't occur or the selector doesn't
+ * parse.
+ *
+ * @example
+ * relativeSelector('.hover\\:flex:hover', 'hover:flex') // '&:hover'
+ */
+export function relativeSelector(selector: string, className: string): string | undefined {
+  const root = parse(selector.replace(WHITESPACE, ' '))
+  const classes: selectorParser.ClassName[] = []
+  root?.walkClasses((node) => {
+    if (node.value === className) classes.push(node)
+  })
+  if (root === undefined || classes.length === 0) return undefined
+  for (const node of classes) node.replaceWith(selectorParser.nesting({ value: '&' }))
+  const collapsed = String(root).trim()
+  // The tree is printed as is, without a second parse, unless the text has an empty list member.
+  return EMPTY_LIST_MEMBER.test(collapsed) ? collapsed : printRoot(root, collapsed)
 }
 
 const add = (a: Specificity, b: Specificity): Specificity => [a[0] + b[0], a[1] + b[1], a[2] + b[2]]

@@ -3,6 +3,7 @@ import {
   compareSpecificity,
   extractSubject,
   normalizeSelector,
+  relativeSelector,
   specificity,
 } from '../../../src/css/selector.ts'
 
@@ -148,6 +149,54 @@ describe('extractSubject', () => {
   it('rejects selector lists and broken selectors', () => {
     expect(extractSubject('.a, .b')).toBeUndefined()
     expect(extractSubject('.a[')).toBeUndefined()
+  })
+})
+
+describe('relativeSelector', () => {
+  it('replaces the class of a candidate with & and normalizes the rest', () => {
+    expect(relativeSelector('.hover\\:flex:hover', 'hover:flex')).toBe('&:hover')
+    expect(relativeSelector('.p-4', 'p-4')).toBe('&')
+    expect(relativeSelector('.w-1\\/2', 'w-1/2')).toBe('&')
+    expect(relativeSelector('.\\[color\\:red\\]\\!', '[color:red]!')).toBe('&')
+    expect(relativeSelector('.tw\\:flex', 'tw:flex')).toBe('&')
+  })
+
+  it('keeps every other part of the selector', () => {
+    expect(relativeSelector(':is(.\\*\\:x > *)', '*:x')).toBe(':is(& > *)')
+    expect(relativeSelector(':where(.space-x-2>:not(:last-child))', 'space-x-2')).toBe(
+      ':where(& > :not(:last-child))',
+    )
+    expect(relativeSelector('.group-hover\\:x:is(:where(.group):hover *)', 'group-hover:x')).toBe(
+      '&:is(:where(.group):hover *)',
+    )
+    expect(relativeSelector(':where(:focus) .in-focus\\:x', 'in-focus:x')).toBe(':where(:focus) &')
+    expect(relativeSelector('.not-hover\\:x:not(*:hover)', 'not-hover:x')).toBe('&:not(:hover)')
+  })
+
+  it('replaces every occurrence, including in each member of a list', () => {
+    expect(relativeSelector('.m\\:x *::marker, .m\\:x::marker', 'm:x')).toBe('& ::marker,&::marker')
+  })
+
+  it('prints what normalizeSelector would print for the replaced selector', () => {
+    for (const [selector, className] of [
+      ['.a  >  .x:HOVER', 'x'],
+      ['.x:is(.y)', 'x'],
+      ['.x:before', 'x'],
+      ['.x:nth-child( 2N + 1 )', 'x'],
+      ['.x , .x:focus', 'x'],
+      ['.x[data-a=b]', 'x'],
+      ['.x >>> .y', 'x'],
+    ] as const) {
+      const relative = relativeSelector(selector, className) as string
+      expect(normalizeSelector(relative)).toBe(relative)
+      expect(relative).toBe(normalizeSelector(selector.replaceAll(`.${className}`, '&')))
+    }
+  })
+
+  it('is undefined when the class is missing or the selector does not parse', () => {
+    expect(relativeSelector('.other', 'p-4')).toBeUndefined()
+    expect(relativeSelector('.p-4[', 'p-4')).toBeUndefined()
+    expect(relativeSelector('[class=p-4]', 'p-4')).toBeUndefined()
   })
 })
 
