@@ -4,12 +4,18 @@ import {
   extractSubject,
   normalizeSelector,
   relativeSelector,
+  selectorRelation,
   specificity,
 } from '../../../src/css/selector.ts'
 
 const n = normalizeSelector
 
 describe('N50 selector transforms', () => {
+  it('keeps an nth argument that is not An+B as written', () => {
+    expect(n('&:nth-child( foo )')).toBe('&:nth-child(foo)')
+    expect(n('&:nth-child(+03)')).toBe('&:nth-child(3)')
+  })
+
   it('makes the Tailwind 4.2 and 4.3 spellings equal', () => {
     expect(n('&:not(*:hover)')).toBe(n('&:not(:hover)'))
     expect(n('&:has(*:checked)')).toBe(n('&:has(:checked)'))
@@ -235,5 +241,35 @@ describe('specificity', () => {
     expect(compareSpecificity([1, 0, 0], [0, 9, 9])).toBeGreaterThan(0)
     expect(compareSpecificity([0, 1, 0], [0, 1, 1])).toBeLessThan(0)
     expect(compareSpecificity([0, 1, 1], [0, 1, 1])).toBe(0)
+  })
+})
+
+describe('selectorRelation (ADR-0013)', () => {
+  it('finds rules that match the same subject whenever the context does', () => {
+    expect(selectorRelation('&', '&')).toBe('same')
+    expect(selectorRelation('&', '&:hover')).toBe('same')
+    expect(selectorRelation('&:hover', '&:hover:focus')).toBe('same')
+    expect(selectorRelation('&', '.dark &')).toBe('same')
+    expect(selectorRelation('.dark &', '.dark &:hover')).toBe('same')
+    expect(selectorRelation('&::before', '&::before:hover')).toBe('same')
+  })
+
+  it('finds the element of a pseudo-element context', () => {
+    expect(selectorRelation('&', '&::before')).toBe('element')
+    expect(selectorRelation('&:hover', '&:hover::before')).toBe('element')
+  })
+
+  it('rejects everything else', () => {
+    expect(selectorRelation('&:focus', '&:hover')).toBeUndefined()
+    expect(selectorRelation('&:focus', '&:hover::before')).toBeUndefined()
+    expect(selectorRelation('&::before', '&::after')).toBeUndefined()
+    expect(selectorRelation('&::before', '&')).toBeUndefined()
+    expect(selectorRelation('&::before:hover', '&::before')).toBeUndefined()
+    expect(selectorRelation('.dark &', '.x &')).toBeUndefined()
+    expect(selectorRelation('&', ':is(& > *)')).toBeUndefined()
+    expect(selectorRelation('&', '& > p')).toBeUndefined()
+    expect(selectorRelation('&', '&:hover, &:focus')).toBeUndefined()
+    expect(selectorRelation('&', '&:hover&')).toBeUndefined()
+    expect(selectorRelation('&', '[')).toBeUndefined()
   })
 })

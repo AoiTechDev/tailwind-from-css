@@ -441,3 +441,89 @@ describe('vendor prefixes', () => {
     ])
   })
 })
+
+describe('variables across contexts (ADR-0013)', () => {
+  const MD = '@media (width >= 768px)'
+  const PLAIN_HOVER: Context = { selector: '&:hover', conditions: [] }
+  const translate = 'translate: var(--tw-tx) var(--tw-ty)'
+  const input: FakeDesignInput = {
+    candidates: {
+      tx: ast(
+        [rule('.tx', ['--tw-tx: 4px', translate])],
+        [property('--tw-tx', '0'), property('--tw-ty', '0')],
+      ),
+      'hover-ty': ast(
+        [rule('.hover-ty:hover', ['--tw-ty: 4px', translate])],
+        [property('--tw-ty', '0'), property('--tw-tx', '0')],
+      ),
+      'md-tx': ast(
+        [rule('.md-tx', ['--tw-tx: 8px', translate], [MD])],
+        [property('--tw-tx', '0'), property('--tw-ty', '0')],
+      ),
+      'supports-tx': ast(
+        [rule('.supports-tx', ['--tw-tx: 2px'], ['@supports (x: y)'])],
+        [property('--tw-tx', '0')],
+      ),
+      'md-hover-tx': ast([rule('.md-hover-tx:hover', [translate], [MD])]),
+      shadow: ast([rule('.shadow', ['box-shadow: var(--tw-ring, 0 0 #0000), 0 1px red'])]),
+      'hover-ring': ast([rule('.hover-ring:hover', ['--tw-ring: 0 0 0 2px blue'])]),
+      paint: ast(
+        [rule('.paint', ['--tw-tx: 4px', '--tw-c: blue'])],
+        [{ name: '--tw-tx', syntax: '"*"', inherits: false, initialValue: '0' }],
+      ),
+      'before-x': ast([
+        rule('.before-x::before', ['translate: var(--tw-tx) 0', 'color: var(--tw-c, red)']),
+      ]),
+      'before-c': ast([rule('.before-c::before', ['--tw-c: green'])]),
+    },
+  }
+
+  it('lets base variables reach a state context', () => {
+    expect(effective(input, ['tx', 'hover-ty'], PLAIN_HOVER)).toEqual(['translate: 4px 4px'])
+    expect(effective(input, ['hover-ty'], PLAIN_HOVER)).toEqual(['translate: 0 4px'])
+  })
+
+  it('ignores rules under conditions the context lacks', () => {
+    expect(effective(input, ['md-tx', 'hover-ty'], PLAIN_HOVER)).toEqual(['translate: 0 4px'])
+    expect(effective(input, ['supports-tx', 'hover-ty'], PLAIN_HOVER)).toEqual(['translate: 0 4px'])
+    expect(effective(input, ['supports-tx', 'tx'], BASE_CONTEXT)).toEqual(['translate: 4px 0'])
+  })
+
+  it('uses variables of every context that applies whenever this one does', () => {
+    const mdHover: Context = { selector: '&:hover', conditions: [MD] }
+    expect(effective(input, ['hover-ty', 'md-hover-tx'], mdHover)).toEqual(['translate: 0 4px'])
+    expect(effective(input, ['md-tx', 'hover-ty', 'md-hover-tx'], mdHover)).toEqual([
+      'translate: 8px 4px',
+    ])
+  })
+
+  it("shows a broader declaration that this context's variables change", () => {
+    expect(effective(input, ['shadow', 'hover-ring'], PLAIN_HOVER)).toEqual([
+      'box-shadow: 0 0 0 2px srgb(0 0 255 / 1),0 1px 0 0 srgb(255 0 0 / 1)',
+    ])
+    expect(effective(input, ['shadow', 'hover-ring'], BASE_CONTEXT)).toEqual([
+      'box-shadow: 0 1px 0 0 srgb(255 0 0 / 1)',
+    ])
+    // The intersection of md and hover sees both, and the hover rule wins the cascade.
+    expect(
+      effective(input, ['md-tx', 'hover-ty'], { selector: '&:hover', conditions: [MD] }),
+    ).toEqual(['translate: 8px 4px'])
+  })
+
+  it('lets a pseudo-element inherit only inheritable variables from the element', () => {
+    const before: Context = { selector: '&::before', conditions: [] }
+    expect(effective(input, ['paint', 'before-x'], before)).toEqual([
+      'color: srgb(0 0 255 / 1)',
+      'translate: 0 0',
+    ])
+    expect(effective(input, ['paint', 'before-x', 'before-c'], before)).toEqual([
+      'color: srgb(0 128 0 / 1)',
+      'translate: 0 0',
+    ])
+    // The element's own declarations don't apply to the pseudo-element.
+    expect(effective(input, ['tx', 'before-x'], before)).toEqual([
+      'color: srgb(255 0 0 / 1)',
+      'translate: 0 0',
+    ])
+  })
+})

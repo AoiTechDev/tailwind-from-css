@@ -6,6 +6,7 @@ import {
   type MatchResult,
   matchDeclarations,
   matchInput,
+  overriddenDeclarations,
 } from '../../../src/match/exact.ts'
 import { buildUtilityIndex } from '../../../src/tailwind/index-builder.ts'
 import type { Declaration } from '../../../src/types.ts'
@@ -69,6 +70,19 @@ describe('matchInput', () => {
   })
 })
 
+describe('overriddenDeclarations (TFC106)', () => {
+  it('lists the declarations that win no longhand', () => {
+    const declarations: Declaration[] = [
+      { property: 'color', value: 'red' },
+      { property: 'padding', value: '16px' },
+      { property: 'color', value: 'blue' },
+      { property: 'padding-top', value: '8px' },
+    ]
+    expect(overriddenDeclarations(4, matchInput(declarations, OPTIONS))).toEqual([0])
+    expect(overriddenDeclarations(0, [])).toEqual([])
+  })
+})
+
 describe('createMatcher', () => {
   it('reads --spacing as a normal length', () => {
     const spacing = (value: string | undefined) =>
@@ -110,6 +124,15 @@ describe('matchDeclarations', () => {
     expect(names(match(on, [{ property: 'padding', value: '16px' }]))).toEqual(['p-4'])
     expect(names(match(on, [{ property: 'padding', value: '13px' }]))).toEqual(['p-3.25'])
     expect(match(on, [{ property: 'padding', value: '13px' }]).matches[0]?.kind).toBe('bare')
+  })
+
+  it('gives every class the variant chain', () => {
+    const result = matchDeclarations(
+      matcher(spacing),
+      matchInput([{ property: 'padding', value: '16px', important: true }], OPTIONS),
+      ['md', '[&:hover]'],
+    )
+    expect(names(result)).toEqual(['md:[&:hover]:p-4!'])
   })
 
   it('skips candidates that also apply in other contexts', () => {

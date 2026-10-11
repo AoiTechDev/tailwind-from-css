@@ -148,10 +148,23 @@ describe('candidateName', () => {
     expect(candidateName('p-4', { prefix: 'tw', important: 'prefix' })).toBe('tw:!p-4')
   })
 
+  it('puts variants between the prefix and the important marker', () => {
+    const variants = ['md', '[&:hover]']
+    expect(candidateName('p-4', { prefix: 'tw', important: 'suffix', variants })).toBe(
+      'tw:md:[&:hover]:p-4!',
+    )
+    expect(candidateName('p-4', { prefix: null, important: 'prefix', variants })).toBe(
+      'md:[&:hover]:!p-4',
+    )
+  })
+
   it('compiles under prefix(tw)', async () => {
     const design = await designSystem('prefix')
     expect(toCss(design, 'tw:p-4!')).toEqual(['padding: calc(var(--tw-spacing) * 4) !important'])
     expect(toCss(design, 'tw:!p-4')).toEqual(['padding: calc(var(--tw-spacing) * 4) !important'])
     expect(toCss(design, 'tw:[color:red]')).toEqual(['color: red'])
+    expect(toCss(design, 'tw:md:[&:hover]:!p-4')).toEqual([
+      'padding: calc(var(--tw-spacing) * 4) !important',
+    ])
   })
 })

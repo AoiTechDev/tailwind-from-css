@@ -1,0 +1,5 @@
+---
+"tailwind-from-css": patch
+---
+
+Add variant chains and verification. A block's context (state selectors, pseudo-elements, media, container, supports and starting-style conditions) becomes the variants of your Tailwind: named ones (`md:`, `focus:`, `hover:` only when the input has its `(hover: hover)` media query, custom variants), functional ones with arbitrary values (`min-[700px]:`, `nth-[3n+1]:`, `data-[state=open]:`), or arbitrary variants (`[&:hover]:`, `[@media(max-width:767px)]:`, reported as `TFC301`/`TFC302`); every chain is compiled and checked, and a context that can't be a class is reported (`TFC303`). Verification compiles the whole class list and compares it with the input per context, including Tailwind's internal variables that one context's classes set for another (so `translate-x-1` with `[&:hover]:translate-y-1` is caught and repaired). Wrong classes fall back to arbitrary properties (`TFC501`) or become unconverted (`TFC502`). Adds the `TFC106` diagnostic code for a declaration overridden by a later one of the same block. Not part of the public API yet: the converter that uses it comes in a later release.

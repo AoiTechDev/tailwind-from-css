@@ -155,6 +155,24 @@ export function matchInput(
 }
 
 /**
+ * Input declarations that won no longhand of {@link matchInput}'s result: later declarations of
+ * the same block override them completely (`TFC106`). Ascending.
+ *
+ * @example
+ * overriddenDeclarations(2, matchInput([{ property: 'color', value: 'red' }, { property: 'color', value: 'blue' }], options))
+ * // [0]
+ */
+export function overriddenDeclarations(
+  count: number,
+  input: readonly MatchDeclaration[],
+): number[] {
+  const winning = new Set(input.map((declaration) => declaration.source))
+  return Array.from({ length: count }, (_, source) => source).filter(
+    (source) => !winning.has(source),
+  )
+}
+
+/**
  * Prepares matching against a design system and its index.
  *
  * @example
@@ -190,7 +208,8 @@ export function createMatcher(
  * and 7, no relaxations): a whole-signature hit, else a greedy cover by indexed utilities (with
  * modifiers), else per longhand a bare value, a variable, an arbitrary value, and finally an
  * arbitrary property. A class never sets a longhand the block doesn't set to the same value.
- * Important declarations get their own classes, marked with `!`.
+ * Important declarations get their own classes, marked with `!`. Every class gets the block's
+ * variant chain.
  *
  * @example
  * matchDeclarations(matcher, matchInput([{ property: 'padding', value: '13px' }], options))
@@ -199,6 +218,7 @@ export function createMatcher(
 export function matchDeclarations(
   matcher: Matcher,
   declarations: readonly MatchDeclaration[],
+  variants: readonly string[] = [],
 ): MatchResult {
   const redundant = redundantVendorDeclarations(declarations, matcher.index.options)
   const skipped: SkippedDeclaration[] = [...redundant].map((declaration) => ({
@@ -213,7 +233,7 @@ export function matchDeclarations(
         (position) => !redundant.has(position) && declarations[position]?.important === important,
       )
     if (positions.length === 0) continue
-    const group = createGroup(matcher, declarations, positions, important)
+    const group = createGroup(matcher, declarations, positions, important, variants)
     matchGroup(group)
     matches.push(...group.matches)
     skipped.push(...group.skipped)
@@ -227,6 +247,7 @@ interface Group {
   readonly matcher: Matcher
   readonly declarations: readonly MatchDeclaration[]
   readonly important: boolean
+  readonly variants: readonly string[]
   /** Longhand → position, for this group's declarations. */
   readonly positions: ReadonlyMap<string, number>
   readonly uncovered: Set<number>
@@ -246,11 +267,13 @@ function createGroup(
   declarations: readonly MatchDeclaration[],
   positions: readonly number[],
   important: boolean,
+  variants: readonly string[],
 ): Group {
   return {
     matcher,
     declarations,
     important,
+    variants,
     positions: new Map(
       positions.map((position) => [
         (declarations[position] as MatchDeclaration).property,
@@ -327,6 +350,7 @@ function accept(group: Group, option: Option): void {
   const style: CandidateStyle = {
     prefix: group.matcher.design.prefix,
     important: group.important ? group.matcher.important : false,
+    variants: group.variants,
   }
   for (const position of option.positions) group.uncovered.delete(position)
   group.matches.push({

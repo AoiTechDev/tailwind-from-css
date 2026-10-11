@@ -1,10 +1,15 @@
 import { normalizeConditions } from '../css/conditions.ts'
-import { type NormalDeclaration, normalizeDeclarations } from '../css/normalize/index.ts'
+import {
+  type NormalDeclaration,
+  normalizeDeclarations,
+  normalValuesEqual,
+} from '../css/normalize/index.ts'
 import {
   compareSpecificity,
   normalizeSelector,
   relativeSelector,
   type Specificity,
+  selectorRelation,
   specificity,
 } from '../css/selector.ts'
 import { redundantVendorDeclarations } from '../css/vendor.ts'
@@ -57,6 +62,8 @@ export function normalizeContext(context: Context, options: EffectiveOptions): C
 /** A string that is equal for two normalized contexts exactly when they are equal. */
 export const contextKey = (context: Context): string =>
   [context.selector, ...context.conditions].join('\n')
+
+const BASE_KEY = contextKey(BASE_CONTEXT)
 
 const CLASS_SPECIFICITY: Specificity = [0, 1, 0]
 
@@ -150,17 +157,25 @@ function escapeClassName(value: string): string {
   return escaped
 }
 
-interface PlacedDeclaration {
-  readonly declaration: CandidateDeclaration
+/** A rule of the compiled set, with what the cascade needs. */
+interface PlacedRule {
+  readonly context: Context
+  readonly key: string
   readonly specificity: Specificity
   readonly order: bigint
+  readonly declarations: readonly CandidateDeclaration[]
+}
+
+interface PlacedDeclaration {
+  readonly declaration: CandidateDeclaration
+  readonly rule: PlacedRule
   readonly position: number
 }
 
 function comparePlaced(a: PlacedDeclaration, b: PlacedDeclaration): number {
   return (
-    compareSpecificity(a.specificity, b.specificity) ||
-    (a.order < b.order ? -1 : a.order > b.order ? 1 : 0) ||
+    compareSpecificity(a.rule.specificity, b.rule.specificity) ||
+    (a.rule.order < b.rule.order ? -1 : a.rule.order > b.rule.order ? 1 : 0) ||
     a.position - b.position
   )
 }
@@ -169,10 +184,32 @@ function comparePlaced(a: PlacedDeclaration, b: PlacedDeclaration): number {
 const overrides = (later: { important: boolean }, earlier: { important: boolean }): boolean =>
   later.important || !earlier.important
 
+/** Declarations of `rules` in cascade order (rules are in candidate, then source order). */
+function place(rules: readonly PlacedRule[]): PlacedDeclaration[] {
+  const placed: PlacedDeclaration[] = []
+  for (const rule of rules) {
+    for (const declaration of rule.declarations) {
+      placed.push({ declaration, rule, position: placed.length })
+    }
+  }
+  return placed.sort(comparePlaced)
+}
+
+/** Everything one `resolveEffective` call shares. */
+interface Resolution {
+  readonly design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>
+  readonly options: EffectiveOptions
+  readonly rules: readonly PlacedRule[]
+  readonly registrations: ReadonlyMap<string, PropertyRule>
+  readonly sources: Map<string, Sources>
+}
+
 /**
  * Effective declarations of compiled candidates in one normalized context (SPEC §5.6): rules
  * of the context in cascade order, `var()` resolved, `--tw-*` declarations dropped, shorthands
  * expanded and values normalized, vendor-prefixed copies of unprefixed declarations dropped.
+ * Variables come from every rule that applies whenever the context does, and a declaration of a
+ * broader context that the context's variables change counts as the context's own (ADR-0013).
  * Sorted by property.
  */
 export function resolveEffective(
@@ -181,61 +218,32 @@ export function resolveEffective(
   context: Context,
   options: EffectiveOptions,
 ): NormalDeclaration[] {
-  const key = contextKey(context)
-  const placed: PlacedDeclaration[] = []
-  const registered = new Map<string, string | undefined>()
+  const rules: PlacedRule[] = []
+  const registrations = new Map<string, PropertyRule>()
   for (const candidate of compiled) {
     for (const rule of candidate.rules) {
-      if (rule.context === undefined || contextKey(rule.context) !== key) continue
-      for (const declaration of rule.declarations) {
-        placed.push({
-          declaration,
-          specificity: rule.specificity,
-          order: candidate.order,
-          position: placed.length,
-        })
-      }
+      if (rule.context === undefined) continue
+      rules.push({
+        context: rule.context,
+        key: contextKey(rule.context),
+        specificity: rule.specificity,
+        order: candidate.order,
+        declarations: rule.declarations,
+      })
     }
     for (const registration of candidate.properties) {
-      if (!registered.has(registration.name)) {
-        registered.set(registration.name, registration.initialValue)
-      }
+      if (!registrations.has(registration.name)) registrations.set(registration.name, registration)
     }
   }
-  placed.sort(comparePlaced)
-
-  const internal = new Map<string, CandidateDeclaration>()
-  for (const { declaration } of placed) {
-    if (!declaration.property.startsWith(INTERNAL)) continue
-    const earlier = internal.get(declaration.property)
-    if (earlier === undefined || overrides(declaration, earlier)) {
-      internal.set(declaration.property, declaration)
-    }
-  }
-
-  const sources: Sources = {
-    prefix: design.prefix,
-    themeValue: cachedThemeValue(design),
-    internal,
-    registered,
-  }
-  const resolved: Declaration[] = []
-  for (const { declaration } of placed) {
-    if (declaration.property.startsWith(INTERNAL)) continue
-    const value = resolveValue(sources, declaration.value, [], 0)
-    if (value === undefined || (value.trim() === '' && !declaration.property.startsWith('--'))) {
-      continue
-    }
-    resolved.push({ property: declaration.property, value, important: declaration.important })
-  }
-
-  const winners = new Map<string, NormalDeclaration>()
-  for (const declaration of normalizeDeclarations(resolved, options)) {
-    const earlier = winners.get(declaration.property)
-    if (earlier === undefined || overrides(declaration, earlier)) {
-      winners.set(declaration.property, declaration)
-    }
-  }
+  const resolution: Resolution = { design, options, rules, registrations, sources: new Map() }
+  const key = contextKey(context)
+  const sources = sourcesFor(resolution, context, key)
+  const winners = declarationsOf(
+    place(rules.filter((rule) => rule.key === key)),
+    () => sources,
+    options,
+  )
+  if (key !== BASE_KEY) addChangedBroader(resolution, context, key, sources, winners)
   const sorted = [...winners.values()].sort((a, b) =>
     a.property < b.property ? -1 : a.property > b.property ? 1 : 0,
   )
@@ -243,6 +251,132 @@ export function resolveEffective(
   // `-webkit-user-select`, still equals `user-select: none`.
   const redundant = redundantVendorDeclarations(sorted, options)
   return redundant.size === 0 ? sorted : sorted.filter((_, position) => !redundant.has(position))
+}
+
+/** Resolves, normalizes and cascades declarations; `--tw-*` ones only feed variables. */
+function declarationsOf(
+  placed: readonly PlacedDeclaration[],
+  sourcesOf: (rule: PlacedRule) => Sources,
+  options: EffectiveOptions,
+): Map<string, NormalDeclaration> {
+  const resolved: Declaration[] = []
+  for (const { declaration, rule } of placed) {
+    if (declaration.property.startsWith(INTERNAL)) continue
+    const value = resolveValue(sourcesOf(rule), declaration.value, [], 0)
+    if (value === undefined || (value.trim() === '' && !declaration.property.startsWith('--'))) {
+      continue
+    }
+    resolved.push({ property: declaration.property, value, important: declaration.important })
+  }
+  const winners = new Map<string, NormalDeclaration>()
+  for (const declaration of normalizeDeclarations(resolved, options)) {
+    const earlier = winners.get(declaration.property)
+    if (earlier === undefined || overrides(declaration, earlier)) {
+      winners.set(declaration.property, declaration)
+    }
+  }
+  return winners
+}
+
+// ADR-0013: a rule applies whenever the context does when its conditions are implied by the
+// context's (adding them changes nothing, N33) and its selector matches the same subject.
+function implied(resolution: Resolution, rule: PlacedRule, context: Context): boolean {
+  const conditions = rule.context.conditions
+  if (conditions.length === 0) return true
+  const wanted = context.conditions.join('\n')
+  const cacheKey = `${wanted}\u0000${conditions.join('\n')}`
+  let result = impliedCache.get(cacheKey)
+  if (result === undefined) {
+    const merged = normalizeConditions([...context.conditions, ...conditions], resolution.options)
+    result = merged.join('\n') === wanted
+    if (impliedCache.size >= CACHE_LIMIT) impliedCache.clear()
+    impliedCache.set(cacheKey, result)
+  }
+  return result
+}
+
+const impliedCache = new Map<string, boolean>()
+const CACHE_LIMIT = 4096
+
+const relationCache = new Map<string, 'same' | 'element' | undefined>()
+
+function relation(rule: PlacedRule, context: Context): 'same' | 'element' | undefined {
+  const cacheKey = `${rule.context.selector}\u0000${context.selector}`
+  if (relationCache.has(cacheKey)) return relationCache.get(cacheKey)
+  const result = selectorRelation(rule.context.selector, context.selector)
+  if (relationCache.size >= CACHE_LIMIT) relationCache.clear()
+  relationCache.set(cacheKey, result)
+  return result
+}
+
+/** Where `var()` values come from in a context, memoized per call. */
+function sourcesFor(resolution: Resolution, context: Context, key: string): Sources {
+  const cached = resolution.sources.get(key)
+  if (cached !== undefined) return cached
+  const own: PlacedRule[] = []
+  const element: PlacedRule[] = []
+  for (const rule of resolution.rules) {
+    const kind = rule.key === key ? 'same' : relation(rule, context)
+    if (kind === undefined || !implied(resolution, rule, context)) continue
+    if (kind === 'same') own.push(rule)
+    else element.push(rule)
+  }
+  // A pseudo-element inherits only variables that inherit: unregistered, or `inherits: true`.
+  const inheritable = (name: string): boolean =>
+    resolution.registrations.get(name)?.inherits !== false
+  const sources: Sources = {
+    prefix: resolution.design.prefix,
+    themeValue: cachedThemeValue(resolution.design),
+    internal: internalWinners(place(own), () => true),
+    inherited: internalWinners(place(element), inheritable),
+    registered: resolution.registrations,
+  }
+  resolution.sources.set(key, sources)
+  return sources
+}
+
+function internalWinners(
+  placed: readonly PlacedDeclaration[],
+  accept: (name: string) => boolean,
+): Map<string, CandidateDeclaration> {
+  const internal = new Map<string, CandidateDeclaration>()
+  for (const { declaration } of placed) {
+    if (!declaration.property.startsWith(INTERNAL) || !accept(declaration.property)) continue
+    const earlier = internal.get(declaration.property)
+    if (earlier === undefined || overrides(declaration, earlier)) {
+      internal.set(declaration.property, declaration)
+    }
+  }
+  return internal
+}
+
+// ADR-0013: declarations of broader contexts that the context doesn't redeclare, but whose
+// value its variables change (`hover:` setting `--tw-ring-shadow` under a base `box-shadow`).
+function addChangedBroader(
+  resolution: Resolution,
+  context: Context,
+  key: string,
+  sources: Sources,
+  winners: Map<string, NormalDeclaration>,
+): void {
+  const broader = resolution.rules.filter(
+    (rule) =>
+      rule.key !== key && relation(rule, context) === 'same' && implied(resolution, rule, context),
+  )
+  if (broader.length === 0) return
+  const placed = place(broader)
+  const here = declarationsOf(placed, () => sources, resolution.options)
+  const there = declarationsOf(
+    placed,
+    (rule) => sourcesFor(resolution, rule.context, rule.key),
+    resolution.options,
+  )
+  for (const [property, declaration] of here) {
+    const reference = there.get(property)
+    if (winners.has(property)) continue
+    if (reference !== undefined && normalValuesEqual(reference.value, declaration.value)) continue
+    winners.set(property, declaration)
+  }
 }
 
 /**
@@ -275,10 +409,12 @@ const IDENT_CHAR = /[\w-]/
 interface Sources {
   readonly prefix: string | null
   readonly themeValue: (name: string) => string | undefined
-  /** Winning `--tw-*` declarations of the set. */
+  /** Winning `--tw-*` declarations of the rules that apply whenever the context does. */
   readonly internal: ReadonlyMap<string, CandidateDeclaration>
-  /** `@property` initial values of the set. */
-  readonly registered: ReadonlyMap<string, string | undefined>
+  /** Inheritable `--tw-*` values of the element, for a pseudo-element context. */
+  readonly inherited: ReadonlyMap<string, CandidateDeclaration>
+  /** `@property` registrations of the set. */
+  readonly registered: ReadonlyMap<string, PropertyRule>
 }
 
 const themeCache = new WeakMap<object, Map<string, string | undefined>>()
@@ -360,7 +496,7 @@ function lookup(
 // with the prefix stripped before a variable counts as internal); then the `@property` initial
 // value. Other variables belong to the user and stay as written (`null`).
 function variableValue(sources: Sources, name: string): string | null | undefined {
-  const declared = sources.internal.get(name)
+  const declared = sources.internal.get(name) ?? sources.inherited.get(name)
   if (declared !== undefined) return declared.value
   const prefix = sources.prefix
   const themeName =
@@ -371,7 +507,7 @@ function variableValue(sources: Sources, name: string): string | null | undefine
         : undefined
   const theme = themeName === undefined ? undefined : sources.themeValue(themeName)
   if (theme !== undefined) return theme
-  return name.startsWith(INTERNAL) ? sources.registered.get(name) : null
+  return name.startsWith(INTERNAL) ? sources.registered.get(name)?.initialValue : null
 }
 
 /**

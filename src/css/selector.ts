@@ -23,6 +23,7 @@ interface Part {
 const parser = selectorParser()
 const WHITESPACE = /\s+/g
 const AN_PLUS_B = /^([+-]?\d*)n([+-]\d+)?$/
+const INTEGER = /^[+-]?\d+$/
 const OF_SELECTOR = /\s+of\s+/i
 // postcss-selector-parser drops a trailing empty member (`a,`) but keeps an inner one (`a,,b`).
 const EMPTY_LIST_MEMBER = /^,|,\s*(?:,|$)/
@@ -80,8 +81,11 @@ function normalizeAnPlusB(text: string): string {
   const compact = text.replace(WHITESPACE, '').toLowerCase()
   if (compact === 'odd') return '2n+1'
   if (compact === 'even') return '2n'
-  const [, a = '', b = ''] = AN_PLUS_B.exec(compact) ?? [undefined, undefined, compact]
-  if (!compact.includes('n')) return String(Number(compact))
+  if (INTEGER.test(compact)) return String(Number(compact))
+  const match = AN_PLUS_B.exec(compact)
+  // Not An+B: kept as written, never printed as `NaN`.
+  if (match === null) return text.replace(WHITESPACE, ' ').trim()
+  const [, a = '', b = ''] = match
   const step = a === '' || a === '+' ? '' : a === '-' ? '-' : String(Number(a))
   const offset =
     b === '' || Number(b) === 0 ? '' : Number(b) > 0 ? `+${Number(b)}` : String(Number(b))
@@ -330,4 +334,78 @@ export function extractSubject(selector: string): SubjectSplit | undefined {
   const subject = `${kept.map(String).join('')}${emptyCompound ? '*' : ''}`
   const transform = `&${nodes.slice(start).map(String).join('')}`
   return { subject: normalizeSelector(subject), transform: normalizeSelector(transform) }
+}
+
+/** A relative selector whose last compound starts with `&`: what it adds to the element. */
+interface ElementSelector {
+  /** Everything before the last compound (ancestors, siblings), as written. */
+  readonly ancestor: string
+  /** Simple selectors of the last compound before a pseudo-element. */
+  readonly element: readonly string[]
+  readonly pseudoElement: string | undefined
+  /** Simple selectors after the pseudo-element (`::before:hover`). */
+  readonly afterPseudo: readonly string[]
+}
+
+function elementSelector(selector: string): ElementSelector | undefined {
+  const [complex, ...rest] = parse(selector)?.nodes ?? []
+  if (complex === undefined || rest.length > 0) return undefined
+  const nodes = complex.nodes.filter((node) => node.type !== 'comment')
+  let start = nodes.length
+  while (start > 0 && nodes[start - 1]?.type !== 'combinator') start--
+  const [nesting, ...simple] = nodes.slice(start)
+  if (nesting?.type !== 'nesting' || simple.some((node) => node.type === 'nesting')) {
+    return undefined
+  }
+  const pseudo = simple.findIndex((node) => node.type === 'pseudo' && node.value.startsWith('::'))
+  const texts = simple.map((node) => String(node).trim())
+  return {
+    ancestor: nodes.slice(0, start).map(String).join(''),
+    element: pseudo === -1 ? texts : texts.slice(0, pseudo),
+    pseudoElement: pseudo === -1 ? undefined : texts[pseudo],
+    afterPseudo: pseudo === -1 ? [] : texts.slice(pseudo + 1),
+  }
+}
+
+const includesAll = (whole: readonly string[], part: readonly string[]): boolean =>
+  part.every((item) => whole.includes(item))
+
+/**
+ * How a rule's relative selector relates to a context's, both in N50 form: `'same'` when the rule
+ * matches the context's subject whenever the context matches (`&` and `&:hover` for
+ * `&:hover:focus`), `'element'` when it matches the element a pseudo-element context belongs to
+ * (`&:hover` for `&:hover::before`), else `undefined`. Only selectors whose last compound starts
+ * with `&` are compared beyond equality.
+ *
+ * @example
+ * selectorRelation('&', '.dark &:hover') // 'same'
+ * selectorRelation('&', '&::before')     // 'element'
+ */
+export function selectorRelation(rule: string, context: string): 'same' | 'element' | undefined {
+  if (rule === context) return 'same'
+  const ruleParts = elementSelector(rule)
+  const contextParts = elementSelector(context)
+  if (ruleParts === undefined || contextParts === undefined) return undefined
+  if (ruleParts.ancestor !== '' && ruleParts.ancestor !== contextParts.ancestor) return undefined
+  if (!includesAll(contextParts.element, ruleParts.element)) return undefined
+  if (ruleParts.pseudoElement === contextParts.pseudoElement) {
+    return includesAll(contextParts.afterPseudo, ruleParts.afterPseudo) ? 'same' : undefined
+  }
+  return ruleParts.pseudoElement === undefined ? 'element' : undefined
+}
+
+/**
+ * The parts of a relative selector whose last compound starts with `&`: what comes before that
+ * compound, and the simple selectors after `&`, in order. `undefined` for anything else.
+ *
+ * @example
+ * subjectParts('.dark &:hover::before') // { ancestor: '.dark ', parts: [':hover', '::before'] }
+ */
+export function subjectParts(
+  selector: string,
+): { readonly ancestor: string; readonly parts: readonly string[] } | undefined {
+  const parts = elementSelector(selector)
+  if (parts === undefined) return undefined
+  const pseudo = parts.pseudoElement === undefined ? [] : [parts.pseudoElement]
+  return { ancestor: parts.ancestor, parts: [...parts.element, ...pseudo, ...parts.afterPseudo] }
 }

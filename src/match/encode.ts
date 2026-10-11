@@ -11,6 +11,8 @@ export interface CandidateStyle {
   readonly prefix: string | null
   /** `false` for a normal declaration, else where the `!` goes (SPEC §3.4 `important`). */
   readonly important: false | 'suffix' | 'prefix'
+  /** Variant chain, applied left to right: `['md', '[&:hover]']`. */
+  readonly variants?: readonly string[]
 }
 
 /**
@@ -129,11 +131,12 @@ export const arbitraryProperty = (property: string, encoded: string): string =>
   `[${property}:${encoded}]`
 
 /**
- * The class for a candidate written without prefix and important marker: `tw:p-4`, `p-4!`,
- * `tw:!p-4`.
+ * The class for a candidate written without prefix, variants and important marker: `tw:p-4`,
+ * `md:p-4!`, `tw:md:!p-4`.
  */
 export function candidateName(core: string, style: CandidateStyle): string {
   const prefix = style.prefix === null ? '' : `${style.prefix}:`
-  if (style.important === 'prefix') return `${prefix}!${core}`
-  return `${prefix}${core}${style.important === 'suffix' ? '!' : ''}`
+  const chain = (style.variants ?? []).map((variant) => `${variant}:`).join('')
+  if (style.important === 'prefix') return `${prefix}${chain}!${core}`
+  return `${prefix}${chain}${core}${style.important === 'suffix' ? '!' : ''}`
 }

@@ -56,6 +56,7 @@ export type DiagnosticCode =
   | 'TFC103'
   | 'TFC104'
   | 'TFC105'
+  | 'TFC106'
   | 'TFC201'
   | 'TFC202'
   | 'TFC203'
