@@ -1,0 +1,16 @@
+.a {
+  color: ;
+  padding: 16px;
+  content: "a`b";
+}
+
+.b {
+  color red;
+  margin: 0;
+}
+
+color: blue;
+
+.c:hover::before {
+  content: "x";
+  width: 1px

@@ -1,0 +1,32 @@
+/* A button with states and a breakpoint. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background-color: #1d4ed8;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.btn-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}

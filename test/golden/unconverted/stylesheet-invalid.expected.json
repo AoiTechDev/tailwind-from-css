@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "subject": ".a",
+      "selectors": [
+        ".a"
+      ],
+      "className": "p-4",
+      "mappings": [
+        [
+          "p-4",
+          "bare",
+          "3:3 | padding: 16px"
+        ]
+      ],
+      "unconverted": [
+        [
+          "TFC102",
+          "2:3 | color: "
+        ],
+        [
+          "TFC204",
+          "4:3 | content: \"a`b\""
+        ]
+      ],
+      "diagnostics": [
+        "TFC102",
+        "TFC204"
+      ],
+      "exact": false
+    },
+    {
+      "subject": ".b",
+      "selectors": [
+        ".b"
+      ],
+      "className": "m-0",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "9:3 | margin: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".c",
+      "selectors": [
+        ".c:hover::before"
+      ],
+      "className": "[&:hover]:before:w-px [&:hover]:before:content-['x']",
+      "mappings": [
+        [
+          "[&:hover]:before:w-px",
+          "named",
+          "16:3 | &:hover::before | width: 1px"
+        ],
+        [
+          "[&:hover]:before:content-['x']",
+          "arbitrary-value",
+          "15:3 | &:hover::before | content: \"x\""
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": [
+    "TFC102",
+    "TFC102"
+  ]
+}

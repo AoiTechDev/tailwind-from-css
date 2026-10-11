@@ -22,6 +22,7 @@ interface Part {
 
 const parser = selectorParser()
 const WHITESPACE = /\s+/g
+const WHITESPACE_CHAR = /\s/
 const AN_PLUS_B = /^([+-]?\d*)n([+-]\d+)?$/
 const INTEGER = /^[+-]?\d+$/
 const OF_SELECTOR = /\s+of\s+/i
@@ -334,6 +335,107 @@ export function extractSubject(selector: string): SubjectSplit | undefined {
   const subject = `${kept.map(String).join('')}${emptyCompound ? '*' : ''}`
   const transform = `&${nodes.slice(start).map(String).join('')}`
   return { subject: normalizeSelector(subject), transform: normalizeSelector(transform) }
+}
+
+// Whitespace runs outside strings become one space, so a selector reads on one line without
+// changing an attribute value.
+function collapseWhitespace(text: string): string {
+  let result = ''
+  let quote = ''
+  let space = false
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index] as string
+    if (quote === '' && WHITESPACE_CHAR.test(char)) {
+      space = true
+      continue
+    }
+    if (space && result !== '') result += ' '
+    space = false
+    result += char
+    if (char === '\\' && index + 1 < text.length) result += text[++index]
+    else if (quote === '' && (char === '"' || char === "'")) quote = char
+    else if (char === quote) quote = ''
+  }
+  return result
+}
+
+const isLeadingInCompound = (node: SelectorNode): boolean => {
+  const previous = node.prev()
+  return previous === undefined || previous.type === 'combinator'
+}
+
+/**
+ * The full selectors of a rule nested in a rule with selector `parent` (one complex selector),
+ * one per member of the nested rule's list (CSS nesting). `&` becomes the parent, wrapped in
+ * `:is()` where plain substitution would change what matches (`.c &` under `.a .b`, `.x&`
+ * under `div`); a member without `&` is a descendant of the parent. Without a parent, `&`
+ * means `:scope`. `undefined` when the selector doesn't parse.
+ *
+ * @example
+ * nestSelector('&:hover, .dark &', '.card') // ['.card:hover', '.dark .card']
+ */
+export function nestSelector(selector: string, parent?: string): string[] | undefined {
+  const root = parse(selector)
+  if (root === undefined || EMPTY_LIST_MEMBER.test(selector.trim())) return undefined
+  const parentNodes = parent === undefined ? [] : (parse(parent)?.nodes[0]?.nodes ?? [])
+  const compound = parentNodes.every((node) => node.type !== 'combinator')
+  const typed = parentNodes[0]?.type === 'tag' || parentNodes[0]?.type === 'universal'
+  return root.nodes.map((complex) => {
+    const nestings: selectorParser.Nesting[] = []
+    complex.walkNesting((node) => {
+      nestings.push(node)
+    })
+    if (parent === undefined) {
+      for (const node of nestings) node.value = ':scope'
+    } else if (nestings.length === 0) {
+      return `${parent} ${collapseWhitespace(String(complex).trim())}`
+    } else {
+      for (const node of nestings) {
+        const first = node.parent === complex && complex.index(node) === 0
+        const plain = first || (compound && (isLeadingInCompound(node) || !typed))
+        node.value = plain ? parent : `:is(${parent})`
+      }
+    }
+    return collapseWhitespace(String(complex).trim())
+  })
+}
+
+const NO_ELEMENT_PSEUDOS: ReadonlySet<string> = new Set([
+  ':root',
+  ':scope',
+  ':host',
+  ':host-context',
+])
+
+function namesNoElement(node: SelectorNode): boolean {
+  switch (node.type) {
+    case 'universal':
+    case 'comment':
+      return true
+    case 'tag':
+      return node.value.toLowerCase() === 'html'
+    case 'pseudo':
+      return NO_ELEMENT_PSEUDOS.has(pseudoName(node))
+    default:
+      return false
+  }
+}
+
+/**
+ * Whether a subject (from {@link extractSubject}) names elements that can take classes (SPEC
+ * §5.1). Not when every compound is the root or any element: `:root`, `html`, `*`, `:scope`,
+ * `:host`, `html *`, `* + *`. A subject that doesn't parse takes none either.
+ *
+ * @example
+ * takesClasses('.a > *') // true
+ * takesClasses(':root')  // false
+ */
+export function takesClasses(subject: string): boolean {
+  const root = parse(subject)
+  if (root === undefined || root.nodes.length !== 1) return false
+  return (root.nodes[0]?.nodes ?? []).some(
+    (node) => node.type !== 'combinator' && !namesNoElement(node),
+  )
 }
 
 /** A relative selector whose last compound starts with `&`: what it adds to the element. */

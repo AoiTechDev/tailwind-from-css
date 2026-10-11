@@ -1,5 +1,6 @@
 import { toDeclarations } from './css/declarations.ts'
 import { canonicalProperty } from './css/normalize/shorthands.ts'
+import { parseStylesheet } from './css/parse.ts'
 import {
   createMatcher,
   type MatchDeclaration,
@@ -36,8 +37,11 @@ import type {
   ConversionResult,
   Converter,
   ConverterOptions,
+  CssConversionResult,
   Declaration,
+  DeclarationsInput,
   ResolvedOptions,
+  RuleResult,
   SourceRef,
   StyleInput,
 } from './types.ts'
@@ -48,6 +52,15 @@ interface Engine {
   readonly options: EffectiveOptions
   readonly matcher: Matcher
   readonly resolver: VariantResolver
+}
+
+/** Declarations of one element in one context, as given or read from a stylesheet. */
+interface Entry {
+  readonly selector: string
+  readonly conditions: readonly string[]
+  readonly declarations: DeclarationsInput
+  /** Where a stylesheet declaration starts (then `declarations` holds just that one). */
+  readonly position?: { readonly line: number; readonly column: number }
 }
 
 /** The input declarations of one context, merged in array order. */
@@ -94,6 +107,28 @@ const shared = new Map<string, Promise<Converter>>()
  */
 export async function createConverter(options?: ConverterOptions): Promise<Converter> {
   return converterFor(resolveOptions(options, { base: currentDirectory() }))
+}
+
+/**
+ * Converts every rule of a stylesheet with a converter shared by every call with equal options
+ * (the same four converters {@link convertStyles} uses). Rules are grouped by the element they
+ * style; at-rules and rules without such an element come back as `passthroughCss`.
+ *
+ * @param css - The stylesheet. Syntax errors are recovered from or reported, never thrown.
+ * @param options - As for {@link createConverter}.
+ * @throws {TfcError} As {@link createConverter} does.
+ * @example
+ * ```ts
+ * const { rules } = await convertCss('.btn { padding: 16px } .btn:hover { color: #000 }')
+ * rules[0].subject          // '.btn'
+ * rules[0].result.className // 'p-4 [&:hover]:text-black'
+ * ```
+ */
+export async function convertCss(
+  css: string,
+  options?: ConverterOptions,
+): Promise<CssConversionResult> {
+  return (await sharedConverter(options)).convertCss(css)
 }
 
 /**
@@ -172,50 +207,57 @@ export function converterFromDesign(
   return Object.freeze({
     tailwindVersion: design.version,
     options,
-    convertStyles: (input: StyleInput | StyleInput[]) => convert(engine, input),
-    convertCss: (): never => {
-      throw new Error('convertCss is not available in this version yet.')
-    },
+    convertStyles: (input: StyleInput | StyleInput[]) =>
+      convert(engine, (Array.isArray(input) ? input : [input]).map(entryOf)),
+    convertCss: (css: string) => convertStylesheet(engine, css),
     toCss: (classes: string[]) => toCss(design, classes),
   })
 }
 
-function sourceRef(declaration: Declaration, selector: string, conditions: string[]): SourceRef {
-  return {
+const entryOf = (style: StyleInput): Entry => ({
+  selector: style.selector ?? '&',
+  conditions: style.conditions ?? [],
+  declarations: style.declarations,
+})
+
+function sourceRef(declaration: Declaration, entry: Entry): SourceRef {
+  const source: SourceRef = {
     property: declaration.property,
     value: declaration.value,
     important: declaration.important === true,
-    selector,
-    conditions: [...conditions],
+    selector: entry.selector,
+    conditions: [...entry.conditions],
   }
+  return entry.position === undefined ? source : { ...source, ...entry.position }
 }
 
 // SPEC §3.2: inputs with equal contexts are one block, declarations in array order.
-function collectBlocks(
-  engine: Engine,
-  input: readonly StyleInput[],
-  collected: Collected,
-): Block[] {
+function collectBlocks(engine: Engine, entries: readonly Entry[], collected: Collected): Block[] {
   const blocks = new Map<string, Block>()
-  for (const style of input) {
-    const selector = style.selector ?? '&'
-    const conditions = [...(style.conditions ?? [])]
-    const context = { selector, conditions }
-    const key = contextKey(normalizeContext(context, engine.options))
+  // A stylesheet gives one entry per declaration, so contexts repeat as written.
+  const keys = new Map<string, string>()
+  for (const entry of entries) {
+    const context = { selector: entry.selector, conditions: [...entry.conditions] }
+    const written = [entry.selector, ...entry.conditions].join('\u0000')
+    let key = keys.get(written)
+    if (key === undefined) {
+      key = contextKey(normalizeContext(context, engine.options))
+      keys.set(written, key)
+    }
     let block = blocks.get(key)
     if (block === undefined) {
       block = { context, declarations: [], sources: [] }
       blocks.set(key, block)
     }
-    const { declarations, invalid } = toDeclarations(style.declarations)
+    const { declarations, invalid } = toDeclarations(entry.declarations)
     for (const declaration of declarations) {
       block.declarations.push(declaration)
       block.sources.push(collected.sources.length)
-      collected.sources.push(sourceRef(declaration, selector, conditions))
+      collected.sources.push(sourceRef(declaration, entry))
     }
     for (const declaration of invalid) {
       collected.unconverted.push({ source: collected.sources.length, code: 'TFC102' })
-      collected.sources.push(sourceRef(declaration, selector, conditions))
+      collected.sources.push(sourceRef(declaration, entry))
     }
   }
   return [...blocks.values()].filter((block) => block.declarations.length > 0)
@@ -239,11 +281,11 @@ function lost<Code extends UnconvertedCode | NoteCode>(
     : { source, code, longhand: { property: longhand.property, value: longhand.raw } }
 }
 
-function convert(engine: Engine, input: StyleInput | StyleInput[]): ConversionResult {
+function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
   const collected: Collected = { sources: [], classes: [], unconverted: [], notes: [] }
   const matchedBlocks: Matched[] = []
   const verifyBlocks: VerifyBlock[] = []
-  for (const block of collectBlocks(engine, Array.isArray(input) ? input : [input], collected)) {
+  for (const block of collectBlocks(engine, entries, collected)) {
     const declarations = matchInput(block.declarations, engine.options)
     for (const overridden of overriddenDeclarations(block.declarations.length, declarations)) {
       collected.notes.push({ source: block.sources[overridden] as number, code: 'TFC106' })
@@ -292,6 +334,40 @@ function convert(engine: Engine, input: StyleInput | StyleInput[]): ConversionRe
     }
   })
   return report(collected, (classes) => engine.design.classOrder(classes))
+}
+
+/**
+ * SPEC §5.1 (ADR-0007): a stylesheet's rules grouped by subject in order of first appearance,
+ * each subject converted as one element whose contexts come in source order. Cascade order
+ * between overlapping contexts isn't checked yet (§5.8).
+ */
+function convertStylesheet(engine: Engine, css: string): CssConversionResult {
+  const parsed = parseStylesheet(css)
+  const subjects = new Map<string, { selectors: Set<string>; entries: Entry[] }>()
+  for (const rule of parsed.rules) {
+    let subject = subjects.get(rule.subject)
+    if (subject === undefined) {
+      subject = { selectors: new Set(), entries: [] }
+      subjects.set(rule.subject, subject)
+    }
+    subject.selectors.add(rule.selector)
+    for (const { line, column, ...declaration } of rule.declarations) {
+      subject.entries.push({
+        selector: rule.transform,
+        conditions: rule.conditions,
+        declarations: [declaration],
+        position: { line, column },
+      })
+    }
+  }
+  const rules = [...subjects].map(
+    ([subject, { selectors, entries }]): RuleResult => ({
+      subject,
+      selectors: [...selectors],
+      result: convert(engine, entries),
+    }),
+  )
+  return { rules, passthroughCss: parsed.passthroughCss, diagnostics: [...parsed.diagnostics] }
 }
 
 const INDENT = '  '

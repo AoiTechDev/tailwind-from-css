@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest'
 import {
   compareSpecificity,
   extractSubject,
+  nestSelector,
   normalizeSelector,
   relativeSelector,
   selectorRelation,
   specificity,
+  takesClasses,
 } from '../../../src/css/selector.ts'
 
 const n = normalizeSelector
@@ -271,5 +273,50 @@ describe('selectorRelation (ADR-0013)', () => {
     expect(selectorRelation('&', '&:hover, &:focus')).toBeUndefined()
     expect(selectorRelation('&', '&:hover&')).toBeUndefined()
     expect(selectorRelation('&', '[')).toBeUndefined()
+  })
+})
+
+describe('nestSelector (CSS nesting)', () => {
+  it('splits a top-level list and reads & as :scope', () => {
+    expect(nestSelector('.a,\n  .b  .c')).toEqual(['.a', '.b .c'])
+    expect(nestSelector('& .a')).toEqual([':scope .a'])
+  })
+
+  it('substitutes the parent where that keeps the meaning, else wraps it in :is()', () => {
+    expect(nestSelector('&:hover, .dark &', '.card')).toEqual(['.card:hover', '.dark .card'])
+    expect(nestSelector('> .c, .d', '.a')).toEqual(['.a > .c', '.a .d'])
+    expect(nestSelector('& + &', '.a .b')).toEqual(['.a .b + :is(.a .b)'])
+    expect(nestSelector('.x&', 'p.y')).toEqual(['.x:is(p.y)'])
+    expect(nestSelector(':not(&)', 'p')).toEqual([':not(p)'])
+  })
+
+  it('keeps whitespace inside strings', () => {
+    expect(nestSelector('[title="a  b"]   &', '.a')).toEqual(['[title="a  b"] .a'])
+    expect(nestSelector("[title='a\\'  b'] &", '.a')).toEqual(["[title='a\\'  b'] .a"])
+  })
+
+  it('is undefined for a selector that does not parse or has an empty member', () => {
+    expect(nestSelector('.a!')).toBeUndefined()
+    expect(nestSelector('.a,,.b', '.c')).toBeUndefined()
+  })
+})
+
+describe('takesClasses', () => {
+  it('is false when every compound is the root or any element', () => {
+    for (const subject of [':root', 'html', 'HTML', '*', ':scope', ':host', 'html *', '* + *']) {
+      expect(takesClasses(subject), subject).toBe(false)
+    }
+    expect(takesClasses(':host-context(.dark)')).toBe(false)
+  })
+
+  it('is true when some compound names an element', () => {
+    for (const subject of ['body', '.a', '#a', '[data-x]', '.a > *', ':root .a', 'html.dark']) {
+      expect(takesClasses(subject), subject).toBe(true)
+    }
+  })
+
+  it('is false for a list or a selector that does not parse', () => {
+    expect(takesClasses('.a, .b')).toBe(false)
+    expect(takesClasses('.a!')).toBe(false)
   })
 })

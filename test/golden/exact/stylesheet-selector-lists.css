@@ -1,0 +1,22 @@
+.a,
+.b {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+.a {
+  color: #111827;
+}
+
+.nav > li {
+  list-style-type: none;
+}
+
+.dark .panel,
+.panel[data-state="open"] {
+  background-color: #000;
+}
+
+.field::placeholder {
+  color: #9ca3af;
+}

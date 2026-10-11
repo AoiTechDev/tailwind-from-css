@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
 import {
+  convertCss,
   converterFromDesign,
   convertStyles,
   createConverter,
@@ -242,8 +243,102 @@ describe('verification failures', () => {
 })
 
 describe('convertCss', () => {
-  it('is not available before stylesheet support', () => {
-    expect(() => converter.convertCss('a { color: red }')).toThrow(/not available/)
+  const STYLESHEET = [
+    '.btn {',
+    '  padding: 16px;',
+    '  color: #fff;',
+    '}',
+    '.card { margin: 0 }',
+    '.btn:hover { color: #000 }',
+    '@media (min-width: 640px) {',
+    '  .btn { padding: 24px }',
+    '}',
+  ].join('\n')
+
+  it('returns a value, not a promise', () => {
+    const result = converter.convertCss(STYLESHEET)
+    expect(result).not.toBeInstanceOf(Promise)
+    expect(typeof (result as unknown as { then?: unknown }).then).toBe('undefined')
+  })
+
+  it('groups rules by subject in source order, each converted as one element', () => {
+    const { rules, passthroughCss, diagnostics } = converter.convertCss(STYLESHEET)
+    expect(rules.map((rule) => [rule.subject, rule.selectors, rule.result.className])).toEqual([
+      ['.btn', ['.btn', '.btn:hover'], 'p-4 text-white sm:p-6 [&:hover]:text-black'],
+      ['.card', ['.card'], 'm-0'],
+    ])
+    expect(passthroughCss).toBe('')
+    expect(diagnostics).toEqual([])
+    expect(rules.every((rule) => rule.result.exact)).toBe(true)
+  })
+
+  it('gives every source its selector transform, conditions, line and column', () => {
+    const [btn] = converter.convertCss(STYLESHEET).rules
+    const sources = Object.fromEntries(
+      (btn?.result.mappings ?? []).map((mapping) => [mapping.className, mapping.sources]),
+    )
+    expect(sources['p-4']).toEqual([
+      {
+        property: 'padding',
+        value: '16px',
+        important: false,
+        selector: '&',
+        conditions: [],
+        line: 2,
+        column: 3,
+      },
+    ])
+    expect(sources['sm:p-6']).toEqual([
+      expect.objectContaining({
+        selector: '&',
+        conditions: ['@media (min-width: 640px)'],
+        line: 8,
+        column: 10,
+      }),
+    ])
+    expect(sources['[&:hover]:text-black']).toEqual([
+      expect.objectContaining({ selector: '&:hover', line: 6, column: 14 }),
+    ])
+  })
+
+  it('reports unconverted declarations and diagnostics with their position', () => {
+    const [rule] = converter.convertCss('.a {\n  color: ;\n  padding: 1px;\n}').rules
+    expect(rule?.result.classes).toEqual(['p-px'])
+    expect(rule?.result.unconverted).toEqual([
+      expect.objectContaining({ property: 'color', code: 'TFC102', line: 2, column: 3 }),
+    ])
+    expect(rule?.result.diagnostics.map((d) => [d.code, d.source?.line])).toEqual([['TFC102', 2]])
+  })
+
+  it('splits selector lists and merges selectors of one subject without repeats', () => {
+    const { rules } = converter.convertCss(
+      '.a, .b { padding: 16px } .a::before { content: "" } .a { margin: 0 }',
+    )
+    expect(rules.map((rule) => [rule.subject, rule.selectors, rule.result.className])).toEqual([
+      ['.a', ['.a', '.a::before'], "m-0 p-4 before:content-['']"],
+      ['.b', ['.b'], 'p-4'],
+    ])
+  })
+
+  it('passes at-rules and class-less subjects through', () => {
+    const { rules, passthroughCss, diagnostics } = converter.convertCss(
+      '@keyframes x { to { opacity: 0 } }\n:root { --a: 1 }\n.a { padding: 16px }',
+    )
+    expect(rules.map((rule) => rule.subject)).toEqual(['.a'])
+    expect(passthroughCss).toBe(
+      '@keyframes x {\n  to {\n    opacity: 0;\n  }\n}\n\n:root {\n  --a: 1;\n}\n',
+    )
+    expect(diagnostics.map((d) => d.code)).toEqual(['TFC103', 'TFC104'])
+  })
+
+  it('never throws on malformed CSS', () => {
+    for (const css of ['', '}', '.a {', '.a { color red; padding: 16px', '@media {', ':::']) {
+      expect(() => converter.convertCss(css)).not.toThrow()
+    }
+    expect(converter.convertCss('.a { padding: 16px').rules[0]?.result.classes).toEqual(['p-4'])
+    const failed = converter.convertCss(`.a { padding: 16px } ${'}'.repeat(2000)}`)
+    expect(failed.rules).toEqual([])
+    expect(failed.diagnostics.map((d) => d.code)).toEqual(['TFC101'])
   })
 })
 
@@ -282,6 +377,14 @@ describe('one-shot helpers (LRU of 4)', () => {
     expect(await rejectionCode(sharedConverter(options))).toBe('TFC903')
     expect(await rejectionCode(sharedConverter({ important: 'both' as never }))).toBe('TFC904')
   })
+
+  it('convertCss converts with the same shared converters', async () => {
+    const css = '.a { padding: 16px }'
+    const result = await convertCss(css)
+    expect(result).toEqual((await sharedConverter()).convertCss(css))
+    expect(result.rules[0]?.result.classes).toEqual(['p-4'])
+    expect(await rejectionCode(convertCss(css, { mode: 'x' as never }))).toBe('TFC904')
+  }, 60_000)
 
   it('convertStyles converts with a shared converter', async () => {
     expect((await convertStyles({ declarations: 'padding: 16px' })).classes).toEqual(['p-4'])

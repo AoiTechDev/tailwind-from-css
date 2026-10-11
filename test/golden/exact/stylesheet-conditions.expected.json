@@ -1,0 +1,111 @@
+{
+  "rules": [
+    {
+      "subject": ".grid",
+      "selectors": [
+        ".grid"
+      ],
+      "className": "supports-[display:grid]:grid supports-[display:grid]:grid-cols-3 supports-[display:grid]:gap-4",
+      "mappings": [
+        [
+          "supports-[display:grid]:grid",
+          "named",
+          "3:5 | @supports (display: grid) | display: grid"
+        ],
+        [
+          "supports-[display:grid]:grid-cols-3",
+          "bare",
+          "4:5 | @supports (display: grid) | grid-template-columns: repeat(3, minmax(0, 1fr))"
+        ],
+        [
+          "supports-[display:grid]:gap-4",
+          "bare",
+          "5:5 | @supports (display: grid) | gap: 16px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".item",
+      "selectors": [
+        ".item"
+      ],
+      "className": "flex flex-col @sm:flex-row",
+      "mappings": [
+        [
+          "flex",
+          "named",
+          "11:3 | display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "12:3 | flex-direction: column"
+        ],
+        [
+          "@sm:flex-row",
+          "named",
+          "17:5 | @container (min-width: 24rem) | flex-direction: row"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".dialog",
+      "selectors": [
+        ".dialog"
+      ],
+      "className": "opacity-100 [transition-property:opacity] duration-150 starting:opacity-0",
+      "mappings": [
+        [
+          "opacity-100",
+          "bare",
+          "22:3 | opacity: 1"
+        ],
+        [
+          "[transition-property:opacity]",
+          "arbitrary-property",
+          "23:3 | transition-property: opacity"
+        ],
+        [
+          "duration-150",
+          "bare",
+          "24:3 | transition-duration: 150ms"
+        ],
+        [
+          "starting:opacity-0",
+          "bare",
+          "29:5 | @starting-style | opacity: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".no-print",
+      "selectors": [
+        ".no-print"
+      ],
+      "className": "print:hidden",
+      "mappings": [
+        [
+          "print:hidden",
+          "named",
+          "35:5 | @media print | display: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

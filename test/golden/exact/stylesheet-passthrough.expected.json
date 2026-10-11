@@ -1,0 +1,38 @@
+{
+  "rules": [
+    {
+      "subject": ".logo",
+      "selectors": [
+        ".logo"
+      ],
+      "className": "size-8 dark:opacity-80",
+      "mappings": [
+        [
+          "size-8",
+          "bare",
+          "35:3 | width: 32px",
+          "36:3 | height: 32px"
+        ],
+        [
+          "dark:opacity-80",
+          "bare",
+          "30:5 | @media (prefers-color-scheme: dark) | opacity: 0.8"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "@import url(\"fonts.css\");\n\n@font-face {\n  font-family: \"Inter\";\n  src: url(\"inter.woff2\") format(\"woff2\");\n}\n\n:root {\n  --brand: #123456;\n}\n\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n\n@keyframes spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --brand: #abcdef;\n  }\n}\n",
+  "diagnostics": [
+    "TFC103",
+    "TFC103",
+    "TFC104",
+    "TFC104",
+    "TFC104",
+    "TFC104",
+    "TFC103",
+    "TFC104"
+  ]
+}

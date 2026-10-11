@@ -1,0 +1,37 @@
+@supports (display: grid) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Base rules come first, so the conditional ones win where both apply (as in Tailwind). */
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+@container (min-width: 24rem) {
+  .item {
+    flex-direction: row;
+  }
+}
+
+.dialog {
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 150ms;
+}
+
+@starting-style {
+  .dialog {
+    opacity: 0;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "rules": [
+    {
+      "subject": ".card",
+      "selectors": [
+        ".card",
+        ".card:hover"
+      ],
+      "className": "flex flex-col rounded-xl p-6 lg:flex-row [&:hover]:bg-[#f9fafb]",
+      "mappings": [
+        [
+          "flex",
+          "named",
+          "3:5 | display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "4:5 | flex-direction: column"
+        ],
+        [
+          "rounded-xl",
+          "named",
+          "6:5 | border-radius: 12px"
+        ],
+        [
+          "p-6",
+          "bare",
+          "5:5 | padding: 24px"
+        ],
+        [
+          "lg:flex-row",
+          "named",
+          "19:7 | @media (min-width: 1024px) | flex-direction: row"
+        ],
+        [
+          "[&:hover]:bg-[#f9fafb]",
+          "arbitrary-value",
+          "15:7 | &:hover | background-color: #f9fafb"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".card .title",
+      "selectors": [
+        ".card .title"
+      ],
+      "className": "text-xl/7 font-bold",
+      "mappings": [
+        [
+          "text-xl/7",
+          "named",
+          "9:7 | font-size: 20px",
+          "10:7 | line-height: 28px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "11:7 | font-weight: 700"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".card > .footer",
+      "selectors": [
+        ".card > .footer"
+      ],
+      "className": "mt-auto",
+      "mappings": [
+        [
+          "mt-auto",
+          "named",
+          "23:7 | margin-top: auto"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

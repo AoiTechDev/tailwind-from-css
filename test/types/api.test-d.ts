@@ -9,7 +9,7 @@ import type {
   ResolvedOptions,
   StyleInput,
 } from '../../src/index.ts'
-import { convertStyles, createConverter, TfcError } from '../../src/index.ts'
+import { convertCss, convertStyles, createConverter, TfcError } from '../../src/index.ts'
 
 describe('createConverter', () => {
   it('is async and resolves to a Converter', () => {
@@ -23,6 +23,14 @@ describe('convertStyles (one-shot)', () => {
     expectTypeOf(convertStyles).returns.toEqualTypeOf<Promise<ConversionResult>>()
     expectTypeOf(convertStyles).parameter(0).toEqualTypeOf<StyleInput | StyleInput[]>()
     expectTypeOf(convertStyles).parameter(1).toEqualTypeOf<ConverterOptions | undefined>()
+  })
+})
+
+describe('convertCss (one-shot)', () => {
+  it('is async and takes the same input as the converter method', () => {
+    expectTypeOf(convertCss).returns.toEqualTypeOf<Promise<CssConversionResult>>()
+    expectTypeOf(convertCss).parameter(0).toEqualTypeOf<string>()
+    expectTypeOf(convertCss).parameter(1).toEqualTypeOf<ConverterOptions | undefined>()
   })
 })
 

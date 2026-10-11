@@ -1,0 +1,157 @@
+{
+  "rules": [
+    {
+      "subject": ".a",
+      "selectors": [
+        ".a"
+      ],
+      "className": "mt-0 mr-auto mb-0 ml-auto max-w-160 text-[#111827]",
+      "mappings": [
+        [
+          "mt-0",
+          "bare",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "mr-auto",
+          "named",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "mb-0",
+          "bare",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "ml-auto",
+          "named",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "max-w-160",
+          "bare",
+          "4:3 | max-width: 640px"
+        ],
+        [
+          "text-[#111827]",
+          "arbitrary-value",
+          "8:3 | color: #111827"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".b",
+      "selectors": [
+        ".b"
+      ],
+      "className": "mt-0 mr-auto mb-0 ml-auto max-w-160",
+      "mappings": [
+        [
+          "mt-0",
+          "bare",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "mr-auto",
+          "named",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "mb-0",
+          "bare",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "ml-auto",
+          "named",
+          "3:3 | margin: 0 auto"
+        ],
+        [
+          "max-w-160",
+          "bare",
+          "4:3 | max-width: 640px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".nav > li",
+      "selectors": [
+        ".nav > li"
+      ],
+      "className": "list-none",
+      "mappings": [
+        [
+          "list-none",
+          "named",
+          "12:3 | list-style-type: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".dark .panel",
+      "selectors": [
+        ".dark .panel"
+      ],
+      "className": "bg-black",
+      "mappings": [
+        [
+          "bg-black",
+          "named",
+          "17:3 | background-color: #000"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".panel[data-state=\"open\"]",
+      "selectors": [
+        ".panel[data-state=\"open\"]"
+      ],
+      "className": "bg-black",
+      "mappings": [
+        [
+          "bg-black",
+          "named",
+          "17:3 | background-color: #000"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": ".field",
+      "selectors": [
+        ".field::placeholder"
+      ],
+      "className": "placeholder:text-[#9ca3af]",
+      "mappings": [
+        [
+          "placeholder:text-[#9ca3af]",
+          "arbitrary-value",
+          "21:3 | &::placeholder | color: #9ca3af"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

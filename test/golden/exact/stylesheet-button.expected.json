@@ -1,0 +1,122 @@
+{
+  "rules": [
+    {
+      "subject": ".btn",
+      "selectors": [
+        ".btn",
+        ".btn:hover",
+        ".btn:disabled"
+      ],
+      "className": "inline-flex items-center gap-2 rounded-md bg-[#2563eb] pt-2 pr-4 pb-2 pl-4 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50 md:pr-6 md:pl-6 [&:hover]:bg-[#1d4ed8]",
+      "mappings": [
+        [
+          "inline-flex",
+          "named",
+          "3:3 | display: inline-flex"
+        ],
+        [
+          "items-center",
+          "named",
+          "4:3 | align-items: center"
+        ],
+        [
+          "gap-2",
+          "bare",
+          "5:3 | gap: 8px"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "7:3 | border-radius: 6px"
+        ],
+        [
+          "bg-[#2563eb]",
+          "arbitrary-value",
+          "8:3 | background-color: #2563eb"
+        ],
+        [
+          "pt-2",
+          "bare",
+          "6:3 | padding: 8px 16px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "6:3 | padding: 8px 16px"
+        ],
+        [
+          "pb-2",
+          "bare",
+          "6:3 | padding: 8px 16px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "6:3 | padding: 8px 16px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "10:3 | font-weight: 600"
+        ],
+        [
+          "text-white",
+          "named",
+          "9:3 | color: #fff"
+        ],
+        [
+          "disabled:cursor-not-allowed",
+          "named",
+          "19:3 | &:disabled | cursor: not-allowed"
+        ],
+        [
+          "disabled:opacity-50",
+          "bare",
+          "18:3 | &:disabled | opacity: 0.5"
+        ],
+        [
+          "md:pr-6",
+          "bare",
+          "25:5 | @media (min-width: 768px) | padding-right: 24px"
+        ],
+        [
+          "md:pl-6",
+          "bare",
+          "24:5 | @media (min-width: 768px) | padding-left: 24px"
+        ],
+        [
+          "[&:hover]:bg-[#1d4ed8]",
+          "arbitrary-value",
+          "14:3 | &:hover | background-color: #1d4ed8"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".btn-lg",
+      "selectors": [
+        ".btn-lg"
+      ],
+      "className": "text-lg/7",
+      "mappings": [
+        [
+          "text-lg/7",
+          "named",
+          "30:3 | font-size: 1.125rem",
+          "31:3 | line-height: 1.75rem"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

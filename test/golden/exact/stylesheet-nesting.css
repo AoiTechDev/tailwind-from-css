@@ -1,0 +1,26 @@
+@layer components {
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 12px;
+
+    & .title {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 700;
+    }
+
+    &:hover {
+      background-color: #f9fafb;
+    }
+
+    @media (min-width: 1024px) {
+      flex-direction: row;
+    }
+
+    > .footer {
+      margin-top: auto;
+    }
+  }
+}
