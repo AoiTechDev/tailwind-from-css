@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/knip/schema.json",
-  "entry": ["src/data/css-properties.generated.ts!"],
   "project": ["src/**/*.ts!", "scripts/**/*.ts", "test/**/*.ts"],
   "ignore": ["test/fixtures/**"],
   "ignoreExportsUsedInFile": { "interface": true, "type": true }

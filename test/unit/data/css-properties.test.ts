@@ -78,6 +78,8 @@ describe('initialValues', () => {
     expect(initialValues.get('display')).toBe('inline')
     expect(initialValues.get('opacity')).toBe('1')
     expect(initialValues.get('line-height')).toBe('normal')
+    // "all" doubles as an mdn-data l10n key; it must not be mistaken for one.
+    expect(initialValues.get('transition-property')).toBe('all')
   })
 
   it('omits shorthands and properties without a single initial value', () => {

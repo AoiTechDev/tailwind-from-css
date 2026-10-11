@@ -75,10 +75,13 @@ function acceptsBareNumber(syntax: string, visiting: Set<string>): boolean {
 
 const inherited = names.filter((name) => propertyOf(name).inherited)
 
-// mdn-data uses l10n keys ("dependsOnUserAgent") where there is no single CSS initial value.
+// mdn-data uses camelCase l10n keys ("dependsOnUserAgent") where there is no single CSS initial
+// value. "all" is an l10n key too, but it is also transition-property's real initial value.
+const isL10nKey = (initial: string): boolean =>
+  initial === '' || (initial in l10n && /[A-Z]/.test(initial))
 const initialValues = names.flatMap((name): [string, string][] => {
   const { initial } = propertyOf(name)
-  return typeof initial === 'string' && !(initial in l10n) ? [[name, initial]] : []
+  return typeof initial === 'string' && !isL10nKey(initial) ? [[name, initial]] : []
 })
 
 const shorthands = names
