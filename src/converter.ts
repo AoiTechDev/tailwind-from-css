@@ -1,6 +1,14 @@
 import { toDeclarations } from './css/declarations.ts'
 import { canonicalProperty } from './css/normalize/shorthands.ts'
 import { parseStylesheet } from './css/parse.ts'
+import { type Specificity, specificity } from './css/selector.ts'
+import {
+  type BlockDeclaration,
+  type CascadeIssue,
+  checkCascade,
+  type SourceRank,
+  shadowedDeclarations,
+} from './match/cascade.ts'
 import {
   createMatcher,
   type MatchDeclaration,
@@ -59,6 +67,8 @@ interface Entry {
   readonly selector: string
   readonly conditions: readonly string[]
   readonly declarations: DeclarationsInput
+  /** Specificity of the original selector, for the cascade check (SPEC §5.8). */
+  readonly specificity: Specificity
   /** Where a stylesheet declaration starts (then `declarations` holds just that one). */
   readonly position?: { readonly line: number; readonly column: number }
 }
@@ -74,6 +84,8 @@ interface Block {
 /** What the steps before the report collect for one element. */
 interface Collected {
   readonly sources: SourceRef[]
+  /** The source rank of each of {@link sources}: its selector's specificity and position. */
+  readonly ranks: SourceRank[]
   readonly classes: ReportClass[]
   readonly unconverted: ReportEntry<UnconvertedCode>[]
   readonly notes: ReportEntry<NoteCode>[]
@@ -214,10 +226,12 @@ export function converterFromDesign(
   })
 }
 
+// The element's own selector is the same in every entry, so `&` counts for nothing.
 const entryOf = (style: StyleInput): Entry => ({
   selector: style.selector ?? '&',
   conditions: style.conditions ?? [],
   declarations: style.declarations,
+  specificity: specificity(style.selector ?? '&'),
 })
 
 function sourceRef(declaration: Declaration, entry: Entry): SourceRef {
@@ -250,14 +264,18 @@ function collectBlocks(engine: Engine, entries: readonly Entry[], collected: Col
       blocks.set(key, block)
     }
     const { declarations, invalid } = toDeclarations(entry.declarations)
+    const add = (declaration: Declaration): void => {
+      collected.ranks.push({ specificity: entry.specificity, order: collected.sources.length })
+      collected.sources.push(sourceRef(declaration, entry))
+    }
     for (const declaration of declarations) {
       block.declarations.push(declaration)
       block.sources.push(collected.sources.length)
-      collected.sources.push(sourceRef(declaration, entry))
+      add(declaration)
     }
     for (const declaration of invalid) {
       collected.unconverted.push({ source: collected.sources.length, code: 'TFC102' })
-      collected.sources.push(sourceRef(declaration, entry))
+      add(declaration)
     }
   }
   return [...blocks.values()].filter((block) => block.declarations.length > 0)
@@ -281,15 +299,73 @@ function lost<Code extends UnconvertedCode | NoteCode>(
     : { source, code, longhand: { property: longhand.property, value: longhand.raw } }
 }
 
+/**
+ * Entries for longhands of one block that share a code: one per input declaration as written
+ * when every longhand it was expanded into is concerned, else one per longhand.
+ */
+function lostTogether<Code extends UnconvertedCode | NoteCode>(
+  matched: Matched,
+  positions: readonly number[],
+  code: Code,
+): ReportEntry<Code>[] {
+  const concerned = new Set(positions)
+  const whole = new Set<number>()
+  for (const position of positions) {
+    const { source } = matched.declarations[position] as MatchDeclaration
+    const all = matched.declarations.every(
+      (declaration, other) => declaration.source !== source || concerned.has(other),
+    )
+    if (all) whole.add(source)
+  }
+  return [...concerned]
+    .sort((a, b) => a - b)
+    .flatMap((position) => {
+      const { source } = matched.declarations[position] as MatchDeclaration
+      if (!whole.has(source)) return [lost(matched, position, code)]
+      const first = matched.declarations.findIndex((declaration) => declaration.source === source)
+      return first === position ? [{ source: matched.block.sources[source] as number, code }] : []
+    })
+}
+
+/** Positions per block, for `lostTogether`. */
+function byBlock<Item extends BlockDeclaration>(items: readonly Item[]): Map<number, Item[]> {
+  const grouped = new Map<number, Item[]>()
+  for (const item of items) grouped.set(item.block, [...(grouped.get(item.block) ?? []), item])
+  return grouped
+}
+
 function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
-  const collected: Collected = { sources: [], classes: [], unconverted: [], notes: [] }
-  const matchedBlocks: Matched[] = []
-  const verifyBlocks: VerifyBlock[] = []
-  for (const block of collectBlocks(engine, entries, collected)) {
+  const collected: Collected = { sources: [], ranks: [], classes: [], unconverted: [], notes: [] }
+  const inputs: Matched[] = collectBlocks(engine, entries, collected).map((block) => {
     const declarations = matchInput(block.declarations, engine.options)
     for (const overridden of overriddenDeclarations(block.declarations.length, declarations)) {
       collected.notes.push({ source: block.sources[overridden] as number, code: 'TFC106' })
     }
+    return { block, declarations }
+  })
+  const ranksOf = ({ block, declarations }: Matched): SourceRank[] =>
+    declarations.map(
+      (declaration) => collected.ranks[block.sources[declaration.source] as number] as SourceRank,
+    )
+  // SPEC §5.8: a declaration that another context always overrides never shows.
+  const shadowed = byBlock(
+    shadowedDeclarations(
+      inputs.map((input) => ({
+        context: input.block.context,
+        declarations: input.declarations,
+        ranks: ranksOf(input),
+      })),
+      engine.options,
+    ),
+  )
+  const matchedBlocks: Matched[] = []
+  const verifyBlocks: VerifyBlock[] = []
+  for (const [index, input] of inputs.entries()) {
+    const { block } = input
+    const gone = new Set((shadowed.get(index) ?? []).map((item) => item.declaration))
+    collected.notes.push(...lostTogether(input, [...gone], 'TFC106'))
+    const declarations = input.declarations.filter((_, position) => !gone.has(position))
+    if (declarations.length === 0) continue
     const winners = [...new Set(declarations.map((declaration) => declaration.source))].sort(
       (a, b) => a - b,
     )
@@ -319,27 +395,54 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     })
   }
   const verified = verify(engine.matcher, verifyBlocks)
-  for (const issue of verified.issues) {
-    const entry = lost(matchedBlocks[issue.block] as Matched, issue.declaration, issue.code)
-    if (issue.code === 'TFC501') collected.notes.push({ source: entry.source, code: 'TFC501' })
-    else collected.unconverted.push({ ...entry, code: issue.code })
+  const cascade = checkCascade(
+    engine.matcher,
+    engine.resolver,
+    verifyBlocks.map((block, position) => ({
+      ...block,
+      ranks: ranksOf(matchedBlocks[position] as Matched),
+      matches: verified.matches[position] ?? [],
+    })),
+  )
+  const issues: { block: number; declaration: number; code: CascadeIssue['code'] }[] = [
+    ...verified.issues,
+    ...cascade.issues,
+  ]
+  for (const [index, items] of byBlock(issues)) {
+    const matched = matchedBlocks[index] as Matched
+    const positions = (code: CascadeIssue['code']): number[] =>
+      items.filter((item) => item.code === code).map((item) => item.declaration)
+    for (const code of ['TFC401', 'TFC501'] as const) {
+      collected.notes.push(...lostTogether(matched, positions(code), code))
+    }
+    for (const code of ['TFC402', 'TFC502'] as const) {
+      collected.unconverted.push(...lostTogether(matched, positions(code), code))
+    }
   }
-  verified.matches.forEach((matches, position) => {
-    const { block, declarations } = matchedBlocks[position] as Matched
+  const sourceOf = (block: number, at: number): number => {
+    const matched = matchedBlocks[block] as Matched
+    return matched.block.sources[(matched.declarations[at] as MatchDeclaration).source] as number
+  }
+  cascade.matches.forEach((matches, block) => {
     for (const match of matches) {
-      const sources = match.declarations.map(
-        (at) => block.sources[(declarations[at] as MatchDeclaration).source] as number,
-      )
+      const sources = match.declarations.map((at) => sourceOf(block, at))
       collected.classes.push({ className: match.className, kind: match.kind, sources })
     }
   })
+  for (const stacked of cascade.stacked) {
+    collected.classes.push({
+      className: stacked.className,
+      kind: stacked.kind,
+      sources: stacked.sources.map((source) => sourceOf(source.block, source.declaration)),
+    })
+  }
   return report(collected, (classes) => engine.design.classOrder(classes))
 }
 
 /**
  * SPEC §5.1 (ADR-0007): a stylesheet's rules grouped by subject in order of first appearance,
- * each subject converted as one element whose contexts come in source order. Cascade order
- * between overlapping contexts isn't checked yet (§5.8).
+ * each subject converted as one element whose contexts come in source order and rank by their
+ * original selector's specificity (§5.8).
  */
 function convertStylesheet(engine: Engine, css: string): CssConversionResult {
   const parsed = parseStylesheet(css)
@@ -351,11 +454,13 @@ function convertStylesheet(engine: Engine, css: string): CssConversionResult {
       subjects.set(rule.subject, subject)
     }
     subject.selectors.add(rule.selector)
+    const ruleSpecificity = specificity(rule.selector)
     for (const { line, column, ...declaration } of rule.declarations) {
       subject.entries.push({
         selector: rule.transform,
         conditions: rule.conditions,
         declarations: [declaration],
+        specificity: ruleSpecificity,
         position: { line, column },
       })
     }

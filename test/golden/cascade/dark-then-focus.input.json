@@ -1,0 +1,4 @@
+[
+  { "selector": ".dark &", "declarations": "color: #3b82f6; background-color: #000" },
+  { "selector": "&:focus", "declarations": "color: #ef4444" }
+]

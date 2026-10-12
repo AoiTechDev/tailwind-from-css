@@ -9,14 +9,20 @@ import {
   normalizeDeclaration,
   normalValuesEqual,
 } from '../../src/css/normalize/index.ts'
-import { normalizeSelector } from '../../src/css/selector.ts'
-import { matchInput } from '../../src/match/exact.ts'
+import { normalizeSelector, type Specificity, specificity } from '../../src/css/selector.ts'
+import { redundantVendorDeclarations } from '../../src/css/vendor.ts'
+import { contextIntersection } from '../../src/match/cascade.ts'
+import { type MatchDeclaration, matchInput } from '../../src/match/exact.ts'
 import type { TailwindDesignSystem } from '../../src/tailwind/adapter.ts'
 import {
+  appliesWithin,
+  type CompiledCandidate,
   type Context,
+  compileCandidates,
   contextKey,
   effectiveDeclarations,
   normalizeContext,
+  resolveApplied,
 } from '../../src/tailwind/effective.ts'
 import type {
   ConversionResult,
@@ -501,41 +507,141 @@ function variantAdds(className: string, context: Context): string[] {
 interface Block {
   readonly context: Context
   readonly declarations: Declaration[]
+  /** Array position of each declaration among all the element's declarations. */
+  readonly orders: number[]
+  readonly specificity: Specificity
 }
 
 /** The element's declarations per context, merged in array order like the converter does. */
 function blocks(input: readonly StyleInput[]): Map<string, Block> {
   const found = new Map<string, Block>()
+  let order = 0
   for (const style of input) {
-    const context = contextOf(style)
-    const key = keyOf(context)
-    const block = found.get(key) ?? { context, declarations: [] }
-    block.declarations.push(...toDeclarations(style.declarations).declarations)
+    const context = normalizeContext(contextOf(style), OPTIONS)
+    const key = contextKey(context)
+    const block = found.get(key) ?? {
+      context,
+      declarations: [],
+      orders: [],
+      specificity: specificity(style.selector ?? '&'),
+    }
+    for (const declaration of toDeclarations(style.declarations).declarations) {
+      block.declarations.push(declaration)
+      block.orders.push(order++)
+    }
     found.set(key, block)
   }
   return found
 }
 
+interface Ranked {
+  readonly declaration: MatchDeclaration
+  readonly rank: readonly [number, number, number, number, number]
+}
+
+const higher = (a: Ranked['rank'], b: Ranked['rank']): boolean => {
+  const index = a.findIndex((value, position) => value !== b[position])
+  return index !== -1 && (a[index] as number) > (b[index] as number)
+}
+
+/**
+ * What the source shows where `context` applies: per longhand, the declaration of the blocks
+ * applying there that wins on importance, specificity, then array order.
+ */
+function sourceShown(element: ReadonlyMap<string, Block>, context: Context): Map<string, Ranked> {
+  const shown = new Map<string, Ranked>()
+  for (const block of element.values()) {
+    if (contextKey(block.context) !== contextKey(context)) {
+      if (!appliesWithin(block.context, context, OPTIONS)) continue
+    }
+    for (const declaration of matchInput(block.declarations, OPTIONS)) {
+      const rank = [
+        Number(declaration.important),
+        ...block.specificity,
+        block.orders[declaration.source] as number,
+      ] as const
+      const known = shown.get(declaration.property)
+      if (known === undefined || higher(rank, known.rank)) {
+        shown.set(declaration.property, { declaration, rank })
+      }
+    }
+  }
+  return shown
+}
+
+/**
+ * Without vendor-prefixed copies of an unprefixed declaration's value (SPEC §5.4 step 6), whatever
+ * their importance: `md:select-none!` repeats `user-select` as an important
+ * `-webkit-user-select`, which shows the same as a plain one from a broader context.
+ */
+function withoutVendorCopies<Declared extends NormalDeclaration>(
+  declarations: readonly Declared[],
+): Declared[] {
+  const plain = declarations.map((declaration) => ({ ...declaration, important: false }))
+  const redundant = redundantVendorDeclarations(plain, OPTIONS)
+  return declarations.filter((_, position) => !redundant.has(position))
+}
+
+/** Each block's context, and where two of them apply together. */
+function regions(element: ReadonlyMap<string, Block>): Context[] {
+  const contexts = [...element.values()].map((block) => block.context)
+  const found = new Map(contexts.map((context) => [contextKey(context), context]))
+  contexts.forEach((first, index) => {
+    for (const second of contexts.slice(index + 1)) {
+      const both = contextIntersection(first, second, OPTIONS)
+      if (both !== undefined && both !== 'disjoint') found.set(contextKey(both), both)
+    }
+  })
+  return [...found.values()]
+}
+
 // The nightly job runs 5,000 cases per property; each conversion compiles with Tailwind.
 describe('converter properties (default theme, exact mode)', { timeout: 600_000 }, () => {
-  it('P1 round trip: the classes generate the converted declarations in every context', () => {
+  // SPEC §5.8: compared the browser's way, every rule that applies in a context cascaded
+  // together, in each block's context and wherever two contexts apply together.
+  it('P1 round trip: the classes show what the source shows in every context', () => {
     fc.assert(
       fc.property(element, (input) => {
         const result = converter.convertStyles(input)
         const lost = lostLonghands(result)
-        for (const [key, block] of blocks(input)) {
-          const missing = lost.get(key) ?? new Set()
-          const expected = matchInput(block.declarations, OPTIONS).filter(
-            (declaration) => !missing.has(declaration.property),
+        const element = blocks(input)
+        const compiled = compileCandidates(design, result.classes, OPTIONS).filter(
+          (candidate): candidate is CompiledCandidate => candidate !== null,
+        )
+        for (const context of regions(element)) {
+          // A longhand left as CSS somewhere that applies here can't be compared.
+          const skipped = new Set<string>()
+          for (const [key, block] of element) {
+            if (key !== contextKey(context) && !appliesWithin(block.context, context, OPTIONS)) {
+              continue
+            }
+            for (const property of lost.get(key) ?? []) skipped.add(property)
+          }
+          // Normalized together, as the classes are: `em` follows the font size shown here.
+          const winners = [...sourceShown(element, context).values()].map(
+            ({ declaration }): Declaration => ({
+              property: declaration.property,
+              value: declaration.raw,
+              important: declaration.important,
+            }),
           )
-          const actual = effectiveDeclarations(design, result.classes, block.context, OPTIONS)
-          expect(actual.map((d) => d.property)).toEqual(expected.map((d) => d.property))
+          const expected = withoutVendorCopies(matchInput(winners, OPTIONS)).filter(
+            (declaration) => !skipped.has(declaration.property),
+          )
+          const actual = withoutVendorCopies(
+            resolveApplied(design, compiled, context, OPTIONS),
+          ).filter((declaration) => !skipped.has(declaration.property))
+          const where = `${context.conditions.join(' ')} ${context.selector}`
+          expect(
+            actual.map((d) => d.property),
+            where,
+          ).toEqual(expected.map((d) => d.property))
           actual.forEach((declaration, position) => {
             const wanted = expected[position] as NormalDeclaration
-            expect(declaration.important).toBe(wanted.important)
+            expect(declaration.important, where).toBe(wanted.important)
             expect(
               normalValuesEqual(declaration.value, wanted.value),
-              `${declaration.property}: ${declaration.value} vs ${wanted.value}`,
+              `${where}: ${declaration.property}: ${declaration.value} vs ${wanted.value}`,
             ).toBe(true)
           })
         }

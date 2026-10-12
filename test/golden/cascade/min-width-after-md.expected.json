@@ -1,0 +1,35 @@
+{
+  "rules": [
+    {
+      "subject": ".card",
+      "selectors": [
+        ".card"
+      ],
+      "className": "min-[1000px]:p-6 md:p-4 min-[1000px]:md:p-6",
+      "mappings": [
+        [
+          "min-[1000px]:p-6",
+          "bare",
+          "6:11 | @media (min-width: 1000px) | padding: 24px"
+        ],
+        [
+          "md:p-4",
+          "bare",
+          "2:11 | @media (min-width: 768px) | padding: 16px"
+        ],
+        [
+          "min-[1000px]:md:p-6",
+          "bare",
+          "6:11 | @media (min-width: 1000px) | padding: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC401"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

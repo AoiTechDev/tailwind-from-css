@@ -213,20 +213,11 @@ interface Resolution {
   readonly sources: Map<string, Sources>
 }
 
-/**
- * Effective declarations of compiled candidates in one normalized context (SPEC §5.6): rules
- * of the context in cascade order, `var()` resolved, `--tw-*` declarations dropped, shorthands
- * expanded and values normalized, vendor-prefixed copies of unprefixed declarations dropped.
- * Variables come from every rule that applies whenever the context does, and a declaration of a
- * broader context that the context's variables change counts as the context's own (ADR-0013).
- * Sorted by property.
- */
-export function resolveEffective(
+function resolutionOf(
   design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
   compiled: readonly CompiledCandidate[],
-  context: Context,
   options: EffectiveOptions,
-): NormalDeclaration[] {
+): Resolution {
   const rules: PlacedRule[] = []
   const registrations = new Map<string, PropertyRule>()
   for (const candidate of compiled) {
@@ -244,15 +235,13 @@ export function resolveEffective(
       if (!registrations.has(registration.name)) registrations.set(registration.name, registration)
     }
   }
-  const resolution: Resolution = { design, options, rules, registrations, sources: new Map() }
-  const key = contextKey(context)
-  const sources = sourcesFor(resolution, context, key)
-  const winners = declarationsOf(
-    place(rules.filter((rule) => rule.key === key)),
-    () => sources,
-    options,
-  )
-  if (key !== BASE_KEY) addChangedBroader(resolution, context, key, sources, winners)
+  return { design, options, rules, registrations, sources: new Map() }
+}
+
+function sortedWinners(
+  winners: ReadonlyMap<string, NormalDeclaration>,
+  options: EffectiveOptions,
+): NormalDeclaration[] {
   const sorted = [...winners.values()].sort((a, b) =>
     a.property < b.property ? -1 : a.property > b.property ? 1 : 0,
   )
@@ -260,6 +249,56 @@ export function resolveEffective(
   // `-webkit-user-select`, still equals `user-select: none`.
   const redundant = redundantVendorDeclarations(sorted, options)
   return redundant.size === 0 ? sorted : sorted.filter((_, position) => !redundant.has(position))
+}
+
+/**
+ * Effective declarations of compiled candidates in one normalized context (SPEC §5.6): rules
+ * of the context in cascade order, `var()` resolved, `--tw-*` declarations dropped, shorthands
+ * expanded and values normalized, vendor-prefixed copies of unprefixed declarations dropped.
+ * Variables come from every rule that applies whenever the context does, and a declaration of a
+ * broader context that the context's variables change counts as the context's own (ADR-0013).
+ * Sorted by property.
+ */
+export function resolveEffective(
+  design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
+  compiled: readonly CompiledCandidate[],
+  context: Context,
+  options: EffectiveOptions,
+): NormalDeclaration[] {
+  const resolution = resolutionOf(design, compiled, options)
+  const key = contextKey(context)
+  const sources = sourcesFor(resolution, context, key)
+  const winners = declarationsOf(
+    place(resolution.rules.filter((rule) => rule.key === key)),
+    () => sources,
+    options,
+  )
+  if (key !== BASE_KEY) addChangedBroader(resolution, context, key, sources, winners)
+  return sortedWinners(winners, options)
+}
+
+/**
+ * What the element shows where a normalized context applies (SPEC §5.8): the declarations of
+ * every rule that applies whenever the context does, its own and broader ones (`&` and
+ * `@media (width >= 768px)` for `&:hover` within that query), cascaded together the way the
+ * browser does, with `var()` resolved as in {@link resolveEffective}. Sorted by property.
+ */
+export function resolveApplied(
+  design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
+  compiled: readonly CompiledCandidate[],
+  context: Context,
+  options: EffectiveOptions,
+): NormalDeclaration[] {
+  const resolution = resolutionOf(design, compiled, options)
+  const key = contextKey(context)
+  const sources = sourcesFor(resolution, context, key)
+  const applying = resolution.rules.filter(
+    (rule) => rule.key === key || appliesWithin(rule.context, context, options),
+  )
+  return sortedWinners(
+    declarationsOf(place(applying), () => sources, options),
+    options,
+  )
 }
 
 /** Resolves, normalizes and cascades declarations; `--tw-*` ones only feed variables. */
@@ -287,16 +326,29 @@ function declarationsOf(
   return winners
 }
 
-// ADR-0013: a rule applies whenever the context does when its conditions are implied by the
-// context's (adding them changes nothing, N33) and its selector matches the same subject.
-function implied(resolution: Resolution, rule: PlacedRule, context: Context): boolean {
-  const conditions = rule.context.conditions
+/**
+ * Whether a rule of the normalized context `outer` applies wherever `inner` does (ADR-0013): its
+ * conditions add nothing to `inner`'s (N33) and its selector matches the same subject (`&` and
+ * `&:hover` within `&:hover:focus`).
+ *
+ * @example
+ * appliesWithin(BASE_CONTEXT, { selector: '&:hover', conditions: [] }, options) // true
+ */
+export function appliesWithin(outer: Context, inner: Context, options: EffectiveOptions): boolean {
+  return relation(outer, inner) === 'same' && implied(outer.conditions, inner, options)
+}
+
+function implied(
+  conditions: readonly string[],
+  context: Context,
+  options: EffectiveOptions,
+): boolean {
   if (conditions.length === 0) return true
   const wanted = context.conditions.join('\n')
   const cacheKey = `${wanted}\u0000${conditions.join('\n')}`
   let result = impliedCache.get(cacheKey)
   if (result === undefined) {
-    const merged = normalizeConditions([...context.conditions, ...conditions], resolution.options)
+    const merged = normalizeConditions([...context.conditions, ...conditions], options)
     result = merged.join('\n') === wanted
     if (impliedCache.size >= CACHE_LIMIT) impliedCache.clear()
     impliedCache.set(cacheKey, result)
@@ -309,10 +361,10 @@ const CACHE_LIMIT = 4096
 
 const relationCache = new Map<string, 'same' | 'element' | undefined>()
 
-function relation(rule: PlacedRule, context: Context): 'same' | 'element' | undefined {
-  const cacheKey = `${rule.context.selector}\u0000${context.selector}`
+function relation(rule: Context, context: Context): 'same' | 'element' | undefined {
+  const cacheKey = `${rule.selector}\u0000${context.selector}`
   if (relationCache.has(cacheKey)) return relationCache.get(cacheKey)
-  const result = selectorRelation(rule.context.selector, context.selector)
+  const result = selectorRelation(rule.selector, context.selector)
   if (relationCache.size >= CACHE_LIMIT) relationCache.clear()
   relationCache.set(cacheKey, result)
   return result
@@ -325,8 +377,10 @@ function sourcesFor(resolution: Resolution, context: Context, key: string): Sour
   const own: PlacedRule[] = []
   const element: PlacedRule[] = []
   for (const rule of resolution.rules) {
-    const kind = rule.key === key ? 'same' : relation(rule, context)
-    if (kind === undefined || !implied(resolution, rule, context)) continue
+    const kind = rule.key === key ? 'same' : relation(rule.context, context)
+    if (kind === undefined || !implied(rule.context.conditions, context, resolution.options)) {
+      continue
+    }
     if (kind === 'same') own.push(rule)
     else element.push(rule)
   }
@@ -369,8 +423,7 @@ function addChangedBroader(
   winners: Map<string, NormalDeclaration>,
 ): void {
   const broader = resolution.rules.filter(
-    (rule) =>
-      rule.key !== key && relation(rule, context) === 'same' && implied(resolution, rule, context),
+    (rule) => rule.key !== key && appliesWithin(rule.context, context, resolution.options),
   )
   if (broader.length === 0) return
   const placed = place(broader)

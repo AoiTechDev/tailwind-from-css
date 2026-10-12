@@ -7,6 +7,8 @@ const config: UserConfig = defineConfig({
   target: 'node22.12',
   // tsdown defaults to .mjs on the node platform; the exports map points at .js.
   fixedExtension: false,
+  // SPEC §11 size budget. The declarations, TSDoc included, stay unminified in the .d.ts files.
+  minify: true,
   dts: true,
   clean: true,
 })

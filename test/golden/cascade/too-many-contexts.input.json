@@ -1,0 +1,7 @@
+[
+  { "conditions": ["@media (min-width: 1280px)"], "declarations": "margin-top: 20px" },
+  { "conditions": ["@media (min-width: 1024px)"], "declarations": "margin-top: 16px" },
+  { "conditions": ["@media (min-width: 768px)"], "declarations": "margin-top: 12px" },
+  { "conditions": ["@media (min-width: 1000px)"], "declarations": "margin-top: 8px" },
+  { "conditions": ["@media (min-width: 900px)"], "declarations": "margin-top: 4px" }
+]

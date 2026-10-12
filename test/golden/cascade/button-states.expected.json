@@ -1,0 +1,59 @@
+{
+  "rules": [
+    {
+      "subject": ".btn",
+      "selectors": [
+        ".btn",
+        ".btn:hover",
+        ".btn:focus",
+        ".btn:disabled"
+      ],
+      "className": "bg-white text-[#111827] focus:bg-[#e5e7eb] disabled:text-[#9ca3af] [&:hover]:bg-[#f3f4f6] [&:hover]:focus:bg-[#e5e7eb]",
+      "mappings": [
+        [
+          "bg-white",
+          "named",
+          "3:3 | background-color: #fff"
+        ],
+        [
+          "text-[#111827]",
+          "arbitrary-value",
+          "2:3 | color: #111827"
+        ],
+        [
+          "focus:bg-[#e5e7eb]",
+          "arbitrary-value",
+          "11:3 | &:focus | background-color: #e5e7eb"
+        ],
+        [
+          "disabled:text-[#9ca3af]",
+          "arbitrary-value",
+          "15:3 | &:disabled | color: #9ca3af"
+        ],
+        [
+          "[&:hover]:bg-[#f3f4f6]",
+          "arbitrary-value",
+          "7:3 | &:hover | background-color: #f3f4f6"
+        ],
+        [
+          "[&:hover]:focus:bg-[#e5e7eb]",
+          "arbitrary-value",
+          "11:3 | &:focus | background-color: #e5e7eb"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201",
+        "TFC201",
+        "TFC401",
+        "TFC201"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

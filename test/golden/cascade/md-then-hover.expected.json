@@ -1,0 +1,22 @@
+{
+  "className": "md:text-[#ef4444] [&:hover]:text-[#3b82f6]",
+  "mappings": [
+    [
+      "md:text-[#ef4444]",
+      "arbitrary-value",
+      "@media (min-width: 768px) | color: #ef4444"
+    ],
+    [
+      "[&:hover]:text-[#3b82f6]",
+      "arbitrary-value",
+      "&:hover | color: #3b82f6"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201",
+    "TFC201",
+    "TFC301"
+  ],
+  "exact": true
+}

@@ -1,0 +1,31 @@
+{
+  "rules": [
+    {
+      "subject": ".list li",
+      "selectors": [
+        ".list li",
+        ".list li:first-child"
+      ],
+      "className": "mt-2 first:mt-1",
+      "mappings": [
+        [
+          "mt-2",
+          "bare",
+          "1:12 | margin-top: 8px"
+        ],
+        [
+          "first:mt-1",
+          "bare",
+          "7:24 | &:first-child | margin-top: 4px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC106"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

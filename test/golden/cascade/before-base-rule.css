@@ -1,0 +1,14 @@
+@starting-style {
+  .toast { opacity: 0; }
+}
+
+@container (min-width: 400px) {
+  .toast { padding: 8px; }
+}
+
+.toast {
+  opacity: 1;
+  padding: 4px;
+  transition-property: opacity;
+  transition-duration: 150ms;
+}

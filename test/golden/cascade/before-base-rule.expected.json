@@ -1,0 +1,42 @@
+{
+  "rules": [
+    {
+      "subject": ".toast",
+      "selectors": [
+        ".toast"
+      ],
+      "className": "p-1 opacity-100 [transition-property:opacity] duration-150",
+      "mappings": [
+        [
+          "p-1",
+          "bare",
+          "11:3 | padding: 4px"
+        ],
+        [
+          "opacity-100",
+          "bare",
+          "10:3 | opacity: 1"
+        ],
+        [
+          "[transition-property:opacity]",
+          "arbitrary-property",
+          "12:3 | transition-property: opacity"
+        ],
+        [
+          "duration-150",
+          "bare",
+          "13:3 | transition-duration: 150ms"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC106",
+        "TFC106",
+        "TFC202"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

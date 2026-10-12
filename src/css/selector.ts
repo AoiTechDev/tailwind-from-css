@@ -511,3 +511,50 @@ export function subjectParts(
   const pseudo = parts.pseudoElement === undefined ? [] : [parts.pseudoElement]
   return { ancestor: parts.ancestor, parts: [...parts.element, ...pseudo, ...parts.afterPseudo] }
 }
+
+const union = (a: readonly string[], b: readonly string[]): string[] => [
+  ...a,
+  ...b.filter((item) => !a.includes(item)),
+]
+
+// Whether the last compound of a relative selector mentions `&` at all, so it may be the element.
+function lastCompoundHasNesting(selector: string): boolean {
+  const [complex] = parse(selector)?.nodes ?? []
+  const nodes = complex?.nodes ?? []
+  let start = nodes.length
+  while (start > 0 && nodes[start - 1]?.type !== 'combinator') start--
+  return nodes.slice(start).some((node) => String(node).includes('&'))
+}
+
+/**
+ * A relative selector (N50 form) that matches where `a` and `b` both match the same element:
+ * the simple selectors of both after `&`, the ancestor part of whichever has one
+ * (`.dark &` and `&:hover` → `.dark &:hover`). `'disjoint'` when they style different elements or
+ * pseudo-elements (`&::before` and `&`, `& > p` and `&`); `undefined` when no such selector can
+ * be written (two different ancestor parts) or the selectors can't be compared.
+ *
+ * @example
+ * intersectSelectors('&:hover', '&:focus') // '&:hover:focus'
+ * intersectSelectors('&::before', '&')     // 'disjoint'
+ */
+export function intersectSelectors(a: string, b: string): string | 'disjoint' | undefined {
+  if (a === b) return a
+  const left = elementSelector(a)
+  const right = elementSelector(b)
+  if (left === undefined || right === undefined) {
+    if (left === undefined && right === undefined) return undefined
+    return lastCompoundHasNesting(left === undefined ? a : b) ? undefined : 'disjoint'
+  }
+  if (left.pseudoElement !== right.pseudoElement) return 'disjoint'
+  if (left.ancestor !== '' && right.ancestor !== '' && left.ancestor !== right.ancestor) {
+    return undefined
+  }
+  const parts = [
+    left.ancestor === '' ? right.ancestor : left.ancestor,
+    '&',
+    ...union(left.element, right.element),
+    left.pseudoElement ?? '',
+    ...union(left.afterPseudo, right.afterPseudo),
+  ]
+  return normalizeSelector(parts.join(''))
+}

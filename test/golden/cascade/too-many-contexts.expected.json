@@ -1,0 +1,35 @@
+{
+  "className": "min-[900px]:mt-1",
+  "mappings": [
+    [
+      "min-[900px]:mt-1",
+      "bare",
+      "@media (min-width: 900px) | margin-top: 4px"
+    ]
+  ],
+  "unconverted": [
+    [
+      "TFC402",
+      "@media (min-width: 1280px) | margin-top: 20px"
+    ],
+    [
+      "TFC402",
+      "@media (min-width: 1024px) | margin-top: 16px"
+    ],
+    [
+      "TFC402",
+      "@media (min-width: 768px) | margin-top: 12px"
+    ],
+    [
+      "TFC402",
+      "@media (min-width: 1000px) | margin-top: 8px"
+    ]
+  ],
+  "diagnostics": [
+    "TFC402",
+    "TFC402",
+    "TFC402",
+    "TFC402"
+  ],
+  "exact": false
+}

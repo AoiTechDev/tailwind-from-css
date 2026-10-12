@@ -330,3 +330,85 @@ export function normalizeConditions(
     conditions.flatMap((condition) => parseCondition(condition, options.rootFontSize) ?? []),
   )
 }
+
+const MEDIA_PRELUDE = /^@media (.+)$/
+const MEDIA_LIST_OR_NEGATION = /,|\bnot\b|\bor\b|\bonly\b/
+const WIDTH_TERM = /^\(width (>=|>|<=|<|=) (-?\d*\.?\d+)px\)$/
+const DISCRETE_TERM = /^\((prefers-color-scheme|orientation): ([a-z-]+)\)$/
+
+/** What a set of plain media conjunctions requires; a contradiction makes the set unsatisfiable. */
+interface MediaRequirements {
+  readonly types: Set<string>
+  readonly discrete: Map<string, Set<string>>
+  min: number
+  minInclusive: boolean
+  max: number
+  maxInclusive: boolean
+}
+
+function narrowWidth(requirements: MediaRequirements, operator: string, value: number): void {
+  if (operator !== '<' && operator !== '<=') {
+    const inclusive = operator !== '>'
+    if (value > requirements.min || (value === requirements.min && !inclusive)) {
+      requirements.min = value
+      requirements.minInclusive = inclusive
+    }
+  }
+  if (operator !== '>' && operator !== '>=') {
+    const inclusive = operator !== '<'
+    if (value < requirements.max || (value === requirements.max && !inclusive)) {
+      requirements.max = value
+      requirements.maxInclusive = inclusive
+    }
+  }
+}
+
+function addMediaCondition(requirements: MediaRequirements, condition: string): void {
+  const [, query] = MEDIA_PRELUDE.exec(condition) ?? []
+  if (query === undefined || MEDIA_LIST_OR_NEGATION.test(query)) return
+  for (const term of query.split(' and ')) {
+    if (!term.startsWith('(')) {
+      requirements.types.add(term)
+      continue
+    }
+    const width = WIDTH_TERM.exec(term)
+    if (width !== null) {
+      narrowWidth(requirements, width[1] as string, Number(width[2]))
+      continue
+    }
+    const [, feature, value] = DISCRETE_TERM.exec(term) ?? []
+    if (feature === undefined || value === undefined) continue
+    const values = requirements.discrete.get(feature) ?? new Set()
+    values.add(value)
+    requirements.discrete.set(feature, values)
+  }
+}
+
+/**
+ * Whether two lists of normalized conditions (N30–N33) can never hold at the same time: their
+ * media queries need width ranges that don't overlap, different explicit media types (`print`
+ * vs `screen`), or different values of `prefers-color-scheme` or `orientation`. Anything else,
+ * including negated queries and query lists, is assumed to be able to hold together (SPEC §5.8).
+ *
+ * @example
+ * conditionsDisjoint(['@media (width >= 768px)'], ['@media (width < 768px)']) // true
+ * conditionsDisjoint(['@media (width >= 768px)'], ['@media (hover: hover)'])  // false
+ */
+export function conditionsDisjoint(a: readonly string[], b: readonly string[]): boolean {
+  const requirements: MediaRequirements = {
+    types: new Set(),
+    discrete: new Map(),
+    min: Number.NEGATIVE_INFINITY,
+    minInclusive: true,
+    max: Number.POSITIVE_INFINITY,
+    maxInclusive: true,
+  }
+  for (const condition of [...a, ...b]) addMediaCondition(requirements, condition)
+  const { min, max } = requirements
+  return (
+    requirements.types.size > 1 ||
+    [...requirements.discrete.values()].some((values) => values.size > 1) ||
+    min > max ||
+    (min === max && !(requirements.minInclusive && requirements.maxInclusive))
+  )
+}

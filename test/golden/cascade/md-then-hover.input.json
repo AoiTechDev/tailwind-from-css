@@ -1,0 +1,4 @@
+[
+  { "conditions": ["@media (min-width: 768px)"], "declarations": "color: #ef4444" },
+  { "selector": "&:hover", "declarations": "color: #3b82f6" }
+]

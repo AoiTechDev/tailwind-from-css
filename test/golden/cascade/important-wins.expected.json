@@ -1,0 +1,21 @@
+{
+  "className": "text-[#3b82f6] md:text-[#ef4444]!",
+  "mappings": [
+    [
+      "text-[#3b82f6]",
+      "arbitrary-value",
+      "color: #3b82f6"
+    ],
+    [
+      "md:text-[#ef4444]!",
+      "arbitrary-value",
+      "@media (min-width: 768px) | color: #ef4444 !important"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201",
+    "TFC201"
+  ],
+  "exact": true
+}

@@ -1,0 +1,4 @@
+[
+  { "conditions": ["@media (min-width: 768px)"], "declarations": "color: #ef4444 !important" },
+  { "declarations": "color: #3b82f6" }
+]

@@ -1,0 +1,34 @@
+{
+  "className": "focus:text-[#ef4444] [.dark_&]:bg-black [.dark_&]:text-[#3b82f6] [.dark_&]:focus:text-[#ef4444]",
+  "mappings": [
+    [
+      "focus:text-[#ef4444]",
+      "arbitrary-value",
+      "&:focus | color: #ef4444"
+    ],
+    [
+      "[.dark_&]:bg-black",
+      "named",
+      ".dark & | background-color: #000"
+    ],
+    [
+      "[.dark_&]:text-[#3b82f6]",
+      "arbitrary-value",
+      ".dark & | color: #3b82f6"
+    ],
+    [
+      "[.dark_&]:focus:text-[#ef4444]",
+      "arbitrary-value",
+      "&:focus | color: #ef4444"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201",
+    "TFC301",
+    "TFC201",
+    "TFC201",
+    "TFC401"
+  ],
+  "exact": true
+}

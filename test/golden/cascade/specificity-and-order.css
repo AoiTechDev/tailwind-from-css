@@ -1,0 +1,7 @@
+.list li { margin-top: 8px; }
+
+@media (min-width: 640px) {
+  .list li:first-child { margin-top: 0; }
+}
+
+.list li:first-child { margin-top: 4px; }

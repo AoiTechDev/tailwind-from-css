@@ -17,10 +17,10 @@ export interface ReportClass {
 }
 
 /** Why a declaration, or one longhand of it, got no class. */
-export type UnconvertedCode = 'TFC102' | 'TFC204' | 'TFC303' | 'TFC502'
+export type UnconvertedCode = 'TFC102' | 'TFC204' | 'TFC303' | 'TFC402' | 'TFC502'
 
 /** Something worth a diagnostic that leaves nothing unconverted. */
-export type NoteCode = 'TFC105' | 'TFC106' | 'TFC301' | 'TFC302' | 'TFC501'
+export type NoteCode = 'TFC105' | 'TFC106' | 'TFC301' | 'TFC302' | 'TFC401' | 'TFC501'
 
 /** A diagnostic about one input declaration. */
 export interface ReportEntry<Code extends DiagnosticCode> {
@@ -58,11 +58,17 @@ const MESSAGES: Readonly<Record<MessageCode, (source: SourceRef) => string>> = {
   TFC105: (s) =>
     `${declarationText(s)} in ${contextText(s)} repeats an unprefixed declaration and was dropped.`,
   TFC106: (s) =>
-    `${declarationText(s)} in ${contextText(s)} is overridden by a later declaration and was dropped.`,
+    `${declarationText(s)} in ${contextText(s)} is overridden wherever it applies and was dropped.`,
   TFC204: (s) => `${declarationText(s)} in ${contextText(s)} can't be written as a class.`,
   TFC301: (s) => `The selector of ${contextText(s)} needs an arbitrary variant.`,
   TFC302: (s) => `The conditions of ${contextText(s)} need an arbitrary variant.`,
   TFC303: (s) => `${declarationText(s)}: ${contextText(s)} can't be written as a variant.`,
+  TFC401: (s) =>
+    `${declarationText(s)} in ${contextText(s)} needs a stacked class to win where other contexts ` +
+    'apply too.',
+  TFC402: (s) =>
+    `${declarationText(s)} in ${contextText(s)} would win where the source says it loses, and no ` +
+    'stacked class can fix that.',
   TFC501: (s) =>
     `The class for ${declarationText(s)} in ${contextText(s)} failed verification and was ` +
     'replaced. Please report this.',

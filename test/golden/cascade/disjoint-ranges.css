@@ -1,0 +1,7 @@
+@media (min-width: 768px) {
+  .nav { display: flex; }
+}
+
+@media (width < 48rem) {
+  .nav { display: none; }
+}
