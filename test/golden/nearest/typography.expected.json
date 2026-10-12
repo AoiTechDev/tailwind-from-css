@@ -1,5 +1,5 @@
 {
-  "className": "text-sm font-medium tracking-[-0.4px] before:text-[18.2px] before:leading-7 before:content-['']",
+  "className": "text-sm font-medium tracking-[-0.4px] before:text-[18.2px]/7 before:content-['']",
   "mappings": [
     [
       "text-sm",
@@ -24,13 +24,9 @@
       "letter-spacing: -0.4px"
     ],
     [
-      "before:text-[18.2px]",
+      "before:text-[18.2px]/7",
       "arbitrary-value",
-      "&::before | font-size: 18.2px"
-    ],
-    [
-      "before:leading-7",
-      "bare",
+      "&::before | font-size: 18.2px",
       "&::before | line-height: 28px"
     ],
     [

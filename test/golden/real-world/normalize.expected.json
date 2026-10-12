@@ -200,17 +200,17 @@
       "selectors": [
         "b"
       ],
-      "className": "font-[color:bolder]",
+      "className": "[font-weight:bolder]",
       "mappings": [
         [
-          "font-[color:bolder]",
-          "arbitrary-value",
+          "[font-weight:bolder]",
+          "arbitrary-property",
           "98:3 | font-weight: bolder"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201"
+        "TFC202"
       ],
       "exact": true
     },
@@ -219,17 +219,17 @@
       "selectors": [
         "strong"
       ],
-      "className": "font-[color:bolder]",
+      "className": "[font-weight:bolder]",
       "mappings": [
         [
-          "font-[color:bolder]",
-          "arbitrary-value",
+          "[font-weight:bolder]",
+          "arbitrary-property",
           "98:3 | font-weight: bolder"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201"
+        "TFC202"
       ],
       "exact": true
     },
@@ -332,7 +332,7 @@
       "selectors": [
         "sub"
       ],
-      "className": "relative bottom-[-0.25em] align-baseline text-[75%] leading-[0]",
+      "className": "relative bottom-[-0.25em] align-baseline text-[75%]/[0]",
       "mappings": [
         [
           "relative",
@@ -350,19 +350,14 @@
           "131:3 | vertical-align: baseline"
         ],
         [
-          "text-[75%]",
+          "text-[75%]/[0]",
           "arbitrary-value",
-          "128:3 | font-size: 75%"
-        ],
-        [
-          "leading-[0]",
-          "arbitrary-value",
+          "128:3 | font-size: 75%",
           "129:3 | line-height: 0"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201",
         "TFC201",
         "TFC201"
       ],
@@ -373,7 +368,7 @@
       "selectors": [
         "sup"
       ],
-      "className": "relative top-[-0.5em] align-baseline text-[75%] leading-[0]",
+      "className": "relative top-[-0.5em] align-baseline text-[75%]/[0]",
       "mappings": [
         [
           "relative",
@@ -391,19 +386,14 @@
           "131:3 | vertical-align: baseline"
         ],
         [
-          "text-[75%]",
+          "text-[75%]/[0]",
           "arbitrary-value",
-          "128:3 | font-size: 75%"
-        ],
-        [
-          "leading-[0]",
-          "arbitrary-value",
+          "128:3 | font-size: 75%",
           "129:3 | line-height: 0"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201",
         "TFC201",
         "TFC201"
       ],
@@ -433,7 +423,7 @@
         "button::-moz-focus-inner",
         "button:-moz-focusring"
       ],
-      "className": "m-0 overflow-visible font-[inherit] text-[100%] leading-[1.15] normal-case [-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
+      "className": "m-0 overflow-visible font-[inherit] text-[100%]/[1.15] normal-case [-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
       "mappings": [
         [
           "m-0",
@@ -451,13 +441,9 @@
           "166:3 | font-family: inherit"
         ],
         [
-          "text-[100%]",
+          "text-[100%]/[1.15]",
           "arbitrary-value",
-          "167:3 | font-size: 100%"
-        ],
-        [
-          "leading-[1.15]",
-          "arbitrary-value",
+          "167:3 | font-size: 100%",
           "168:3 | line-height: 1.15"
         ],
         [
@@ -500,7 +486,6 @@
       "diagnostics": [
         "TFC201",
         "TFC201",
-        "TFC201",
         "TFC202",
         "TFC301",
         "TFC201",
@@ -514,7 +499,7 @@
       "selectors": [
         "input"
       ],
-      "className": "m-0 overflow-visible font-[inherit] text-[100%] leading-[1.15]",
+      "className": "m-0 overflow-visible font-[inherit] text-[100%]/[1.15]",
       "mappings": [
         [
           "m-0",
@@ -532,19 +517,14 @@
           "166:3 | font-family: inherit"
         ],
         [
-          "text-[100%]",
+          "text-[100%]/[1.15]",
           "arbitrary-value",
-          "167:3 | font-size: 100%"
-        ],
-        [
-          "leading-[1.15]",
-          "arbitrary-value",
+          "167:3 | font-size: 100%",
           "168:3 | line-height: 1.15"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201",
         "TFC201",
         "TFC201"
       ],
@@ -555,7 +535,7 @@
       "selectors": [
         "optgroup"
       ],
-      "className": "m-0 font-[inherit] text-[100%] leading-[1.15]",
+      "className": "m-0 font-[inherit] text-[100%]/[1.15]",
       "mappings": [
         [
           "m-0",
@@ -568,19 +548,14 @@
           "166:3 | font-family: inherit"
         ],
         [
-          "text-[100%]",
+          "text-[100%]/[1.15]",
           "arbitrary-value",
-          "167:3 | font-size: 100%"
-        ],
-        [
-          "leading-[1.15]",
-          "arbitrary-value",
+          "167:3 | font-size: 100%",
           "168:3 | line-height: 1.15"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201",
         "TFC201",
         "TFC201"
       ],
@@ -591,7 +566,7 @@
       "selectors": [
         "select"
       ],
-      "className": "m-0 font-[inherit] text-[100%] leading-[1.15] normal-case",
+      "className": "m-0 font-[inherit] text-[100%]/[1.15] normal-case",
       "mappings": [
         [
           "m-0",
@@ -604,13 +579,9 @@
           "166:3 | font-family: inherit"
         ],
         [
-          "text-[100%]",
+          "text-[100%]/[1.15]",
           "arbitrary-value",
-          "167:3 | font-size: 100%"
-        ],
-        [
-          "leading-[1.15]",
-          "arbitrary-value",
+          "167:3 | font-size: 100%",
           "168:3 | line-height: 1.15"
         ],
         [
@@ -622,7 +593,6 @@
       "unconverted": [],
       "diagnostics": [
         "TFC201",
-        "TFC201",
         "TFC201"
       ],
       "exact": true
@@ -632,7 +602,7 @@
       "selectors": [
         "textarea"
       ],
-      "className": "m-0 overflow-auto font-[inherit] text-[100%] leading-[1.15]",
+      "className": "m-0 overflow-auto font-[inherit] text-[100%]/[1.15]",
       "mappings": [
         [
           "m-0",
@@ -650,19 +620,14 @@
           "166:3 | font-family: inherit"
         ],
         [
-          "text-[100%]",
+          "text-[100%]/[1.15]",
           "arbitrary-value",
-          "167:3 | font-size: 100%"
-        ],
-        [
-          "leading-[1.15]",
-          "arbitrary-value",
+          "167:3 | font-size: 100%",
           "168:3 | line-height: 1.15"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201",
         "TFC201",
         "TFC201"
       ],

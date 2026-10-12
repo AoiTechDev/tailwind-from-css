@@ -388,7 +388,7 @@ describe('each relaxation fires only when enabled', () => {
 
   it('a near size takes the modifier for a line-height no class sets exactly', () => {
     const input = { declarations: 'font-size: 18.2px; line-height: 1.45' }
-    expect(convert({}, input).className).toBe('text-[18.2px] leading-[1.45]')
+    expect(convert({}, input).className).toBe('text-[18.2px]/[1.45]')
     const result = convert(only('length-nearest'), input)
     expect(result.className).toBe('text-lg/[1.45]')
     expect(relaxed(result)).toEqual([['text-lg/[1.45]', 'length-nearest', 0.2]])

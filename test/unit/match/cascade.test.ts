@@ -291,7 +291,7 @@ describe('shorthands kept whole', () => {
         '.a { padding: 0 }\n.a { padding: calc(var(--x) * 0.5) 0; padding-left: var(--y) }',
       ),
     )
-    expect(result.className).toBe('[padding:calc(var(--x)_*_0.5)_0] pl-(--y)')
+    expect(result.className).toBe('p-[calc(var(--x)_*_0.5)_0] pl-(--y)')
     expect(codes(result)).toContain('TFC106')
     expect(shown(result.classes, {})).toEqual({
       padding: 'calc(var(--x) * 0.5) 0',
@@ -321,7 +321,7 @@ describe('shorthands kept whole', () => {
 
   it('a later longhand under an important whole shorthand is overridden: TFC106', () => {
     const result = only(converter.convertCss('.a { padding: var(--p) !important; padding-top: 0 }'))
-    expect(result.className).toBe('[padding:var(--p)]!')
+    expect(result.className).toBe('p-(--p)!')
     expect(codes(result)).toContain('TFC106')
     const important = only(
       converter.convertCss('.a { border: var(--a); border-top-color: red !important }'),
@@ -336,7 +336,7 @@ describe('shorthands kept whole', () => {
         '@media (min-width: 768px) { .a { padding: var(--p) } }\n.a { padding-top: 4px }',
       ),
     )
-    expect(result.className).toBe('pt-1 md:[padding:var(--p)] md:pt-1')
+    expect(result.className).toBe('pt-1 md:p-(--p) md:pt-1')
     expect(codes(result)).toContain('TFC401')
     expect(shown(result.classes, { conditions: [MD] })).toEqual({
       padding: 'var(--p)',
@@ -350,7 +350,7 @@ describe('shorthands kept whole', () => {
         '.a { padding-top: 4px }\n@media (min-width: 768px) { .a { padding: var(--p) } }',
       ),
     )
-    expect(before.className).toBe('pt-1 md:[padding:var(--p)]')
+    expect(before.className).toBe('pt-1 md:p-(--p)')
     expect(codes(before)).not.toContain('TFC401')
     expect(shown(before.classes, { conditions: [MD] })).toEqual({ padding: 'var(--p)' })
     const after = only(
@@ -358,7 +358,7 @@ describe('shorthands kept whole', () => {
         '.a { padding: var(--p) }\n@media (min-width: 768px) { .a { padding-top: 8px } }',
       ),
     )
-    expect(after.className).toBe('[padding:var(--p)] md:pt-2')
+    expect(after.className).toBe('p-(--p) md:pt-2')
     expect(codes(after)).not.toContain('TFC401')
   })
 
@@ -368,7 +368,7 @@ describe('shorthands kept whole', () => {
         '@media (min-width: 768px) { .a { padding-top: 4px } }\n.a { padding: var(--p) }',
       ),
     )
-    expect(result.className).toBe('[padding:var(--p)]')
+    expect(result.className).toBe('p-(--p)')
     expect(codes(result)).toContain('TFC106')
   })
 })

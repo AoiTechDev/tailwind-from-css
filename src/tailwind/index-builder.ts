@@ -30,6 +30,8 @@ export interface FunctionalRoot {
   readonly name: string
   /** Sorted. */
   readonly longhands: readonly string[]
+  /** Whether a listed candidate of the root takes modifiers (`text-sm/6`, `bg-black/50`). */
+  readonly modifiers: boolean
 }
 
 /** The reverse index from normalized CSS to candidates and variants (SPEC §5.2). */
@@ -128,20 +130,23 @@ export function buildUtilityIndex(
     options,
     bySignature: sortedBy(bySignature, comparePreference),
     byLonghand: sortedBy(byLonghand, comparePreference),
-    roots: buildRoots(design, utilities),
+    roots: buildRoots(design, utilities, options),
     variants: buildVariants(design, options),
   }
 }
 
-// Functional roots aren't compiled on their own: each listed candidate counts for the longest
-// root it starts with (`grid-cols-3` → `grid-cols`, not `grid`).
+// Each listed candidate counts for the longest root it starts with (`grid-cols-3` → `grid-cols`,
+// not `grid`). A root no listed candidate belongs to (`bg-size`, `filter`) is compiled once with a
+// variable, which every type accepts; what it sets in the base context are its longhands.
 function buildRoots(
   design: TailwindDesignSystem,
   utilities: readonly IndexedUtility[],
+  options: EffectiveOptions,
 ): Map<string, FunctionalRoot[]> {
   const names = new Set(design.functionalRoots())
   const prefix = design.prefix === null ? '' : `${design.prefix}:`
   const longhandsOf = new Map<string, Set<string>>()
+  const modifiers = new Set<string>()
   for (const utility of utilities) {
     const name = utility.candidate.slice(prefix.length)
     let root: string | undefined
@@ -158,10 +163,28 @@ function buildRoots(
       longhandsOf.set(root, longhands)
     }
     for (const declaration of utility.declarations) longhands.add(declaration.property)
+    if (utility.modifiers.length > 0) modifiers.add(root)
   }
+  const unlisted = [...names].filter((name) => !longhandsOf.has(name)).sort(compareText)
+  const probes = compileCandidates(
+    design,
+    unlisted.map((name) => `${prefix}${name}-(${PROBE_PROPERTY})`),
+    options,
+  )
+  probes.forEach((candidate, index) => {
+    if (candidate === null || !candidate.rules.every((rule) => isBase(rule.context))) return
+    const longhands = resolveEffective(design, [candidate], BASE_CONTEXT, options)
+      .map((declaration) => declaration.property)
+      .filter((property) => !property.startsWith('--'))
+    if (longhands.length > 0) longhandsOf.set(unlisted[index] as string, new Set(longhands))
+  })
   const roots = new Map<string, FunctionalRoot[]>()
   for (const [name, longhands] of longhandsOf) {
-    const root: FunctionalRoot = { name, longhands: [...longhands].sort(compareText) }
+    const root: FunctionalRoot = {
+      name,
+      longhands: [...longhands].sort(compareText),
+      modifiers: modifiers.has(name),
+    }
     for (const longhand of root.longhands) push(roots, longhand, root)
   }
   return sortedBy(

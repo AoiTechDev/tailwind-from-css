@@ -21,6 +21,7 @@ import {
   resolveEffective,
 } from '../tailwind/effective.ts'
 import {
+  type FunctionalRoot,
   findByLonghand,
   findBySignature,
   type IndexedUtility,
@@ -126,7 +127,10 @@ export interface Matcher {
 // `em` depends on the block's font size, so an arbitrary value written with it wouldn't
 // normalize alike once it stands alone in a class.
 const EM_LENGTH = /\dem(?![\w-])/i
-const VARIABLE = /^var\((--[^\s,()]+)\)$/
+// `var(--x)` or `var(--x, fallback)`, possibly negated as `calc(var(…) * -1)`; whole raw values.
+const VARIABLE = /^var\(\s*(--[^\s,()]+)\s*(?:,(.*))?\)$/s
+const NEGATED = /^calc\(\s*(var\(.*\))\s*\*\s*-1\s*\)$/s
+const HAS_VARIABLE = /\bvar\(/i
 const RATIO = /^(\d+) \/ (\d+)$/
 const TRANSLUCENT_COLOR = /^([a-z-]+\([^()/]*) \/ (0(?:\.\d+)?)\)$/
 const EXACT: ValueMatch = { delta: 0 }
@@ -381,6 +385,8 @@ interface Group {
   readonly skipped: SkippedDeclaration[]
   readonly relax: GroupRelax | undefined
   readonly relaxed: Map<Match, readonly RelaxedTarget[]>
+  /** The option each match was made from. */
+  readonly accepted: Map<Match, Option>
 }
 
 /** What a class covers: positions, the longhands it relaxes or adds, and its largest delta. */
@@ -390,17 +396,24 @@ interface Cover {
   readonly delta: number
 }
 
-/** A class that could cover some uncovered positions. `core` has no prefix or `!`. */
+/**
+ * A class that could cover some uncovered positions. `core` has no prefix or `!`. A variable or
+ * arbitrary value of a functional root keeps the root, and whether it carries a type hint.
+ */
 interface Option extends Cover {
   readonly core: string
   readonly kind: MatchKind
+  readonly root?: FunctionalRoot | undefined
+  readonly hinted?: boolean
 }
 
-const optionOf = (core: string, kind: MatchKind, cover: Cover): Option => ({
-  ...cover,
-  core,
-  kind,
-})
+const optionOf = (
+  core: string,
+  kind: MatchKind,
+  cover: Cover,
+  root?: FunctionalRoot,
+  hinted = false,
+): Option => ({ ...cover, core, kind, root, hinted })
 
 function groupRelax(
   relax: BlockRelax | undefined,
@@ -453,6 +466,7 @@ function createGroup(
     skipped: [],
     relax,
     relaxed: new Map(),
+    accepted: new Map(),
   }
 }
 
@@ -472,12 +486,13 @@ function matchGroup(group: Group): void {
   // SPEC §5.4 step 5: value relaxations only for longhands that would otherwise get a variable
   // or an arbitrary value.
   for (const tier of [bareOptions, relaxedOptions, variableOptions, arbitraryValueOptions]) {
-    if (group.uncovered.size === 0) return
+    if (group.uncovered.size === 0) break
     cover(
       group,
       uncoveredPositions(group).flatMap((position) => tier(group, position)),
     )
   }
+  mergeModifiers(group)
   for (const position of uncoveredPositions(group)) {
     const declaration = group.declarations[position] as MatchDeclaration
     const encoded = encodeValue(declaration.raw)
@@ -519,6 +534,8 @@ function compareOptions(a: Option, b: Option): number {
     relaxationCount(a) - relaxationCount(b) ||
     a.delta - b.delta ||
     KIND_RANK[a.kind] - KIND_RANK[b.kind] ||
+    Number(a.hinted === true) - Number(b.hinted === true) ||
+    (a.root?.longhands.length ?? 0) - (b.root?.longhands.length ?? 0) ||
     Number(a.core.startsWith('-')) - Number(b.core.startsWith('-')) ||
     a.core.length - b.core.length ||
     compareText(a.core, b.core)
@@ -538,6 +555,7 @@ function accept(group: Group, option: Option): void {
     declarations: option.positions,
   }
   group.matches.push(match)
+  group.accepted.set(match, option)
   if (option.relaxed.length > 0) group.relaxed.set(match, option.relaxed)
 }
 
@@ -691,12 +709,23 @@ function modifierTokens(group: Group, utility: IndexedUtility): string[] {
     if (position === undefined) return []
     const wanted = group.declarations[position] as MatchDeclaration
     if (normalValuesEqual(wanted.value, declaration.value)) continue
-    tokens.push(...bareTokens(wanted.value, group.matcher.spacing))
-    const encoded = encodeValue(wanted.raw)
-    if (encoded !== undefined) tokens.push(`[${encoded}]`)
+    tokens.push(...valueTokens(group, wanted))
   }
   return [...new Set(tokens)]
 }
+
+/** Modifiers for `declaration`'s value: bare tokens, the variable form, the arbitrary value. */
+function valueTokens(group: Group, declaration: MatchDeclaration): string[] {
+  const tokens = bareTokens(declaration.value, group.matcher.spacing)
+  const variable = variableOf(declaration.raw)
+  if (variable !== undefined && !variable.negated) tokens.push(`(${variable.name})`)
+  const encoded = encodeValue(declaration.raw)
+  if (encoded !== undefined) tokens.push(`[${encoded}]`)
+  return tokens
+}
+
+const modifiedKind = (token: string, kind: MatchKind): MatchKind =>
+  token.startsWith('[') ? 'arbitrary-value' : token.startsWith('(') ? 'variable' : kind
 
 function modifierOptions(
   group: Group,
@@ -709,25 +738,38 @@ function modifierOptions(
     const core = `${base}/${token}`
     const found = attempt(group, core)
     if (found === undefined) continue
-    options.push(optionOf(core, token.startsWith('[') ? 'arbitrary-value' : utility.kind, found))
+    options.push(optionOf(core, modifiedKind(token, utility.kind), found))
   }
   return options
 }
 
-const rootsOf = (group: Group, position: number): readonly string[] => [
-  ...new Set(
-    propertiesOf(group, position).flatMap((property) =>
-      (group.matcher.index.roots.get(property) ?? []).map((root) => root.name),
-    ),
-  ),
-]
+// A shorthand kept whole (N01) also goes to every root that sets all of its longhands
+// (`padding: var(--p)` → `p-(--p)`, `border-radius` → `rounded`).
+function rootsOf(group: Group, position: number): FunctionalRoot[] {
+  const { roots } = group.matcher.index
+  const found = new Map<string, FunctionalRoot>()
+  for (const property of propertiesOf(group, position)) {
+    for (const root of roots.get(property) ?? []) found.set(root.name, root)
+    const longhands = longhandsOf(property)
+    if (longhands.length < 2) continue
+    for (const root of roots.get(longhands[0] as string) ?? []) {
+      if (longhands.every((longhand) => root.longhands.includes(longhand))) {
+        found.set(root.name, root)
+      }
+    }
+  }
+  return [...found.values()]
+}
+
+const rootNamesOf = (group: Group, position: number): string[] =>
+  rootsOf(group, position).map((root) => root.name)
 
 // SPEC §5.4 step 3.2: bare values derived from the value, each compiled and checked.
 function bareOptions(group: Group, position: number): Option[] {
   const declaration = group.declarations[position] as MatchDeclaration
   const tokens = bareTokens(declaration.value, group.matcher.spacing)
   const options: Option[] = []
-  for (const root of rootsOf(group, position)) {
+  for (const root of rootNamesOf(group, position)) {
     for (const token of tokens) {
       const core = `${root}-${token}`
       const found = attempt(group, core)
@@ -766,7 +808,7 @@ function relaxedOptions(group: Group, position: number): Option[] {
         // `text-lg/7`: the size is near and the modifier sets the line-height the block wants.
         for (const token of modifierTokens(group, utility)) {
           const modified = `${core}/${token}`
-          const kind = token.startsWith('[') ? 'arbitrary-value' : utility.kind
+          const kind = modifiedKind(token, utility.kind)
           if (!tried.has(modified)) consider(modified, kind, attempt(group, modified, true))
         }
       } else if (opaque !== undefined && utility.modifiers.length > 0 && near(opaque, own.value)) {
@@ -776,7 +818,7 @@ function relaxedOptions(group: Group, position: number): Option[] {
     }
   }
   if (relax.settings.relaxations.has('length-nearest')) {
-    for (const root of rootsOf(group, position)) {
+    for (const root of rootNamesOf(group, position)) {
       for (const token of nearestSpacingTokens(declaration.value, matcher.spacing)) {
         const core = `${root}-${token}`
         if (!tried.has(core)) consider(core, 'bare', attempt(group, core, true))
@@ -786,11 +828,41 @@ function relaxedOptions(group: Group, position: number): Option[] {
   return options
 }
 
-// SPEC §5.4 step 3.3: `root-(--x)` for a value that is exactly `var(--x)`.
+/** A whole value that is one variable. */
+interface VariableForm {
+  /** `--x`, or `--x,fallback` with the fallback encoded (`--s,0_0_0_red`). */
+  readonly name: string
+  /** `calc(var(--x) * -1)`. */
+  readonly negated: boolean
+}
+
+function variableOf(raw: string): VariableForm | undefined {
+  const text = raw.trim()
+  const negated = NEGATED.exec(text)
+  const variable = VARIABLE.exec(negated?.[1] ?? text)
+  if (variable === null) return undefined
+  const name = variable[1] as string
+  const fallback = variable[2]
+  if (fallback === undefined) return { name, negated: negated !== null }
+  // Unbalanced (`var(--a, 1) + var(--b)`): the last `)` doesn't close this `var(`.
+  const encoded = encodeValue(fallback.trim())
+  return encoded === undefined
+    ? undefined
+    : { name: `${name},${encoded}`, negated: negated !== null }
+}
+
+// SPEC §5.4 step 3.3: `root-(--x)` for a value that is one variable (with a fallback:
+// `root-(--x,fallback)`), and the negative root's `-root-(--x)` for `calc(var(--x) * -1)`.
 function variableOptions(group: Group, position: number): Option[] {
-  const name = VARIABLE.exec((group.declarations[position] as MatchDeclaration).value)?.[1]
-  if (name === undefined) return []
-  return hintedOptions(group, position, 'variable', (root, hint) => variableValue(root, name, hint))
+  const variable = variableOf((group.declarations[position] as MatchDeclaration).raw)
+  if (variable === undefined) return []
+  return hintedOptions(
+    group,
+    position,
+    'variable',
+    (root, hint) => variableValue(root, variable.name, hint),
+    (root) => root.name.startsWith('-') === variable.negated,
+  )
 }
 
 // SPEC §5.4 step 3.4: `root-[value]`.
@@ -804,19 +876,25 @@ function arbitraryValueOptions(group: Group, position: number): Option[] {
 
 // A type hint is needed when Tailwind reads the value as another type than the longhand's
 // (`text-(--x)` is a color, `text-(length:--x)` a font size); each hint is compiled and checked.
+// Only a value with a variable can have a type Tailwind can't see. For any other value a hint
+// would contradict the value (`font-[color:bolder]` sets font-weight), so it's left to another
+// root or the arbitrary property.
 function hintedOptions(
   group: Group,
   position: number,
   kind: MatchKind,
   build: (root: string, hint?: string) => string,
+  usable: (root: FunctionalRoot) => boolean = () => true,
 ): Option[] {
-  const property = (group.declarations[position] as MatchDeclaration).property
+  const declaration = group.declarations[position] as MatchDeclaration
+  const hints = kind === 'variable' || HAS_VARIABLE.test(declaration.raw) ? TYPE_HINTS : []
   const options: Option[] = []
   for (const root of rootsOf(group, position)) {
-    const plain = build(root)
+    if (!usable(root)) continue
+    const plain = build(root.name)
     const found = attempt(group, plain)
     if (found?.positions.includes(position)) {
-      options.push(optionOf(plain, kind, found))
+      options.push(optionOf(plain, kind, found, root))
       continue
     }
     const compiled = compiledDeclarations(
@@ -824,18 +902,55 @@ function hintedOptions(
       candidateName(plain, { prefix: group.matcher.design.prefix, important: false }),
     )
     const sets = (own: string): boolean =>
-      own === property || group.relax?.physical.get(own) === property
-    if (compiled?.some((declaration) => sets(declaration.property))) continue
-    for (const hint of TYPE_HINTS) {
-      const core = build(root, hint)
+      own === declaration.property || group.relax?.physical.get(own) === declaration.property
+    if (compiled?.some((own) => sets(own.property))) continue
+    for (const hint of hints) {
+      const core = build(root.name, hint)
       const hinted = attempt(group, core)
       if (hinted?.positions.includes(position)) {
-        options.push(optionOf(core, kind, hinted))
+        options.push(optionOf(core, kind, hinted, root, true))
         break
       }
     }
   }
   return options
+}
+
+// `text-[18.2px] leading-7` → `text-[18.2px]/7`: a variable or arbitrary value of a root that takes
+// modifiers gets one for a longhand another class sets alone, when the modified class sets exactly
+// both. Relaxed classes stay as they are.
+function mergeModifiers(group: Group): void {
+  for (const match of [...group.matches]) {
+    const option = group.accepted.get(match)
+    const root = option?.root
+    if (option === undefined || root?.modifiers !== true || group.relaxed.has(match)) continue
+    let best: { readonly option: Option; readonly other: Match } | undefined
+    for (const other of group.matches) {
+      if (other === match || other.declarations.length !== 1 || group.relaxed.has(other)) continue
+      const position = other.declarations[0] as number
+      const declaration = group.declarations[position] as MatchDeclaration
+      if (!root.longhands.includes(declaration.property)) continue
+      const positions = [...option.positions, position]
+      for (const token of valueTokens(group, declaration)) {
+        const core = `${option.core}/${token}`
+        // `covers` only takes uncovered positions.
+        for (const at of positions) group.uncovered.add(at)
+        const found = attempt(group, core)
+        for (const at of positions) group.uncovered.delete(at)
+        if (found?.positions.length !== positions.length || found.relaxed.length > 0) continue
+        const merged = optionOf(core, modifiedKind(token, option.kind), found)
+        if (best === undefined || compareOptions(merged, best.option) < 0) {
+          best = { option: merged, other }
+        }
+      }
+    }
+    if (best === undefined) continue
+    for (const replaced of [match, best.other]) {
+      group.matches.splice(group.matches.indexOf(replaced), 1)
+      group.accepted.delete(replaced)
+    }
+    accept(group, best.option)
+  }
 }
 
 /**

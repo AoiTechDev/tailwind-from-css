@@ -270,3 +270,180 @@ describe('matchDeclarations', () => {
     ])
   })
 })
+
+// Forms Tailwind's own canonicalization finds (TESTING §2.5): every value form a functional root
+// takes, and type hints only where they describe the value.
+describe('matchDeclarations: functional roots for every value form', () => {
+  const probeOf = (root: string, declaration: string) => ({
+    [`${root}-(--tfc-probe)`]: plain(`${root}-(--tfc-probe)`, [declaration]),
+  })
+  const on = matcher({
+    theme: { '--spacing': '4px' },
+    classList: [
+      'p-4',
+      'pt-4',
+      'py-4',
+      'ml-1',
+      '-ml-1',
+      'rounded-sm',
+      'leading-7',
+      'text-sm',
+      'text-black',
+      'shadow-sm',
+      'bg-red',
+      'bg-cover',
+      'bg-left',
+      'font-bold',
+      'font-sans',
+    ],
+    modifiers: { 'text-sm': ['tight'] },
+    roots: [
+      'p',
+      'pt',
+      'py',
+      'ml',
+      '-ml',
+      'rounded',
+      'leading',
+      'text',
+      'shadow',
+      'bg',
+      'bg-size',
+      'bg-position',
+      'filter',
+      'font',
+    ],
+    candidates: {
+      'p-4': plain('p-4', ['padding: 16px']),
+      'pt-4': plain('pt-4', ['padding-top: 16px']),
+      'py-4': plain('py-4', ['padding-block: 16px']),
+      'ml-1': plain('ml-1', ['margin-left: 4px']),
+      '-ml-1': plain('-ml-1', ['margin-left: -4px']),
+      'rounded-sm': plain('rounded-sm', ['border-radius: 2px']),
+      'leading-7': plain('leading-7', ['line-height: 28px']),
+      'text-sm': plain('text-sm', ['font-size: 14px', 'line-height: 20px']),
+      'text-black': plain('text-black', ['color: black']),
+      'shadow-sm': plain('shadow-sm', ['box-shadow: 0 1px 2px black']),
+      'bg-red': plain('bg-red', ['background-color: red']),
+      'bg-cover': plain('bg-cover', ['background-size: cover']),
+      'bg-left': plain('bg-left', ['background-position: left']),
+      'font-bold': plain('font-bold', ['font-weight: 700']),
+      'font-sans': plain('font-sans', ['font-family: sans-serif']),
+      ...probeOf('bg-size', 'background-size: var(--tfc-probe)'),
+      ...probeOf('bg-position', 'background-position: var(--tfc-probe)'),
+      ...probeOf('filter', 'filter: var(--tfc-probe)'),
+      'p-(--p)': plain('p-(--p)', ['padding: var(--p)']),
+      'pt-(--p)': plain('pt-(--p)', ['padding-top: var(--p)']),
+      'p-[var(--a)_var(--b)]': plain('p-[var(--a)_var(--b)]', ['padding: var(--a) var(--b)']),
+      'py-(--y)': plain('py-(--y)', ['padding-block: var(--y)']),
+      'rounded-(--r)': plain('rounded-(--r)', ['border-radius: var(--r)']),
+      'filter-[brightness(0)_invert(1)]': plain('filter-[brightness(0)_invert(1)]', [
+        'filter: brightness(0) invert(1)',
+      ]),
+      '-ml-(--x)': plain('-ml-(--x)', ['margin-left: calc(var(--x) * -1)']),
+      'ml-[calc(var(--x)_*_-1)]': plain('ml-[calc(var(--x)_*_-1)]', [
+        'margin-left: calc(var(--x) * -1)',
+      ]),
+      'shadow-(--s,0_0_0_red)': plain('shadow-(--s,0_0_0_red)', ['box-shadow: var(--s,0 0 0 red)']),
+      'shadow-[var(--s,0_0_0_red)]': plain('shadow-[var(--s,0_0_0_red)]', [
+        'box-shadow: var(--s,0 0 0 red)',
+      ]),
+      'text-sm/(--lh)': plain('text-sm/(--lh)', ['font-size: 14px', 'line-height: var(--lh)']),
+      'text-sm/[var(--lh)]': plain('text-sm/[var(--lh)]', [
+        'font-size: 14px',
+        'line-height: var(--lh)',
+      ]),
+      'text-[18.2px]': plain('text-[18.2px]', ['font-size: 18.2px']),
+      'text-[18.2px]/7': plain('text-[18.2px]/7', ['font-size: 18.2px', 'line-height: 28px']),
+      'text-[#123456]': plain('text-[#123456]', ['color: #123456']),
+      'bg-size-[auto_16px]': plain('bg-size-[auto_16px]', ['background-size: auto 16px']),
+      'bg-[auto_16px]': plain('bg-[auto_16px]', ['background-size: auto 16px']),
+      'bg-position-[var(--x)_left]': plain('bg-position-[var(--x)_left]', [
+        'background-position: var(--x) left',
+      ]),
+      // Tailwind reads a value with a variable as a color unless a hint says otherwise.
+      'bg-[var(--x)_left]': plain('bg-[var(--x)_left]', ['background-color: var(--x) left']),
+      'bg-[position:var(--x)_left]': plain('bg-[position:var(--x)_left]', [
+        'background-position: var(--x) left',
+      ]),
+      'font-[bolder]': plain('font-[bolder]', ['font-family: bolder']),
+      'font-[color:bolder]': plain('font-[color:bolder]', ['font-weight: bolder']),
+      '[font-weight:bolder]': plain('[font-weight:bolder]', ['font-weight: bolder']),
+      'font-(--f)': plain('font-(--f)', ['font-weight: var(--f)']),
+      'font-(color:--f)': plain('font-(color:--f)', ['font-weight: var(--f)']),
+      'font-(family-name:--f)': plain('font-(family-name:--f)', ['font-family: var(--f)']),
+    },
+  })
+  const classes = (declarations: Declaration[]): string[] => names(match(on, declarations))
+
+  it('gives a shorthand kept whole the root that sets all of its longhands', () => {
+    expect(classes([{ property: 'padding', value: 'var(--p)' }])).toEqual(['p-(--p)'])
+    expect(classes([{ property: 'padding', value: 'var(--a) var(--b)' }])).toEqual([
+      'p-[var(--a)_var(--b)]',
+    ])
+    expect(classes([{ property: 'padding-block', value: 'var(--y)' }])).toEqual(['py-(--y)'])
+    expect(classes([{ property: 'border-radius', value: 'var(--r)' }])).toEqual(['rounded-(--r)'])
+  })
+
+  it('uses roots that have no listed candidate', () => {
+    expect(classes([{ property: 'filter', value: 'brightness(0) invert(1)' }])).toEqual([
+      'filter-[brightness(0)_invert(1)]',
+    ])
+  })
+
+  it('writes a negated variable with the negative root', () => {
+    expect(classes([{ property: 'margin-left', value: 'calc(var(--x) * -1)' }])).toEqual([
+      '-ml-(--x)',
+    ])
+  })
+
+  it('writes a variable with a fallback in the variable form', () => {
+    expect(classes([{ property: 'box-shadow', value: 'var(--s, 0 0 0 red)' }])).toEqual([
+      'shadow-(--s,0_0_0_red)',
+    ])
+  })
+
+  it('writes a variable modifier in the variable form', () => {
+    const result = match(on, [
+      { property: 'font-size', value: '14px' },
+      { property: 'line-height', value: 'var(--lh)' },
+    ])
+    expect(names(result)).toEqual(['text-sm/(--lh)'])
+    expect(result.matches[0]?.kind).toBe('variable')
+  })
+
+  it('gives an arbitrary value a modifier for a longhand another class set', () => {
+    const result = match(on, [
+      { property: 'font-size', value: '18.2px' },
+      { property: 'line-height', value: '28px' },
+    ])
+    expect(names(result)).toEqual(['text-[18.2px]/7'])
+    expect(result.matches[0]).toMatchObject({ kind: 'arbitrary-value', declarations: [0, 1] })
+    // `text-[#123456]/7` doesn't compile: the classes stay apart.
+    expect(
+      classes([
+        { property: 'color', value: '#123456' },
+        { property: 'line-height', value: '28px' },
+      ]),
+    ).toEqual(['leading-7', 'text-[#123456]'])
+  })
+
+  it('prefers the root of the longhand to a root that reads the value by its type', () => {
+    expect(classes([{ property: 'background-size', value: 'auto 16px' }])).toEqual([
+      'bg-size-[auto_16px]',
+    ])
+    expect(classes([{ property: 'background-position', value: 'var(--x) left' }])).toEqual([
+      'bg-position-[var(--x)_left]',
+    ])
+  })
+
+  it('uses a type hint only for a value with a variable', () => {
+    // `font-[color:bolder]` sets font-weight, but bolder is no color.
+    expect(classes([{ property: 'font-weight', value: 'bolder' }])).toEqual([
+      '[font-weight:bolder]',
+    ])
+    expect(classes([{ property: 'font-family', value: 'var(--f)' }])).toEqual([
+      'font-(family-name:--f)',
+    ])
+  })
+})

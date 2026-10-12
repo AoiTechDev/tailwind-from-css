@@ -202,16 +202,65 @@ describe('byLonghand (SPEC §5.2 step 4)', () => {
 describe('roots (SPEC §5.2 step 4)', () => {
   it('maps each longhand to the functional roots whose candidates set it', () => {
     expect(index.roots.get('padding-left')).toEqual([
-      { name: 'pl', longhands: ['padding-left'] },
+      { name: 'pl', longhands: ['padding-left'], modifiers: false },
       {
         name: 'p',
         longhands: ['padding-bottom', 'padding-left', 'padding-right', 'padding-top'],
+        modifiers: false,
       },
     ])
     expect(index.roots.get('padding-inline-start')?.map((root) => root.name)).toEqual(['px'])
-    expect(index.roots.get('margin-top')).toEqual([{ name: '-mt', longhands: ['margin-top'] }])
+    expect(index.roots.get('margin-top')).toEqual([
+      { name: '-mt', longhands: ['margin-top'], modifiers: false },
+    ])
     expect(index.roots.get('width')?.map((root) => root.name)).toEqual(['w'])
     expect(index.roots.get('overflow-x')).toBeUndefined()
+  })
+
+  it('knows which roots take modifiers', () => {
+    const withModifiers = buildUtilityIndex(
+      fakeDesign({
+        roots: ['text'],
+        modifiers: { 'text-sm': ['tight'] },
+        candidates: { 'text-sm': ast([rule('.text-sm', ['font-size: 14px'])]) },
+      }),
+      OPTIONS,
+    )
+    expect(withModifiers.roots.get('font-size')).toEqual([
+      { name: 'text', longhands: ['font-size'], modifiers: true },
+    ])
+  })
+
+  it('compiles roots without a listed candidate once with a variable', () => {
+    const selector = (root: string): string =>
+      `.${`${root}-(--tfc-probe)`.replace(/[^\w-]/g, (char) => `\\${char}`)}`
+    const probed = buildUtilityIndex(
+      fakeDesign({
+        roots: ['bg', 'bg-size', 'divide', 'from'],
+        candidates: {
+          'bg-red': ast([rule('.bg-red', ['background-color: red'])]),
+          'bg-size-(--tfc-probe)': ast([
+            rule(selector('bg-size'), ['background-size: var(--tfc-probe)']),
+          ]),
+          // Rules for other elements, or only Tailwind's variables: no root.
+          'divide-(--tfc-probe)': ast([
+            rule(`:where(${selector('divide')} > :not(:last-child))`, [
+              'border-color: var(--tfc-probe)',
+            ]),
+          ]),
+          'from-(--tfc-probe)': ast([
+            rule(selector('from'), ['--tw-gradient-from: var(--tfc-probe)']),
+          ]),
+        },
+      }),
+      OPTIONS,
+    )
+    expect(probed.roots.get('background-size')).toEqual([
+      { name: 'bg-size', longhands: ['background-size'], modifiers: false },
+    ])
+    expect(probed.roots.get('background-color')?.map((root) => root.name)).toEqual(['bg'])
+    expect(probed.roots.get('border-top-color')).toBeUndefined()
+    expect([...probed.roots.keys()].sort()).toEqual(['background-color', 'background-size'])
   })
 
   it('assigns each candidate to its longest root, after the prefix', () => {

@@ -1934,18 +1934,16 @@
       "selectors": [
         ".icon-link-hover:hover > .bi"
       ],
-      "className": "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
+      "className": "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
       "mappings": [
         [
-          "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
-          "arbitrary-value",
+          "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
+          "variable",
           "358:3 | transform: var(--bs-icon-link-transform, translate3d(0.25em, 0, 0))"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC201"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -1953,18 +1951,16 @@
       "selectors": [
         ".icon-link-hover:focus-visible > .bi"
       ],
-      "className": "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
+      "className": "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
       "mappings": [
         [
-          "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
-          "arbitrary-value",
+          "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
+          "variable",
           "358:3 | transform: var(--bs-icon-link-transform, translate3d(0.25em, 0, 0))"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC201"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4465,11 +4461,11 @@
       "selectors": [
         ".border-primary"
       ],
-      "className": "[border-color:rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "897:3 | border-color: rgba(var(--bs-primary-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4481,7 +4477,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4490,11 +4486,11 @@
       "selectors": [
         ".border-secondary"
       ],
-      "className": "[border-color:rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "902:3 | border-color: rgba(var(--bs-secondary-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4506,7 +4502,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4515,11 +4511,11 @@
       "selectors": [
         ".border-success"
       ],
-      "className": "[border-color:rgba(var(--bs-success-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-success-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-success-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-success-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "907:3 | border-color: rgba(var(--bs-success-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4531,7 +4527,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4540,11 +4536,11 @@
       "selectors": [
         ".border-info"
       ],
-      "className": "[border-color:rgba(var(--bs-info-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-info-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-info-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-info-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "912:3 | border-color: rgba(var(--bs-info-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4556,7 +4552,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4565,11 +4561,11 @@
       "selectors": [
         ".border-warning"
       ],
-      "className": "[border-color:rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "917:3 | border-color: rgba(var(--bs-warning-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4581,7 +4577,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4590,11 +4586,11 @@
       "selectors": [
         ".border-danger"
       ],
-      "className": "[border-color:rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "922:3 | border-color: rgba(var(--bs-danger-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4606,7 +4602,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4615,11 +4611,11 @@
       "selectors": [
         ".border-light"
       ],
-      "className": "[border-color:rgba(var(--bs-light-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-light-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-light-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-light-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "927:3 | border-color: rgba(var(--bs-light-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4631,7 +4627,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4640,11 +4636,11 @@
       "selectors": [
         ".border-dark"
       ],
-      "className": "[border-color:rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "932:3 | border-color: rgba(var(--bs-dark-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4656,7 +4652,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4665,11 +4661,11 @@
       "selectors": [
         ".border-black"
       ],
-      "className": "[border-color:rgba(var(--bs-black-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-black-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-black-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-black-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "937:3 | border-color: rgba(var(--bs-black-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4681,7 +4677,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4690,11 +4686,11 @@
       "selectors": [
         ".border-white"
       ],
-      "className": "[border-color:rgba(var(--bs-white-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
+      "className": "border-[rgba(var(--bs-white-rgb),var(--bs-border-opacity))]! [--bs-border-opacity:1]",
       "mappings": [
         [
-          "[border-color:rgba(var(--bs-white-rgb),var(--bs-border-opacity))]!",
-          "arbitrary-property",
+          "border-[rgba(var(--bs-white-rgb),var(--bs-border-opacity))]!",
+          "arbitrary-value",
           "942:3 | border-color: rgba(var(--bs-white-rgb), var(--bs-border-opacity)) !important"
         ],
         [
@@ -4706,7 +4702,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC202",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -4715,18 +4711,16 @@
       "selectors": [
         ".border-primary-subtle"
       ],
-      "className": "[border-color:var(--bs-primary-border-subtle)]!",
+      "className": "border-(--bs-primary-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-primary-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-primary-border-subtle)!",
+          "variable",
           "946:3 | border-color: var(--bs-primary-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4734,18 +4728,16 @@
       "selectors": [
         ".border-secondary-subtle"
       ],
-      "className": "[border-color:var(--bs-secondary-border-subtle)]!",
+      "className": "border-(--bs-secondary-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-secondary-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-secondary-border-subtle)!",
+          "variable",
           "950:3 | border-color: var(--bs-secondary-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4753,18 +4745,16 @@
       "selectors": [
         ".border-success-subtle"
       ],
-      "className": "[border-color:var(--bs-success-border-subtle)]!",
+      "className": "border-(--bs-success-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-success-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-success-border-subtle)!",
+          "variable",
           "954:3 | border-color: var(--bs-success-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4772,18 +4762,16 @@
       "selectors": [
         ".border-info-subtle"
       ],
-      "className": "[border-color:var(--bs-info-border-subtle)]!",
+      "className": "border-(--bs-info-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-info-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-info-border-subtle)!",
+          "variable",
           "958:3 | border-color: var(--bs-info-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4791,18 +4779,16 @@
       "selectors": [
         ".border-warning-subtle"
       ],
-      "className": "[border-color:var(--bs-warning-border-subtle)]!",
+      "className": "border-(--bs-warning-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-warning-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-warning-border-subtle)!",
+          "variable",
           "962:3 | border-color: var(--bs-warning-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4810,18 +4796,16 @@
       "selectors": [
         ".border-danger-subtle"
       ],
-      "className": "[border-color:var(--bs-danger-border-subtle)]!",
+      "className": "border-(--bs-danger-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-danger-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-danger-border-subtle)!",
+          "variable",
           "966:3 | border-color: var(--bs-danger-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4829,18 +4813,16 @@
       "selectors": [
         ".border-light-subtle"
       ],
-      "className": "[border-color:var(--bs-light-border-subtle)]!",
+      "className": "border-(--bs-light-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-light-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-light-border-subtle)!",
+          "variable",
           "970:3 | border-color: var(--bs-light-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -4848,18 +4830,16 @@
       "selectors": [
         ".border-dark-subtle"
       ],
-      "className": "[border-color:var(--bs-dark-border-subtle)]!",
+      "className": "border-(--bs-dark-border-subtle)!",
       "mappings": [
         [
-          "[border-color:var(--bs-dark-border-subtle)]!",
-          "arbitrary-property",
+          "border-(--bs-dark-border-subtle)!",
+          "variable",
           "974:3 | border-color: var(--bs-dark-border-subtle) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -8334,17 +8314,17 @@
       "selectors": [
         ".fw-lighter"
       ],
-      "className": "font-[color:lighter]!",
+      "className": "[font-weight:lighter]!",
       "mappings": [
         [
-          "font-[color:lighter]!",
-          "arbitrary-value",
+          "[font-weight:lighter]!",
+          "arbitrary-property",
           "1758:3 | font-weight: lighter !important"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201"
+        "TFC202"
       ],
       "exact": true
     },
@@ -8438,17 +8418,17 @@
       "selectors": [
         ".fw-bolder"
       ],
-      "className": "font-[color:bolder]!",
+      "className": "[font-weight:bolder]!",
       "mappings": [
         [
-          "font-[color:bolder]!",
-          "arbitrary-value",
+          "[font-weight:bolder]!",
+          "arbitrary-property",
           "1782:3 | font-weight: bolder !important"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC201"
+        "TFC202"
       ],
       "exact": true
     },
@@ -10907,18 +10887,16 @@
       "selectors": [
         ".rounded"
       ],
-      "className": "[border-radius:var(--bs-border-radius)]!",
+      "className": "rounded-(--bs-border-radius)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius)!",
+          "variable",
           "2309:3 | border-radius: var(--bs-border-radius) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -10943,18 +10921,16 @@
       "selectors": [
         ".rounded-1"
       ],
-      "className": "[border-radius:var(--bs-border-radius-sm)]!",
+      "className": "rounded-(--bs-border-radius-sm)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius-sm)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius-sm)!",
+          "variable",
           "2317:3 | border-radius: var(--bs-border-radius-sm) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -10962,18 +10938,16 @@
       "selectors": [
         ".rounded-2"
       ],
-      "className": "[border-radius:var(--bs-border-radius)]!",
+      "className": "rounded-(--bs-border-radius)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius)!",
+          "variable",
           "2321:3 | border-radius: var(--bs-border-radius) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -10981,18 +10955,16 @@
       "selectors": [
         ".rounded-3"
       ],
-      "className": "[border-radius:var(--bs-border-radius-lg)]!",
+      "className": "rounded-(--bs-border-radius-lg)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius-lg)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius-lg)!",
+          "variable",
           "2325:3 | border-radius: var(--bs-border-radius-lg) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -11000,18 +10972,16 @@
       "selectors": [
         ".rounded-4"
       ],
-      "className": "[border-radius:var(--bs-border-radius-xl)]!",
+      "className": "rounded-(--bs-border-radius-xl)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius-xl)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius-xl)!",
+          "variable",
           "2329:3 | border-radius: var(--bs-border-radius-xl) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -11019,18 +10989,16 @@
       "selectors": [
         ".rounded-5"
       ],
-      "className": "[border-radius:var(--bs-border-radius-xxl)]!",
+      "className": "rounded-(--bs-border-radius-xxl)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius-xxl)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius-xxl)!",
+          "variable",
           "2333:3 | border-radius: var(--bs-border-radius-xxl) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {
@@ -11057,18 +11025,16 @@
       "selectors": [
         ".rounded-pill"
       ],
-      "className": "[border-radius:var(--bs-border-radius-pill)]!",
+      "className": "rounded-(--bs-border-radius-pill)!",
       "mappings": [
         [
-          "[border-radius:var(--bs-border-radius-pill)]!",
-          "arbitrary-property",
+          "rounded-(--bs-border-radius-pill)!",
+          "variable",
           "2341:3 | border-radius: var(--bs-border-radius-pill) !important"
         ]
       ],
       "unconverted": [],
-      "diagnostics": [
-        "TFC202"
-      ],
+      "diagnostics": [],
       "exact": true
     },
     {

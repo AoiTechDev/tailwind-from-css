@@ -5,11 +5,11 @@
       "selectors": [
         ".later-shorthand"
       ],
-      "className": "[padding:calc(var(--x)_*_0.5)_0] pl-(--y)",
+      "className": "p-[calc(var(--x)_*_0.5)_0] pl-(--y)",
       "mappings": [
         [
-          "[padding:calc(var(--x)_*_0.5)_0]",
-          "arbitrary-property",
+          "p-[calc(var(--x)_*_0.5)_0]",
+          "arbitrary-value",
           "3:20 | padding: calc(var(--x) * 0.5) 0"
         ],
         [
@@ -21,7 +21,7 @@
       "unconverted": [],
       "diagnostics": [
         "TFC106",
-        "TFC202"
+        "TFC201"
       ],
       "exact": true
     },
@@ -55,7 +55,7 @@
       "selectors": [
         ".media-shorthand"
       ],
-      "className": "pt-1 md:[padding:var(--p)] md:pt-1",
+      "className": "pt-1 md:p-(--p) md:pt-1",
       "mappings": [
         [
           "pt-1",
@@ -63,8 +63,8 @@
           "8:20 | padding-top: 4px"
         ],
         [
-          "md:[padding:var(--p)]",
-          "arbitrary-property",
+          "md:p-(--p)",
+          "variable",
           "7:48 | @media (min-width: 768px) | padding: var(--p)"
         ],
         [
@@ -75,7 +75,6 @@
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC202",
         "TFC401"
       ],
       "exact": true
@@ -85,17 +84,16 @@
       "selectors": [
         ".important"
       ],
-      "className": "[padding:var(--p)]!",
+      "className": "p-(--p)!",
       "mappings": [
         [
-          "[padding:var(--p)]!",
-          "arbitrary-property",
+          "p-(--p)!",
+          "variable",
           "10:14 | padding: var(--p) !important"
         ]
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC202",
         "TFC106"
       ],
       "exact": true
