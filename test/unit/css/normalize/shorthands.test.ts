@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { normalizeDeclaration } from '../../../../src/css/normalize/index.ts'
 import {
   canonicalProperty,
+  coveredByImportant,
+  covers,
+  longhandsOf as declaredLonghands,
+  dropCovered,
   EXPANDED_LONGHANDS,
   expandShorthand,
 } from '../../../../src/css/normalize/shorthands.ts'
@@ -471,5 +475,66 @@ describe('N01 shorthand expansion', () => {
   it('returns nothing for longhands and unknown properties', () => {
     expect(expandShorthand('margin-top', '1px')).toBeUndefined()
     expect(expandShorthand('foo', '1px')).toBeUndefined()
+  })
+})
+
+// A shorthand kept whole (N01: a `var()` value) still sets every longhand it covers, so the
+// cascade of a block must let it override earlier declarations of those longhands.
+describe('shorthand coverage', () => {
+  it('covers longhands and smaller shorthands of a shorthand', () => {
+    expect(covers('padding', 'padding-top')).toBe(true)
+    expect(covers('border', 'border-color')).toBe(true)
+    expect(covers('border', 'border-top-width')).toBe(true)
+    expect(covers('border', 'border-top')).toBe(true)
+    expect(covers('text-decoration', 'text-decoration-thickness')).toBe(true)
+    expect(covers('font', 'line-height')).toBe(true)
+  })
+
+  it('does not cover itself, larger or partly overlapping shorthands, or other properties', () => {
+    expect(covers('padding', 'padding')).toBe(false)
+    expect(covers('border-color', 'border')).toBe(false)
+    expect(covers('border-top', 'border-color')).toBe(false)
+    expect(covers('padding', 'margin-top')).toBe(false)
+    expect(covers('padding-top', 'padding-top')).toBe(false)
+    expect(covers('color', 'padding-top')).toBe(false)
+  })
+
+  it('finds a normal declaration that an earlier important shorthand covers', () => {
+    const winners = new Map([['padding', { important: true }]])
+    expect(coveredByImportant(winners, { property: 'padding-top', important: false })).toBe(true)
+    expect(coveredByImportant(winners, { property: 'padding-top', important: true })).toBe(false)
+    expect(coveredByImportant(winners, { property: 'margin-top', important: false })).toBe(false)
+    expect(
+      coveredByImportant(new Map([['padding', { important: false }]]), {
+        property: 'padding-top',
+        important: false,
+      }),
+    ).toBe(false)
+  })
+
+  it('lists the longhands a declaration sets, sorted', () => {
+    expect(declaredLonghands('padding')).toEqual([
+      'padding-bottom',
+      'padding-left',
+      'padding-right',
+      'padding-top',
+    ])
+    expect(declaredLonghands('text-decoration')).toContain('text-decoration-thickness')
+    expect(declaredLonghands('color')).toEqual(['color'])
+    expect(declaredLonghands('--x')).toEqual(['--x'])
+  })
+
+  it('drops the winners a later shorthand overrides, unless they are important and it is not', () => {
+    const winners = new Map([
+      ['padding-top', { important: false }],
+      ['padding-left', { important: true }],
+      ['margin-top', { important: false }],
+    ])
+    dropCovered(winners, { property: 'padding', important: false })
+    expect([...winners.keys()]).toEqual(['padding-left', 'margin-top'])
+    dropCovered(winners, { property: 'padding', important: true })
+    expect([...winners.keys()]).toEqual(['margin-top'])
+    dropCovered(winners, { property: 'margin-top', important: true })
+    expect([...winners.keys()]).toEqual(['margin-top'])
   })
 })

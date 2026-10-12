@@ -1,0 +1,1093 @@
+{
+  "rules": [
+    {
+      "subject": "body",
+      "selectors": [
+        "body"
+      ],
+      "className": "m-0",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "25:3 | margin: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "main",
+      "selectors": [
+        "main"
+      ],
+      "className": "block",
+      "mappings": [
+        [
+          "block",
+          "named",
+          "33:3 | display: block"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "h1",
+      "selectors": [
+        "h1"
+      ],
+      "className": "mt-[0.67em] mr-0 mb-[0.67em] ml-0 text-[2em]",
+      "mappings": [
+        [
+          "mt-[0.67em]",
+          "arbitrary-value",
+          "43:3 | margin: 0.67em 0"
+        ],
+        [
+          "mr-0",
+          "bare",
+          "43:3 | margin: 0.67em 0"
+        ],
+        [
+          "mb-[0.67em]",
+          "arbitrary-value",
+          "43:3 | margin: 0.67em 0"
+        ],
+        [
+          "ml-0",
+          "bare",
+          "43:3 | margin: 0.67em 0"
+        ],
+        [
+          "text-[2em]",
+          "arbitrary-value",
+          "42:3 | font-size: 2em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "hr",
+      "selectors": [
+        "hr"
+      ],
+      "className": "box-content h-0 overflow-visible",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "55:3 | box-sizing: content-box"
+        ],
+        [
+          "h-0",
+          "bare",
+          "56:3 | height: 0"
+        ],
+        [
+          "overflow-visible",
+          "named",
+          "57:3 | overflow: visible"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "pre",
+      "selectors": [
+        "pre"
+      ],
+      "className": "font-[monospace,monospace] text-[1em]",
+      "mappings": [
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "66:3 | font-family: monospace, monospace"
+        ],
+        [
+          "text-[1em]",
+          "arbitrary-value",
+          "67:3 | font-size: 1em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "a",
+      "selectors": [
+        "a"
+      ],
+      "className": "bg-transparent",
+      "mappings": [
+        [
+          "bg-transparent",
+          "named",
+          "78:3 | background-color: transparent"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "abbr[title]",
+      "selectors": [
+        "abbr[title]"
+      ],
+      "className": "[border-bottom-width:medium] [border-bottom-style:none] border-b-current underline decoration-current decoration-dotted decoration-auto",
+      "mappings": [
+        [
+          "[border-bottom-width:medium]",
+          "arbitrary-property",
+          "87:3 | border-bottom: none"
+        ],
+        [
+          "[border-bottom-style:none]",
+          "arbitrary-property",
+          "87:3 | border-bottom: none"
+        ],
+        [
+          "border-b-current",
+          "named",
+          "87:3 | border-bottom: none"
+        ],
+        [
+          "underline",
+          "named",
+          "89:3 | text-decoration: underline dotted"
+        ],
+        [
+          "decoration-current",
+          "named",
+          "89:3 | text-decoration: underline dotted"
+        ],
+        [
+          "decoration-dotted",
+          "named",
+          "89:3 | text-decoration: underline dotted"
+        ],
+        [
+          "decoration-auto",
+          "named",
+          "89:3 | text-decoration: underline dotted"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC202",
+        "TFC106"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "b",
+      "selectors": [
+        "b"
+      ],
+      "className": "font-[color:bolder]",
+      "mappings": [
+        [
+          "font-[color:bolder]",
+          "arbitrary-value",
+          "98:3 | font-weight: bolder"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "strong",
+      "selectors": [
+        "strong"
+      ],
+      "className": "font-[color:bolder]",
+      "mappings": [
+        [
+          "font-[color:bolder]",
+          "arbitrary-value",
+          "98:3 | font-weight: bolder"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "code",
+      "selectors": [
+        "code"
+      ],
+      "className": "font-[monospace,monospace] text-[1em]",
+      "mappings": [
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "109:3 | font-family: monospace, monospace"
+        ],
+        [
+          "text-[1em]",
+          "arbitrary-value",
+          "110:3 | font-size: 1em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "kbd",
+      "selectors": [
+        "kbd"
+      ],
+      "className": "font-[monospace,monospace] text-[1em]",
+      "mappings": [
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "109:3 | font-family: monospace, monospace"
+        ],
+        [
+          "text-[1em]",
+          "arbitrary-value",
+          "110:3 | font-size: 1em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "samp",
+      "selectors": [
+        "samp"
+      ],
+      "className": "font-[monospace,monospace] text-[1em]",
+      "mappings": [
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "109:3 | font-family: monospace, monospace"
+        ],
+        [
+          "text-[1em]",
+          "arbitrary-value",
+          "110:3 | font-size: 1em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "small",
+      "selectors": [
+        "small"
+      ],
+      "className": "text-[80%]",
+      "mappings": [
+        [
+          "text-[80%]",
+          "arbitrary-value",
+          "118:3 | font-size: 80%"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "sub",
+      "selectors": [
+        "sub"
+      ],
+      "className": "relative bottom-[-0.25em] align-baseline text-[75%] leading-[0]",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "130:3 | position: relative"
+        ],
+        [
+          "bottom-[-0.25em]",
+          "arbitrary-value",
+          "135:3 | bottom: -0.25em"
+        ],
+        [
+          "align-baseline",
+          "named",
+          "131:3 | vertical-align: baseline"
+        ],
+        [
+          "text-[75%]",
+          "arbitrary-value",
+          "128:3 | font-size: 75%"
+        ],
+        [
+          "leading-[0]",
+          "arbitrary-value",
+          "129:3 | line-height: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "sup",
+      "selectors": [
+        "sup"
+      ],
+      "className": "relative top-[-0.5em] align-baseline text-[75%] leading-[0]",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "130:3 | position: relative"
+        ],
+        [
+          "top-[-0.5em]",
+          "arbitrary-value",
+          "139:3 | top: -0.5em"
+        ],
+        [
+          "align-baseline",
+          "named",
+          "131:3 | vertical-align: baseline"
+        ],
+        [
+          "text-[75%]",
+          "arbitrary-value",
+          "128:3 | font-size: 75%"
+        ],
+        [
+          "leading-[0]",
+          "arbitrary-value",
+          "129:3 | line-height: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "img",
+      "selectors": [
+        "img"
+      ],
+      "className": "border-none",
+      "mappings": [
+        [
+          "border-none",
+          "named",
+          "150:3 | border-style: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "button",
+      "selectors": [
+        "button",
+        "button::-moz-focus-inner",
+        "button:-moz-focusring"
+      ],
+      "className": "m-0 overflow-visible font-[inherit] text-[100%] leading-[1.15] normal-case [-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "169:3 | margin: 0"
+        ],
+        [
+          "overflow-visible",
+          "named",
+          "179:3 | overflow: visible"
+        ],
+        [
+          "font-[inherit]",
+          "arbitrary-value",
+          "166:3 | font-family: inherit"
+        ],
+        [
+          "text-[100%]",
+          "arbitrary-value",
+          "167:3 | font-size: 100%"
+        ],
+        [
+          "leading-[1.15]",
+          "arbitrary-value",
+          "168:3 | line-height: 1.15"
+        ],
+        [
+          "normal-case",
+          "named",
+          "189:3 | text-transform: none"
+        ],
+        [
+          "[-webkit-appearance:button]",
+          "arbitrary-property",
+          "200:3 | -webkit-appearance: button"
+        ],
+        [
+          "[&:-moz-focusring]:[outline-width:1px]",
+          "arbitrary-property",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-[buttontext]",
+          "arbitrary-value",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-dotted",
+          "named",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&::-moz-focus-inner]:border-none",
+          "named",
+          "211:3 | &::-moz-focus-inner | border-style: none"
+        ],
+        [
+          "[&::-moz-focus-inner]:p-0",
+          "bare",
+          "212:3 | &::-moz-focus-inner | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC301",
+        "TFC201",
+        "TFC202",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "input",
+      "selectors": [
+        "input"
+      ],
+      "className": "m-0 overflow-visible font-[inherit] text-[100%] leading-[1.15]",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "169:3 | margin: 0"
+        ],
+        [
+          "overflow-visible",
+          "named",
+          "179:3 | overflow: visible"
+        ],
+        [
+          "font-[inherit]",
+          "arbitrary-value",
+          "166:3 | font-family: inherit"
+        ],
+        [
+          "text-[100%]",
+          "arbitrary-value",
+          "167:3 | font-size: 100%"
+        ],
+        [
+          "leading-[1.15]",
+          "arbitrary-value",
+          "168:3 | line-height: 1.15"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "optgroup",
+      "selectors": [
+        "optgroup"
+      ],
+      "className": "m-0 font-[inherit] text-[100%] leading-[1.15]",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "169:3 | margin: 0"
+        ],
+        [
+          "font-[inherit]",
+          "arbitrary-value",
+          "166:3 | font-family: inherit"
+        ],
+        [
+          "text-[100%]",
+          "arbitrary-value",
+          "167:3 | font-size: 100%"
+        ],
+        [
+          "leading-[1.15]",
+          "arbitrary-value",
+          "168:3 | line-height: 1.15"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "select",
+      "selectors": [
+        "select"
+      ],
+      "className": "m-0 font-[inherit] text-[100%] leading-[1.15] normal-case",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "169:3 | margin: 0"
+        ],
+        [
+          "font-[inherit]",
+          "arbitrary-value",
+          "166:3 | font-family: inherit"
+        ],
+        [
+          "text-[100%]",
+          "arbitrary-value",
+          "167:3 | font-size: 100%"
+        ],
+        [
+          "leading-[1.15]",
+          "arbitrary-value",
+          "168:3 | line-height: 1.15"
+        ],
+        [
+          "normal-case",
+          "named",
+          "189:3 | text-transform: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "textarea",
+      "selectors": [
+        "textarea"
+      ],
+      "className": "m-0 overflow-auto font-[inherit] text-[100%] leading-[1.15]",
+      "mappings": [
+        [
+          "m-0",
+          "bare",
+          "169:3 | margin: 0"
+        ],
+        [
+          "overflow-auto",
+          "named",
+          "263:3 | overflow: auto"
+        ],
+        [
+          "font-[inherit]",
+          "arbitrary-value",
+          "166:3 | font-family: inherit"
+        ],
+        [
+          "text-[100%]",
+          "arbitrary-value",
+          "167:3 | font-size: 100%"
+        ],
+        [
+          "leading-[1.15]",
+          "arbitrary-value",
+          "168:3 | line-height: 1.15"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"button\"]",
+      "selectors": [
+        "[type=\"button\"]",
+        "[type=\"button\"]::-moz-focus-inner",
+        "[type=\"button\"]:-moz-focusring"
+      ],
+      "className": "[-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
+      "mappings": [
+        [
+          "[-webkit-appearance:button]",
+          "arbitrary-property",
+          "200:3 | -webkit-appearance: button"
+        ],
+        [
+          "[&:-moz-focusring]:[outline-width:1px]",
+          "arbitrary-property",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-[buttontext]",
+          "arbitrary-value",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-dotted",
+          "named",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&::-moz-focus-inner]:border-none",
+          "named",
+          "211:3 | &::-moz-focus-inner | border-style: none"
+        ],
+        [
+          "[&::-moz-focus-inner]:p-0",
+          "bare",
+          "212:3 | &::-moz-focus-inner | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC301",
+        "TFC201",
+        "TFC202",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"reset\"]",
+      "selectors": [
+        "[type=\"reset\"]",
+        "[type=\"reset\"]::-moz-focus-inner",
+        "[type=\"reset\"]:-moz-focusring"
+      ],
+      "className": "[-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
+      "mappings": [
+        [
+          "[-webkit-appearance:button]",
+          "arbitrary-property",
+          "200:3 | -webkit-appearance: button"
+        ],
+        [
+          "[&:-moz-focusring]:[outline-width:1px]",
+          "arbitrary-property",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-[buttontext]",
+          "arbitrary-value",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-dotted",
+          "named",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&::-moz-focus-inner]:border-none",
+          "named",
+          "211:3 | &::-moz-focus-inner | border-style: none"
+        ],
+        [
+          "[&::-moz-focus-inner]:p-0",
+          "bare",
+          "212:3 | &::-moz-focus-inner | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC301",
+        "TFC201",
+        "TFC202",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"submit\"]",
+      "selectors": [
+        "[type=\"submit\"]",
+        "[type=\"submit\"]::-moz-focus-inner",
+        "[type=\"submit\"]:-moz-focusring"
+      ],
+      "className": "[-webkit-appearance:button] [&:-moz-focusring]:[outline-width:1px] [&:-moz-focusring]:outline-[buttontext] [&:-moz-focusring]:outline-dotted [&::-moz-focus-inner]:border-none [&::-moz-focus-inner]:p-0",
+      "mappings": [
+        [
+          "[-webkit-appearance:button]",
+          "arbitrary-property",
+          "200:3 | -webkit-appearance: button"
+        ],
+        [
+          "[&:-moz-focusring]:[outline-width:1px]",
+          "arbitrary-property",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-[buttontext]",
+          "arbitrary-value",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&:-moz-focusring]:outline-dotted",
+          "named",
+          "223:3 | &:-moz-focusring | outline: 1px dotted ButtonText"
+        ],
+        [
+          "[&::-moz-focus-inner]:border-none",
+          "named",
+          "211:3 | &::-moz-focus-inner | border-style: none"
+        ],
+        [
+          "[&::-moz-focus-inner]:p-0",
+          "bare",
+          "212:3 | &::-moz-focus-inner | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC301",
+        "TFC201",
+        "TFC202",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "fieldset",
+      "selectors": [
+        "fieldset"
+      ],
+      "className": "pt-[0.35em] pr-[0.75em] pb-[0.625em] pl-[0.75em]",
+      "mappings": [
+        [
+          "pt-[0.35em]",
+          "arbitrary-value",
+          "231:3 | padding: 0.35em 0.75em 0.625em"
+        ],
+        [
+          "pr-[0.75em]",
+          "arbitrary-value",
+          "231:3 | padding: 0.35em 0.75em 0.625em"
+        ],
+        [
+          "pb-[0.625em]",
+          "arbitrary-value",
+          "231:3 | padding: 0.35em 0.75em 0.625em"
+        ],
+        [
+          "pl-[0.75em]",
+          "arbitrary-value",
+          "231:3 | padding: 0.35em 0.75em 0.625em"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "legend",
+      "selectors": [
+        "legend"
+      ],
+      "className": "box-border table max-w-full p-0 whitespace-normal text-inherit",
+      "mappings": [
+        [
+          "box-border",
+          "named",
+          "242:3 | box-sizing: border-box"
+        ],
+        [
+          "table",
+          "named",
+          "244:3 | display: table"
+        ],
+        [
+          "max-w-full",
+          "named",
+          "245:3 | max-width: 100%"
+        ],
+        [
+          "p-0",
+          "bare",
+          "246:3 | padding: 0"
+        ],
+        [
+          "whitespace-normal",
+          "named",
+          "247:3 | white-space: normal"
+        ],
+        [
+          "text-inherit",
+          "named",
+          "243:3 | color: inherit"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "progress",
+      "selectors": [
+        "progress"
+      ],
+      "className": "align-baseline",
+      "mappings": [
+        [
+          "align-baseline",
+          "named",
+          "255:3 | vertical-align: baseline"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"checkbox\"]",
+      "selectors": [
+        "[type=\"checkbox\"]"
+      ],
+      "className": "box-border p-0",
+      "mappings": [
+        [
+          "box-border",
+          "named",
+          "273:3 | box-sizing: border-box"
+        ],
+        [
+          "p-0",
+          "bare",
+          "274:3 | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"radio\"]",
+      "selectors": [
+        "[type=\"radio\"]"
+      ],
+      "className": "box-border p-0",
+      "mappings": [
+        [
+          "box-border",
+          "named",
+          "273:3 | box-sizing: border-box"
+        ],
+        [
+          "p-0",
+          "bare",
+          "274:3 | padding: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"number\"]",
+      "selectors": [
+        "[type=\"number\"]::-webkit-inner-spin-button",
+        "[type=\"number\"]::-webkit-outer-spin-button"
+      ],
+      "className": "[&::-webkit-inner-spin-button]:h-auto [&::-webkit-outer-spin-button]:h-auto",
+      "mappings": [
+        [
+          "[&::-webkit-inner-spin-button]:h-auto",
+          "named",
+          "283:3 | &::-webkit-inner-spin-button | height: auto"
+        ],
+        [
+          "[&::-webkit-outer-spin-button]:h-auto",
+          "named",
+          "283:3 | &::-webkit-outer-spin-button | height: auto"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC301",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "[type=\"search\"]",
+      "selectors": [
+        "[type=\"search\"]",
+        "[type=\"search\"]::-webkit-search-decoration"
+      ],
+      "className": "-outline-offset-2 [-webkit-appearance:textfield] [&::-webkit-search-decoration]:[-webkit-appearance:none]",
+      "mappings": [
+        [
+          "-outline-offset-2",
+          "bare",
+          "293:3 | outline-offset: -2px"
+        ],
+        [
+          "[-webkit-appearance:textfield]",
+          "arbitrary-property",
+          "292:3 | -webkit-appearance: textfield"
+        ],
+        [
+          "[&::-webkit-search-decoration]:[-webkit-appearance:none]",
+          "arbitrary-property",
+          "301:3 | &::-webkit-search-decoration | -webkit-appearance: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC202",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "subject": "details",
+      "selectors": [
+        "details"
+      ],
+      "className": "block",
+      "mappings": [
+        [
+          "block",
+          "named",
+          "322:3 | display: block"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "summary",
+      "selectors": [
+        "summary"
+      ],
+      "className": "list-item",
+      "mappings": [
+        [
+          "list-item",
+          "named",
+          "330:3 | display: list-item"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "template",
+      "selectors": [
+        "template"
+      ],
+      "className": "hidden",
+      "mappings": [
+        [
+          "hidden",
+          "named",
+          "341:3 | display: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "subject": "[hidden]",
+      "selectors": [
+        "[hidden]"
+      ],
+      "className": "hidden",
+      "mappings": [
+        [
+          "hidden",
+          "named",
+          "349:3 | display: none"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "html {\n  line-height: 1.15;\n  -webkit-text-size-adjust: 100%;\n}\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit;\n}\n",
+  "diagnostics": [
+    "TFC104",
+    "TFC104"
+  ]
+}

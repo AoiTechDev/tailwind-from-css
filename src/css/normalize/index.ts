@@ -130,4 +130,5 @@ export const normalValuesEqual = (a: string, b: string): boolean => equalWithCol
  */
 export const cssText = (value: string): string => srgbAsCss(value)
 
+export { coveredByImportant, covers, dropCovered, longhandsOf } from './shorthands.ts'
 export { normalizeValue } from './values.ts'

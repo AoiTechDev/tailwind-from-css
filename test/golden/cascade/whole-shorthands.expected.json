@@ -1,0 +1,125 @@
+{
+  "rules": [
+    {
+      "subject": ".later-shorthand",
+      "selectors": [
+        ".later-shorthand"
+      ],
+      "className": "[padding:calc(var(--x)_*_0.5)_0] pl-(--y)",
+      "mappings": [
+        [
+          "[padding:calc(var(--x)_*_0.5)_0]",
+          "arbitrary-property",
+          "3:20 | padding: calc(var(--x) * 0.5) 0"
+        ],
+        [
+          "pl-(--y)",
+          "variable",
+          "3:53 | padding-left: var(--y)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC106",
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".sorted-last",
+      "selectors": [
+        ".sorted-last"
+      ],
+      "className": "[border:var(--b)]",
+      "mappings": [
+        [
+          "[border:var(--b)]",
+          "arbitrary-property",
+          "5:16 | border: var(--b)"
+        ]
+      ],
+      "unconverted": [
+        [
+          "TFC402",
+          "5:34 | border-top-color: red"
+        ]
+      ],
+      "diagnostics": [
+        "TFC202",
+        "TFC402"
+      ],
+      "exact": false
+    },
+    {
+      "subject": ".media-shorthand",
+      "selectors": [
+        ".media-shorthand"
+      ],
+      "className": "pt-1 md:[padding:var(--p)] md:pt-1",
+      "mappings": [
+        [
+          "pt-1",
+          "bare",
+          "8:20 | padding-top: 4px"
+        ],
+        [
+          "md:[padding:var(--p)]",
+          "arbitrary-property",
+          "7:48 | @media (min-width: 768px) | padding: var(--p)"
+        ],
+        [
+          "md:pt-1",
+          "bare",
+          "8:20 | padding-top: 4px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC401"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".important",
+      "selectors": [
+        ".important"
+      ],
+      "className": "[padding:var(--p)]!",
+      "mappings": [
+        [
+          "[padding:var(--p)]!",
+          "arbitrary-property",
+          "10:14 | padding: var(--p) !important"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC106"
+      ],
+      "exact": true
+    },
+    {
+      "subject": ".corners",
+      "selectors": [
+        ".corners"
+      ],
+      "className": "rounded-none",
+      "mappings": [
+        [
+          "rounded-none",
+          "named",
+          "12:37 | border-radius: 0"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC106"
+      ],
+      "exact": true
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

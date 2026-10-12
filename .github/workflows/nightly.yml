@@ -25,6 +25,8 @@ jobs:
           TFC_PROPERTY_RUNS: '5000'
       - name: Golden suites, including real-world
         run: pnpm test:golden
+      - name: Differential oracle (canonicalizeCandidates)
+        run: pnpm test:differential
 
   perf:
     runs-on: ubuntu-latest

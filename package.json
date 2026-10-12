@@ -32,6 +32,7 @@
     "test": "vitest run --project unit --project contract --project golden --project property --project types",
     "test:coverage": "vitest run --project unit --project contract --project golden --project property --coverage",
     "test:golden": "vitest run --project golden",
+    "test:differential": "vitest run --project differential",
     "test:e2e": "vitest run --project e2e",
     "build": "tsdown",
     "check:package": "publint --strict && attw --pack . --profile esm-only && vitest run --project e2e",

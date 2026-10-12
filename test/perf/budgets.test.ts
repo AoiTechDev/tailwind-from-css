@@ -1,14 +1,18 @@
 // SPEC §11 budgets, asserted at twice the budget for noise. Runs only with TFC_PERF=1 (the CI perf
 // job); timings are printed so the job summary shows the actual numbers.
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import postcss from 'postcss'
 import { describe, expect, it } from 'vitest'
 import { createConverter } from '../../src/converter.ts'
 import { buildUtilityIndex } from '../../src/tailwind/index-builder.ts'
 import type { StyleInput } from '../../src/types.ts'
-import { loadEntry } from '../helpers/design-system.ts'
+import { FIXTURES, loadEntry } from '../helpers/design-system.ts'
 
 const BUDGET_MS = 1500
 const HEAP_BUDGET_BYTES = 250 * 1024 * 1024
 const CONVERT_P95_BUDGET_MS = 2
+const STYLESHEET_BUDGET_MS = 1500
 
 const megabytes = (bytes: number): number => Math.round(bytes / 1024 / 1024)
 
@@ -104,5 +108,31 @@ describe.runIf(process.env.TFC_PERF === '1')('SPEC §11 budgets', () => {
       `convertStyles p50 ${percentile(samples, 0.5).toFixed(2)} ms, p95 ${p95.toFixed(2)} ms: ${expected}`,
     )
     expect(p95).toBeLessThan(2 * CONVERT_P95_BUDGET_MS)
+  }, 60_000)
+
+  it('converts the 1,000-rule stylesheet within the convertCss budget', async () => {
+    const css = readFileSync(resolve(FIXTURES, 'perf', 'stylesheet-1000.css'), 'utf8')
+    let rules = 0
+    postcss.parse(css).walkRules(() => {
+      rules++
+    })
+    expect(rules).toBe(1000)
+    const converter = await createConverter()
+    converter.convertCss(css)
+    const samples: number[] = []
+    let result = converter.convertCss(css)
+    for (let run = 0; run < 5; run++) {
+      const start = performance.now()
+      result = converter.convertCss(css)
+      samples.push(performance.now() - start)
+    }
+    const median = percentile(samples, 0.5)
+    console.info(
+      `convertCss 1,000 rules: median ${Math.round(median)} ms, max ${Math.round(Math.max(...samples))} ms, ${result.rules.length} subjects`,
+    )
+    const codes = result.rules.flatMap((rule) => rule.result.diagnostics.map(({ code }) => code))
+    expect(codes).not.toContain('TFC501')
+    expect(result.rules.every((rule) => rule.result.classes.length > 0)).toBe(true)
+    expect(median).toBeLessThan(2 * STYLESHEET_BUDGET_MS)
   }, 60_000)
 })

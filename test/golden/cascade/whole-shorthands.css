@@ -1,0 +1,12 @@
+/* A shorthand with var() stays whole, but still sets every longhand it covers. */
+.later-shorthand { padding: 0 }
+.later-shorthand { padding: calc(var(--x) * 0.5) 0; padding-left: var(--y) }
+
+.sorted-last { border: var(--b); border-top-color: red }
+
+@media (min-width: 768px) { .media-shorthand { padding: var(--p) } }
+.media-shorthand { padding-top: 4px }
+
+.important { padding: var(--p) !important; padding-top: 0 }
+
+.corners { border-radius: var(--r); border-radius: 0 }

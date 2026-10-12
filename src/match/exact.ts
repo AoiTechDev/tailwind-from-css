@@ -1,5 +1,8 @@
 import {
+  coveredByImportant,
   cssText,
+  dropCovered,
+  longhandsOf,
   type NormalDeclaration,
   normalizeBlock,
   normalizeValue,
@@ -150,10 +153,22 @@ export function matchInput(
     for (const longhand of group) {
       const earlier = winners.get(longhand.property)
       if (earlier?.important === true && !longhand.important) continue
+      if (coveredByImportant(winners, longhand)) continue
+      dropCovered(winners, longhand)
       const raw = asWritten ? declaration.value.trim() : cssText(longhand.value)
       winners.set(longhand.property, { ...longhand, raw, source })
     }
   })
+  // A shorthand kept whole whose longhands are all written later never shows.
+  for (const [property, winner] of winners) {
+    const longhands = longhandsOf(property)
+    if (
+      longhands.length > 1 &&
+      longhands.every((longhand) => (winners.get(longhand)?.source ?? -1) > winner.source)
+    ) {
+      winners.delete(property)
+    }
+  }
   return [...winners.values()].sort((a, b) => compareText(a.property, b.property))
 }
 

@@ -181,6 +181,21 @@ describe('selector lists and subjects', () => {
     ])
   })
 
+  it('keeps a leading :is()/:where() that names the element in the subject', () => {
+    expect(
+      summaries(
+        ':where(.btn):hover { x: y } nav :where(a, [role=link]) { x: y } ' +
+          ':is(button, [type=submit]).secondary { x: y } .a > :is(:hover) { x: y }',
+      ),
+    ).toEqual([
+      ':where(.btn) | &:hover',
+      'nav :where(a,[role="link"]) | &',
+      ':is(button,[type="submit"]).secondary | &',
+      '.a > * | &:hover',
+    ])
+    expect(codes(':where(.btn) { x: y }')).toEqual([])
+  })
+
   it('keeps original selectors whitespace-collapsed outside strings', () => {
     const [rule] = parseStylesheet('.a\n   .b[title="x  y"] { x: y }').rules
     expect(rule?.selector).toBe('.a .b[title="x  y"]')
@@ -248,6 +263,8 @@ describe('subjects that take no classes (TFC104)', () => {
     ['html * { margin: 0 }', 'html *'],
     ['* + * { margin-top: 1em }', '* + *'],
     [':host { display: block }', ':host'],
+    [':where(:root) { --x: 1 }', ':where(:root)'],
+    [':where(:root, :host) { --x: 1 }', ':where(:root, :host)'],
   ])('%s', (css, selector) => {
     const { rules, passthroughCss, diagnostics } = parseStylesheet(css)
     expect(rules).toEqual([])

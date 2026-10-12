@@ -282,6 +282,97 @@ describe('@container and @starting-style placed before the base rule', () => {
   })
 })
 
+// A shorthand with `var()` stays whole (N01), but it still sets each longhand it covers: found by
+// the canonicalize oracle on Pico CSS (`[type=file]`, `padding: 0` then `padding: calc(…) 0`).
+describe('shorthands kept whole', () => {
+  it('a later whole shorthand overrides the longhands of an earlier rule: TFC106', () => {
+    const result = only(
+      converter.convertCss(
+        '.a { padding: 0 }\n.a { padding: calc(var(--x) * 0.5) 0; padding-left: var(--y) }',
+      ),
+    )
+    expect(result.className).toBe('[padding:calc(var(--x)_*_0.5)_0] pl-(--y)')
+    expect(codes(result)).toContain('TFC106')
+    expect(shown(result.classes, {})).toEqual({
+      padding: 'calc(var(--x) * 0.5) 0',
+      'padding-left': 'var(--y)',
+    })
+  })
+
+  it('a later longhand whose class Tailwind sorts before the whole shorthand: TFC402', () => {
+    for (const [css, longhand, className] of [
+      ['.a { border: var(--a); border-top-color: red }', 'border-top-color', '[border:var(--a)]'],
+      [
+        '.a { background: var(--a); background-color: red }',
+        'background-color',
+        '[background:var(--a)]',
+      ],
+      ['.a { font: var(--f); line-height: 2 }', 'line-height', '[font:var(--f)]'],
+    ] as const) {
+      const result = only(converter.convertCss(css))
+      expect(result.className, css).toBe(className)
+      expect(
+        result.unconverted.map((entry) => [entry.code, entry.property]),
+        css,
+      ).toEqual([['TFC402', longhand]])
+      expect(codes(result), css).not.toContain('TFC501')
+    }
+  })
+
+  it('a later longhand under an important whole shorthand is overridden: TFC106', () => {
+    const result = only(converter.convertCss('.a { padding: var(--p) !important; padding-top: 0 }'))
+    expect(result.className).toBe('[padding:var(--p)]!')
+    expect(codes(result)).toContain('TFC106')
+    const important = only(
+      converter.convertCss('.a { border: var(--a); border-top-color: red !important }'),
+    )
+    expect(important.className).toBe('border-t-[red]! [border:var(--a)]')
+    expect(important.unconverted).toEqual([])
+  })
+
+  it('a later base longhand over an earlier @media whole shorthand gets a stacked class', () => {
+    const result = only(
+      converter.convertCss(
+        '@media (min-width: 768px) { .a { padding: var(--p) } }\n.a { padding-top: 4px }',
+      ),
+    )
+    expect(result.className).toBe('pt-1 md:[padding:var(--p)] md:pt-1')
+    expect(codes(result)).toContain('TFC401')
+    expect(shown(result.classes, { conditions: [MD] })).toEqual({
+      padding: 'var(--p)',
+      'padding-top': '4px',
+    })
+  })
+
+  it('in the other order, or with a later @media longhand, nothing is stacked', () => {
+    const before = only(
+      converter.convertCss(
+        '.a { padding-top: 4px }\n@media (min-width: 768px) { .a { padding: var(--p) } }',
+      ),
+    )
+    expect(before.className).toBe('pt-1 md:[padding:var(--p)]')
+    expect(codes(before)).not.toContain('TFC401')
+    expect(shown(before.classes, { conditions: [MD] })).toEqual({ padding: 'var(--p)' })
+    const after = only(
+      converter.convertCss(
+        '.a { padding: var(--p) }\n@media (min-width: 768px) { .a { padding-top: 8px } }',
+      ),
+    )
+    expect(after.className).toBe('[padding:var(--p)] md:pt-2')
+    expect(codes(after)).not.toContain('TFC401')
+  })
+
+  it('a later base whole shorthand shadows an earlier @media longhand: TFC106', () => {
+    const result = only(
+      converter.convertCss(
+        '@media (min-width: 768px) { .a { padding-top: 4px } }\n.a { padding: var(--p) }',
+      ),
+    )
+    expect(result.className).toBe('[padding:var(--p)]')
+    expect(codes(result)).toContain('TFC106')
+  })
+})
+
 describe('TFC402', () => {
   it('more than four conflicting contexts: the declarations Tailwind would wrongly show', () => {
     const widths = ['1280px', '1024px', '768px', '1000px', '900px']

@@ -55,6 +55,7 @@ const NTH: ReadonlySet<string> = new Set([
 ])
 // These identify the element rather than describe a state, so they stay in the subject.
 const SUBJECT_PSEUDOS: ReadonlySet<string> = new Set([':root', ':host', ':host-context', ':scope'])
+const FILTER_PSEUDOS: ReadonlySet<string> = new Set([':is', ':where'])
 
 const ZERO: Specificity = [0, 0, 0]
 
@@ -310,10 +311,34 @@ export function compareSpecificity(a: Specificity, b: Specificity): number {
   return a[0] - b[0] || a[1] - b[1] || a[2] - b[2]
 }
 
+// Whether a selector argument identifies elements (a type, class, id, attribute, `*` or `:root`)
+// rather than only describing a state.
+function namesElements(node: SelectorNode): boolean {
+  switch (node.type) {
+    case 'selector':
+      return node.nodes.some(namesElements)
+    case 'tag':
+    case 'class':
+    case 'id':
+    case 'attribute':
+    case 'universal':
+      return true
+    case 'pseudo': {
+      const name = pseudoName(node)
+      return (
+        SUBJECT_PSEUDOS.has(name) || (FILTER_PSEUDOS.has(name) && node.nodes.some(namesElements))
+      )
+    }
+    default:
+      return false
+  }
+}
+
 /**
  * Splits one complex selector into its subject and its trailing pseudo-classes and
- * pseudo-elements (SPEC §5.1). A compound left empty becomes `*`. `undefined` for a selector
- * list or a selector that doesn't parse.
+ * pseudo-elements (SPEC §5.1). A compound left empty becomes `*`, unless it starts with an
+ * `:is()`/`:where()` that names elements (`:where(.btn):hover` → `:where(.btn)` + `&:hover`).
+ * `undefined` for a selector list or a selector that doesn't parse.
  *
  * @example
  * extractSubject('.card .title:hover::before')
@@ -329,6 +354,15 @@ export function extractSubject(selector: string): SubjectSplit | undefined {
     const node = nodes[start - 1]
     if (node?.type !== 'pseudo' || SUBJECT_PSEUDOS.has(pseudoName(node))) break
     start--
+  }
+  const first = nodes[start]
+  if (
+    (start === 0 || nodes[start - 1]?.type === 'combinator') &&
+    first?.type === 'pseudo' &&
+    FILTER_PSEUDOS.has(pseudoName(first)) &&
+    first.nodes.some(namesElements)
+  ) {
+    start++
   }
   const kept = nodes.slice(0, start)
   const emptyCompound = kept.length === 0 || kept[kept.length - 1]?.type === 'combinator'
@@ -414,12 +448,19 @@ function namesNoElement(node: SelectorNode): boolean {
       return true
     case 'tag':
       return node.value.toLowerCase() === 'html'
-    case 'pseudo':
-      return NO_ELEMENT_PSEUDOS.has(pseudoName(node))
+    case 'pseudo': {
+      const name = pseudoName(node)
+      if (FILTER_PSEUDOS.has(name))
+        return node.nodes.length > 0 && node.nodes.every(namesNoElements)
+      return NO_ELEMENT_PSEUDOS.has(name)
+    }
     default:
       return false
   }
 }
+
+const namesNoElements = (complex: selectorParser.Selector): boolean =>
+  complex.nodes.every((node) => node.type === 'combinator' || namesNoElement(node))
 
 /**
  * Whether a subject (from {@link extractSubject}) names elements that can take classes (SPEC
@@ -433,9 +474,7 @@ function namesNoElement(node: SelectorNode): boolean {
 export function takesClasses(subject: string): boolean {
   const root = parse(subject)
   if (root === undefined || root.nodes.length !== 1) return false
-  return (root.nodes[0]?.nodes ?? []).some(
-    (node) => node.type !== 'combinator' && !namesNoElement(node),
-  )
+  return root.nodes[0] !== undefined && !namesNoElements(root.nodes[0])
 }
 
 /** A relative selector whose last compound starts with `&`: what it adds to the element. */

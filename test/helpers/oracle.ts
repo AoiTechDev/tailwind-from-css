@@ -11,17 +11,29 @@ export interface CanonicalizeOptions {
 
 type Canonicalize = (candidates: string[], options?: CanonicalizeOptions) => string[]
 
-let oracle: Promise<Canonicalize> | undefined
+/** An entry stylesheet and the directory its imports resolve from. */
+interface Entry {
+  readonly css: string
+  readonly base: string
+}
+
+const DEFAULT_ENTRY: Entry = { css: '@import "tailwindcss";', base: REPO_ROOT }
+const oracles = new Map<string, Promise<Canonicalize>>()
 
 /**
- * Tailwind's own `canonicalizeCandidates` on the default theme. A test oracle only: the library
- * never calls it.
+ * Tailwind's own `canonicalizeCandidates` on the default theme, or on `entry`. A test oracle
+ * only: the library never calls it.
  */
-export function canonicalizer(): Promise<Canonicalize> {
-  oracle ??= __unstable__loadDesignSystem('@import "tailwindcss";', {
-    base: REPO_ROOT,
-    loadStylesheet,
-    loadModule: loadModule as never,
-  }).then((design) => design.canonicalizeCandidates.bind(design))
+export function canonicalizer(entry: Entry = DEFAULT_ENTRY): Promise<Canonicalize> {
+  const key = JSON.stringify([entry.css, entry.base])
+  let oracle = oracles.get(key)
+  if (oracle === undefined) {
+    oracle = __unstable__loadDesignSystem(entry.css, {
+      base: entry.base,
+      loadStylesheet,
+      loadModule: loadModule as never,
+    }).then((design) => design.canonicalizeCandidates.bind(design))
+    oracles.set(key, oracle)
+  }
   return oracle
 }

@@ -27,6 +27,13 @@ const config: ViteUserConfig = defineConfig({
       { test: { name: 'golden', include: ['test/golden/**/*.test.ts'] } },
       {
         test: {
+          name: 'differential',
+          include: ['test/differential/**/*.test.ts'],
+          testTimeout: 120_000,
+        },
+      },
+      {
+        test: {
           name: 'property',
           include: ['test/property/**/*.property.test.ts'],
           setupFiles: ['test/helpers/fast-check-setup.ts'],

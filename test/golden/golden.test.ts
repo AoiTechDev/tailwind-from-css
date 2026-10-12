@@ -2,54 +2,25 @@
 // of one element, `<case>.css` a stylesheet; `<case>.expected.json` is the reviewed result
 // (stable fields only, no messages). `pnpm test:golden --update` rewrites expectations; review
 // the diff like code.
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { createConverter } from '../../src/converter.ts'
 import type {
   ConversionResult,
   Converter,
-  ConverterOptions,
   CssConversionResult,
   SourceRef,
   StyleInput,
 } from '../../src/types.ts'
-import { FIXTURES, type TailwindFixture } from '../helpers/design-system.ts'
-
-const GOLDEN = import.meta.dirname
-const INPUT = '.input.json'
-const STYLESHEET = '.css'
-
-interface SuiteConfig {
-  /** Converter options; `tailwind.base` is relative to the suite directory. */
-  readonly options?: ConverterOptions
-  /** Loads `test/fixtures/tailwind/<fixture>/tailwind.css`, then `css`. */
-  readonly fixture?: TailwindFixture
-  /** Entry CSS, or CSS added after the fixture's. */
-  readonly css?: string
-  /** Directory `css` resolves from, relative to the suite directory. */
-  readonly base?: string
-}
-
-function optionsOf(suite: string): ConverterOptions {
-  const path = resolve(GOLDEN, suite, '_config.json')
-  const config: SuiteConfig = existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {}
-  const options = config.options ?? {}
-  if (config.fixture === undefined) {
-    if (config.css === undefined) return options
-    return {
-      ...options,
-      tailwind: { css: config.css, base: resolve(GOLDEN, suite, config.base ?? '.') },
-    }
-  }
-  return {
-    ...options,
-    tailwind: {
-      css: `@import "./tailwind.css";\n${config.css ?? ''}`,
-      base: resolve(FIXTURES, 'tailwind', config.fixture),
-    },
-  }
-}
+import {
+  GOLDEN,
+  goldenCases,
+  goldenSuites,
+  INPUT,
+  STYLESHEET,
+  suiteOptions,
+} from '../helpers/golden.ts'
 
 const sourceText = (source: SourceRef): string =>
   [
@@ -95,26 +66,14 @@ function expectVerified(suite: string, result: ConversionResult): void {
   if (suite === 'exact') expect(result.exact).toBe(true)
 }
 
-const suites = readdirSync(GOLDEN, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
-  .map((entry) => entry.name)
-  .sort()
-
-for (const suite of suites) {
-  const files = readdirSync(resolve(GOLDEN, suite))
-  const cases = files
-    .filter((file) => file.endsWith(INPUT))
-    .map((file) => file.slice(0, -INPUT.length))
-    .sort()
-  const stylesheets = files
-    .filter((file) => file.endsWith(STYLESHEET))
-    .map((file) => file.slice(0, -STYLESHEET.length))
-    .sort()
+for (const suite of goldenSuites()) {
+  const cases = goldenCases(suite, INPUT)
+  const stylesheets = goldenCases(suite, STYLESHEET)
 
   describe(suite, () => {
     let converter: Converter
     beforeAll(async () => {
-      converter = await createConverter(optionsOf(suite))
+      converter = await createConverter(suiteOptions(suite))
     }, 60_000)
 
     it.each(cases)('%s', async (name) => {

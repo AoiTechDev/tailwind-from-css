@@ -1,0 +1,749 @@
+{
+  "reasons": {
+    "bg": "background-size and background-position have their own roots (bg-size-[…], bg-position-[…]); we write a type-hinted or ambiguous bg-[…]. Engine gap: type-hint choice.",
+    "calc": "Tailwind spells math operators inside calc() without spaces (it adds them back when compiling); our encoding writes them as `_+_`. Cosmetic.",
+    "fallback": "var(--x, fallback) has the variable shorthand root-(--x,fallback). Engine gap: variable forms are only tried for a plain var(--x).",
+    "leading": "line-height: 0 stays apart from leading-0 (calc(var(--spacing) * 0) is 0px): unitless numbers and lengths are different normal forms for line-height (N11). Intentionally stricter.",
+    "modifier": "A var() line-height modifier has the shorthand text-base/(--x). Engine gap: modifier variables are written as /[var(--x)].",
+    "negative": "calc(var(--x) * -1) has the negative variable form -mt-(--x). Engine gap: negative roots are not tried with variables.",
+    "variant": "Variant spelling: Tailwind shortens [&:is(…)]: to […]: and not-[[aria-x=…]]: to not-aria-[x=…]:. Cosmetic.",
+    "whole": "A shorthand kept whole (N01: a var() value) becomes an arbitrary property; Tailwind has a functional root that takes the whole value (p-[…], m-[…], rounded-(…), border-(…), filter-[…]). Engine gap: functional roots are not tried for whole shorthands."
+  },
+  "differences": {
+    "cascade/whole-shorthands.css .important": {
+      "ours": "[padding:var(--p)]!",
+      "tailwind": "p-(--p)!",
+      "reasons": ["whole"]
+    },
+    "cascade/whole-shorthands.css .later-shorthand": {
+      "ours": "[padding:calc(var(--x)_*_0.5)_0]",
+      "tailwind": "p-[calc(var(--x)*0.5)_0]",
+      "reasons": ["calc", "whole"]
+    },
+    "cascade/whole-shorthands.css .media-shorthand": {
+      "ours": "md:[padding:var(--p)]",
+      "tailwind": "md:p-(--p)",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-black": {
+      "ours": "[border-color:rgba(var(--bs-black-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-black-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-danger": {
+      "ours": "[border-color:rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-danger-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-danger-subtle": {
+      "ours": "[border-color:var(--bs-danger-border-subtle)]!",
+      "tailwind": "border-(--bs-danger-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-dark": {
+      "ours": "[border-color:rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-dark-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-dark-subtle": {
+      "ours": "[border-color:var(--bs-dark-border-subtle)]!",
+      "tailwind": "border-(--bs-dark-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-info": {
+      "ours": "[border-color:rgba(var(--bs-info-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-info-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-info-subtle": {
+      "ours": "[border-color:var(--bs-info-border-subtle)]!",
+      "tailwind": "border-(--bs-info-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-light": {
+      "ours": "[border-color:rgba(var(--bs-light-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-light-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-light-subtle": {
+      "ours": "[border-color:var(--bs-light-border-subtle)]!",
+      "tailwind": "border-(--bs-light-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-primary": {
+      "ours": "[border-color:rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-primary-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-primary-subtle": {
+      "ours": "[border-color:var(--bs-primary-border-subtle)]!",
+      "tailwind": "border-(--bs-primary-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-secondary": {
+      "ours": "[border-color:rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-secondary-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-secondary-subtle": {
+      "ours": "[border-color:var(--bs-secondary-border-subtle)]!",
+      "tailwind": "border-(--bs-secondary-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-success": {
+      "ours": "[border-color:rgba(var(--bs-success-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-success-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-success-subtle": {
+      "ours": "[border-color:var(--bs-success-border-subtle)]!",
+      "tailwind": "border-(--bs-success-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-warning": {
+      "ours": "[border-color:rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-warning-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-warning-subtle": {
+      "ours": "[border-color:var(--bs-warning-border-subtle)]!",
+      "tailwind": "border-(--bs-warning-border-subtle)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .border-white": {
+      "ours": "[border-color:rgba(var(--bs-white-rgb),var(--bs-border-opacity))]!",
+      "tailwind": "border-[rgba(var(--bs-white-rgb),var(--bs-border-opacity))]!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .fs-1": {
+      "ours": "text-[calc(1.375rem_+_1.5vw)]!",
+      "tailwind": "text-[calc(1.375rem+1.5vw)]!",
+      "reasons": ["calc"]
+    },
+    "real-world/bootstrap-utilities.css .fs-2": {
+      "ours": "text-[calc(1.325rem_+_0.9vw)]!",
+      "tailwind": "text-[calc(1.325rem+0.9vw)]!",
+      "reasons": ["calc"]
+    },
+    "real-world/bootstrap-utilities.css .fs-3": {
+      "ours": "text-[calc(1.3rem_+_0.6vw)]!",
+      "tailwind": "text-[calc(1.3rem+0.6vw)]!",
+      "reasons": ["calc"]
+    },
+    "real-world/bootstrap-utilities.css .fs-4": {
+      "ours": "text-[calc(1.275rem_+_0.3vw)]!",
+      "tailwind": "text-[calc(1.275rem+0.3vw)]!",
+      "reasons": ["calc"]
+    },
+    "real-world/bootstrap-utilities.css .icon-link-hover:focus-visible > .bi": {
+      "ours": "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
+      "tailwind": "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
+      "reasons": ["fallback"]
+    },
+    "real-world/bootstrap-utilities.css .icon-link-hover:hover > .bi": {
+      "ours": "transform-[var(--bs-icon-link-transform,translate3d(0.25em,0,0))]",
+      "tailwind": "transform-(--bs-icon-link-transform,translate3d(0.25em,0,0))",
+      "reasons": ["fallback"]
+    },
+    "real-world/bootstrap-utilities.css .rounded": {
+      "ours": "[border-radius:var(--bs-border-radius)]!",
+      "tailwind": "rounded-(--bs-border-radius)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-1": {
+      "ours": "[border-radius:var(--bs-border-radius-sm)]!",
+      "tailwind": "rounded-(--bs-border-radius-sm)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-2": {
+      "ours": "[border-radius:var(--bs-border-radius)]!",
+      "tailwind": "rounded-(--bs-border-radius)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-3": {
+      "ours": "[border-radius:var(--bs-border-radius-lg)]!",
+      "tailwind": "rounded-(--bs-border-radius-lg)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-4": {
+      "ours": "[border-radius:var(--bs-border-radius-xl)]!",
+      "tailwind": "rounded-(--bs-border-radius-xl)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-5": {
+      "ours": "[border-radius:var(--bs-border-radius-xxl)]!",
+      "tailwind": "rounded-(--bs-border-radius-xxl)!",
+      "reasons": ["whole"]
+    },
+    "real-world/bootstrap-utilities.css .rounded-pill": {
+      "ours": "[border-radius:var(--bs-border-radius-pill)]!",
+      "tailwind": "rounded-(--bs-border-radius-pill)!",
+      "reasons": ["whole"]
+    },
+    "real-world/normalize.css sub": {
+      "ours": "leading-[0]",
+      "tailwind": "leading-0",
+      "reasons": ["leading"]
+    },
+    "real-world/normalize.css sup": {
+      "ours": "leading-[0]",
+      "tailwind": "leading-0",
+      "reasons": ["leading"]
+    },
+    "real-world/pico.css .modal-is-open": {
+      "ours": "pr-[var(--pico-scrollbar-width,0px)]",
+      "tailwind": "pr-(--pico-scrollbar-width,0px)",
+      "reasons": ["fallback"]
+    },
+    "real-world/pico.css :host(:not([data-theme=\"dark\"])) input": {
+      "ours": "[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :host(:not([data-theme])) input": {
+      "ours": "dark:[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "dark:[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :is(button,[type=\"submit\"],[type=\"button\"],[role=\"button\"]).contrast": {
+      "ours": "aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-contrast-focus)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-contrast-hover-background)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-contrast-hover-border)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-contrast-inverse)]",
+      "tailwind": "aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-contrast-focus)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:var(--pico-contrast-hover-background)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-contrast-hover-border)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-contrast-inverse)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :is(button,[type=\"submit\"],[type=\"button\"],[role=\"button\"]).outline": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:transparent] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-primary-hover)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:transparent] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-primary-hover)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :is(button,[type=\"submit\"],[type=\"button\"],[role=\"button\"]).outline.contrast": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-contrast-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-contrast-hover)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-contrast-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-contrast-hover)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :is(button,[type=\"submit\"],[type=\"button\"],[role=\"button\"]).outline.secondary": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-hover)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-hover)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :is(button,[type=\"submit\"],[type=\"button\"],[role=\"button\"]).secondary": {
+      "ours": "aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-inverse)]",
+      "tailwind": "aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:var(--pico-secondary-hover-background)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover-border)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-inverse)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :root:not([data-theme=\"dark\"]) input": {
+      "ours": "[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :root:not([data-theme]) input": {
+      "ours": "dark:[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "dark:[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(a:not([role=\"button\"]))": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-primary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-text-decoration:underline] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-primary-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-primary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-text-decoration:underline] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-primary-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(a:not([role=\"button\"])).contrast": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-contrast-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-contrast-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-contrast-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-contrast-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(a:not([role=\"button\"])).secondary": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-secondary-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-secondary-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(dl,ol,ul) :where(dl,ol,ul)": {
+      "ours": "mt-[calc(var(--pico-typography-spacing-vertical)_*_0.25)]",
+      "tailwind": "mt-[calc(var(--pico-typography-spacing-vertical)*0.25)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css :where(input,select,textarea)[aria-invalid=\"false\"]": {
+      "ours": "[&:is(:active,:focus)]:[--pico-border-color:var(--pico-form-element-valid-active-border-color)]!",
+      "tailwind": "[:active,:focus]:[--pico-border-color:var(--pico-form-element-valid-active-border-color)]!",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(input,select,textarea)[aria-invalid=\"true\"]": {
+      "ours": "[&:is(:active,:focus)]:[--pico-border-color:var(--pico-form-element-invalid-active-border-color)]!",
+      "tailwind": "[:active,:focus]:[--pico-border-color:var(--pico-form-element-invalid-active-border-color)]!",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css :where(input,select,textarea,fieldset,.grid) + small": {
+      "ours": "mt-[calc(var(--pico-spacing)_*_-0.75)]",
+      "tailwind": "mt-[calc(var(--pico-spacing)*-0.75)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css :where(ol,ul) li": {
+      "ours": "mb-[calc(var(--pico-typography-spacing-vertical)_*_0.25)]",
+      "tailwind": "mb-[calc(var(--pico-typography-spacing-vertical)*0.25)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css :where(select,textarea)": {
+      "ours": "not-[[readonly]]:[&:is(:active,:focus)]:[--pico-background-color:var(--pico-form-element-active-background-color)] not-[[readonly]]:[&:is(:active,:focus)]:[--pico-border-color:var(--pico-form-element-active-border-color)]",
+      "tailwind": "not-[[readonly]]:[:active,:focus]:[--pico-background-color:var(--pico-form-element-active-background-color)] not-[[readonly]]:[:active,:focus]:[--pico-border-color:var(--pico-form-element-active-border-color)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [data-theme=\"dark\"] input": {
+      "ours": "[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [data-theme=\"light\"] input": {
+      "ours": "[&:is([type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file'])]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "tailwind": "[[type='submit'],[type='button'],[type='reset'],[type='checkbox'],[type='radio'],[type='file']]:[--pico-form-element-focus-color:var(--pico-primary-focus)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [data-tooltip]": {
+      "ours": "before:[border-radius:var(--pico-border-radius)]",
+      "tailwind": "before:rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css [data-tooltip][data-placement=\"top\"]": {
+      "ours": "before:[border-radius:var(--pico-border-radius)]",
+      "tailwind": "before:rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css [dir=\"rtl\"] :where(input):not([type=\"checkbox\"],[type=\"radio\"],[type=\"range\"],[type=\"file\"])[type=\"search\"][aria-invalid]": {
+      "ours": "bg-[percentage:center_right_1.125rem,center_left_0.75rem]",
+      "tailwind": "bg-position-[center_right_1.125rem,center_left_0.75rem]",
+      "reasons": ["bg"]
+    },
+    "real-world/pico.css [role=\"button\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] [&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] [&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] [:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] [:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "reasons": ["modifier", "variant", "whole"]
+    },
+    "real-world/pico.css [role=\"group\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] shadow-[var(--pico-group-box-shadow,0_0_0_rgba(0,0,0,0))]",
+      "tailwind": "rounded-(--pico-border-radius) shadow-(--pico-group-box-shadow,0_0_0_rgba(0,0,0,0))",
+      "reasons": ["fallback", "whole"]
+    },
+    "real-world/pico.css [role=\"group\"] [role=\"button\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] [type=\"button\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] [type=\"reset\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] [type=\"submit\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] button": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] input": {
+      "ours": "[&:not([type='checkbox'],[type='radio']):not(:first-child)]:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "[&:not([type='checkbox'],[type='radio']):not(:first-child)]:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"group\"] select": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"link\"]": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-primary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-text-decoration:underline] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-primary-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-primary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-text-decoration:underline] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-primary-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [role=\"link\"].contrast": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-contrast-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-contrast-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-contrast-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-contrast-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [role=\"link\"].secondary": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-underline:var(--pico-secondary-hover-underline)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-underline:var(--pico-secondary-hover-underline)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [role=\"search\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] shadow-[var(--pico-group-box-shadow,0_0_0_rgba(0,0,0,0))]",
+      "tailwind": "rounded-(--pico-border-radius) shadow-(--pico-group-box-shadow,0_0_0_rgba(0,0,0,0))",
+      "reasons": ["fallback", "whole"]
+    },
+    "real-world/pico.css [role=\"search\"] [role=\"button\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] [type=\"button\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] [type=\"reset\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] [type=\"submit\"]": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] button": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] input": {
+      "ours": "[&:not([type='checkbox'],[type='radio']):not(:first-child)]:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "[&:not([type='checkbox'],[type='radio']):not(:first-child)]:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [role=\"search\"] select": {
+      "ours": "not-first:ml-[calc(var(--pico-border-width)_*_-1)]",
+      "tailwind": "not-first:-ml-(--pico-border-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [type=\"button\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] [&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] [&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] [:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] [:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "reasons": ["modifier", "variant", "whole"]
+    },
+    "real-world/pico.css [type=\"checkbox\"][role=\"switch\"]": {
+      "ours": "not-[[aria-invalid]]:[--pico-border-color:var(--pico-switch-background-color)]",
+      "tailwind": "not-aria-[invalid]:[--pico-border-color:var(--pico-switch-background-color)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [type=\"color\"]": {
+      "ours": "[&::-moz-color-swatch]:[border-radius:calc(var(--pico-border-radius)_*_0.5)] [&::-webkit-color-swatch]:[border-radius:calc(var(--pico-border-radius)_*_0.5)]",
+      "tailwind": "[&::-moz-color-swatch]:rounded-[calc(var(--pico-border-radius)*0.5)] [&::-webkit-color-swatch]:rounded-[calc(var(--pico-border-radius)*0.5)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css [type=\"date\"]": {
+      "ours": "[&::-webkit-calendar-picker-indicator]:mr-[calc(var(--pico-icon-width)_*_-1)]",
+      "tailwind": "[&::-webkit-calendar-picker-indicator]:-mr-(--pico-icon-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [type=\"datetime-local\"]": {
+      "ours": "[&::-webkit-calendar-picker-indicator]:mr-[calc(var(--pico-icon-width)_*_-1)]",
+      "tailwind": "[&::-webkit-calendar-picker-indicator]:-mr-(--pico-icon-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [type=\"file\"]": {
+      "ours": "ml-[calc(var(--pico-outline-width)_*_-1)] bg-[auto_auto] bg-[0%_0%] [padding:calc(var(--pico-form-element-spacing-vertical)_*_0.5)_0] file:mr-[calc(var(--pico-spacing)_/_2)] file:[border-radius:var(--pico-border-radius)] file:[padding:calc(var(--pico-form-element-spacing-vertical)_*_0.5)_var(--pico-form-element-spacing-horizontal)] file:text-base/[var(--pico-line-height)] file:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] file:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] file:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] file:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] [&:is(:hover,:active,:focus)]:file:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:[&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] file:[&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-inverse)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)]",
+      "tailwind": "-ml-(--pico-outline-width) bg-size-[auto_auto] bg-position-[0%_0%] p-[calc(var(--pico-form-element-spacing-vertical)*0.5)_0] file:mr-[calc(var(--pico-spacing)/2)] file:rounded-(--pico-border-radius) file:p-[calc(var(--pico-form-element-spacing-vertical)*0.5)_var(--pico-form-element-spacing-horizontal)] file:text-base/(--pico-line-height) file:aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] file:aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] file:aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] file:aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:[--pico-background-color:var(--pico-secondary-hover-background)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover-border)] [:hover,:active,:focus]:file:[--pico-background-color:var(--pico-secondary-hover-background)] [:hover,:active,:focus]:file:[--pico-border-color:var(--pico-secondary-hover-border)] file:[:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] file:[:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] file:[:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:[:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] file:[:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] focus:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] focus:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:var(--pico-secondary-hover-background)] file:[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover-border)] file:[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-inverse)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:var(--pico-secondary-hover-background)] [:hover,:active,:focus]:file:[:hover,:active,:focus]:aria-[current]:not-aria-[aria-current='false']:[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover-border)]",
+      "reasons": ["bg", "calc", "modifier", "negative", "variant", "whole"]
+    },
+    "real-world/pico.css [type=\"month\"]": {
+      "ours": "[&::-webkit-calendar-picker-indicator]:mr-[calc(var(--pico-icon-width)_*_-1)]",
+      "tailwind": "[&::-webkit-calendar-picker-indicator]:-mr-(--pico-icon-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [type=\"range\"]": {
+      "ours": "bg-[auto_auto] bg-[0%_0%] [&::-moz-range-track]:[border-radius:var(--pico-border-radius)] [&::-ms-track]:[border-radius:var(--pico-border-radius)] [&::-webkit-slider-runnable-track]:[border-radius:var(--pico-border-radius)]",
+      "tailwind": "bg-size-[auto_auto] bg-position-[0%_0%] [&::-moz-range-track]:rounded-(--pico-border-radius) [&::-ms-track]:rounded-(--pico-border-radius) [&::-webkit-slider-runnable-track]:rounded-(--pico-border-radius)",
+      "reasons": ["bg", "whole"]
+    },
+    "real-world/pico.css [type=\"reset\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] [&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] [&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-inverse)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] [:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] [:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:var(--pico-secondary-hover-background)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover-border)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-inverse)]",
+      "reasons": ["modifier", "variant", "whole"]
+    },
+    "real-world/pico.css [type=\"reset\"].outline": {
+      "ours": "[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:transparent] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-hover)]",
+      "tailwind": "[[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-background-color:transparent] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-border-color:var(--pico-secondary-hover)] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:[--pico-color:var(--pico-secondary-hover)]",
+      "reasons": ["variant"]
+    },
+    "real-world/pico.css [type=\"submit\"]": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] [&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] [&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] [:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] [:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "reasons": ["modifier", "variant", "whole"]
+    },
+    "real-world/pico.css [type=\"time\"]": {
+      "ours": "[&::-webkit-calendar-picker-indicator]:mr-[calc(var(--pico-icon-width)_*_-1)]",
+      "tailwind": "[&::-webkit-calendar-picker-indicator]:-mr-(--pico-icon-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css [type=\"week\"]": {
+      "ours": "[&::-webkit-calendar-picker-indicator]:mr-[calc(var(--pico-icon-width)_*_-1)]",
+      "tailwind": "[&::-webkit-calendar-picker-indicator]:-mr-(--pico-icon-width)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css article": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-block-spacing-vertical)_var(--pico-block-spacing-horizontal)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-block-spacing-vertical)_var(--pico-block-spacing-horizontal)]",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css article > footer": {
+      "ours": "mr-[calc(var(--pico-block-spacing-horizontal)_*_-1)] mb-[calc(var(--pico-block-spacing-vertical)_*_-1)] ml-[calc(var(--pico-block-spacing-horizontal)_*_-1)] [padding:calc(var(--pico-block-spacing-vertical)_*_0.66)_var(--pico-block-spacing-horizontal)]",
+      "tailwind": "-mr-(--pico-block-spacing-horizontal) -mb-(--pico-block-spacing-vertical) -ml-(--pico-block-spacing-horizontal) p-[calc(var(--pico-block-spacing-vertical)*0.66)_var(--pico-block-spacing-horizontal)]",
+      "reasons": ["calc", "negative", "whole"]
+    },
+    "real-world/pico.css article > header": {
+      "ours": "mt-[calc(var(--pico-block-spacing-vertical)_*_-1)] mr-[calc(var(--pico-block-spacing-horizontal)_*_-1)] ml-[calc(var(--pico-block-spacing-horizontal)_*_-1)] [padding:calc(var(--pico-block-spacing-vertical)_*_0.66)_var(--pico-block-spacing-horizontal)]",
+      "tailwind": "-mt-(--pico-block-spacing-vertical) -mr-(--pico-block-spacing-horizontal) -ml-(--pico-block-spacing-horizontal) p-[calc(var(--pico-block-spacing-vertical)*0.66)_var(--pico-block-spacing-horizontal)]",
+      "reasons": ["calc", "negative", "whole"]
+    },
+    "real-world/pico.css aside li": {
+      "ours": "[padding:calc(var(--pico-nav-element-spacing-vertical)_*_0.5)_var(--pico-nav-element-spacing-horizontal)]",
+      "tailwind": "p-[calc(var(--pico-nav-element-spacing-vertical)*0.5)_var(--pico-nav-element-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css blockquote": {
+      "ours": "[margin:var(--pico-typography-spacing-vertical)_0] [padding:var(--pico-spacing)]",
+      "tailwind": "m-[var(--pico-typography-spacing-vertical)_0] p-(--pico-spacing)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css blockquote footer": {
+      "ours": "mt-[calc(var(--pico-typography-spacing-vertical)_*_0.5)]",
+      "tailwind": "mt-[calc(var(--pico-typography-spacing-vertical)*0.5)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css body > footer": {
+      "ours": "[padding-block:var(--pico-block-spacing-vertical)]",
+      "tailwind": "py-(--pico-block-spacing-vertical)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css body > header": {
+      "ours": "[padding-block:var(--pico-block-spacing-vertical)]",
+      "tailwind": "py-(--pico-block-spacing-vertical)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css body > main": {
+      "ours": "[padding-block:var(--pico-block-spacing-vertical)]",
+      "tailwind": "py-(--pico-block-spacing-vertical)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css button": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] [&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] [&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) aria-[current]:not-aria-[aria-current='false']:[--pico-background-color:var(--pico-primary-hover-background)] aria-[current]:not-aria-[aria-current='false']:[--pico-border-color:var(--pico-primary-hover-border)] aria-[current]:not-aria-[aria-current='false']:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] aria-[current]:not-aria-[aria-current='false']:[--pico-color:var(--pico-primary-inverse)] aria-[current]:not-aria-[aria-current='false']:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)] [:hover,:active,:focus]:[--pico-background-color:var(--pico-primary-hover-background)] [:hover,:active,:focus]:[--pico-border-color:var(--pico-primary-hover-border)] [:hover,:active,:focus]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] [:hover,:active,:focus]:[--pico-color:var(--pico-primary-inverse)] [:hover,:active,:focus]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-primary-focus)]",
+      "reasons": ["modifier", "variant", "whole"]
+    },
+    "real-world/pico.css code": {
+      "ours": "[border-radius:var(--pico-border-radius)]",
+      "tailwind": "rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css details summary[role=\"button\"]": {
+      "ours": "[&::after]:h-[calc(1rem_*_var(--pico-line-height,1.5))] [&:not(.outline)::after]:[filter:brightness(0)_invert(1)]",
+      "tailwind": "[&::after]:h-[calc(1rem*var(--pico-line-height,1.5))] [&:not(.outline)::after]:filter-[brightness(0)_invert(1)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css details.dropdown > summary": {
+      "ours": "not-[[role]]:h-[calc(1rem_*_var(--pico-line-height)_+_var(--pico-form-element-spacing-vertical)_*_2_+_var(--pico-border-width)_*_2)] not-[[role]]:[border-radius:var(--pico-border-radius)] not-[[role]]:[padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] after:h-[calc(1rem_*_var(--pico-line-height,1.5))] after:bg-[1rem_auto] after:bg-[right_center] not-[[role]]:focus:[border-color:var(--pico-form-element-active-border-color)] not-[[role]]:active:[border-color:var(--pico-form-element-active-border-color)]",
+      "tailwind": "not-[[role]]:h-[calc(1rem*var(--pico-line-height)+var(--pico-form-element-spacing-vertical)*2+var(--pico-border-width)*2)] not-[[role]]:rounded-(--pico-border-radius) not-[[role]]:p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] after:h-[calc(1rem*var(--pico-line-height,1.5))] after:bg-size-[1rem_auto] after:bg-position-[right_center] not-[[role]]:focus:border-(--pico-form-element-active-border-color) not-[[role]]:active:border-(--pico-form-element-active-border-color)",
+      "reasons": ["bg", "calc", "whole"]
+    },
+    "real-world/pico.css details.dropdown > summary + ul": {
+      "ours": "[border-radius:var(--pico-border-radius)]",
+      "tailwind": "rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css details.dropdown > summary + ul li": {
+      "ours": "[padding:calc(var(--pico-form-element-spacing-vertical)_*_0.5)_var(--pico-form-element-spacing-horizontal)] first-of-type:mt-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)] last-of-type:mb-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)]",
+      "tailwind": "p-[calc(var(--pico-form-element-spacing-vertical)*0.5)_var(--pico-form-element-spacing-horizontal)] first-of-type:mt-[calc(var(--pico-form-element-spacing-vertical)*0.5)] last-of-type:mb-[calc(var(--pico-form-element-spacing-vertical)*0.5)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css details.dropdown > summary + ul li a": {
+      "ours": "[margin:calc(var(--pico-form-element-spacing-vertical)_*_-0.5)_calc(var(--pico-form-element-spacing-horizontal)_*_-1)] [padding:calc(var(--pico-form-element-spacing-vertical)_*_0.5)_var(--pico-form-element-spacing-horizontal)]",
+      "tailwind": "m-[calc(var(--pico-form-element-spacing-vertical)*-0.5)_calc(var(--pico-form-element-spacing-horizontal)*-1)] p-[calc(var(--pico-form-element-spacing-vertical)*0.5)_var(--pico-form-element-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css dialog > article": {
+      "ours": "[margin:var(--pico-spacing)] max-h-[calc(100vh_-_var(--pico-spacing)_*_2)]",
+      "tailwind": "m-(--pico-spacing) max-h-[calc(100vh-var(--pico-spacing)*2)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css dialog > article .close": {
+      "ours": "mt-[calc(var(--pico-spacing)_*_-1)] bg-[auto_1rem] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
+      "tailwind": "-mt-(--pico-spacing) bg-size-[auto_1rem] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:opacity-100",
+      "reasons": ["bg", "calc", "negative", "variant"]
+    },
+    "real-world/pico.css dialog > article :is(a,button)[rel=\"prev\"]": {
+      "ours": "mt-[calc(var(--pico-spacing)_*_-1)] bg-[auto_1rem] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
+      "tailwind": "-mt-(--pico-spacing) bg-size-[auto_1rem] [[aria-current]:not([aria-current='false']),:hover,:active,:focus]:opacity-100",
+      "reasons": ["bg", "calc", "negative", "variant"]
+    },
+    "real-world/pico.css dialog > article > footer [role=\"button\"]": {
+      "ours": "not-first-of-type:ml-[calc(var(--pico-spacing)_*_0.5)]",
+      "tailwind": "not-first-of-type:ml-[calc(var(--pico-spacing)*0.5)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css dialog > article > footer button": {
+      "ours": "not-first-of-type:ml-[calc(var(--pico-spacing)_*_0.5)]",
+      "tailwind": "not-first-of-type:ml-[calc(var(--pico-spacing)*0.5)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css fieldset legend": {
+      "ours": "mb-[calc(var(--pico-spacing)_*_0.5)] font-[var(--pico-form-label-font-weight,var(--pico-font-weight))]",
+      "tailwind": "mb-[calc(var(--pico-spacing)*0.5)] font-(--pico-form-label-font-weight,var(--pico-font-weight))",
+      "reasons": ["calc", "fallback"]
+    },
+    "real-world/pico.css figure figcaption": {
+      "ours": "[padding:calc(var(--pico-spacing)_*_0.5)_0]",
+      "tailwind": "p-[calc(var(--pico-spacing)*0.5)_0]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css hr": {
+      "ours": "[margin:var(--pico-typography-spacing-vertical)_0]",
+      "tailwind": "m-[var(--pico-typography-spacing-vertical)_0]",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css input": {
+      "ours": "[border-radius:var(--pico-border-radius)] text-base/[var(--pico-line-height)] [&:not([type='checkbox'],[type='radio'],[type='range'])]:h-[calc(1rem_*_var(--pico-line-height)_+_var(--pico-form-element-spacing-vertical)_*_2_+_var(--pico-border-width)_*_2)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file'])]:[padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:bg-[length:var(--pico-icon-width)_auto] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:bg-[center_right_var(--pico-icon-position)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:pr-[calc(var(--pico-icon-width)_+_var(--pico-icon-position))]",
+      "tailwind": "rounded-(--pico-border-radius) text-base/(--pico-line-height) [&:not([type='checkbox'],[type='radio'],[type='range'])]:h-[calc(1rem*var(--pico-line-height)+var(--pico-form-element-spacing-vertical)*2+var(--pico-border-width)*2)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file'])]:p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:bg-size-[var(--pico-icon-width)_auto] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:bg-position-[center_right_var(--pico-icon-position)] [&:not([type='checkbox'],[type='radio'],[type='range'],[type='file']):is([type='date'],[type='datetime-local'],[type='month'],[type='time'],[type='week'])]:pr-[calc(var(--pico-icon-width)+var(--pico-icon-position))]",
+      "reasons": ["bg", "calc", "modifier", "whole"]
+    },
+    "real-world/pico.css input:not([type=\"checkbox\"],[type=\"radio\"],[type=\"range\"],[type=\"file\"])[type=\"search\"][aria-invalid]": {
+      "ours": "bg-[percentage:center_left_1.125rem,center_right_0.75rem] ps-[calc(var(--pico-form-element-spacing-horizontal)_+_1.75rem)]!",
+      "tailwind": "bg-position-[center_left_1.125rem,center_right_0.75rem] ps-[calc(var(--pico-form-element-spacing-horizontal)+1.75rem)]!",
+      "reasons": ["bg", "calc"]
+    },
+    "real-world/pico.css kbd": {
+      "ours": "[border-radius:var(--pico-border-radius)]",
+      "tailwind": "rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css label": {
+      "ours": "mb-[calc(var(--pico-spacing)_*_0.375)] font-[var(--pico-form-label-font-weight,var(--pico-font-weight))]",
+      "tailwind": "mb-[calc(var(--pico-spacing)*0.375)] font-(--pico-form-label-font-weight,var(--pico-font-weight))",
+      "reasons": ["calc", "fallback"]
+    },
+    "real-world/pico.css label > :where(input,select,textarea)": {
+      "ours": "mt-[calc(var(--pico-spacing)_*_0.25)]",
+      "tailwind": "mt-[calc(var(--pico-spacing)*0.25)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css label > details.dropdown": {
+      "ours": "mt-[calc(var(--pico-spacing)_*_0.25)]",
+      "tailwind": "mt-[calc(var(--pico-spacing)*0.25)]",
+      "reasons": ["calc"]
+    },
+    "real-world/pico.css nav details.dropdown": {
+      "ours": "[margin:calc(var(--pico-nav-element-spacing-vertical)_*_-1)_0]",
+      "tailwind": "m-[calc(var(--pico-nav-element-spacing-vertical)*-1)_0]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav details.dropdown > summary": {
+      "ours": "not-[[role]]:h-[calc(1rem_*_var(--pico-line-height)_+_var(--pico-nav-link-spacing-vertical)_*_2)] not-[[role]]:[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "not-[[role]]:h-[calc(1rem*var(--pico-line-height)+var(--pico-nav-link-spacing-vertical)*2)] not-[[role]]:p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li": {
+      "ours": "[padding:var(--pico-nav-element-spacing-vertical)_var(--pico-nav-element-spacing-horizontal)]",
+      "tailwind": "p-[var(--pico-nav-element-spacing-vertical)_var(--pico-nav-element-spacing-horizontal)]",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css nav li :where(a,[role=\"link\"])": {
+      "ours": "[margin:calc(var(--pico-nav-link-spacing-vertical)_*_-1)_calc(var(--pico-nav-link-spacing-horizontal)_*_-1)] [border-radius:var(--pico-border-radius)] [padding:var(--pico-nav-link-spacing-vertical)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "m-[calc(var(--pico-nav-link-spacing-vertical)*-1)_calc(var(--pico-nav-link-spacing-horizontal)*-1)] rounded-(--pico-border-radius) p-[var(--pico-nav-link-spacing-vertical)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li [role=\"button\"]": {
+      "ours": "[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li [type=\"button\"]": {
+      "ours": "[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li button": {
+      "ours": "[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li input": {
+      "ours": "[&:not([type='checkbox'],[type='radio'],[type='range'],[type='file'])]:[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "[&:not([type='checkbox'],[type='radio'],[type='range'],[type='file'])]:p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav li select": {
+      "ours": "[padding:calc(var(--pico-nav-link-spacing-vertical)_-_var(--pico-border-width)_*_2)_var(--pico-nav-link-spacing-horizontal)]",
+      "tailwind": "p-[calc(var(--pico-nav-link-spacing-vertical)-var(--pico-border-width)*2)_var(--pico-nav-link-spacing-horizontal)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav ol": {
+      "ours": "first-of-type:ml-[calc(var(--pico-nav-element-spacing-horizontal)_*_-1)] last-of-type:mr-[calc(var(--pico-nav-element-spacing-horizontal)_*_-1)]",
+      "tailwind": "first-of-type:-ml-(--pico-nav-element-spacing-horizontal) last-of-type:-mr-(--pico-nav-element-spacing-horizontal)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css nav ul": {
+      "ours": "first-of-type:ml-[calc(var(--pico-nav-element-spacing-horizontal)_*_-1)] last-of-type:mr-[calc(var(--pico-nav-element-spacing-horizontal)_*_-1)]",
+      "tailwind": "first-of-type:-ml-(--pico-nav-element-spacing-horizontal) last-of-type:-mr-(--pico-nav-element-spacing-horizontal)",
+      "reasons": ["calc", "negative"]
+    },
+    "real-world/pico.css nav[aria-label=\"breadcrumb\"] ul li": {
+      "ours": "not-last:after:[margin:0_calc(var(--pico-nav-link-spacing-horizontal)_*_-1)] not-last:after:w-[calc(var(--pico-nav-link-spacing-horizontal)_*_4)]",
+      "tailwind": "not-last:after:m-[0_calc(var(--pico-nav-link-spacing-horizontal)*-1)] not-last:after:w-[calc(var(--pico-nav-link-spacing-horizontal)*4)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css nav[aria-label=\"breadcrumb\"] ul li a": {
+      "ours": "[margin:calc(var(--pico-nav-link-spacing-vertical)_*_-1)_0] ms-[calc(var(--pico-nav-link-spacing-horizontal)_*_-1)]",
+      "tailwind": "m-[calc(var(--pico-nav-link-spacing-vertical)*-1)_0] -ms-(--pico-nav-link-spacing-horizontal)",
+      "reasons": ["calc", "negative", "whole"]
+    },
+    "real-world/pico.css optgroup": {
+      "ours": "text-base/[var(--pico-line-height)]",
+      "tailwind": "text-base/(--pico-line-height)",
+      "reasons": ["modifier"]
+    },
+    "real-world/pico.css pre": {
+      "ours": "[border-radius:var(--pico-border-radius)]",
+      "tailwind": "rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css progress": {
+      "ours": "mb-[calc(var(--pico-spacing)_*_0.5)] [border-radius:var(--pico-border-radius)] [&::-webkit-progress-bar]:[border-radius:var(--pico-border-radius)] [&::-webkit-progress-bar]:bg-[auto_auto] [&::-webkit-progress-bar]:bg-[0%_0%]",
+      "tailwind": "mb-[calc(var(--pico-spacing)*0.5)] rounded-(--pico-border-radius) [&::-webkit-progress-bar]:rounded-(--pico-border-radius) [&::-webkit-progress-bar]:bg-size-[auto_auto] [&::-webkit-progress-bar]:bg-position-[0%_0%]",
+      "reasons": ["bg", "calc", "whole"]
+    },
+    "real-world/pico.css samp": {
+      "ours": "[border-radius:var(--pico-border-radius)]",
+      "tailwind": "rounded-(--pico-border-radius)",
+      "reasons": ["whole"]
+    },
+    "real-world/pico.css select": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)] [&:not([multiple],[size])]:bg-[1rem_auto] [&:not([multiple],[size])]:bg-[center_right_0.75rem] [&:not([multiple],[size])]:pe-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)] [&:not([multiple],[size])]:pr-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height) [&:not([multiple],[size])]:bg-size-[1rem_auto] [&:not([multiple],[size])]:bg-position-[center_right_0.75rem] [&:not([multiple],[size])]:pe-[calc(var(--pico-form-element-spacing-horizontal)+1.5rem)] [&:not([multiple],[size])]:pr-[calc(var(--pico-form-element-spacing-horizontal)+1.5rem)]",
+      "reasons": ["bg", "calc", "modifier", "whole"]
+    },
+    "real-world/pico.css sub": {
+      "ours": "leading-[0]",
+      "tailwind": "leading-0",
+      "reasons": ["leading"]
+    },
+    "real-world/pico.css sup": {
+      "ours": "leading-[0]",
+      "tailwind": "leading-0",
+      "reasons": ["leading"]
+    },
+    "real-world/pico.css td": {
+      "ours": "[padding:calc(var(--pico-spacing)_/_2)_var(--pico-spacing)]",
+      "tailwind": "p-[calc(var(--pico-spacing)/2)_var(--pico-spacing)]",
+      "reasons": ["calc", "whole"]
+    },
+    "real-world/pico.css textarea": {
+      "ours": "[border-radius:var(--pico-border-radius)] [padding:var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/[var(--pico-line-height)]",
+      "tailwind": "rounded-(--pico-border-radius) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] text-base/(--pico-line-height)",
+      "reasons": ["modifier", "whole"]
+    },
+    "real-world/pico.css textarea[aria-invalid]": {
+      "ours": "bg-[length:1rem_var(--pico-icon-height)]! bg-[top_right_0.75rem]! [--pico-icon-height:calc(1rem_*_var(--pico-line-height)_+_var(--pico-form-element-spacing-vertical)_*_2_+_var(--pico-border-width)_*_2)]",
+      "tailwind": "bg-size-[1rem_var(--pico-icon-height)]! bg-position-[top_right_0.75rem]! [--pico-icon-height:calc(1rem*var(--pico-line-height)+var(--pico-form-element-spacing-vertical)*2+var(--pico-border-width)*2)]",
+      "reasons": ["bg", "calc", "whole"]
+    },
+    "real-world/pico.css th": {
+      "ours": "[padding:calc(var(--pico-spacing)_/_2)_var(--pico-spacing)]",
+      "tailwind": "p-[calc(var(--pico-spacing)/2)_var(--pico-spacing)]",
+      "reasons": ["calc", "whole"]
+    }
+  }
+}

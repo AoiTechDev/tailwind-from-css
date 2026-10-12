@@ -666,6 +666,89 @@ export const EXPANDED_LONGHANDS: ReadonlyMap<string, readonly string[]> = new Ma
   [...SHORTHANDS].map(([shorthand, { longhands }]) => [shorthand, longhands]),
 )
 
+const covered = new Map<string, ReadonlySet<string>>()
+const sortedLonghands = new Map<string, readonly string[]>()
+
+// Every longhand a shorthand sets: what N01 expands it into, and what mdn-data lists.
+function longhandSet(shorthand: string): ReadonlySet<string> | undefined {
+  let set = covered.get(shorthand)
+  if (set === undefined) {
+    const longhands = [
+      ...(EXPANDED_LONGHANDS.get(shorthand) ?? []),
+      ...generatedLonghands(shorthand),
+    ]
+    if (longhands.length === 0) return undefined
+    set = new Set(longhands)
+    covered.set(shorthand, set)
+  }
+  return set
+}
+
+/**
+ * Whether a declaration of `shorthand` sets every longhand a declaration of `property` sets, so
+ * a later one overrides it completely, even when it stays whole (N01: a `var()` value).
+ *
+ * @example
+ * covers('padding', 'padding-top') // true
+ * covers('border', 'border-color')  // true
+ */
+export function covers(shorthand: string, property: string): boolean {
+  if (shorthand === property) return false
+  const set = longhandSet(shorthand)
+  if (set === undefined) return false
+  const own = longhandSet(property)
+  return own === undefined ? set.has(property) : [...own].every((longhand) => set.has(longhand))
+}
+
+/**
+ * The longhands a declaration of `property` sets, sorted: a shorthand's (also when it stays
+ * whole), or the property itself.
+ *
+ * @example
+ * longhandsOf('padding') // ['padding-bottom', 'padding-left', 'padding-right', 'padding-top']
+ */
+export function longhandsOf(property: string): readonly string[] {
+  let sorted = sortedLonghands.get(property)
+  if (sorted === undefined) {
+    const set = longhandSet(property)
+    if (set === undefined) return [property]
+    sorted = [...set].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+    sortedLonghands.set(property, sorted)
+  }
+  return sorted
+}
+
+/**
+ * Whether an important winner of a block covers a later declaration that isn't important, so
+ * the later one never shows.
+ */
+export function coveredByImportant(
+  winners: ReadonlyMap<string, { readonly important: boolean }>,
+  declaration: { readonly property: string; readonly important: boolean },
+): boolean {
+  if (declaration.important) return false
+  for (const [property, winner] of winners) {
+    if (winner.important && covers(property, declaration.property)) return true
+  }
+  return false
+}
+
+/**
+ * Removes from a block's winners (by property) those a later declaration overrides completely
+ * because its shorthand covers them, unless they're important and it isn't.
+ */
+export function dropCovered(
+  winners: Map<string, { readonly important: boolean }>,
+  declaration: { readonly property: string; readonly important: boolean },
+): void {
+  if (longhandSet(declaration.property) === undefined) return
+  for (const [property, winner] of winners) {
+    if ((declaration.important || !winner.important) && covers(declaration.property, property)) {
+      winners.delete(property)
+    }
+  }
+}
+
 /**
  * Expands an already value-normalized shorthand into `[longhand, value]` pairs. `undefined`
  * when `property` isn't an expandable shorthand or a component doesn't parse.

@@ -154,6 +154,45 @@ describe('extractSubject', () => {
     expect(extractSubject('html')).toEqual({ subject: 'html', transform: '&' })
   })
 
+  it('keeps a leading :is()/:where() that names elements when the compound would be empty', () => {
+    expect(extractSubject(':where(.btn)')).toEqual({ subject: ':where(.btn)', transform: '&' })
+    expect(extractSubject(':where(.btn):hover')).toEqual({
+      subject: ':where(.btn)',
+      transform: '&:hover',
+    })
+    expect(extractSubject('nav :where(a, [role=link])')).toEqual({
+      subject: 'nav :where(a,[role="link"])',
+      transform: '&',
+    })
+    expect(extractSubject(':is(button, [type=submit]):focus-visible')).toEqual({
+      subject: ':is(button,[type="submit"])',
+      transform: '&:focus-visible',
+    })
+    expect(extractSubject(':is(.a)::before')).toEqual({ subject: '.a', transform: '&::before' })
+    expect(extractSubject(':where(a:not([role=button])):is([aria-current], :hover)')).toEqual({
+      subject: ':where(a:not([role="button"]))',
+      transform: '&:is([aria-current],:hover)',
+    })
+    expect(extractSubject(':where(:root)')).toEqual({ subject: ':where(:root)', transform: '&' })
+  })
+
+  it('strips :is()/:where() of states only, and those after the subject', () => {
+    expect(extractSubject('.a > :is(:hover, :focus)')).toEqual({
+      subject: '.a > *',
+      transform: '&:is(:hover,:focus)',
+    })
+    expect(extractSubject(':where(:hover)')).toEqual({ subject: '*', transform: '&:where(:hover)' })
+    expect(extractSubject('.a > :where(:hover :focus)')).toEqual({
+      subject: '.a > *',
+      transform: '&:where(:hover :focus)',
+    })
+    expect(extractSubject('.a:is(.b, .c)')).toEqual({ subject: '.a', transform: '&:is(.b,.c)' })
+    expect(extractSubject('.a :hover:where(.b)')).toEqual({
+      subject: '.a *',
+      transform: '&:hover:where(.b)',
+    })
+  })
+
   it('rejects selector lists and broken selectors', () => {
     expect(extractSubject('.a, .b')).toBeUndefined()
     expect(extractSubject('.a[')).toBeUndefined()
@@ -307,10 +346,24 @@ describe('takesClasses', () => {
       expect(takesClasses(subject), subject).toBe(false)
     }
     expect(takesClasses(':host-context(.dark)')).toBe(false)
+    for (const subject of [':where(:root)', ':is(html, :root)', ':where(html *)', ':where(*)']) {
+      expect(takesClasses(subject), subject).toBe(false)
+    }
   })
 
   it('is true when some compound names an element', () => {
-    for (const subject of ['body', '.a', '#a', '[data-x]', '.a > *', ':root .a', 'html.dark']) {
+    for (const subject of [
+      'body',
+      '.a',
+      '#a',
+      '[data-x]',
+      '.a > *',
+      ':root .a',
+      'html.dark',
+      ':where(.btn)',
+      ':is(:root, .a)',
+      'nav :where(a)',
+    ]) {
       expect(takesClasses(subject), subject).toBe(true)
     }
   })

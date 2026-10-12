@@ -70,6 +70,68 @@ describe('matchInput', () => {
   })
 })
 
+describe('matchInput: shorthands kept whole', () => {
+  const summary = (declarations: Declaration[]): string[] =>
+    matchInput(declarations, OPTIONS).map((entry) => `${entry.property} ${entry.source}`)
+
+  it('lets a later whole shorthand override the longhands it covers', () => {
+    const declarations: Declaration[] = [
+      { property: 'padding', value: '0' },
+      { property: 'padding', value: 'calc(var(--x) * 0.5) 0' },
+      { property: 'padding-left', value: 'var(--y)' },
+    ]
+    expect(summary(declarations)).toEqual(['padding 1', 'padding-left 2'])
+    expect(overriddenDeclarations(3, matchInput(declarations, OPTIONS))).toEqual([0])
+    expect(
+      summary([
+        { property: 'border-color', value: 'red' },
+        { property: 'border', value: 'var(--b)' },
+      ]),
+    ).toEqual(['border 1'])
+  })
+
+  it('drops a whole shorthand whose longhands are all set later', () => {
+    const declarations: Declaration[] = [
+      { property: 'border-radius', value: 'var(--r)' },
+      { property: 'border-radius', value: '0' },
+    ]
+    expect(summary(declarations)).toEqual([
+      'border-bottom-left-radius 1',
+      'border-bottom-right-radius 1',
+      'border-top-left-radius 1',
+      'border-top-right-radius 1',
+    ])
+    expect(overriddenDeclarations(2, matchInput(declarations, OPTIONS))).toEqual([0])
+    expect(
+      summary([
+        { property: 'text-decoration', value: 'var(--t)' },
+        { property: 'text-decoration-line', value: 'underline' },
+        { property: 'text-decoration-style', value: 'solid' },
+        { property: 'text-decoration-color', value: 'red' },
+      ]),
+    ).toContain('text-decoration 0')
+  })
+
+  it('drops a later longhand that an important whole shorthand covers', () => {
+    const declarations: Declaration[] = [
+      { property: 'padding', value: 'var(--x)', important: true },
+      { property: 'padding-top', value: '0' },
+    ]
+    expect(summary(declarations)).toEqual(['padding 0'])
+    expect(overriddenDeclarations(2, matchInput(declarations, OPTIONS))).toEqual([1])
+  })
+
+  it('keeps important longhands and longhands written after the shorthand', () => {
+    expect(
+      summary([
+        { property: 'padding-top', value: '0', important: true },
+        { property: 'padding', value: 'var(--x)' },
+        { property: 'padding-right', value: '4px' },
+      ]),
+    ).toEqual(['padding 1', 'padding-right 2', 'padding-top 0'])
+  })
+})
+
 describe('overriddenDeclarations (TFC106)', () => {
   it('lists the declarations that win no longhand', () => {
     const declarations: Declaration[] = [

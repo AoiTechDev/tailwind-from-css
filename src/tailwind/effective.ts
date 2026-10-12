@@ -1,5 +1,7 @@
 import { normalizeConditions } from '../css/conditions.ts'
 import {
+  coveredByImportant,
+  dropCovered,
   type NormalDeclaration,
   normalizeDeclarations,
   normalValuesEqual,
@@ -319,7 +321,11 @@ function declarationsOf(
   const winners = new Map<string, NormalDeclaration>()
   for (const declaration of normalizeDeclarations(resolved, options)) {
     const earlier = winners.get(declaration.property)
-    if (earlier === undefined || overrides(declaration, earlier)) {
+    if (
+      (earlier === undefined || overrides(declaration, earlier)) &&
+      !coveredByImportant(winners, declaration)
+    ) {
+      dropCovered(winners, declaration)
       winners.set(declaration.property, declaration)
     }
   }

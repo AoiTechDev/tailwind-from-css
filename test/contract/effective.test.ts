@@ -55,6 +55,14 @@ describe('default theme', () => {
     design = await designSystem()
   })
 
+  it('lets a whole shorthand override the longhands Tailwind puts before it', () => {
+    expectEquivalent(effective(['border-t-[red]', '[border:var(--a)]']), 'border: var(--a)')
+    expectEquivalent(
+      effective(['pt-4', '[padding:var(--a)]']),
+      'padding: var(--a); padding-top: 16px',
+    )
+  })
+
   it('reduces shadow-xs to its visible layer', () => {
     expectEquivalent(effective(['shadow-xs']), 'box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)')
   })

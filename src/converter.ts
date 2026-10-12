@@ -8,6 +8,7 @@ import {
   checkCascade,
   type SourceRank,
   shadowedDeclarations,
+  shorthandOrderConflicts,
 } from './match/cascade.ts'
 import {
   createMatcher,
@@ -379,8 +380,15 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     }
     const first = block.sources[winners[0] as number] as number
     for (const code of chain.codes) collected.notes.push({ source: first, code })
-    const matched: Matched = { block, declarations }
-    const result = matchDeclarations(engine.matcher, declarations, chain.variants)
+    let matched: Matched = { block, declarations }
+    let result = matchDeclarations(engine.matcher, declarations, chain.variants)
+    const hidden = shorthandOrderConflicts(engine.matcher, declarations, result.matches)
+    if (hidden.length > 0) {
+      collected.unconverted.push(...lostTogether(matched, hidden, 'TFC402'))
+      const kept = declarations.filter((_, position) => !hidden.includes(position))
+      matched = { block, declarations: kept }
+      result = matchDeclarations(engine.matcher, kept, chain.variants)
+    }
     for (const skipped of result.skipped) {
       const entry = lost(matched, skipped.declaration, skipped.code)
       if (skipped.code === 'TFC105') collected.notes.push({ source: entry.source, code: 'TFC105' })
@@ -390,7 +398,7 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     verifyBlocks.push({
       context: block.context,
       variants: chain.variants,
-      declarations,
+      declarations: matched.declarations,
       matches: result.matches,
     })
   }
