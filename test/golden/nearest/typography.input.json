@@ -1,0 +1,7 @@
+[
+  { "declarations": { "fontSize": "14px", "fontWeight": 480, "letterSpacing": "-0.4px" } },
+  {
+    "selector": "&::before",
+    "declarations": { "content": "\"\"", "fontSize": "18.2px", "lineHeight": "28px" }
+  }
+]

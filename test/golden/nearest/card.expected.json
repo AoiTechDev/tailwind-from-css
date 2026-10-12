@@ -1,0 +1,205 @@
+{
+  "rules": [
+    {
+      "subject": ".card",
+      "selectors": [
+        ".card",
+        ".card:hover"
+      ],
+      "className": "mx-auto my-0 flex max-w-95.75 flex-col rounded-xl bg-white p-6 text-base text-gray-900 hover:bg-gray-50 max-md:p-4",
+      "mappings": [
+        [
+          "mx-auto",
+          "named",
+          "5:3 | margin: 0 auto",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "my-0",
+          "bare",
+          "5:3 | margin: 0 auto",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "flex",
+          "named",
+          "3:3 | display: flex"
+        ],
+        [
+          "max-w-95.75",
+          "bare",
+          "7:3 | max-width: 383px"
+        ],
+        [
+          "flex-col",
+          "named",
+          "4:3 | flex-direction: column"
+        ],
+        [
+          "rounded-xl",
+          "named",
+          "8:3 | border-radius: 11.8px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.2
+          }
+        ],
+        [
+          "bg-white",
+          "named",
+          "9:3 | background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "p-6",
+          "bare",
+          "6:3 | padding: 23.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "text-base",
+          "named",
+          "11:3 | font-size: 15.8px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.2
+          }
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "10:3 | color: rgb(16, 24, 40)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0007
+          }
+        ],
+        [
+          "hover:bg-gray-50",
+          "bare",
+          "14:3 | &:hover | background-color: rgb(249, 250, 251)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "max-md:p-4",
+          "bare",
+          "29:5 | @media (max-width: 767px) | padding: 16.2px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.2
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "subject": ".card .title",
+      "selectors": [
+        ".card .title"
+      ],
+      "className": "text-xl/7 font-semibold",
+      "mappings": [
+        [
+          "text-xl/7",
+          "named",
+          "17:3 | font-size: 20px",
+          "19:3 | line-height: 28px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "18:3 | font-weight: 590",
+          {
+            "relaxation": "font-weight-nearest",
+            "delta": 10
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "subject": ".card .badge",
+      "selectors": [
+        ".card .badge"
+      ],
+      "className": "rounded-full bg-blue-100 px-2.5 py-0.5 text-[rgb(29,78,216)]",
+      "mappings": [
+        [
+          "rounded-full",
+          "named",
+          "23:3 | border-radius: 9999px",
+          {
+            "relaxation": "pill-radius"
+          }
+        ],
+        [
+          "bg-blue-100",
+          "bare",
+          "24:3 | background-color: rgb(219, 234, 254)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0004
+          }
+        ],
+        [
+          "px-2.5",
+          "bare",
+          "22:3 | padding: 2px 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-0.5",
+          "bare",
+          "22:3 | padding: 2px 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-[rgb(29,78,216)]",
+          "arbitrary-value",
+          "25:3 | color: rgb(29, 78, 216)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    }
+  ],
+  "passthroughCss": "",
+  "diagnostics": []
+}

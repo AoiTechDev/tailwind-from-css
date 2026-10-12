@@ -1,5 +1,6 @@
 {
   "reasons": {
+    "arbitrary-modifier": "An arbitrary value takes a modifier too: text-[18.2px]/7 sets font-size and line-height. Engine gap: modifiers are only tried on indexed utilities.",
     "bg": "background-size and background-position have their own roots (bg-size-[…], bg-position-[…]); we write a type-hinted or ambiguous bg-[…]. Engine gap: type-hint choice.",
     "calc": "Tailwind spells math operators inside calc() without spaces (it adds them back when compiling); our encoding writes them as `_+_`. Cosmetic.",
     "fallback": "var(--x, fallback) has the variable shorthand root-(--x,fallback). Engine gap: variable forms are only tried for a plain var(--x).",
@@ -24,6 +25,11 @@
       "ours": "md:[padding:var(--p)]",
       "tailwind": "md:p-(--p)",
       "reasons": ["whole"]
+    },
+    "nearest/typography": {
+      "ours": "before:text-[18.2px] before:leading-7",
+      "tailwind": "before:text-[18.2px]/7",
+      "reasons": ["arbitrary-modifier"]
     },
     "real-world/bootstrap-utilities.css .border-black": {
       "ours": "[border-color:rgba(var(--bs-black-rgb),var(--bs-border-opacity))]!",

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  colorDifference,
   normalizeColor,
   normalizeColorMix,
   quantizedKey,
@@ -271,5 +272,31 @@ describe('normal values as CSS', () => {
   it('leaves everything else alone', () => {
     expect(cssText('oklch(0.637 0.237 25.331 / 1)')).toBe('oklch(0.637 0.237 25.331 / 1)')
     expect(cssText('16px')).toBe('16px')
+  })
+})
+
+describe('color difference (ΔE OK, for color-nearest)', () => {
+  const red500 = 'oklch(0.637 0.237 25.331 / 1)'
+
+  it('measures across color spaces, on the opaque colors', () => {
+    expect(colorDifference(color('#fb2c36'), red500)?.distance).toBeCloseTo(0.001, 3)
+    expect(colorDifference(color('#ef4444'), red500)?.distance).toBeCloseTo(0.0292, 4)
+    expect(colorDifference(color('white'), color('#fff'))?.distance).toBe(0)
+    expect(colorDifference(color('white'), color('black'))?.distance).toBeCloseTo(1, 3)
+  })
+
+  it('keeps both alphas apart from the distance', () => {
+    expect(colorDifference(color('rgb(0 0 0 / 0.5)'), color('black'))).toEqual({
+      distance: 0,
+      alphas: [0.5, 1],
+    })
+  })
+
+  it('has no answer unless both are one color with every channel present', () => {
+    expect(colorDifference('16px', red500)).toBeUndefined()
+    expect(colorDifference(red500, 'linear-gradient(red, blue)')).toBeUndefined()
+    expect(colorDifference(color('rgb(none 0 0)'), red500)).toBeUndefined()
+    // Again, from the cache.
+    expect(colorDifference(color('rgb(none 0 0)'), red500)).toBeUndefined()
   })
 })

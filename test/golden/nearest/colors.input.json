@@ -1,0 +1,8 @@
+{
+  "declarations": {
+    "color": "rgb(245, 50, 60)",
+    "backgroundColor": "rgba(245, 50, 60, 0.5)",
+    "borderColor": "#ef4444",
+    "outlineColor": "oklch(0.623 0.214 259.815)"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "className": "max-md:hidden min-[800px]:gap-2 md:flex @md:flex-row",
+  "mappings": [
+    [
+      "max-md:hidden",
+      "named",
+      "@media (max-width: 767px) | display: none",
+      {
+        "relaxation": "breakpoint-nearest",
+        "delta": 1
+      }
+    ],
+    [
+      "min-[800px]:gap-2",
+      "bare",
+      "@media (min-width: 800px) | gap: 8px"
+    ],
+    [
+      "md:flex",
+      "named",
+      "@media (min-width: 770px) | display: flex",
+      {
+        "relaxation": "breakpoint-nearest",
+        "delta": 2
+      }
+    ],
+    [
+      "@md:flex-row",
+      "named",
+      "@container (min-width: 450px) | flex-direction: row",
+      {
+        "relaxation": "breakpoint-nearest",
+        "delta": 2
+      }
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC203",
+    "TFC203",
+    "TFC203"
+  ],
+  "exact": false
+}

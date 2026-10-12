@@ -1,0 +1,9 @@
+{
+  "declarations": {
+    "padding": "16px",
+    "color": "oklch(0.637 0.237 25.331)",
+    "fontSize": "0.875rem",
+    "lineHeight": "1.25rem",
+    "borderRadius": "calc(infinity * 1px)"
+  }
+}

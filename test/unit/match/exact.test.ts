@@ -232,7 +232,7 @@ describe('matchDeclarations', () => {
 
   it('reports an arbitrary property that does not round-trip (TFC204)', () => {
     const on = matcher(spacing)
-    expect(match(on, [{ property: 'color', value: 'blue' }])).toEqual({
+    expect(match(on, [{ property: 'color', value: 'blue' }])).toMatchObject({
       matches: [],
       skipped: [{ declaration: 0, code: 'TFC204' }],
     })

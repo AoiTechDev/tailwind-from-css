@@ -1,16 +1,18 @@
 import { toDeclarations } from './css/declarations.ts'
-import { canonicalProperty } from './css/normalize/shorthands.ts'
+import { canonicalProperty, longhandsOf } from './css/normalize/shorthands.ts'
 import { parseStylesheet } from './css/parse.ts'
 import { type Specificity, specificity } from './css/selector.ts'
 import {
   type BlockDeclaration,
   type CascadeIssue,
   checkCascade,
+  contextIntersection,
   type SourceRank,
   shadowedDeclarations,
   shorthandOrderConflicts,
 } from './match/cascade.ts'
 import {
+  type BlockRelax,
   createMatcher,
   type MatchDeclaration,
   type Matcher,
@@ -18,6 +20,7 @@ import {
   matchInput,
   overriddenDeclarations,
 } from './match/exact.ts'
+import { type Relaxation, type RelaxSettings, relaxContext, relaxSettings } from './match/relax.ts'
 import { createVariantResolver, type VariantResolver, variantChain } from './match/variants.ts'
 import { type VerifyBlock, verify } from './match/verify.ts'
 import { resolveOptions } from './options.ts'
@@ -61,6 +64,8 @@ interface Engine {
   readonly options: EffectiveOptions
   readonly matcher: Matcher
   readonly resolver: VariantResolver
+  /** The relaxations of SPEC §4 to apply; `undefined` in `exact` mode. */
+  readonly relax: RelaxSettings | undefined
 }
 
 /** Declarations of one element in one context, as given or read from a stylesheet. */
@@ -80,6 +85,8 @@ interface Block {
   readonly declarations: Declaration[]
   /** Position of each declaration in the element's source list. */
   readonly sources: number[]
+  /** Relaxations that changed the context (`hover-media`, `breakpoint-nearest`). */
+  readonly relaxations: readonly Relaxation[]
 }
 
 /** What the steps before the report collect for one element. */
@@ -216,6 +223,7 @@ export function converterFromDesign(
     options: effective,
     matcher: createMatcher(design, index, { important: options.important }),
     resolver: createVariantResolver(design, index),
+    relax: relaxSettings(options),
   }
   return Object.freeze({
     tailwindVersion: design.version,
@@ -261,7 +269,7 @@ function collectBlocks(engine: Engine, entries: readonly Entry[], collected: Col
     }
     let block = blocks.get(key)
     if (block === undefined) {
-      block = { context, declarations: [], sources: [] }
+      block = { context, declarations: [], sources: [], relaxations: [] }
       blocks.set(key, block)
     }
     const { declarations, invalid } = toDeclarations(entry.declarations)
@@ -282,17 +290,22 @@ function collectBlocks(engine: Engine, entries: readonly Entry[], collected: Col
   return [...blocks.values()].filter((block) => block.declarations.length > 0)
 }
 
+// A longhand a relaxed class adds (`text-line-height`) was never written, so nothing reports it.
+const isAdded = (declaration: MatchDeclaration): boolean =>
+  declaration.relaxed !== undefined && declaration.relaxed.original === undefined
+
 /**
  * The entry for a longhand without a class: the input declaration as written, or the longhand
  * itself when the declaration was expanded (so what's reported can be kept as CSS without
- * overriding the longhands that did get classes).
+ * overriding the longhands that did get classes). A relaxed longhand reports its input.
  */
 function lost<Code extends UnconvertedCode | NoteCode>(
   matched: Matched,
   position: number,
   code: Code,
 ): ReportEntry<Code> {
-  const longhand = matched.declarations[position] as MatchDeclaration
+  const target = matched.declarations[position] as MatchDeclaration
+  const longhand = target.relaxed?.original ?? target
   const declaration = matched.block.declarations[longhand.source] as Declaration
   const source = matched.block.sources[longhand.source] as number
   return canonicalProperty(declaration.property) === longhand.property
@@ -309,12 +322,15 @@ function lostTogether<Code extends UnconvertedCode | NoteCode>(
   positions: readonly number[],
   code: Code,
 ): ReportEntry<Code>[] {
-  const concerned = new Set(positions)
+  const written = (position: number): boolean =>
+    !isAdded(matched.declarations[position] as MatchDeclaration)
+  const concerned = new Set(positions.filter(written))
   const whole = new Set<number>()
-  for (const position of positions) {
+  for (const position of concerned) {
     const { source } = matched.declarations[position] as MatchDeclaration
     const all = matched.declarations.every(
-      (declaration, other) => declaration.source !== source || concerned.has(other),
+      (declaration, other) =>
+        isAdded(declaration) || declaration.source !== source || concerned.has(other),
     )
     if (all) whole.add(source)
   }
@@ -335,15 +351,63 @@ function byBlock<Item extends BlockDeclaration>(items: readonly Item[]): Map<num
   return grouped
 }
 
+/**
+ * SPEC §4: blocks whose context reads better relaxed (`hover-media`, `breakpoint-nearest`) take
+ * the relaxed context, unless another block already has it (blocks keep distinct contexts).
+ */
+function relaxContexts(engine: Engine, inputs: readonly Matched[]): Matched[] {
+  const { relax } = engine
+  if (relax === undefined) return [...inputs]
+  const keys = inputs.map((input) =>
+    contextKey(normalizeContext(input.block.context, engine.options)),
+  )
+  return inputs.map((input, index) => {
+    const properties = new Set(input.declarations.map((declaration) => declaration.property))
+    const relaxed = relaxContext(engine.resolver, relax, input.block.context, properties)
+    if (relaxed === undefined) return input
+    const key = contextKey(relaxed.context)
+    if (keys.some((other, at) => at !== index && other === key)) return input
+    keys[index] = key
+    const { context, relaxations } = relaxed
+    return { ...input, block: { ...input.block, context, relaxations } }
+  })
+}
+
+/**
+ * What the matcher may relax in each block: the longhands of the other blocks that can apply
+ * together with it (§5.8) are occupied.
+ */
+function blockRelaxes(engine: Engine, inputs: readonly Matched[]): (BlockRelax | undefined)[] {
+  const { relax, options } = engine
+  if (relax === undefined) return inputs.map(() => undefined)
+  const contexts = inputs.map((input) => normalizeContext(input.block.context, options))
+  const longhands = inputs.map((input) =>
+    input.declarations.flatMap((declaration) => longhandsOf(declaration.property)),
+  )
+  return contexts.map((context, index) => ({
+    settings: relax,
+    occupied: new Set(
+      longhands.flatMap((list, at) =>
+        at === index ||
+        contextIntersection(context, contexts[at] as Context, options) === 'disjoint'
+          ? []
+          : list,
+      ),
+    ),
+  }))
+}
+
 function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
   const collected: Collected = { sources: [], ranks: [], classes: [], unconverted: [], notes: [] }
-  const inputs: Matched[] = collectBlocks(engine, entries, collected).map((block) => {
+  const written: Matched[] = collectBlocks(engine, entries, collected).map((block) => {
     const declarations = matchInput(block.declarations, engine.options)
     for (const overridden of overriddenDeclarations(block.declarations.length, declarations)) {
       collected.notes.push({ source: block.sources[overridden] as number, code: 'TFC106' })
     }
     return { block, declarations }
   })
+  const inputs = relaxContexts(engine, written)
+  const relaxes = blockRelaxes(engine, inputs)
   const ranksOf = ({ block, declarations }: Matched): SourceRank[] =>
     declarations.map(
       (declaration) => collected.ranks[block.sources[declaration.source] as number] as SourceRank,
@@ -380,14 +444,15 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     }
     const first = block.sources[winners[0] as number] as number
     for (const code of chain.codes) collected.notes.push({ source: first, code })
-    let matched: Matched = { block, declarations }
-    let result = matchDeclarations(engine.matcher, declarations, chain.variants)
-    const hidden = shorthandOrderConflicts(engine.matcher, declarations, result.matches)
+    const relax = relaxes[index]
+    let result = matchDeclarations(engine.matcher, declarations, chain.variants, relax)
+    let matched: Matched = { block, declarations: result.target }
+    const hidden = shorthandOrderConflicts(engine.matcher, result.target, result.matches)
     if (hidden.length > 0) {
       collected.unconverted.push(...lostTogether(matched, hidden, 'TFC402'))
       const kept = declarations.filter((_, position) => !hidden.includes(position))
-      matched = { block, declarations: kept }
-      result = matchDeclarations(engine.matcher, kept, chain.variants)
+      result = matchDeclarations(engine.matcher, kept, chain.variants, relax)
+      matched = { block, declarations: result.target }
     }
     for (const skipped of result.skipped) {
       const entry = lost(matched, skipped.declaration, skipped.code)
@@ -431,10 +496,19 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     const matched = matchedBlocks[block] as Matched
     return matched.block.sources[(matched.declarations[at] as MatchDeclaration).source] as number
   }
+  const relaxationsOf = (block: number, at: number): readonly Relaxation[] => {
+    const matched = matchedBlocks[block] as Matched
+    const own = (matched.declarations[at] as MatchDeclaration).relaxed?.relaxations ?? []
+    return [...matched.block.relaxations, ...own]
+  }
   cascade.matches.forEach((matches, block) => {
     for (const match of matches) {
-      const sources = match.declarations.map((at) => sourceOf(block, at))
-      collected.classes.push({ className: match.className, kind: match.kind, sources })
+      collected.classes.push({
+        className: match.className,
+        kind: match.kind,
+        sources: match.declarations.map((at) => sourceOf(block, at)),
+        relaxations: match.declarations.flatMap((at) => relaxationsOf(block, at)),
+      })
     }
   })
   for (const stacked of cascade.stacked) {
@@ -442,6 +516,9 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
       className: stacked.className,
       kind: stacked.kind,
       sources: stacked.sources.map((source) => sourceOf(source.block, source.declaration)),
+      relaxations: stacked.sources.flatMap((source) =>
+        relaxationsOf(source.block, source.declaration),
+      ),
     })
   }
   return report(collected, (classes) => engine.design.classOrder(classes))

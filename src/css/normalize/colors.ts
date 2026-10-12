@@ -22,7 +22,8 @@ import { formatNumber } from './lengths.ts'
 import { splitTopLevel } from './split.ts'
 
 const toRgb = useMode(modeRgb)
-for (const mode of [modeHsl, modeHwb, modeLab, modeLch, modeOklab, modeOklch, modeLrgb]) {
+const toOklab = useMode(modeOklab)
+for (const mode of [modeHsl, modeHwb, modeLab, modeLch, modeOklch, modeLrgb]) {
   useMode(mode)
 }
 for (const mode of [modeP3, modeRec2020, modeA98, modeProphoto, modeXyz50, modeXyz65]) {
@@ -133,6 +134,43 @@ export function normalizeColor(text: string): string | undefined {
   if (colorCache.size >= COLOR_CACHE_SIZE) colorCache.clear()
   colorCache.set(text, normal)
   return normal
+}
+
+/** How far apart two colors are: ΔE OK of the opaque colors, and the alpha of each. */
+export interface ColorDifference {
+  readonly distance: number
+  readonly alphas: readonly [number, number]
+}
+
+const oklabCache = new Map<string, Color | undefined>()
+
+function oklabOf(value: string): Color | undefined {
+  if (oklabCache.has(value)) return oklabCache.get(value)
+  const own = SRGB_FORM.exec(value)
+  const color = value.includes('none') ? undefined : own ? parseSrgbForm(own) : tryParse(value)
+  const oklab = color === undefined ? undefined : toOklab(color)
+  if (oklabCache.size >= COLOR_CACHE_SIZE) oklabCache.clear()
+  oklabCache.set(value, oklab)
+  return oklab
+}
+
+const component = (color: Color, name: string): number => Number(color[name] ?? 0)
+
+/**
+ * The difference between two normal color values (N20, N21), across color spaces: the Euclidean
+ * distance in OKLab of their opaque colors (ΔE OK) and both alphas. `undefined` unless both are
+ * one color with every channel present.
+ */
+export function colorDifference(a: string, b: string): ColorDifference | undefined {
+  const first = oklabOf(a)
+  const second = oklabOf(b)
+  if (first === undefined || second === undefined) return undefined
+  const distance = Math.hypot(
+    component(first, 'l') - component(second, 'l'),
+    component(first, 'a') - component(second, 'a'),
+    component(first, 'b') - component(second, 'b'),
+  )
+  return { distance, alphas: [first.alpha ?? 1, second.alpha ?? 1] }
 }
 
 function parseStop(stop: string): { color: string; percent: number | undefined } | undefined {

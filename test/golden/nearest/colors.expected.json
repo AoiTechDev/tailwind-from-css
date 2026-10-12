@@ -1,0 +1,40 @@
+{
+  "className": "border-[#ef4444] bg-red-500/50 text-red-500 outline-blue-500",
+  "mappings": [
+    [
+      "border-[#ef4444]",
+      "arbitrary-value",
+      "border-color: #ef4444"
+    ],
+    [
+      "bg-red-500/50",
+      "bare",
+      "background-color: rgba(245, 50, 60, 0.5)",
+      {
+        "relaxation": "color-nearest",
+        "delta": 0.011
+      }
+    ],
+    [
+      "text-red-500",
+      "bare",
+      "color: rgb(245, 50, 60)",
+      {
+        "relaxation": "color-nearest",
+        "delta": 0.011
+      }
+    ],
+    [
+      "outline-blue-500",
+      "bare",
+      "outline-color: oklch(0.623 0.214 259.815)"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC203",
+    "TFC203",
+    "TFC201"
+  ],
+  "exact": false
+}

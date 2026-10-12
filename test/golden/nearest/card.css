@@ -1,0 +1,31 @@
+/* A captured card: px values, a :hover state, a desktop-first breakpoint. */
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 23.5px;
+  max-width: 383px;
+  border-radius: 11.8px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(16, 24, 40);
+  font-size: 15.8px;
+}
+.card:hover {
+  background-color: rgb(249, 250, 251);
+}
+.card .title {
+  font-size: 20px;
+  font-weight: 590;
+  line-height: 28px;
+}
+.card .badge {
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background-color: rgb(219, 234, 254);
+  color: rgb(29, 78, 216);
+}
+@media (max-width: 767px) {
+  .card {
+    padding: 16.2px;
+  }
+}

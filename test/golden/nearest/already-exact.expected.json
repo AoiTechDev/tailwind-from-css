@@ -1,0 +1,29 @@
+{
+  "className": "rounded-full p-4 text-sm/5 text-red-500",
+  "mappings": [
+    [
+      "rounded-full",
+      "named",
+      "border-radius: calc(infinity * 1px)"
+    ],
+    [
+      "p-4",
+      "bare",
+      "padding: 16px"
+    ],
+    [
+      "text-sm/5",
+      "named",
+      "font-size: 0.875rem",
+      "line-height: 1.25rem"
+    ],
+    [
+      "text-red-500",
+      "bare",
+      "color: oklch(0.637 0.237 25.331)"
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [],
+  "exact": true
+}

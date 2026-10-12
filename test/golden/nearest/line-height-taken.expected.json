@@ -1,0 +1,24 @@
+{
+  "className": "text-[14px] hover:leading-loose",
+  "mappings": [
+    [
+      "text-[14px]",
+      "arbitrary-value",
+      "font-size: 14px"
+    ],
+    [
+      "hover:leading-loose",
+      "named",
+      "&:hover | line-height: 2",
+      {
+        "relaxation": "hover-media"
+      }
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC201",
+    "TFC203"
+  ],
+  "exact": false
+}

@@ -1,0 +1,51 @@
+{
+  "className": "text-sm font-medium tracking-[-0.4px] before:text-[18.2px] before:leading-7 before:content-['']",
+  "mappings": [
+    [
+      "text-sm",
+      "named",
+      "font-size: 14px",
+      {
+        "relaxation": "text-line-height"
+      }
+    ],
+    [
+      "font-medium",
+      "named",
+      "font-weight: 480",
+      {
+        "relaxation": "font-weight-nearest",
+        "delta": 20
+      }
+    ],
+    [
+      "tracking-[-0.4px]",
+      "arbitrary-value",
+      "letter-spacing: -0.4px"
+    ],
+    [
+      "before:text-[18.2px]",
+      "arbitrary-value",
+      "&::before | font-size: 18.2px"
+    ],
+    [
+      "before:leading-7",
+      "bare",
+      "&::before | line-height: 28px"
+    ],
+    [
+      "before:content-['']",
+      "arbitrary-value",
+      "&::before | content: \"\""
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC203",
+    "TFC203",
+    "TFC201",
+    "TFC201",
+    "TFC201"
+  ],
+  "exact": false
+}

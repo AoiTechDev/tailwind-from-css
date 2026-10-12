@@ -9,6 +9,7 @@ import { createConverter } from '../../src/converter.ts'
 import type {
   ConversionResult,
   Converter,
+  ConverterOptions,
   CssConversionResult,
   SourceRef,
   StyleInput,
@@ -39,6 +40,9 @@ const stableResult = (result: ConversionResult) => ({
     mapping.className,
     mapping.kind,
     ...mapping.sources.map(sourceText),
+    ...(mapping.relaxation === undefined
+      ? []
+      : [{ relaxation: mapping.relaxation.name, delta: mapping.relaxation.delta }]),
   ]),
   unconverted: result.unconverted.map((entry) => [entry.code, sourceText(entry)]),
   diagnostics: result.diagnostics.map((diagnostic) => diagnostic.code),
@@ -58,11 +62,18 @@ const stableSheet = (result: CssConversionResult) => ({
 
 const json = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`
 
+// ADR-0004: only a suite whose options enable relaxations may have any.
+const relaxes = (options: ConverterOptions): boolean =>
+  options.mode === 'nearest' || (options.relax ?? []).some((name) => !name.startsWith('!'))
+
 function expectVerified(suite: string, result: ConversionResult): void {
   const codes = result.diagnostics.map((diagnostic) => diagnostic.code)
   expect(codes).not.toContain('TFC501')
   expect(codes).not.toContain('TFC502')
-  expect(result.mappings.filter((mapping) => mapping.relaxation !== undefined)).toEqual([])
+  if (!relaxes(suiteOptions(suite))) {
+    expect(result.mappings.filter((mapping) => mapping.relaxation !== undefined)).toEqual([])
+    expect(codes).not.toContain('TFC203')
+  }
   if (suite === 'exact') expect(result.exact).toBe(true)
 }
 

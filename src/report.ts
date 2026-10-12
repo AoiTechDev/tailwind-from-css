@@ -1,4 +1,5 @@
 import { diagnostic } from './diagnostics.ts'
+import { RELAXATION_NAMES } from './options.ts'
 import type {
   ClassMapping,
   ConversionResult,
@@ -8,12 +9,17 @@ import type {
   UnconvertedDeclaration,
 } from './types.ts'
 
+/** A relaxation that produced a class (SPEC §4). */
+export type ReportRelaxation = NonNullable<ClassMapping['relaxation']>
+
 /** A class of the result and the input declarations it came from. */
 export interface ReportClass {
   readonly className: string
   readonly kind: ClassMapping['kind']
   /** Positions in {@link ReportInput.sources}. */
   readonly sources: readonly number[]
+  /** The relaxations behind it, repeats allowed. */
+  readonly relaxations?: readonly ReportRelaxation[]
 }
 
 /** Why a declaration, or one longhand of it, got no class. */
@@ -108,6 +114,27 @@ interface Sorted {
   readonly mapping: ClassMapping
   /** Its first source, for diagnostics. */
   readonly first: number
+  /** One per name, in SPEC §4's order; the first is the mapping's. */
+  readonly relaxations: readonly ReportRelaxation[]
+}
+
+const RELAXATION_ORDER: ReadonlyMap<string, number> = new Map(
+  RELAXATION_NAMES.map((name, position) => [name, position]),
+)
+
+// One entry per relaxation name: its distinct details joined, the largest delta kept.
+function summarize(relaxations: readonly ReportRelaxation[]): ReportRelaxation[] {
+  const byName = new Map<ReportRelaxation['name'], ReportRelaxation[]>()
+  for (const relaxation of relaxations) {
+    byName.set(relaxation.name, [...(byName.get(relaxation.name) ?? []), relaxation])
+  }
+  return [...byName]
+    .sort(([a], [b]) => (RELAXATION_ORDER.get(a) ?? 0) - (RELAXATION_ORDER.get(b) ?? 0))
+    .map(([name, entries]) => {
+      const detail = [...new Set(entries.map((entry) => entry.detail))].join('; ')
+      const deltas = entries.flatMap((entry) => (entry.delta === undefined ? [] : [entry.delta]))
+      return deltas.length === 0 ? { name, detail } : { name, detail, delta: Math.max(...deltas) }
+    })
 }
 
 /** Classes sorted by Tailwind's order (unknown ones last), then by name, each once. */
@@ -115,12 +142,23 @@ function mappingsOf(
   input: ReportInput,
   classOrder: (classes: readonly string[]) => readonly (bigint | null)[],
 ): Sorted[] {
-  const byName = new Map<string, { kind: ClassMapping['kind']; sources: Set<number> }>()
+  const byName = new Map<
+    string,
+    { kind: ClassMapping['kind']; sources: Set<number>; relaxations: ReportRelaxation[] }
+  >()
   for (const entry of input.classes) {
+    const relaxations = entry.relaxations ?? []
     const known = byName.get(entry.className)
     if (known === undefined) {
-      byName.set(entry.className, { kind: entry.kind, sources: new Set(entry.sources) })
-    } else for (const source of entry.sources) known.sources.add(source)
+      byName.set(entry.className, {
+        kind: entry.kind,
+        sources: new Set(entry.sources),
+        relaxations: [...relaxations],
+      })
+      continue
+    }
+    for (const source of entry.sources) known.sources.add(source)
+    known.relaxations.push(...relaxations)
   }
   const names = [...byName.keys()]
   const orders = classOrder(names)
@@ -132,19 +170,24 @@ function mappingsOf(
       if (b.order === null) return -1
       return a.order < b.order ? -1 : 1
     })
-    .map(({ name }) => {
-      const { kind, sources } = byName.get(name) as {
+    .map(({ name }): Sorted => {
+      const known = byName.get(name) as {
         kind: ClassMapping['kind']
         sources: Set<number>
+        relaxations: ReportRelaxation[]
       }
-      const positions = [...sources].sort((a, b) => a - b)
+      const positions = [...known.sources].sort((a, b) => a - b)
+      const relaxations = summarize(known.relaxations)
+      const [relaxation] = relaxations
+      const mapping: ClassMapping = {
+        className: name,
+        kind: known.kind,
+        sources: positions.map((source) => copy(input.sources[source] as SourceRef)),
+      }
       return {
-        mapping: {
-          className: name,
-          kind,
-          sources: positions.map((source) => copy(input.sources[source] as SourceRef)),
-        },
+        mapping: relaxation === undefined ? mapping : { ...mapping, relaxation },
         first: positions[0] ?? 0,
+        relaxations,
       }
     })
 }
@@ -176,7 +219,15 @@ export function report(
     const message = MESSAGES[entry.code](source)
     diagnostics.push({ at: entry.source, diagnostic: diagnostic(entry.code, message, source) })
   }
-  for (const { mapping, first } of sorted) {
+  for (const { mapping, first, relaxations } of sorted) {
+    for (const { name, detail, delta } of relaxations) {
+      const by = delta === undefined ? '' : ` (delta ${delta})`
+      const message = `${mapping.className} relaxes ${name}: ${detail}${by}.`
+      diagnostics.push({
+        at: first,
+        diagnostic: diagnostic('TFC203', message, refOf(input, first)),
+      })
+    }
     const arbitrary = ARBITRARY[mapping.kind]
     if (arbitrary === undefined) continue
     const [code, what] = arbitrary

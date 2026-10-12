@@ -1,0 +1,4 @@
+[
+  { "declarations": { "fontSize": "14px" } },
+  { "selector": "&:hover", "declarations": { "lineHeight": 2 } }
+]

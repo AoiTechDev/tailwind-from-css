@@ -446,10 +446,12 @@ const element = fc.array(styleInput, { minLength: 1, maxLength: 3 })
 
 const OPTIONS = { rootFontSize: 16 } as const
 let converter: Converter
+let nearest: Converter
 let design: TailwindDesignSystem
 
 beforeAll(async () => {
   converter = await createConverter()
+  nearest = await createConverter({ mode: 'nearest' })
   design = await designSystem()
 }, 60_000)
 
@@ -595,6 +597,47 @@ function regions(element: ReadonlyMap<string, Block>): Context[] {
   return [...found.values()]
 }
 
+/** P2: every declaration is a source of a class, unconverted, or dropped; one class per longhand. */
+function expectAccounted(input: readonly StyleInput[], result: ConversionResult): void {
+  for (const style of input) {
+    const { declarations, invalid } = toDeclarations(style.declarations)
+    for (const declaration of [...declarations, ...invalid]) {
+      const ref: SourceRef = {
+        property: declaration.property,
+        value: declaration.value,
+        important: declaration.important === true,
+        selector: style.selector ?? '&',
+        conditions: [...(style.conditions ?? [])],
+      }
+      const mapped = result.mappings.some((m) => m.sources.some((s) => sameRef(s, ref)))
+      const parts = longhands(ref.property, ref.value)
+      const unconverted = result.unconverted.some(
+        (entry) =>
+          sameRef(entry, ref) || (keyOf(entry) === keyOf(ref) && parts.includes(entry.property)),
+      )
+      const dropped = result.diagnostics.some(
+        (d) =>
+          (d.code === 'TFC105' || d.code === 'TFC106') &&
+          d.source !== undefined &&
+          sameRef(d.source, ref),
+      )
+      expect(mapped || unconverted || dropped, JSON.stringify(ref)).toBe(true)
+    }
+  }
+  // Exactly one class per longhand: classes of one context never set the same longhand.
+  const seen = new Map<string, string>()
+  for (const mapping of result.mappings) {
+    const context = contextOf(mapping.sources[0] as SourceRef)
+    const added = new Set(variantAdds(mapping.className, context))
+    const own = effectiveDeclarations(design, [mapping.className], context, OPTIONS)
+    for (const declaration of own.filter((d) => !added.has(d.property))) {
+      const slot = `${keyOf(context)}|${declaration.property}`
+      expect(seen.get(slot), `${slot} set by ${mapping.className}`).toBeUndefined()
+      seen.set(slot, mapping.className)
+    }
+  }
+}
+
 // The nightly job runs 5,000 cases per property; each conversion compiles with Tailwind.
 describe('converter properties (default theme, exact mode)', { timeout: 600_000 }, () => {
   // SPEC §5.8: compared the browser's way, every rule that applies in a context cascaded
@@ -652,45 +695,7 @@ describe('converter properties (default theme, exact mode)', { timeout: 600_000 
   it('P2 accounting: every declaration is mapped, unconverted, or dropped with TFC105/TFC106', () => {
     fc.assert(
       fc.property(element, (input) => {
-        const result = converter.convertStyles(input)
-        for (const style of input) {
-          const { declarations, invalid } = toDeclarations(style.declarations)
-          for (const declaration of [...declarations, ...invalid]) {
-            const ref: SourceRef = {
-              property: declaration.property,
-              value: declaration.value,
-              important: declaration.important === true,
-              selector: style.selector ?? '&',
-              conditions: [...(style.conditions ?? [])],
-            }
-            const mapped = result.mappings.some((m) => m.sources.some((s) => sameRef(s, ref)))
-            const parts = longhands(ref.property, ref.value)
-            const unconverted = result.unconverted.some(
-              (entry) =>
-                sameRef(entry, ref) ||
-                (keyOf(entry) === keyOf(ref) && parts.includes(entry.property)),
-            )
-            const dropped = result.diagnostics.some(
-              (d) =>
-                (d.code === 'TFC105' || d.code === 'TFC106') &&
-                d.source !== undefined &&
-                sameRef(d.source, ref),
-            )
-            expect(mapped || unconverted || dropped, JSON.stringify(ref)).toBe(true)
-          }
-        }
-        // Exactly one class per longhand: classes of one context never set the same longhand.
-        const seen = new Map<string, string>()
-        for (const mapping of result.mappings) {
-          const context = contextOf(mapping.sources[0] as SourceRef)
-          const added = new Set(variantAdds(mapping.className, context))
-          const own = effectiveDeclarations(design, [mapping.className], context, OPTIONS)
-          for (const declaration of own.filter((d) => !added.has(d.property))) {
-            const slot = `${keyOf(context)}|${declaration.property}`
-            expect(seen.get(slot), `${slot} set by ${mapping.className}`).toBeUndefined()
-            seen.set(slot, mapping.className)
-          }
-        }
+        expectAccounted(input, converter.convertStyles(input))
       }),
     )
   })
@@ -751,6 +756,33 @@ describe('converter properties (default theme, exact mode)', { timeout: 600_000 
         expect(result.mappings.filter((mapping) => mapping.relaxation !== undefined)).toEqual([])
         expect(result.diagnostics.map((d) => d.code)).not.toContain('TFC203')
         expect(result.exact).toBe(result.unconverted.length === 0)
+      }),
+    )
+  })
+})
+
+describe('converter properties (default theme, nearest mode)', { timeout: 600_000 }, () => {
+  // SPEC §5.7: relaxed classes are verified against the relaxed target, so they never need the
+  // arbitrary-property fallback, and nothing gets lost on the way.
+  it('P2 accounting holds, and relaxed classes verify without a fallback', () => {
+    fc.assert(
+      fc.property(element, (input) => {
+        const result = nearest.convertStyles(input)
+        expectAccounted(input, result)
+        const codes = result.diagnostics.map((d) => d.code)
+        expect(codes).not.toContain('TFC501')
+        const relaxed = result.mappings.filter((mapping) => mapping.relaxation !== undefined)
+        expect(codes.filter((code) => code === 'TFC203').length >= relaxed.length).toBe(true)
+        expect(result.exact).toBe(result.unconverted.length === 0 && relaxed.length === 0)
+      }),
+    )
+  })
+
+  it('P3 determinism in nearest mode', () => {
+    fc.assert(
+      fc.property(element, (input) => {
+        const first = JSON.stringify(nearest.convertStyles(input))
+        expect(JSON.stringify(nearest.convertStyles(input))).toBe(first)
       }),
     )
   })

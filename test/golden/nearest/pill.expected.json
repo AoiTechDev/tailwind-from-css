@@ -1,0 +1,37 @@
+{
+  "className": "rounded-tl-md rounded-tr-full rounded-b-full",
+  "mappings": [
+    [
+      "rounded-tl-md",
+      "named",
+      "border-top-left-radius: 5.9px",
+      {
+        "relaxation": "length-nearest",
+        "delta": 0.1
+      }
+    ],
+    [
+      "rounded-tr-full",
+      "named",
+      "border-radius: 9999px",
+      {
+        "relaxation": "pill-radius"
+      }
+    ],
+    [
+      "rounded-b-full",
+      "named",
+      "border-radius: 9999px",
+      {
+        "relaxation": "pill-radius"
+      }
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC203",
+    "TFC203",
+    "TFC203"
+  ],
+  "exact": false
+}

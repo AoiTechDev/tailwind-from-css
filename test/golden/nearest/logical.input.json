@@ -1,0 +1,4 @@
+[
+  { "declarations": { "margin": "0 auto", "padding": "8px 16px", "borderLeftWidth": "1px" } },
+  { "conditions": ["@media (min-width: 768px)"], "declarations": { "paddingLeft": "24px" } }
+]

@@ -1,0 +1,10 @@
+{
+  "declarations": {
+    "padding": "13.3px",
+    "marginTop": "-13.3px",
+    "maxWidth": "447.5px",
+    "gap": "0.9rem",
+    "width": "3.1px",
+    "height": "30px"
+  }
+}

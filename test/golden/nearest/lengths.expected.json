@@ -1,0 +1,60 @@
+{
+  "className": "-mt-3.5 h-7.5 w-[3.1px] max-w-md gap-3.5 p-3.5",
+  "mappings": [
+    [
+      "-mt-3.5",
+      "bare",
+      "margin-top: -13.3px",
+      {
+        "relaxation": "length-nearest",
+        "delta": 0.7
+      }
+    ],
+    [
+      "h-7.5",
+      "bare",
+      "height: 30px"
+    ],
+    [
+      "w-[3.1px]",
+      "arbitrary-value",
+      "width: 3.1px"
+    ],
+    [
+      "max-w-md",
+      "named",
+      "max-width: 447.5px",
+      {
+        "relaxation": "length-nearest",
+        "delta": 0.5
+      }
+    ],
+    [
+      "gap-3.5",
+      "bare",
+      "gap: 0.9rem",
+      {
+        "relaxation": "length-nearest",
+        "delta": 0.4
+      }
+    ],
+    [
+      "p-3.5",
+      "bare",
+      "padding: 13.3px",
+      {
+        "relaxation": "length-nearest",
+        "delta": 0.7
+      }
+    ]
+  ],
+  "unconverted": [],
+  "diagnostics": [
+    "TFC203",
+    "TFC203",
+    "TFC203",
+    "TFC203",
+    "TFC201"
+  ],
+  "exact": false
+}
