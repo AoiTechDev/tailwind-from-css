@@ -1,5 +1,0 @@
----
-"tailwind-from-css": patch
----
-
-Fix shorthands that contain `var()`. Such a shorthand stays whole (`[padding:var(--p)_0]`), but it still sets every longhand it covers, and the converter didn't treat it that way. `padding: 0` followed by `padding: calc(var(--x) * 0.5) 0` gave `[padding:…] pt-0 pr-0 pb-0`, so the element got `padding-top: 0`. Now an earlier declaration a later shorthand covers is dropped with `TFC106`, and verification and the cascade check see the overlap. Tailwind sorts `[border:…]`, `[background:…]`, `[font:…]`, `[text-decoration:…]`, `[transition:…]`, `[list-style:…]` and `[grid-area:…]` after every longhand utility, so a longhand written after one of them (`border: var(--a); border-top-color: red`) can't win in Tailwind. That longhand is now left unconverted with `TFC402` instead of getting a class that never applies. A rule whose last compound starts with `:is()` or `:where()` naming elements now keeps it in the subject: `:where(.btn):hover` is the subject `:where(.btn)` with `&:hover`, not `*` passed through as CSS.

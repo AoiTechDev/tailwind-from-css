@@ -1,5 +1,12 @@
 # tailwind-from-css
 
+## 0.0.4
+
+### Patch Changes
+
+- 88c7e9a: Check the cascade between contexts that can apply together. Tailwind orders classes by variant, not by your stylesheet, so a later `@media (min-width: 1000px)` rule used to lose to an earlier `md:` one, and a `:focus` rule written after `:hover` lost to `[&:hover]:`. Where the source and Tailwind disagree, a class for the intersection is added (`min-[1000px]:md:p-6`, `[&:hover]:focus:bg-…`) with `TFC401`. A declaration that a later or stronger rule always overrides, such as an `@starting-style` or `@container` rule placed before the base rule, is dropped with `TFC106`. When a conflict can't be fixed (more than four conflicting contexts for one property, or no class for the intersection), the declaration Tailwind would wrongly let win is left unconverted with `TFC402`. The published JavaScript is now minified, so the package is about 145 kB unpacked instead of 244 kB.
+- f963aaa: Fix shorthands that contain `var()`. Such a shorthand stays whole (`[padding:var(--p)_0]`), but it still sets every longhand it covers, and the converter didn't treat it that way. `padding: 0` followed by `padding: calc(var(--x) * 0.5) 0` gave `[padding:…] pt-0 pr-0 pb-0`, so the element got `padding-top: 0`. Now an earlier declaration a later shorthand covers is dropped with `TFC106`, and verification and the cascade check see the overlap. Tailwind sorts `[border:…]`, `[background:…]`, `[font:…]`, `[text-decoration:…]`, `[transition:…]`, `[list-style:…]` and `[grid-area:…]` after every longhand utility, so a longhand written after one of them (`border: var(--a); border-top-color: red`) can't win in Tailwind. That longhand is now left unconverted with `TFC402` instead of getting a class that never applies. A rule whose last compound starts with `:is()` or `:where()` naming elements now keeps it in the subject: `:where(.btn):hover` is the subject `:where(.btn)` with `&:hover`, not `*` passed through as CSS.
+
 ## 0.0.3
 
 ### Patch Changes
