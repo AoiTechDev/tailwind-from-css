@@ -1,0 +1,1046 @@
+{
+  "elements": [
+    {
+      "name": "body",
+      "tag": "body",
+      "className": "box-content font-[Georgia,'Times_New_Roman',serif] leading-[25.6px] text-[rgb(34,34,34)]",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "font-[Georgia,'Times_New_Roman',serif]",
+          "arbitrary-value",
+          "font-family: Georgia, \"Times New Roman\", serif"
+        ],
+        [
+          "leading-[25.6px]",
+          "arbitrary-value",
+          "line-height: 25.6px"
+        ],
+        [
+          "text-[rgb(34,34,34)]",
+          "arbitrary-value",
+          "color: rgb(34, 34, 34)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "header",
+      "tag": "header",
+      "className": "box-content flex flex-col gap-2 border-b border-b-[rgb(229,229,229)] pt-4 pr-5 pb-4 pl-5 md:flex-row md:items-baseline md:justify-between md:pt-6 md:pr-10 md:pb-6 md:pl-10",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "flex",
+          "named",
+          "display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "flex-direction: column"
+        ],
+        [
+          "gap-2",
+          "bare",
+          "column-gap: 8px",
+          "row-gap: 8px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-b-[rgb(229,229,229)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(229, 229, 229)"
+        ],
+        [
+          "pt-4",
+          "bare",
+          "padding-top: 16px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-4",
+          "bare",
+          "padding-bottom: 16px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "md:flex-row",
+          "named",
+          "@media (width >= 768px) | flex-direction: row"
+        ],
+        [
+          "md:items-baseline",
+          "named",
+          "@media (width >= 768px) | align-items: baseline"
+        ],
+        [
+          "md:justify-between",
+          "named",
+          "@media (width >= 768px) | justify-content: space-between"
+        ],
+        [
+          "md:pt-6",
+          "bare",
+          "@media (width >= 768px) | padding-top: 24px"
+        ],
+        [
+          "md:pr-10",
+          "bare",
+          "@media (width >= 768px) | padding-right: 40px"
+        ],
+        [
+          "md:pb-6",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 24px"
+        ],
+        [
+          "md:pl-10",
+          "bare",
+          "@media (width >= 768px) | padding-left: 40px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "logo",
+      "tag": "a",
+      "className": "box-content h-[26.3906px] font-[system-ui,sans-serif] text-[22px]/[26.4px] font-bold tracking-[-0.44px] text-[rgb(180,35,90)]",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-[26.3906px]",
+          "arbitrary-value",
+          "height: 26.3906px"
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-[22px]/[26.4px]",
+          "arbitrary-value",
+          "font-size: 22px",
+          "line-height: 26.4px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.44px]",
+          "arbitrary-value",
+          "letter-spacing: -0.44px"
+        ],
+        [
+          "text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "color: rgb(180, 35, 90)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "mr-4 box-content font-[system-ui,sans-serif] text-[15px]/6 text-[rgb(85,85,85)] focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(180,35,90)] [&:hover]:text-[rgb(180,35,90)] [&:hover]:underline [&:hover]:underline-offset-4",
+      "mappings": [
+        [
+          "mr-4",
+          "bare",
+          "margin-right: 16px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-[15px]/6",
+          "arbitrary-value",
+          "font-size: 15px",
+          "line-height: 24px"
+        ],
+        [
+          "text-[rgb(85,85,85)]",
+          "arbitrary-value",
+          "color: rgb(85, 85, 85)"
+        ],
+        [
+          "focus-visible:rounded-xs",
+          "named",
+          "&:focus-visible | border-bottom-left-radius: 2px",
+          "&:focus-visible | border-bottom-right-radius: 2px",
+          "&:focus-visible | border-top-left-radius: 2px",
+          "&:focus-visible | border-top-right-radius: 2px"
+        ],
+        [
+          "focus-visible:outline-2",
+          "bare",
+          "&:focus-visible | outline-style: solid",
+          "&:focus-visible | outline-width: 2px"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "&:focus-visible | outline-color: rgb(180, 35, 90)"
+        ],
+        [
+          "[&:hover]:text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "&:hover | color: rgb(180, 35, 90)"
+        ],
+        [
+          "[&:hover]:underline",
+          "named",
+          "&:hover | text-decoration-line: underline"
+        ],
+        [
+          "[&:hover]:underline-offset-4",
+          "bare",
+          "&:hover | text-underline-offset: 4px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "article",
+      "tag": "article",
+      "className": "box-content max-w-170 pt-6 pr-5 pb-6 pl-5 md:mr-6 md:ml-6 xl:mr-65 xl:ml-65 xl:max-w-190 xl:pt-12 xl:pr-0 xl:pb-12 xl:pl-0",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "max-w-170",
+          "bare",
+          "max-width: 680px"
+        ],
+        [
+          "pt-6",
+          "bare",
+          "padding-top: 24px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-6",
+          "bare",
+          "padding-bottom: 24px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "md:mr-6",
+          "bare",
+          "@media (width >= 768px) | margin-right: 24px"
+        ],
+        [
+          "md:ml-6",
+          "bare",
+          "@media (width >= 768px) | margin-left: 24px"
+        ],
+        [
+          "xl:mr-65",
+          "bare",
+          "@media (width >= 1280px) | margin-right: 260px"
+        ],
+        [
+          "xl:ml-65",
+          "bare",
+          "@media (width >= 1280px) | margin-left: 260px"
+        ],
+        [
+          "xl:max-w-190",
+          "bare",
+          "@media (width >= 1280px) | max-width: 760px"
+        ],
+        [
+          "xl:pt-12",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 48px"
+        ],
+        [
+          "xl:pr-0",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 0px"
+        ],
+        [
+          "xl:pb-12",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 48px"
+        ],
+        [
+          "xl:pl-0",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 0px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "tag",
+      "tag": "span",
+      "className": "box-content inline-block h-5 w-[36.3594px] rounded-[999px] bg-[rgb(246,232,238)] pt-0.5 pr-2.5 pb-0.5 pl-2.5 font-[system-ui,sans-serif] text-xs/5 font-semibold tracking-[0.6px] text-[rgb(180,35,90)] uppercase",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "w-[36.3594px]",
+          "arbitrary-value",
+          "width: 36.3594px"
+        ],
+        [
+          "rounded-[999px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 999px",
+          "border-bottom-right-radius: 999px",
+          "border-top-left-radius: 999px",
+          "border-top-right-radius: 999px"
+        ],
+        [
+          "bg-[rgb(246,232,238)]",
+          "arbitrary-value",
+          "background-color: rgb(246, 232, 238)"
+        ],
+        [
+          "pt-0.5",
+          "bare",
+          "padding-top: 2px"
+        ],
+        [
+          "pr-2.5",
+          "bare",
+          "padding-right: 10px"
+        ],
+        [
+          "pb-0.5",
+          "bare",
+          "padding-bottom: 2px"
+        ],
+        [
+          "pl-2.5",
+          "bare",
+          "padding-left: 10px"
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-xs/5",
+          "named",
+          "font-size: 12px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "tracking-[0.6px]",
+          "arbitrary-value",
+          "letter-spacing: 0.6px"
+        ],
+        [
+          "text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "color: rgb(180, 35, 90)"
+        ],
+        [
+          "uppercase",
+          "named",
+          "text-transform: uppercase"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "mb-3 box-content text-[32px]/[36.8px] font-bold md:text-[44px]/[50.6px]",
+      "mappings": [
+        [
+          "mb-3",
+          "bare",
+          "margin-bottom: 12px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "text-[32px]/[36.8px]",
+          "arbitrary-value",
+          "font-size: 32px",
+          "line-height: 36.8px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "md:text-[44px]/[50.6px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 44px",
+          "@media (width >= 768px) | line-height: 50.6px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "byline",
+      "tag": "p",
+      "className": "mt-3.5 mb-3.5 box-content h-[22.3906px] text-sm/[22.4px] text-[rgb(118,118,118)] italic",
+      "mappings": [
+        [
+          "mt-3.5",
+          "bare",
+          "margin-top: 14px"
+        ],
+        [
+          "mb-3.5",
+          "bare",
+          "margin-bottom: 14px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-[22.3906px]",
+          "arbitrary-value",
+          "height: 22.3906px"
+        ],
+        [
+          "text-sm/[22.4px]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: 22.4px"
+        ],
+        [
+          "text-[rgb(118,118,118)]",
+          "arbitrary-value",
+          "color: rgb(118, 118, 118)"
+        ],
+        [
+          "italic",
+          "named",
+          "font-style: italic"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "body-text",
+      "tag": "p",
+      "className": "mt-4 mb-4 box-content",
+      "mappings": [
+        [
+          "mt-4",
+          "bare",
+          "margin-top: 16px"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "quote",
+      "tag": "blockquote",
+      "className": "relative mt-8 mb-8 box-content border-l-4 border-l-[rgb(180,35,90)] pl-6 text-xl/8 text-[rgb(68,68,68)] before:absolute before:-top-5 before:right-[312.75px] before:bottom-5 before:-left-2 before:box-content before:block before:h-16 before:w-[26.25px] before:text-[64px]/16 before:text-[rgba(180,35,90,0.2)] before:content-['“'] md:[&::before]:right-[657.75px] md:[&::before]:-bottom-3 xl:[&::before]:right-[737.75px]",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "mt-8",
+          "bare",
+          "margin-top: 32px"
+        ],
+        [
+          "mb-8",
+          "bare",
+          "margin-bottom: 32px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "border-l-4",
+          "bare",
+          "border-left-style: solid",
+          "border-left-width: 4px"
+        ],
+        [
+          "border-l-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "border-left-color: rgb(180, 35, 90)"
+        ],
+        [
+          "pl-6",
+          "bare",
+          "padding-left: 24px"
+        ],
+        [
+          "text-xl/8",
+          "named",
+          "font-size: 20px",
+          "line-height: 32px"
+        ],
+        [
+          "text-[rgb(68,68,68)]",
+          "arbitrary-value",
+          "color: rgb(68, 68, 68)"
+        ],
+        [
+          "before:absolute",
+          "named",
+          "&::before | position: absolute"
+        ],
+        [
+          "before:-top-5",
+          "bare",
+          "&::before | top: -20px"
+        ],
+        [
+          "before:right-[312.75px]",
+          "arbitrary-value",
+          "&::before | right: 312.75px"
+        ],
+        [
+          "before:bottom-5",
+          "bare",
+          "&::before | bottom: 20px"
+        ],
+        [
+          "before:-left-2",
+          "bare",
+          "&::before | left: -8px"
+        ],
+        [
+          "before:box-content",
+          "named",
+          "&::before | box-sizing: content-box"
+        ],
+        [
+          "before:block",
+          "named",
+          "&::before | display: block"
+        ],
+        [
+          "before:h-16",
+          "bare",
+          "&::before | height: 64px"
+        ],
+        [
+          "before:w-[26.25px]",
+          "arbitrary-value",
+          "&::before | width: 26.25px"
+        ],
+        [
+          "before:text-[64px]/16",
+          "arbitrary-value",
+          "&::before | font-size: 64px",
+          "&::before | line-height: 64px"
+        ],
+        [
+          "before:text-[rgba(180,35,90,0.2)]",
+          "arbitrary-value",
+          "&::before | color: rgba(180, 35, 90, 0.2)"
+        ],
+        [
+          "before:content-['“']",
+          "arbitrary-value",
+          "&::before | content: \"“\""
+        ],
+        [
+          "md:[&::before]:right-[657.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | &::before | right: 657.75px"
+        ],
+        [
+          "md:[&::before]:-bottom-3",
+          "bare",
+          "@media (width >= 768px) | &::before | bottom: -12px"
+        ],
+        [
+          "xl:[&::before]:right-[737.75px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | &::before | right: 737.75px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201",
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "pre",
+      "tag": "pre",
+      "className": "mt-3.25 mb-3.25 box-content overflow-auto rounded-lg bg-[rgb(30,30,46)] p-4 font-[monospace,monospace] text-[13px]/[19.5px] text-[rgb(205,214,244)] md:mt-3.5 md:mb-3.5 md:pt-5 md:pr-6 md:pb-5 md:pl-6 md:text-sm/5.25",
+      "mappings": [
+        [
+          "mt-3.25",
+          "bare",
+          "margin-top: 13px"
+        ],
+        [
+          "mb-3.25",
+          "bare",
+          "margin-bottom: 13px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "overflow-auto",
+          "named",
+          "overflow-x: auto",
+          "overflow-y: auto"
+        ],
+        [
+          "rounded-lg",
+          "named",
+          "border-bottom-left-radius: 8px",
+          "border-bottom-right-radius: 8px",
+          "border-top-left-radius: 8px",
+          "border-top-right-radius: 8px"
+        ],
+        [
+          "bg-[rgb(30,30,46)]",
+          "arbitrary-value",
+          "background-color: rgb(30, 30, 46)"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "font-family: monospace, monospace"
+        ],
+        [
+          "text-[13px]/[19.5px]",
+          "arbitrary-value",
+          "font-size: 13px",
+          "line-height: 19.5px"
+        ],
+        [
+          "text-[rgb(205,214,244)]",
+          "arbitrary-value",
+          "color: rgb(205, 214, 244)"
+        ],
+        [
+          "md:mt-3.5",
+          "bare",
+          "@media (width >= 768px) | margin-top: 14px"
+        ],
+        [
+          "md:mb-3.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 14px"
+        ],
+        [
+          "md:pt-5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 20px"
+        ],
+        [
+          "md:pr-6",
+          "bare",
+          "@media (width >= 768px) | padding-right: 24px"
+        ],
+        [
+          "md:pb-5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 20px"
+        ],
+        [
+          "md:pl-6",
+          "bare",
+          "@media (width >= 768px) | padding-left: 24px"
+        ],
+        [
+          "md:text-sm/5.25",
+          "named",
+          "@media (width >= 768px) | font-size: 14px",
+          "@media (width >= 768px) | line-height: 21px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "subscribe",
+      "tag": "button",
+      "className": "h-10 w-[101.969px] cursor-pointer rounded-md bg-[rgb(180,35,90)] pt-2.5 pr-4.5 pb-2.5 pl-4.5 font-[system-ui,sans-serif] text-[15px]/[normal] font-semibold text-white [transition-property:background-color] duration-150 focus-visible:outline-offset-2 focus-visible:outline-[rgba(180,35,90,0.4)] focus-visible:outline-solid [&:hover]:bg-[rgb(143,28,72)]",
+      "mappings": [
+        [
+          "h-10",
+          "bare",
+          "height: 40px"
+        ],
+        [
+          "w-[101.969px]",
+          "arbitrary-value",
+          "width: 101.969px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "background-color: rgb(180, 35, 90)"
+        ],
+        [
+          "pt-2.5",
+          "bare",
+          "padding-top: 10px"
+        ],
+        [
+          "pr-4.5",
+          "bare",
+          "padding-right: 18px"
+        ],
+        [
+          "pb-2.5",
+          "bare",
+          "padding-bottom: 10px"
+        ],
+        [
+          "pl-4.5",
+          "bare",
+          "padding-left: 18px"
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-[15px]/[normal]",
+          "arbitrary-value",
+          "font-size: 15px",
+          "line-height: normal"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color]",
+          "arbitrary-property",
+          "transition-property: background-color"
+        ],
+        [
+          "duration-150",
+          "bare",
+          "transition-duration: 0.15s"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-[rgba(180,35,90,0.4)]",
+          "arbitrary-value",
+          "&:focus-visible | outline-color: rgba(180, 35, 90, 0.4)"
+        ],
+        [
+          "focus-visible:outline-solid",
+          "named",
+          "&:focus-visible | outline-style: solid"
+        ],
+        [
+          "[&:hover]:bg-[rgb(143,28,72)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(143, 28, 72)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "footer",
+      "tag": "footer",
+      "className": "box-content h-[22.3906px] border-t border-t-[rgb(238,238,238)] pt-8 pr-5 pb-8 pl-5 text-center text-sm/[22.4px] text-[rgb(118,118,118)] xl:mr-65 xl:ml-65 xl:max-w-190 xl:pr-0 xl:pl-0 xl:text-left",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-[22.3906px]",
+          "arbitrary-value",
+          "height: 22.3906px"
+        ],
+        [
+          "border-t",
+          "named",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-t-[rgb(238,238,238)]",
+          "arbitrary-value",
+          "border-top-color: rgb(238, 238, 238)"
+        ],
+        [
+          "pt-8",
+          "bare",
+          "padding-top: 32px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-8",
+          "bare",
+          "padding-bottom: 32px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-sm/[22.4px]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: 22.4px"
+        ],
+        [
+          "text-[rgb(118,118,118)]",
+          "arbitrary-value",
+          "color: rgb(118, 118, 118)"
+        ],
+        [
+          "xl:mr-65",
+          "bare",
+          "@media (width >= 1280px) | margin-right: 260px"
+        ],
+        [
+          "xl:ml-65",
+          "bare",
+          "@media (width >= 1280px) | margin-left: 260px"
+        ],
+        [
+          "xl:max-w-190",
+          "bare",
+          "@media (width >= 1280px) | max-width: 760px"
+        ],
+        [
+          "xl:pr-0",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 0px"
+        ],
+        [
+          "xl:pl-0",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 0px"
+        ],
+        [
+          "xl:text-left",
+          "named",
+          "@media (width >= 1280px) | text-align: left"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    }
+  ]
+}

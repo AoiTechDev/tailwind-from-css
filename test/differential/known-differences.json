@@ -2,6 +2,7 @@
   "reasons": {
     "calc": "Tailwind spells math operators inside calc() without spaces (it adds them back when compiling); our encoding writes them as `_+_`. Cosmetic.",
     "leading": "line-height: 0 stays apart from leading-0 and the modifier /0 (calc(var(--spacing) * 0) is 0px): unitless numbers and lengths are different normal forms for line-height (N11). Intentionally stricter.",
+    "slash": "Tailwind writes the alpha slash of a color function without spaces (oklab(0.21_-0.003_-0.034/0.05)); our encoding keeps the computed spelling (_/_). Cosmetic.",
     "variant": "Variant spelling: Tailwind shortens [&:is(…)]: to […]: and not-[[aria-x=…]]: to not-aria-[x=…]:. Cosmetic."
   },
   "differences": {
@@ -9,6 +10,16 @@
       "ours": "p-[calc(var(--x)_*_0.5)_0]",
       "tailwind": "p-[calc(var(--x)*0.5)_0]",
       "reasons": ["calc"]
+    },
+    "computed/tailwind-app.capture.json badge": {
+      "ours": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+      "tailwind": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956/0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+      "reasons": ["slash"]
+    },
+    "computed/tailwind-app.capture.json card": {
+      "ours": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "tailwind": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527/0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "reasons": ["slash"]
     },
     "real-world/bootstrap-utilities.css .fs-1": {
       "ours": "text-[calc(1.375rem_+_1.5vw)]!",

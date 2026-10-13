@@ -1,0 +1,724 @@
+{
+  "elements": [
+    {
+      "name": "body",
+      "tag": "body",
+      "className": "m-2 box-content",
+      "mappings": [
+        [
+          "m-2",
+          "bare",
+          "margin-bottom: 8px",
+          "margin-left: 8px",
+          "margin-right: 8px",
+          "margin-top: 8px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "layout",
+      "tag": "div",
+      "className": "box-content flex flex-col gap-4 p-4 md:flex-row md:p-6",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "flex",
+          "named",
+          "display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "flex-direction: column"
+        ],
+        [
+          "gap-4",
+          "bare",
+          "column-gap: 16px",
+          "row-gap: 16px"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "md:flex-row",
+          "named",
+          "@media (width >= 768px) | flex-direction: row"
+        ],
+        [
+          "md:p-6",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 24px",
+          "@media (width >= 768px) | padding-left: 24px",
+          "@media (width >= 768px) | padding-right: 24px",
+          "@media (width >= 768px) | padding-top: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "sidebar",
+      "tag": "aside",
+      "className": "box-content hidden shrink-0 border-r border-r-[rgb(222,226,230)] pr-6 md:block",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "hidden",
+          "named",
+          "display: none"
+        ],
+        [
+          "shrink-0",
+          "bare",
+          "flex-shrink: 0"
+        ],
+        [
+          "border-r",
+          "named",
+          "border-right-style: solid",
+          "border-right-width: 1px"
+        ],
+        [
+          "border-r-[rgb(222,226,230)]",
+          "arbitrary-value",
+          "border-right-color: rgb(222, 226, 230)"
+        ],
+        [
+          "pr-6",
+          "bare",
+          "padding-right: 24px"
+        ],
+        [
+          "md:block",
+          "named",
+          "@media (width >= 768px) | display: block"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "side-link",
+      "tag": "a",
+      "className": "box-content block pt-1 pb-1 underline decoration-black/0 underline-offset-4 [&:hover]:text-black/75 [&:hover]:decoration-black/75",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "pt-1",
+          "bare",
+          "padding-top: 4px"
+        ],
+        [
+          "pb-1",
+          "bare",
+          "padding-bottom: 4px"
+        ],
+        [
+          "underline",
+          "named",
+          "text-decoration-line: underline"
+        ],
+        [
+          "decoration-black/0",
+          "named",
+          "text-decoration-color: rgba(0, 0, 0, 0)"
+        ],
+        [
+          "underline-offset-4",
+          "bare",
+          "text-underline-offset: 4px"
+        ],
+        [
+          "[&:hover]:text-black/75",
+          "named",
+          "&:hover | color: rgba(0, 0, 0, 0.75)"
+        ],
+        [
+          "[&:hover]:decoration-black/75",
+          "named",
+          "&:hover | text-decoration-color: rgba(0, 0, 0, 0.75)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "main",
+      "tag": "main",
+      "className": "box-content grow",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "grow",
+          "named",
+          "flex-grow: 1"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "mt-[15.4435px] mb-2 box-content text-center text-[23.05px] font-semibold md:mt-[17.0234px] md:text-left md:text-[25.408px] xl:mt-[18.76px] xl:text-[28px]",
+      "mappings": [
+        [
+          "mt-[15.4435px]",
+          "arbitrary-value",
+          "margin-top: 15.4435px"
+        ],
+        [
+          "mb-2",
+          "bare",
+          "margin-bottom: 8px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-[23.05px]",
+          "arbitrary-value",
+          "font-size: 23.05px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "md:mt-[17.0234px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-top: 17.0234px"
+        ],
+        [
+          "md:text-left",
+          "named",
+          "@media (width >= 768px) | text-align: left"
+        ],
+        [
+          "md:text-[25.408px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 25.408px"
+        ],
+        [
+          "xl:mt-[18.76px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | margin-top: 18.76px"
+        ],
+        [
+          "xl:text-[28px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 28px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "summary",
+      "tag": "p",
+      "className": "mt-4 mb-6 box-content h-5.5 leading-5 text-[rgba(33,37,41,0.75)]",
+      "mappings": [
+        [
+          "mt-4",
+          "bare",
+          "margin-top: 16px"
+        ],
+        [
+          "mb-6",
+          "bare",
+          "margin-bottom: 24px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-5.5",
+          "bare",
+          "height: 22px"
+        ],
+        [
+          "leading-5",
+          "bare",
+          "line-height: 20px"
+        ],
+        [
+          "text-[rgba(33,37,41,0.75)]",
+          "arbitrary-value",
+          "color: rgba(33, 37, 41, 0.75)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "badge",
+      "tag": "span",
+      "className": "box-content inline-block h-5 w-[29.3281px] rounded-[800px] border border-[rgb(163,207,187)] bg-[rgb(209,231,221)] pr-2 pl-2 text-[rgb(10,54,34)]",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "w-[29.3281px]",
+          "arbitrary-value",
+          "width: 29.3281px"
+        ],
+        [
+          "rounded-[800px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 800px",
+          "border-bottom-right-radius: 800px",
+          "border-top-left-radius: 800px",
+          "border-top-right-radius: 800px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(163,207,187)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(163, 207, 187)",
+          "border-left-color: rgb(163, 207, 187)",
+          "border-right-color: rgb(163, 207, 187)",
+          "border-top-color: rgb(163, 207, 187)"
+        ],
+        [
+          "bg-[rgb(209,231,221)]",
+          "arbitrary-value",
+          "background-color: rgb(209, 231, 221)"
+        ],
+        [
+          "pr-2",
+          "bare",
+          "padding-right: 8px"
+        ],
+        [
+          "pl-2",
+          "bare",
+          "padding-left: 8px"
+        ],
+        [
+          "text-[rgb(10,54,34)]",
+          "arbitrary-value",
+          "color: rgb(10, 54, 34)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "panel",
+      "tag": "div",
+      "className": "relative box-content h-16.25 rounded-lg border border-[rgb(222,226,230)] bg-[rgb(248,249,250)] p-4 [box-shadow:rgba(0,0,0,0.075)_0px_2px_4px_0px]",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-16.25",
+          "bare",
+          "height: 65px"
+        ],
+        [
+          "rounded-lg",
+          "named",
+          "border-bottom-left-radius: 8px",
+          "border-bottom-right-radius: 8px",
+          "border-top-left-radius: 8px",
+          "border-top-right-radius: 8px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(222,226,230)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(222, 226, 230)",
+          "border-left-color: rgb(222, 226, 230)",
+          "border-right-color: rgb(222, 226, 230)",
+          "border-top-color: rgb(222, 226, 230)"
+        ],
+        [
+          "bg-[rgb(248,249,250)]",
+          "arbitrary-value",
+          "background-color: rgb(248, 249, 250)"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0.075)_0px_2px_4px_0px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0.075) 0px 2px 4px 0px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "dot",
+      "tag": "span",
+      "className": "absolute top-0 -right-4.5 bottom-19.75 left-81.25 box-content block size-0 transform-[matrix(1,0,0,1,-9,-9)] rounded-[50%] border border-[rgb(248,249,250)] bg-[rgb(220,53,69)] p-2 md:left-[597.906px] xl:left-[1109.91px]",
+      "mappings": [
+        [
+          "absolute",
+          "named",
+          "position: absolute"
+        ],
+        [
+          "top-0",
+          "bare",
+          "top: 0px"
+        ],
+        [
+          "-right-4.5",
+          "bare",
+          "right: -18px"
+        ],
+        [
+          "bottom-19.75",
+          "bare",
+          "bottom: 79px"
+        ],
+        [
+          "left-81.25",
+          "bare",
+          "left: 325px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "size-0",
+          "bare",
+          "height: 0px",
+          "width: 0px"
+        ],
+        [
+          "transform-[matrix(1,0,0,1,-9,-9)]",
+          "arbitrary-value",
+          "transform: matrix(1, 0, 0, 1, -9, -9)"
+        ],
+        [
+          "rounded-[50%]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 50%",
+          "border-bottom-right-radius: 50%",
+          "border-top-left-radius: 50%",
+          "border-top-right-radius: 50%"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(248,249,250)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(248, 249, 250)",
+          "border-left-color: rgb(248, 249, 250)",
+          "border-right-color: rgb(248, 249, 250)",
+          "border-top-color: rgb(248, 249, 250)"
+        ],
+        [
+          "bg-[rgb(220,53,69)]",
+          "arbitrary-value",
+          "background-color: rgb(220, 53, 69)"
+        ],
+        [
+          "p-2",
+          "bare",
+          "padding-bottom: 8px",
+          "padding-left: 8px",
+          "padding-right: 8px",
+          "padding-top: 8px"
+        ],
+        [
+          "md:left-[597.906px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | left: 597.906px"
+        ],
+        [
+          "xl:left-[1109.91px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | left: 1109.91px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "metric",
+      "tag": "p",
+      "className": "mt-5 mb-1 box-content h-5.75 overflow-hidden font-[SFMono-Regular,Menlo,Monaco,Consolas,'Liberation_Mono','Courier_New',monospace] text-[20px] text-ellipsis [text-wrap-mode:nowrap]",
+      "mappings": [
+        [
+          "mt-5",
+          "bare",
+          "margin-top: 20px"
+        ],
+        [
+          "mb-1",
+          "bare",
+          "margin-bottom: 4px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-5.75",
+          "bare",
+          "height: 23px"
+        ],
+        [
+          "overflow-hidden",
+          "named",
+          "overflow-x: hidden",
+          "overflow-y: hidden"
+        ],
+        [
+          "font-[SFMono-Regular,Menlo,Monaco,Consolas,'Liberation_Mono','Courier_New',monospace]",
+          "arbitrary-value",
+          "font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+        ],
+        [
+          "text-[20px]",
+          "arbitrary-value",
+          "font-size: 20px"
+        ],
+        [
+          "text-ellipsis",
+          "named",
+          "text-overflow: ellipsis"
+        ],
+        [
+          "[text-wrap-mode:nowrap]",
+          "arbitrary-property",
+          "text-wrap-mode: nowrap"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "details",
+      "tag": "a",
+      "className": "box-content rounded-md pt-1 pr-2 pb-1 pl-2 text-[rgb(13,110,253)] focus-visible:text-[rgb(10,88,202)] focus-visible:[box-shadow:rgba(13,110,253,0.25)_0px_0px_0px_4px] focus-visible:[outline-width:0px] focus-visible:outline-offset-1",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "pt-1",
+          "bare",
+          "padding-top: 4px"
+        ],
+        [
+          "pr-2",
+          "bare",
+          "padding-right: 8px"
+        ],
+        [
+          "pb-1",
+          "bare",
+          "padding-bottom: 4px"
+        ],
+        [
+          "pl-2",
+          "bare",
+          "padding-left: 8px"
+        ],
+        [
+          "text-[rgb(13,110,253)]",
+          "arbitrary-value",
+          "color: rgb(13, 110, 253)"
+        ],
+        [
+          "focus-visible:text-[rgb(10,88,202)]",
+          "arbitrary-value",
+          "&:focus-visible | color: rgb(10, 88, 202)"
+        ],
+        [
+          "focus-visible:[box-shadow:rgba(13,110,253,0.25)_0px_0px_0px_4px]",
+          "arbitrary-property",
+          "&:focus-visible | box-shadow: rgba(13, 110, 253, 0.25) 0px 0px 0px 4px"
+        ],
+        [
+          "focus-visible:[outline-width:0px]",
+          "arbitrary-property",
+          "&:focus-visible | outline-width: 0px"
+        ],
+        [
+          "focus-visible:outline-offset-1",
+          "bare",
+          "&:focus-visible | outline-offset: 1px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC202"
+      ],
+      "exact": true
+    }
+  ]
+}

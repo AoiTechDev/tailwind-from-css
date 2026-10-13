@@ -258,6 +258,21 @@ describe('pruneStyles', () => {
       ])
     })
 
+    it('drops overflow-block and overflow-inline equal to overflow-y and overflow-x', () => {
+      expect(
+        kept(
+          {
+            ...flow,
+            overflowX: 'hidden',
+            overflowY: 'auto',
+            overflowBlock: 'auto',
+            overflowInline: 'hidden',
+          },
+          { baseline: flow },
+        ),
+      ).toEqual(['overflow-x: hidden', 'overflow-y: auto'])
+    })
+
     it('maps inline sides by direction', () => {
       const styles = { paddingInlineStart: '20px', paddingRight: '20px', paddingLeft: '0px' }
       expect(kept({ ...styles, direction: 'rtl', writingMode: 'horizontal-tb' }, {})).toEqual([
@@ -339,6 +354,33 @@ describe('pruneStyles', () => {
       ])
       expect(kept({ width: 'auto', height: 'auto', transformOrigin: '10px 5px' }, {})).toEqual([
         'transform-origin: 10px 5px',
+      ])
+    })
+  })
+
+  describe('origins left unresolved', () => {
+    it('reads 50% 50% (a box that is not rendered keeps the computed value) as initial', () => {
+      expect(
+        kept(
+          {
+            display: 'none',
+            transformOrigin: '50% 50%',
+            perspectiveOrigin: '50% 50%',
+          },
+          {
+            baseline: {
+              display: 'block',
+              width: '100px',
+              height: '0px',
+              boxSizing: 'border-box',
+              transformOrigin: '50px 0px',
+            },
+          },
+        ),
+      ).toEqual(['display: none'])
+      expect(kept({ display: 'none', transformOrigin: '50% 0%' }, {})).toEqual([
+        'display: none',
+        'transform-origin: 50% 0%',
       ])
     })
   })
@@ -449,10 +491,80 @@ describe('pruneStyles', () => {
       ).toEqual(['text-decoration-color: rgb(1, 88, 135)', 'text-decoration-line: underline'])
     })
 
+    it('reads the longhands back first (a resolved color is the currentcolor of the shorthand)', () => {
+      expect(
+        kept(
+          {
+            color: 'rgb(180, 35, 90)',
+            textDecoration: 'underline',
+            textDecorationColor: 'rgb(180, 35, 90)',
+            textDecorationLine: 'underline',
+            textDecorationStyle: 'solid',
+            textDecorationThickness: 'auto',
+          },
+          {},
+        ),
+      ).toEqual(['color: rgb(180, 35, 90)', 'text-decoration-line: underline'])
+    })
+
     it('keeps it when a longhand is missing or differs', () => {
       expect(
         kept({ textDecoration: 'underline red', textDecorationLine: 'underline' }, {}),
       ).toEqual(['text-decoration: underline red', 'text-decoration-line: underline'])
+    })
+  })
+
+  describe('line-height', () => {
+    // Computed line-heights are px whether the author wrote a length or a number.
+    it('keeps a px line-height equal to the reference when the font sizes differ', () => {
+      const baseline = { fontSize: '16px', lineHeight: '24px' }
+      expect(kept({ fontSize: '14px', lineHeight: '24px' }, { baseline })).toEqual([
+        'font-size: 14px',
+        'line-height: 24px',
+      ])
+      expect(kept({ fontSize: '14px', lineHeight: '24px' }, { parent: baseline })).toEqual([
+        'font-size: 14px',
+        'line-height: 24px',
+      ])
+    })
+
+    it('drops it when the font sizes are equal, and compares normal as usual', () => {
+      const baseline = { fontSize: '16px', lineHeight: '24px' }
+      expect(kept({ fontSize: '16px', lineHeight: '24px' }, { baseline })).toEqual([])
+      expect(
+        kept(
+          { fontSize: '14px', lineHeight: 'normal' },
+          { baseline: { fontSize: '16px', lineHeight: 'normal' } },
+        ),
+      ).toEqual(['font-size: 14px'])
+    })
+  })
+
+  describe('min sizes of a box that is not rendered', () => {
+    it('reads 0px back as auto (min-width: auto computes to 0px outside flex and grid items)', () => {
+      const baseline = { display: 'block', minWidth: 'auto', minHeight: 'auto' }
+      expect(kept({ display: 'none', minWidth: '0px', minHeight: '0px' }, { baseline })).toEqual([
+        'display: none',
+      ])
+      expect(kept({ display: 'block', minWidth: '0px' }, { baseline })).toEqual(['min-width: 0px'])
+    })
+  })
+
+  describe('insets of a relatively positioned box', () => {
+    it('reads 0px on both sides of an axis back as auto (no offset either way)', () => {
+      const insets = { top: '0px', right: '0px', bottom: '0px', left: '0px' }
+      expect(kept({ position: 'relative', ...insets }, {})).toEqual(['position: relative'])
+    })
+
+    it('keeps an axis with an offset, and the insets of other positions', () => {
+      expect(
+        kept({ position: 'relative', top: '10px', bottom: '-10px', left: '0px', right: '0px' }, {}),
+      ).toEqual(['position: relative', 'top: 10px', 'bottom: -10px'])
+      expect(kept({ position: 'sticky', top: '0px', bottom: '0px' }, {})).toEqual([
+        'position: sticky',
+        'top: 0px',
+        'bottom: 0px',
+      ])
     })
   })
 
@@ -499,6 +611,20 @@ describe('pruneStyles', () => {
       expect(kept(styles, { drop: ['transition', 'marginTop'] })).toEqual([])
       expect(kept({ transitionDuration: '0s' }, { keep: ['transition'] })).toEqual([
         'transition-duration: 0s',
+      ])
+    })
+
+    it('still reads back from what it drops (a dropped size keeps the origin at the center)', () => {
+      const styles = {
+        width: '120px',
+        height: '40px',
+        boxSizing: 'border-box',
+        transformOrigin: '60px 20px',
+        color: 'red',
+        borderTopColor: 'red',
+      }
+      expect(kept(styles, { drop: ['width', 'height', 'color'] })).toEqual([
+        'box-sizing: border-box',
       ])
     })
 

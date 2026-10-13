@@ -1,0 +1,915 @@
+{
+  "elements": [
+    {
+      "name": "body",
+      "tag": "body",
+      "className": "bg-gray-50 [-webkit-font-smoothing:antialiased]",
+      "mappings": [
+        [
+          "bg-gray-50",
+          "bare",
+          "background-color: oklch(0.985 0.002 247.839)"
+        ],
+        [
+          "[-webkit-font-smoothing:antialiased]",
+          "arbitrary-property",
+          "-webkit-font-smoothing: antialiased"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "header",
+      "tag": "header",
+      "className": "flex flex-col gap-2 border-b border-gray-200 bg-white pt-3 pr-4 pb-3 pl-4 md:flex-row md:items-center md:justify-between xl:pr-8 xl:pl-8",
+      "mappings": [
+        [
+          "flex",
+          "named",
+          "display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "flex-direction: column"
+        ],
+        [
+          "gap-2",
+          "bare",
+          "column-gap: 8px",
+          "row-gap: 8px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-gray-200",
+          "bare",
+          "border-bottom-color: oklch(0.928 0.006 264.531)",
+          "border-left-color: oklch(0.928 0.006 264.531)",
+          "border-right-color: oklch(0.928 0.006 264.531)",
+          "border-top-color: oklch(0.928 0.006 264.531)"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "md:flex-row",
+          "named",
+          "@media (width >= 768px) | flex-direction: row"
+        ],
+        [
+          "md:items-center",
+          "named",
+          "@media (width >= 768px) | align-items: center"
+        ],
+        [
+          "md:justify-between",
+          "named",
+          "@media (width >= 768px) | justify-content: space-between"
+        ],
+        [
+          "xl:pr-8",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 32px"
+        ],
+        [
+          "xl:pl-8",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 32px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "brand",
+      "tag": "a",
+      "className": "h-7 text-lg/7 font-bold tracking-[-0.45px] text-gray-900 [&:hover]:text-indigo-600",
+      "mappings": [
+        [
+          "h-7",
+          "bare",
+          "height: 28px"
+        ],
+        [
+          "text-lg/7",
+          "named",
+          "font-size: 18px",
+          "line-height: 28px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.45px]",
+          "arbitrary-value",
+          "letter-spacing: -0.45px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "[&:hover]:text-indigo-600",
+          "bare",
+          "&:hover | color: oklch(0.511 0.262 276.966)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "w-[49.2656px] font-medium text-gray-600 [&:hover]:text-gray-900 [&:hover]:underline [&:hover]:underline-offset-4",
+      "mappings": [
+        [
+          "w-[49.2656px]",
+          "arbitrary-value",
+          "width: 49.2656px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-600",
+          "bare",
+          "color: oklch(0.446 0.03 256.802)"
+        ],
+        [
+          "[&:hover]:text-gray-900",
+          "bare",
+          "&:hover | color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "[&:hover]:underline",
+          "named",
+          "&:hover | text-decoration-line: underline"
+        ],
+        [
+          "[&:hover]:underline-offset-4",
+          "bare",
+          "&:hover | text-underline-offset: 4px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "text-3xl/9 font-bold tracking-[-0.75px] text-gray-900 md:text-5xl/12 md:tracking-[-1.2px]",
+      "mappings": [
+        [
+          "text-3xl/9",
+          "named",
+          "font-size: 30px",
+          "line-height: 36px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.75px]",
+          "arbitrary-value",
+          "letter-spacing: -0.75px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "md:text-5xl/12",
+          "named",
+          "@media (width >= 768px) | font-size: 48px",
+          "@media (width >= 768px) | line-height: 48px"
+        ],
+        [
+          "md:tracking-[-1.2px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | letter-spacing: -1.2px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "lead",
+      "tag": "p",
+      "className": "mt-4 max-w-2xl leading-7 text-gray-600 md:text-lg/8",
+      "mappings": [
+        [
+          "mt-4",
+          "bare",
+          "margin-top: 16px"
+        ],
+        [
+          "max-w-2xl",
+          "named",
+          "max-width: 672px"
+        ],
+        [
+          "leading-7",
+          "bare",
+          "line-height: 28px"
+        ],
+        [
+          "text-gray-600",
+          "bare",
+          "color: oklch(0.446 0.03 256.802)"
+        ],
+        [
+          "md:text-lg/8",
+          "named",
+          "@media (width >= 768px) | font-size: 18px",
+          "@media (width >= 768px) | line-height: 32px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "primary",
+      "tag": "button",
+      "className": "w-[69.7031px] rounded-md bg-indigo-600 pt-2.5 pr-3.5 pb-2.5 pl-3.5 text-sm/5 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [&:hover]:bg-indigo-500",
+      "mappings": [
+        [
+          "w-[69.7031px]",
+          "arbitrary-value",
+          "width: 69.7031px"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-indigo-600",
+          "bare",
+          "background-color: oklch(0.511 0.262 276.966)"
+        ],
+        [
+          "pt-2.5",
+          "bare",
+          "padding-top: 10px"
+        ],
+        [
+          "pr-3.5",
+          "bare",
+          "padding-right: 14px"
+        ],
+        [
+          "pb-2.5",
+          "bare",
+          "padding-bottom: 10px"
+        ],
+        [
+          "pl-3.5",
+          "bare",
+          "padding-left: 14px"
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "shadow-xs",
+          "named",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
+        ],
+        [
+          "focus-visible:outline-2",
+          "bare",
+          "&:focus-visible | outline-style: solid",
+          "&:focus-visible | outline-width: 2px"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-indigo-600",
+          "bare",
+          "&:focus-visible | outline-color: oklch(0.511 0.262 276.966)"
+        ],
+        [
+          "[&:hover]:bg-indigo-500",
+          "bare",
+          "&:hover | background-color: oklch(0.585 0.233 277.117)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "secondary",
+      "tag": "button",
+      "className": "w-[63.5781px] rounded-md bg-white pt-2.5 pr-3.5 pb-2.5 pl-3.5 text-sm/5 font-semibold text-gray-900 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklch(0.872_0.01_258.338)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px] [&:hover]:bg-gray-50",
+      "mappings": [
+        [
+          "w-[63.5781px]",
+          "arbitrary-value",
+          "width: 63.5781px"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "pt-2.5",
+          "bare",
+          "padding-top: 10px"
+        ],
+        [
+          "pr-3.5",
+          "bare",
+          "padding-right: 14px"
+        ],
+        [
+          "pb-2.5",
+          "bare",
+          "padding-bottom: 10px"
+        ],
+        [
+          "pl-3.5",
+          "bare",
+          "padding-left: 14px"
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklch(0.872_0.01_258.338)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.872 0.01 258.338) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        ],
+        [
+          "[&:hover]:bg-gray-50",
+          "bare",
+          "&:hover | background-color: oklch(0.985 0.002 247.839)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "grid",
+      "tag": "div",
+      "className": "mt-10 grid gap-6",
+      "mappings": [
+        [
+          "mt-10",
+          "bare",
+          "margin-top: 40px"
+        ],
+        [
+          "grid",
+          "named",
+          "display: grid"
+        ],
+        [
+          "gap-6",
+          "bare",
+          "column-gap: 24px",
+          "row-gap: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "card",
+      "tag": "div",
+      "className": "rounded-2xl bg-white p-6 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "mappings": [
+        [
+          "rounded-2xl",
+          "named",
+          "border-bottom-left-radius: 16px",
+          "border-bottom-right-radius: 16px",
+          "border-top-left-radius: 16px",
+          "border-top-right-radius: 16px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "p-6",
+          "bare",
+          "padding-bottom: 24px",
+          "padding-left: 24px",
+          "padding-right: 24px",
+          "padding-top: 24px"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.21 -0.00316127 -0.0338527 / 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card-label",
+      "tag": "p",
+      "className": "h-5 text-sm/5 font-medium text-gray-500",
+      "mappings": [
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-500",
+          "bare",
+          "color: oklch(0.551 0.027 264.364)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "card-value",
+      "tag": "p",
+      "className": "mt-2 h-10 text-4xl/10 font-semibold tracking-[-0.9px] text-gray-900",
+      "mappings": [
+        [
+          "mt-2",
+          "bare",
+          "margin-top: 8px"
+        ],
+        [
+          "h-10",
+          "bare",
+          "height: 40px"
+        ],
+        [
+          "text-4xl/10",
+          "named",
+          "font-size: 36px",
+          "line-height: 40px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "tracking-[-0.9px]",
+          "arbitrary-value",
+          "letter-spacing: -0.9px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "badge",
+      "tag": "span",
+      "className": "mt-3 inline-flex h-6 w-[51.9219px] items-center rounded-[3.35544e+07px] bg-green-50 pt-1 pr-2 pb-1 pl-2 text-xs/4 font-medium text-green-700 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px] before:mr-1 before:h-4 before:w-[10.3438px] before:content-['▲']",
+      "mappings": [
+        [
+          "mt-3",
+          "bare",
+          "margin-top: 12px"
+        ],
+        [
+          "inline-flex",
+          "named",
+          "display: inline-flex"
+        ],
+        [
+          "h-6",
+          "bare",
+          "height: 24px"
+        ],
+        [
+          "w-[51.9219px]",
+          "arbitrary-value",
+          "width: 51.9219px"
+        ],
+        [
+          "items-center",
+          "named",
+          "align-items: center"
+        ],
+        [
+          "rounded-[3.35544e+07px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 3.35544e+07px",
+          "border-bottom-right-radius: 3.35544e+07px",
+          "border-top-left-radius: 3.35544e+07px",
+          "border-top-right-radius: 3.35544e+07px"
+        ],
+        [
+          "bg-green-50",
+          "bare",
+          "background-color: oklch(0.982 0.018 155.826)"
+        ],
+        [
+          "pt-1",
+          "bare",
+          "padding-top: 4px"
+        ],
+        [
+          "pr-2",
+          "bare",
+          "padding-right: 8px"
+        ],
+        [
+          "pb-1",
+          "bare",
+          "padding-bottom: 4px"
+        ],
+        [
+          "pl-2",
+          "bare",
+          "padding-left: 8px"
+        ],
+        [
+          "text-xs/4",
+          "named",
+          "font-size: 12px",
+          "line-height: 16px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-green-700",
+          "bare",
+          "color: oklch(0.527 0.154 150.069)"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.627 -0.166662 0.0992956 / 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        ],
+        [
+          "before:mr-1",
+          "bare",
+          "&::before | margin-right: 4px"
+        ],
+        [
+          "before:h-4",
+          "bare",
+          "&::before | height: 16px"
+        ],
+        [
+          "before:w-[10.3438px]",
+          "arbitrary-value",
+          "&::before | width: 10.3438px"
+        ],
+        [
+          "before:content-['▲']",
+          "arbitrary-value",
+          "&::before | content: \"▲\""
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "label",
+      "tag": "label",
+      "className": "block h-6 text-sm/6 font-medium text-gray-900",
+      "mappings": [
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-6",
+          "bare",
+          "height: 24px"
+        ],
+        [
+          "text-sm/6",
+          "named",
+          "font-size: 14px",
+          "line-height: 24px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "search",
+      "tag": "input",
+      "className": "mt-2 block h-9 rounded-md bg-white pt-1.5 pr-3 pb-1.5 pl-3 text-gray-900 outline -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 md:text-sm/6",
+      "mappings": [
+        [
+          "mt-2",
+          "bare",
+          "margin-top: 8px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-9",
+          "bare",
+          "height: 36px"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "pt-1.5",
+          "bare",
+          "padding-top: 6px"
+        ],
+        [
+          "pr-3",
+          "bare",
+          "padding-right: 12px"
+        ],
+        [
+          "pb-1.5",
+          "bare",
+          "padding-bottom: 6px"
+        ],
+        [
+          "pl-3",
+          "bare",
+          "padding-left: 12px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "outline",
+          "named",
+          "outline-style: solid",
+          "outline-width: 1px"
+        ],
+        [
+          "-outline-offset-1",
+          "bare",
+          "outline-offset: -1px"
+        ],
+        [
+          "outline-gray-300",
+          "bare",
+          "outline-color: oklch(0.872 0.01 258.338)"
+        ],
+        [
+          "focus:outline-2",
+          "bare",
+          "&:focus | outline-style: solid",
+          "&:focus | outline-width: 2px"
+        ],
+        [
+          "focus:-outline-offset-2",
+          "bare",
+          "&:focus | outline-offset: -2px"
+        ],
+        [
+          "focus:outline-indigo-600",
+          "bare",
+          "&:focus | outline-color: oklch(0.511 0.262 276.966)"
+        ],
+        [
+          "md:text-sm/6",
+          "named",
+          "@media (width >= 768px) | font-size: 14px",
+          "@media (width >= 768px) | line-height: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "footer",
+      "tag": "footer",
+      "className": "h-18.25 border-t border-gray-200 pt-6 pr-4 pb-6 pl-4 text-center text-sm/6 text-gray-500 md:text-left",
+      "mappings": [
+        [
+          "h-18.25",
+          "bare",
+          "height: 73px"
+        ],
+        [
+          "border-t",
+          "named",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-gray-200",
+          "bare",
+          "border-bottom-color: oklch(0.928 0.006 264.531)",
+          "border-left-color: oklch(0.928 0.006 264.531)",
+          "border-right-color: oklch(0.928 0.006 264.531)",
+          "border-top-color: oklch(0.928 0.006 264.531)"
+        ],
+        [
+          "pt-6",
+          "bare",
+          "padding-top: 24px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-6",
+          "bare",
+          "padding-bottom: 24px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-sm/6",
+          "named",
+          "font-size: 14px",
+          "line-height: 24px"
+        ],
+        [
+          "text-gray-500",
+          "bare",
+          "color: oklch(0.551 0.027 264.364)"
+        ],
+        [
+          "md:text-left",
+          "named",
+          "@media (width >= 768px) | text-align: left"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    }
+  ]
+}

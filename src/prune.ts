@@ -49,7 +49,14 @@ const FLOW_BOX = /^(margin|padding|scroll-margin|scroll-padding|inset)-(block|in
 const FLOW_BORDER = /^border-(block|inline)-(start|end)-(width|style|color)$/
 const FLOW_CORNER = /^border-(start|end)-(start|end)-radius$/
 const FLOW_SIZE = /^(min-|max-)?(block|inline)-size$/
-const FLOW_AXIS = /^(overscroll-behavior|contain-intrinsic)-(block|inline)(-size)?$/
+const FLOW_AXIS = /^(overscroll-behavior|contain-intrinsic|overflow)-(block|inline)(-size)?$/
+const MIN_SIZES: ReadonlySet<string> = new Set(['min-width', 'min-height'])
+const OPPOSITE: ReadonlyMap<string, string> = new Map([
+  ['top', 'bottom'],
+  ['bottom', 'top'],
+  ['left', 'right'],
+  ['right', 'left'],
+])
 
 /** The normal value of each longhand of a block that wins its cascade (later wins unless important). */
 type Block = ReadonlyMap<string, string>
@@ -113,6 +120,13 @@ function borderBox(block: Block, size: 'width' | 'height'): number | undefined {
   return sum([px(block.get(size)), ...extra])
 }
 
+// A box that isn't rendered (`display: none`) keeps the computed `50% 50%`, which is the initial
+// value with its z of 0 left out.
+function unresolvedCenter(value: string): boolean {
+  const [x, y, z, ...rest] = value.split(SPACES)
+  return x === '50%' && y === '50%' && (z === undefined || px(z) === 0) && rest.length === 0
+}
+
 function atCenter(value: string, block: Block): boolean {
   const [x, y, z = 0, ...rest] = value.split(SPACES).map(px)
   const width = borderBox(block, 'width')
@@ -147,7 +161,26 @@ function readBack(property: string, value: string, block: Block): string {
     const color = block.get('color')
     return color !== undefined && normalValuesEqual(value, color) ? CURRENT_COLOR : value
   }
-  if (ORIGINS.has(property) && (inlineBox(block) || atCenter(value, block))) {
+  if (
+    ORIGINS.has(property) &&
+    (inlineBox(block) || unresolvedCenter(value) || atCenter(value, block))
+  ) {
+    return initialOf(property) ?? value
+  }
+  // A relatively positioned box resolves `auto` insets to the used offsets: 0px on both sides of
+  // an axis is no offset, whatever was written.
+  const opposite = OPPOSITE.get(property)
+  if (
+    opposite !== undefined &&
+    block.get('position') === 'relative' &&
+    px(value) === 0 &&
+    px(block.get(opposite)) === 0
+  ) {
+    return initialOf(property) ?? value
+  }
+  // `min-width: auto` computes to 0px unless the box is a flex or grid item; a box that isn't
+  // rendered is neither, whatever its parent.
+  if (MIN_SIZES.has(property) && block.get('display') === 'none' && px(value) === 0) {
     return initialOf(property) ?? value
   }
   return oneItem(property, value)
@@ -173,9 +206,9 @@ function physicalTwin(property: string, rtl: boolean): string | undefined {
   if (size !== null) return `${size[1] ?? ''}${size[2] === 'block' ? 'height' : 'width'}`
   const axis = FLOW_AXIS.exec(property)
   if (axis === null) return undefined
-  return axis[1] === 'overscroll-behavior'
-    ? `overscroll-behavior-${axis[2] === 'block' ? 'y' : 'x'}`
-    : `contain-intrinsic-${axis[2] === 'block' ? 'height' : 'width'}`
+  return axis[1] === 'contain-intrinsic'
+    ? `contain-intrinsic-${axis[2] === 'block' ? 'height' : 'width'}`
+    : `${axis[1]}-${axis[2] === 'block' ? 'y' : 'x'}`
 }
 
 interface References {
@@ -200,6 +233,17 @@ function reference(property: string, references: References): string | undefined
   return initialOf(property)
 }
 
+// Computed line-heights are px whether the author wrote a length or a number, and a number scales
+// with the font size: equal px values only mean the same line-height at the same font size.
+function lineHeightComparable(value: string, block: Block, references: References): boolean {
+  if (px(value) === undefined) return true
+  const { baseline, parent } = references
+  const source = baseline?.has('line-height') ? baseline : parent
+  const own = block.get('font-size')
+  const theirs = source?.get('font-size')
+  return own === undefined || theirs === undefined || normalValuesEqual(own, theirs)
+}
+
 function listed(names: readonly string[] | undefined): (property: string) => boolean {
   const properties = (names ?? []).map(toPropertyName)
   return (property) => properties.some((name) => name === property || covers(name, property))
@@ -217,7 +261,8 @@ const neverShown = (property: string): boolean => property.startsWith('--') || D
  * `50% 50%`. A logical longhand equal to the physical one it sets (the element's `direction`,
  * horizontal `writing-mode`) is dropped. Custom properties are dropped (computed values have
  * `var()` substituted), important declarations are kept, and `keep`/`drop` override everything
- * (a shorthand stands for its longhands; `keep` wins). Declarations that set the same longhand
+ * (a shorthand stands for its longhands; `keep` wins; read-backs still see dropped values, so
+ * dropping `width` keeps an origin at the center). Declarations that set the same longhand
  * are kept or dropped together, so the one that won still wins. Invalid declarations are kept,
  * after the others, for the converter to report. Pure and synchronous.
  *
@@ -236,13 +281,16 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
     baseline: options.baseline === undefined ? undefined : blockOf(options.baseline),
   }
   const { declarations, invalid } = toDeclarations(styles)
-  const considered = declarations.filter(
+  const shown = declarations.map(
     (declaration) =>
       isKept(declaration.property) ||
       !(isDropped(declaration.property) || neverShown(declaration.property)),
   )
-  const groups = normalizeBlock(considered, NORMALIZE)
-  const block = valuesOf(winners(groups.flat()))
+  const normalized = normalizeBlock(declarations, NORMALIZE)
+  // Read-backs see every declaration: dropping `width` mustn't move the center of the box.
+  const block = valuesOf(winners(normalized.flat()))
+  const considered = declarations.filter((_, index) => shown[index])
+  const groups = normalized.filter((_, index) => shown[index])
   const horizontal = block.get('writing-mode') === 'horizontal-tb'
   const direction = block.get('direction')
   const flowKnown = horizontal && (direction === 'ltr' || direction === 'rtl')
@@ -252,6 +300,7 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
     return twinValue !== undefined && normalValuesEqual(value, twinValue)
   }
   const equalsReference = (property: string, value: string): boolean => {
+    if (property === 'line-height' && !lineHeightComparable(value, block, references)) return false
     const expected = reference(property, references)
     return expected !== undefined && normalValuesEqual(readBack(property, value, block), expected)
   }
@@ -279,7 +328,12 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
     (group) =>
       group.length > 1 &&
       group.every((normal) =>
-        (alone.get(normal.property) ?? []).some((value) => normalValuesEqual(value, normal.value)),
+        (alone.get(normal.property) ?? []).some((value) =>
+          normalValuesEqual(
+            readBack(normal.property, value, block),
+            readBack(normal.property, normal.value, block),
+          ),
+        ),
       ),
   )
 

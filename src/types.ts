@@ -214,7 +214,8 @@ export interface PruneOptions {
   parent?: DeclarationsInput
   /**
    * Computed styles of a blank element with the same tag, rendered under the target CSS
-   * (Tailwind Preflight) inside an element that carries the parent's inherited values. Any
+   * (Tailwind Preflight) inside a copy of the parent: an element carrying the parent's computed
+   * style, so it inherits the same values and sits in the same flex or grid context. Any
    * property equal to the baseline's is dropped. Properties it doesn't list are compared with
    * the parent (inherited ones) or their initial value.
    */
