@@ -1,5 +1,31 @@
 # tailwind-from-css
 
+## 0.1.0
+
+### Minor Changes
+
+- 8bfcef2: Shorter classes for values with `var()`, and type hints only where they describe the value. The output stays exact; only the spelling of some classes changes.
+  
+  - A shorthand kept whole gets its utility instead of an arbitrary property: `padding: var(--p)` → `p-(--p)` (was `[padding:var(--p)]`), `margin: var(--y) 0` → `m-[var(--y)_0]`, `border-radius: var(--r)` → `rounded-(--r)`, `border-color: var(--c)` → `border-(--c)`, `padding-block: var(--y)` → `py-(--y)`.
+  - Utilities that no listed class shows are used too: `background-size` → `bg-size-[auto_1rem]`, `background-position` → `bg-position-[center_left]`, `filter` → `filter-[brightness(0)]`, `backdrop-filter` → `backdrop-filter-(--x)`.
+  - A negated variable uses the negative utility: `margin-left: calc(var(--x) * -1)` → `-ml-(--x)`.
+  - A variable with a fallback keeps the variable form: `box-shadow: var(--s, none)` → `shadow-(--s,none)`.
+  - A variable line height is a variable modifier: `text-base/(--lh)` (was `text-base/[var(--lh)]`).
+  - An arbitrary or variable size takes the line height as a modifier: `font-size: 18.2px; line-height: 28px` → `text-[18.2px]/7` (was `text-[18.2px] leading-7`).
+  - A type hint is written only for a value with `var()`, whose type Tailwind can't see. `font-weight: bolder` is now `[font-weight:bolder]` instead of the misleading `font-[color:bolder]`, and `font-size: inherit` is `[font-size:inherit]` instead of `text-[length:inherit]`.
+- ef74f8c: Add the `nearest` mode and the relaxations behind it. `mode: 'nearest'` turns on all eight; `relax: ['color-nearest']` turns on one, and `relax: ['!hover-media']` turns one off. The default mode is still `exact`, and its output doesn't change.
+  
+  - `hover-media`: `:hover` becomes `hover:` instead of `[&:hover]:` (`hover:` only applies on devices that can hover).
+  - `logical-properties`: left/right and top/bottom pairs collapse to `mx-auto`, `px-4`, `py-2`, `inset-x-0` (this assumes left-to-right, horizontal text). A single side stays `ml-2`, and a side that another rule of the element also sets stays physical.
+  - `color-nearest`: a color within `tolerance.colorDeltaE` (ΔE OK, default 0.02) of a theme color becomes that color, keeping its alpha (`bg-red-500/50`).
+  - `length-nearest`: a px length within `tolerance.lengthPx` (2) **and** `tolerance.lengthRatio` (0.1) of a theme value or a spacing step of 0.5 snaps to it (`padding: 13.3px` → `p-3.5`).
+  - `breakpoint-nearest`: a width condition within `tolerance.breakpointPx` (16) of a breakpoint snaps to it (`max-width: 767px` → `max-md:`, `min-width: 770px` → `md:`, container queries too).
+  - `font-weight-nearest`: the nearest theme weight (`590` → `font-semibold`).
+  - `text-line-height`: `text-sm` for a font size alone, accepting its line-height, when no rule of the element sets `line-height`.
+  - `pill-radius`: a radius of 1000px or more becomes `rounded-full`.
+  
+  Relaxations only apply where no exact class exists. Every relaxed class is still verified against the value it actually sets. Each relaxed class gets `relaxation` (name, detail, delta) and a `TFC203` diagnostic for each relaxation applied, and `exact` is `false`.
+
 ## 0.0.4
 
 ### Patch Changes
