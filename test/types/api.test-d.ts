@@ -4,12 +4,20 @@ import type {
   Converter,
   ConverterOptions,
   CssConversionResult,
+  Declaration,
   DeclarationsInput,
+  PruneOptions,
   RelaxationName,
   ResolvedOptions,
   StyleInput,
 } from '../../src/index.ts'
-import { convertCss, convertStyles, createConverter, TfcError } from '../../src/index.ts'
+import {
+  convertCss,
+  convertStyles,
+  createConverter,
+  pruneStyles,
+  TfcError,
+} from '../../src/index.ts'
 
 describe('createConverter', () => {
   it('is async and resolves to a Converter', () => {
@@ -31,6 +39,15 @@ describe('convertCss (one-shot)', () => {
     expectTypeOf(convertCss).returns.toEqualTypeOf<Promise<CssConversionResult>>()
     expectTypeOf(convertCss).parameter(0).toEqualTypeOf<string>()
     expectTypeOf(convertCss).parameter(1).toEqualTypeOf<ConverterOptions | undefined>()
+  })
+})
+
+describe('pruneStyles', () => {
+  it('is synchronous and returns declarations a StyleInput accepts', () => {
+    expectTypeOf(pruneStyles).returns.toEqualTypeOf<Declaration[]>()
+    expectTypeOf(pruneStyles).parameter(0).toEqualTypeOf<DeclarationsInput>()
+    expectTypeOf(pruneStyles).parameter(1).toEqualTypeOf<PruneOptions>()
+    expectTypeOf<Declaration[]>().toExtend<StyleInput['declarations']>()
   })
 })
 

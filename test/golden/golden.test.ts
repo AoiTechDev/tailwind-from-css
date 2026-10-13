@@ -1,5 +1,6 @@
 // TESTING §2.3: fixture-driven conversions. `<case>.input.json` holds the `StyleInput` (or list)
-// of one element, `<case>.css` a stylesheet; `<case>.expected.json` is the reviewed result
+// of one element, `<case>.css` a stylesheet, `<case>.capture.json` computed styles captured from a
+// page (pruned, then converted per element); `<case>.expected.json` is the reviewed result
 // (stable fields only, no messages). `pnpm test:golden --update` rewrites expectations; review
 // the diff like code.
 import { readFileSync } from 'node:fs'
@@ -15,6 +16,8 @@ import type {
   StyleInput,
 } from '../../src/types.ts'
 import {
+  CAPTURE,
+  capturedElements,
   GOLDEN,
   goldenCases,
   goldenSuites,
@@ -80,6 +83,7 @@ function expectVerified(suite: string, result: ConversionResult): void {
 for (const suite of goldenSuites()) {
   const cases = goldenCases(suite, INPUT)
   const stylesheets = goldenCases(suite, STYLESHEET)
+  const captures = goldenCases(suite, CAPTURE)
 
   describe(suite, () => {
     let converter: Converter
@@ -104,6 +108,17 @@ for (const suite of goldenSuites()) {
       for (const rule of result.rules) expectVerified(suite, rule.result)
       expect(result.diagnostics.map((diagnostic) => diagnostic.code)).not.toContain('TFC101')
       await expect(json(stableSheet(result))).toMatchFileSnapshot(
+        resolve(GOLDEN, suite, `${name}.expected.json`),
+      )
+    })
+
+    it.each(captures)('%s.capture.json', async (name) => {
+      const elements = capturedElements(suite, name).map((element) => {
+        const result = converter.convertStyles(element.input)
+        expectVerified(suite, result)
+        return { name: element.name, tag: element.tag, ...stableResult(result) }
+      })
+      await expect(json({ elements })).toMatchFileSnapshot(
         resolve(GOLDEN, suite, `${name}.expected.json`),
       )
     })

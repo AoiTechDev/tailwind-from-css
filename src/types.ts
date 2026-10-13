@@ -206,15 +206,24 @@ export interface Converter {
 
 /** Options for pruning computed styles down to what actually needs classes. */
 export interface PruneOptions {
-  /** Computed styles of the parent element. Inherited properties with equal values are dropped. */
+  /**
+   * Computed styles of the parent element. An inherited property the baseline doesn't list is
+   * dropped when it equals the parent's. Without a parent, the element is treated as a root:
+   * inherited properties at their initial value are dropped.
+   */
   parent?: DeclarationsInput
   /**
    * Computed styles of a blank element with the same tag, rendered under the target CSS
-   * (Tailwind Preflight). Declarations equal to the baseline are dropped.
+   * (Tailwind Preflight) inside an element that carries the parent's inherited values. Any
+   * property equal to the baseline's is dropped. Properties it doesn't list are compared with
+   * the parent (inherited ones) or their initial value.
    */
   baseline?: DeclarationsInput
-  /** Properties to always keep. */
+  /**
+   * Properties to always keep (camelCase or kebab-case; a shorthand stands for its longhands).
+   * Wins over `drop`.
+   */
   keep?: string[]
-  /** Properties to always drop. */
+  /** Properties to always drop (camelCase or kebab-case; a shorthand stands for its longhands). */
   drop?: string[]
 }

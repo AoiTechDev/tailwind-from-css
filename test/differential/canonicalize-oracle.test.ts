@@ -2,7 +2,8 @@
 // every golden element. When it returns a shorter equivalent class list than ours (fewer classes,
 // or as many in fewer characters), the element must be listed in `known-differences.json`: the
 // classes of ours it replaces, what it puts instead, and reason codes explained under `reasons`.
-// Entries are keyed `<suite>/<case>` or `<suite>/<case>.css <subject>`. Tailwind's side and
+// Entries are keyed `<suite>/<case>`, `<suite>/<case>.css <subject>` or
+// `<suite>/<case>.capture.json <element>`. Tailwind's side and
 // stale entries are checked only on the pinned Tailwind version, since other versions
 // canonicalize differently. Slow (≈ 1 min), so it runs as `pnpm test:differential` and nightly.
 import { readFileSync } from 'node:fs'
@@ -12,6 +13,8 @@ import { createConverter } from '../../src/converter.ts'
 import type { Converter, StyleInput } from '../../src/types.ts'
 import { REPO_ROOT } from '../helpers/design-system.ts'
 import {
+  CAPTURE,
+  capturedElements,
   GOLDEN,
   goldenCases,
   goldenSuites,
@@ -52,6 +55,12 @@ const shorter = (canonical: readonly string[], ours: readonly string[]): boolean
   (canonical.length === ours.length && canonical.join(' ').length < ours.join(' ').length)
 
 function elements(converter: Converter, suite: string, name: string): [string, string[]][] {
+  if (name.endsWith(CAPTURE)) {
+    return capturedElements(suite, name.slice(0, -CAPTURE.length)).map((element) => [
+      `${suite}/${name} ${element.name}`,
+      [...converter.convertStyles(element.input).classes],
+    ])
+  }
   if (name.endsWith(STYLESHEET)) {
     const css = readFileSync(resolve(GOLDEN, suite, name), 'utf8')
     return converter
@@ -72,6 +81,7 @@ for (const suite of goldenSuites()) {
   const names = [
     ...goldenCases(suite, INPUT),
     ...goldenCases(suite, STYLESHEET).map((name) => `${name}${STYLESHEET}`),
+    ...goldenCases(suite, CAPTURE).map((name) => `${name}${CAPTURE}`),
   ]
 
   describe(suite, () => {

@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { ConverterOptions } from '../../src/types.ts'
+import { pruneStyles } from '../../src/prune.ts'
+import type { ConverterOptions, StyleInput } from '../../src/types.ts'
 import { FIXTURES, REPO_ROOT, type TailwindFixture } from './design-system.ts'
 
 export const GOLDEN: string = resolve(REPO_ROOT, 'test', 'golden')
@@ -52,3 +53,57 @@ export const goldenCases = (suite: string, extension: string): string[] =>
     .filter((file) => file.endsWith(extension))
     .map((file) => file.slice(0, -extension.length))
     .sort()
+
+export const CAPTURE = '.capture.json'
+
+interface CaptureElement {
+  readonly name: string
+  readonly tag: string
+  /** Ids into `styles`: the element, its parent, its baseline, and each state's computed style. */
+  readonly styles: string
+  readonly parent: string
+  readonly baseline: string
+  readonly states: Readonly<Record<string, string>>
+}
+
+interface Capture {
+  /** The most frequent value of each property; `styles` hold the differences, `null` = not listed. */
+  readonly common: Readonly<Record<string, string>>
+  readonly styles: Readonly<Record<string, Readonly<Record<string, string | null>>>>
+  readonly elements: readonly CaptureElement[]
+}
+
+/** One captured element, pruned the way SPEC §9 recommends, ready for `convertStyles`. */
+export interface CapturedElement {
+  readonly name: string
+  readonly tag: string
+  readonly input: StyleInput[]
+}
+
+/**
+ * The elements of a computed-style capture (`<case>.capture.json`): the base state pruned against
+ * the parent and the baseline, each state against the element's own base state.
+ */
+export function capturedElements(suite: string, name: string): CapturedElement[] {
+  const capture: Capture = JSON.parse(
+    readFileSync(resolve(GOLDEN, suite, `${name}${CAPTURE}`), 'utf8'),
+  )
+  const style = (id: string): Record<string, string> => {
+    const merged = { ...capture.common, ...capture.styles[id] }
+    return Object.fromEntries(
+      Object.entries(merged).filter((entry): entry is [string, string] => entry[1] !== null),
+    )
+  }
+  return capture.elements.map((element) => {
+    const base = style(element.styles)
+    const states = Object.entries(element.states).map(([selector, id]) => ({
+      selector,
+      declarations: pruneStyles(style(id), { baseline: base }),
+    }))
+    const declarations = pruneStyles(base, {
+      parent: style(element.parent),
+      baseline: style(element.baseline),
+    })
+    return { name: element.name, tag: element.tag, input: [{ declarations }, ...states] }
+  })
+}

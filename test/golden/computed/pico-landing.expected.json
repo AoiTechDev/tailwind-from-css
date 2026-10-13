@@ -1,0 +1,1151 @@
+{
+  "elements": [
+    {
+      "name": "nav-brand",
+      "tag": "strong",
+      "className": "bg-no-repeat",
+      "mappings": [
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "-m-2.5 inline-block h-12.5 w-[63.4688px] cursor-pointer rounded-[5px] bg-no-repeat p-2.5 text-[rgb(1,114,173)] underline-offset-[2.5px] [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] [&:hover]:text-[rgb(1,88,135)] [&:hover]:underline",
+      "mappings": [
+        [
+          "-m-2.5",
+          "bare",
+          "margin-bottom: -10px",
+          "margin-left: -10px",
+          "margin-right: -10px",
+          "margin-top: -10px"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-12.5",
+          "bare",
+          "height: 50px"
+        ],
+        [
+          "w-[63.4688px]",
+          "arbitrary-value",
+          "width: 63.4688px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "p-2.5",
+          "bare",
+          "padding-bottom: 10px",
+          "padding-left: 10px",
+          "padding-right: 10px",
+          "padding-top: 10px"
+        ],
+        [
+          "text-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "color: rgb(1, 114, 173)"
+        ],
+        [
+          "underline-offset-[2.5px]",
+          "arbitrary-value",
+          "text-underline-offset: 2.5px"
+        ],
+        [
+          "[transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration]",
+          "arbitrary-property",
+          "transition-property: background-color, color, text-decoration, box-shadow, -webkit-text-decoration"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "[&:hover]:text-[rgb(1,88,135)]",
+          "arbitrary-value",
+          "&:hover | color: rgb(1, 88, 135)"
+        ],
+        [
+          "[&:hover]:underline",
+          "named",
+          "&:hover | text-decoration-line: underline"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "nav-cta",
+      "tag": "a",
+      "className": "-mt-2.5 inline-block h-11.75 w-[89.125px] cursor-pointer rounded-[5px] border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-[7.5px] pr-2.5 pb-[7.5px] pl-2.5 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none [&:hover]:border-[rgb(2,101,154)] [&:hover]:bg-[rgb(2,101,154)]",
+      "mappings": [
+        [
+          "-mt-2.5",
+          "bare",
+          "margin-top: -10px"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-11.75",
+          "bare",
+          "height: 47px"
+        ],
+        [
+          "w-[89.125px]",
+          "arbitrary-value",
+          "width: 89.125px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(1, 114, 173)",
+          "border-left-color: rgb(1, 114, 173)",
+          "border-right-color: rgb(1, 114, 173)",
+          "border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "background-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-[7.5px]",
+          "arbitrary-value",
+          "padding-top: 7.5px"
+        ],
+        [
+          "pr-2.5",
+          "bare",
+          "padding-right: 10px"
+        ],
+        [
+          "pb-[7.5px]",
+          "arbitrary-value",
+          "padding-bottom: 7.5px"
+        ],
+        [
+          "pl-2.5",
+          "bare",
+          "padding-left: 10px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "[&:hover]:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | border-bottom-color: rgb(2, 101, 154)",
+          "&:hover | border-left-color: rgb(2, 101, 154)",
+          "&:hover | border-right-color: rgb(2, 101, 154)",
+          "&:hover | border-top-color: rgb(2, 101, 154)"
+        ],
+        [
+          "[&:hover]:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(2, 101, 154)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "h-11.25 bg-no-repeat text-[40px]/11.25 font-bold text-[rgb(45,49,56)]",
+      "mappings": [
+        [
+          "h-11.25",
+          "bare",
+          "height: 45px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[40px]/11.25",
+          "arbitrary-value",
+          "font-size: 40px",
+          "line-height: 45px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "text-[rgb(45,49,56)]",
+          "arbitrary-value",
+          "color: rgb(45, 49, 56)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "lead",
+      "tag": "p",
+      "className": "h-7.5 bg-no-repeat text-[rgb(100,107,121)]",
+      "mappings": [
+        [
+          "h-7.5",
+          "bare",
+          "height: 30px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card",
+      "tag": "article",
+      "className": "mb-5 h-[221.75px] rounded-[5px] bg-white p-5 [box-shadow:rgba(129,145,181,0.016)_0.29px_0.58px_3.48px_0px,rgba(129,145,181,0.024)_0.67px_1.34px_8.04px_0px,rgba(129,145,181,0.03)_1.25px_2.5px_15px_0px,rgba(129,145,181,0.035)_2.25px_4.5px_27px_0px,rgba(129,145,181,0.043)_4.17px_8.34px_50.04px_0px,rgba(129,145,181,0.06)_10px_20px_120px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.25px]",
+      "mappings": [
+        [
+          "mb-5",
+          "bare",
+          "margin-bottom: 20px"
+        ],
+        [
+          "h-[221.75px]",
+          "arbitrary-value",
+          "height: 221.75px"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "p-5",
+          "bare",
+          "padding-bottom: 20px",
+          "padding-left: 20px",
+          "padding-right: 20px",
+          "padding-top: 20px"
+        ],
+        [
+          "[box-shadow:rgba(129,145,181,0.016)_0.29px_0.58px_3.48px_0px,rgba(129,145,181,0.024)_0.67px_1.34px_8.04px_0px,rgba(129,145,181,0.03)_1.25px_2.5px_15px_0px,rgba(129,145,181,0.035)_2.25px_4.5px_27px_0px,rgba(129,145,181,0.043)_4.17px_8.34px_50.04px_0px,rgba(129,145,181,0.06)_10px_20px_120px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.25px]",
+          "arbitrary-property",
+          "box-shadow: rgba(129, 145, 181, 0.016) 0.29px 0.58px 3.48px 0px, rgba(129, 145, 181, 0.024) 0.67px 1.34px 8.04px 0px, rgba(129, 145, 181, 0.03) 1.25px 2.5px 15px 0px, rgba(129, 145, 181, 0.035) 2.25px 4.5px 27px 0px, rgba(129, 145, 181, 0.043) 4.17px 8.34px 50.04px 0px, rgba(129, 145, 181, 0.06) 10px 20px 120px 0px, rgba(129, 145, 181, 0.016) 0px 0px 0px 1.25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC202",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card-header",
+      "tag": "header",
+      "className": "-mt-5 -mr-5 mb-5 -ml-5 h-[57.375px] w-300 rounded-t-[5px] border-b border-b-[rgb(231,234,240)] bg-[rgb(251,252,252)] bg-no-repeat pt-[13.2px] pr-5 pb-[13.2px] pl-5",
+      "mappings": [
+        [
+          "-mt-5",
+          "bare",
+          "margin-top: -20px"
+        ],
+        [
+          "-mr-5",
+          "bare",
+          "margin-right: -20px"
+        ],
+        [
+          "mb-5",
+          "bare",
+          "margin-bottom: 20px"
+        ],
+        [
+          "-ml-5",
+          "bare",
+          "margin-left: -20px"
+        ],
+        [
+          "h-[57.375px]",
+          "arbitrary-value",
+          "height: 57.375px"
+        ],
+        [
+          "w-300",
+          "bare",
+          "width: 1200px"
+        ],
+        [
+          "rounded-t-[5px]",
+          "arbitrary-value",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-b-[rgb(231,234,240)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(231, 234, 240)"
+        ],
+        [
+          "bg-[rgb(251,252,252)]",
+          "arbitrary-value",
+          "background-color: rgb(251, 252, 252)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-[13.2px]",
+          "arbitrary-value",
+          "padding-top: 13.2px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-[13.2px]",
+          "arbitrary-value",
+          "padding-bottom: 13.2px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card-text",
+      "tag": "p",
+      "className": "mb-5 h-8.75 bg-no-repeat",
+      "mappings": [
+        [
+          "mb-5",
+          "bare",
+          "margin-bottom: 20px"
+        ],
+        [
+          "h-8.75",
+          "bare",
+          "height: 35px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "code",
+      "tag": "code",
+      "className": "inline-block h-8.75 w-[111.219px] rounded-[5px] bg-[rgb(243,245,247)] p-[7.5px] font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] text-[17.5px]/[normal] text-[rgb(100,107,121)]",
+      "mappings": [
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-8.75",
+          "bare",
+          "height: 35px"
+        ],
+        [
+          "w-[111.219px]",
+          "arbitrary-value",
+          "width: 111.219px"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "bg-[rgb(243,245,247)]",
+          "arbitrary-value",
+          "background-color: rgb(243, 245, 247)"
+        ],
+        [
+          "p-[7.5px]",
+          "arbitrary-value",
+          "padding-bottom: 7.5px",
+          "padding-left: 7.5px",
+          "padding-right: 7.5px",
+          "padding-top: 7.5px"
+        ],
+        [
+          "font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji']",
+          "arbitrary-value",
+          "font-family: ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, \"Liberation Mono\", monospace, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+        ],
+        [
+          "text-[17.5px]/[normal]",
+          "arbitrary-value",
+          "font-size: 17.5px",
+          "line-height: normal"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "mark",
+      "tag": "mark",
+      "className": "bg-[rgb(253,231,192)] bg-no-repeat pt-[2.5px] pr-1.25 pb-[2.5px] pl-1.25 text-[rgb(15,17,20)]",
+      "mappings": [
+        [
+          "bg-[rgb(253,231,192)]",
+          "arbitrary-value",
+          "background-color: rgb(253, 231, 192)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-[2.5px]",
+          "arbitrary-value",
+          "padding-top: 2.5px"
+        ],
+        [
+          "pr-1.25",
+          "bare",
+          "padding-right: 5px"
+        ],
+        [
+          "pb-[2.5px]",
+          "arbitrary-value",
+          "padding-bottom: 2.5px"
+        ],
+        [
+          "pl-1.25",
+          "bare",
+          "padding-left: 5px"
+        ],
+        [
+          "text-[rgb(15,17,20)]",
+          "arbitrary-value",
+          "color: rgb(15, 17, 20)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "buy",
+      "tag": "button",
+      "className": "h-15.5 w-[117.438px] cursor-pointer rounded-[5px] border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-3.75 pr-5 pb-3.75 pl-5 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none [&:hover]:border-[rgb(2,101,154)] [&:hover]:bg-[rgb(2,101,154)]",
+      "mappings": [
+        [
+          "h-15.5",
+          "bare",
+          "height: 62px"
+        ],
+        [
+          "w-[117.438px]",
+          "arbitrary-value",
+          "width: 117.438px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(1, 114, 173)",
+          "border-left-color: rgb(1, 114, 173)",
+          "border-right-color: rgb(1, 114, 173)",
+          "border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "background-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3.75",
+          "bare",
+          "padding-top: 15px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-3.75",
+          "bare",
+          "padding-bottom: 15px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "[&:hover]:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | border-bottom-color: rgb(2, 101, 154)",
+          "&:hover | border-left-color: rgb(2, 101, 154)",
+          "&:hover | border-right-color: rgb(2, 101, 154)",
+          "&:hover | border-top-color: rgb(2, 101, 154)"
+        ],
+        [
+          "[&:hover]:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(2, 101, 154)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "later",
+      "tag": "button",
+      "className": "h-15.5 w-[85.7812px] cursor-pointer rounded-[5px] border bg-no-repeat pt-3.75 pr-5 pb-3.75 pl-5 text-[rgb(93,107,137)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none [&:hover]:text-[rgb(72,83,107)]",
+      "mappings": [
+        [
+          "h-15.5",
+          "bare",
+          "height: 62px"
+        ],
+        [
+          "w-[85.7812px]",
+          "arbitrary-value",
+          "width: 85.7812px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3.75",
+          "bare",
+          "padding-top: 15px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-3.75",
+          "bare",
+          "padding-bottom: 15px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "text-[rgb(93,107,137)]",
+          "arbitrary-value",
+          "color: rgb(93, 107, 137)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "[&:hover]:text-[rgb(72,83,107)]",
+          "arbitrary-value",
+          "&:hover | color: rgb(72, 83, 107)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC301"
+      ],
+      "exact": true
+    },
+    {
+      "name": "label",
+      "tag": "label",
+      "className": "mb-[7.5px] block h-7.5 w-300 bg-no-repeat",
+      "mappings": [
+        [
+          "mb-[7.5px]",
+          "arbitrary-value",
+          "margin-bottom: 7.5px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-7.5",
+          "bare",
+          "height: 30px"
+        ],
+        [
+          "w-300",
+          "bare",
+          "width: 1200px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "email",
+      "tag": "input",
+      "className": "mb-5 h-[62.5px] w-300 appearance-none rounded-[5px] border border-[rgb(207,213,226)] bg-[rgb(251,252,252)] bg-no-repeat pt-3.75 pr-5 pb-3.75 pl-5 text-[rgb(35,38,44)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+      "mappings": [
+        [
+          "mb-5",
+          "bare",
+          "margin-bottom: 20px"
+        ],
+        [
+          "h-[62.5px]",
+          "arbitrary-value",
+          "height: 62.5px"
+        ],
+        [
+          "w-300",
+          "bare",
+          "width: 1200px"
+        ],
+        [
+          "appearance-none",
+          "named",
+          "appearance: none"
+        ],
+        [
+          "rounded-[5px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 5px",
+          "border-bottom-right-radius: 5px",
+          "border-top-left-radius: 5px",
+          "border-top-right-radius: 5px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(207,213,226)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(207, 213, 226)",
+          "border-left-color: rgb(207, 213, 226)",
+          "border-right-color: rgb(207, 213, 226)",
+          "border-top-color: rgb(207, 213, 226)"
+        ],
+        [
+          "bg-[rgb(251,252,252)]",
+          "arbitrary-value",
+          "background-color: rgb(251, 252, 252)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3.75",
+          "bare",
+          "padding-top: 15px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-3.75",
+          "bare",
+          "padding-bottom: 15px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "text-[rgb(35,38,44)]",
+          "arbitrary-value",
+          "color: rgb(35, 38, 44)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "hint",
+      "tag": "small",
+      "className": "-mt-3.75 mb-5 block h-6.25 w-300 bg-no-repeat text-[16.6667px]/6.25 text-[rgb(100,107,121)]",
+      "mappings": [
+        [
+          "-mt-3.75",
+          "bare",
+          "margin-top: -15px"
+        ],
+        [
+          "mb-5",
+          "bare",
+          "margin-bottom: 20px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-6.25",
+          "bare",
+          "height: 25px"
+        ],
+        [
+          "w-300",
+          "bare",
+          "width: 1200px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[16.6667px]/6.25",
+          "arbitrary-value",
+          "font-size: 16.6667px",
+          "line-height: 25px"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "footer-link",
+      "tag": "a",
+      "className": "cursor-pointer bg-no-repeat text-[rgb(1,114,173)] underline decoration-[rgba(1,114,173,0.5)] underline-offset-[2.08333px] [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] [&:hover]:text-[rgb(1,88,135)] [&:hover]:decoration-[rgb(1,88,135)]",
+      "mappings": [
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "color: rgb(1, 114, 173)"
+        ],
+        [
+          "underline",
+          "named",
+          "text-decoration-line: underline"
+        ],
+        [
+          "decoration-[rgba(1,114,173,0.5)]",
+          "arbitrary-value",
+          "text-decoration-color: rgba(1, 114, 173, 0.5)"
+        ],
+        [
+          "underline-offset-[2.08333px]",
+          "arbitrary-value",
+          "text-underline-offset: 2.08333px"
+        ],
+        [
+          "[transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration]",
+          "arbitrary-property",
+          "transition-property: background-color, color, text-decoration, box-shadow, -webkit-text-decoration"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "[&:hover]:text-[rgb(1,88,135)]",
+          "arbitrary-value",
+          "&:hover | color: rgb(1, 88, 135)"
+        ],
+        [
+          "[&:hover]:decoration-[rgb(1,88,135)]",
+          "arbitrary-value",
+          "&:hover | text-decoration-color: rgb(1, 88, 135)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC301",
+        "TFC201"
+      ],
+      "exact": true
+    }
+  ]
+}
