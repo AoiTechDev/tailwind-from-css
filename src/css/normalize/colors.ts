@@ -143,11 +143,14 @@ export interface ColorDifference {
 }
 
 const oklabCache = new Map<string, Color | undefined>()
+// CSS Color 4 §4.4: a missing component renders as zero (Tailwind 4.3's `oklch(55.6% 0 none)`).
+const MISSING = /\bnone\b/g
 
 function oklabOf(value: string): Color | undefined {
   if (oklabCache.has(value)) return oklabCache.get(value)
-  const own = SRGB_FORM.exec(value)
-  const color = value.includes('none') ? undefined : own ? parseSrgbForm(own) : tryParse(value)
+  const rendered = value.replace(MISSING, '0')
+  const own = SRGB_FORM.exec(rendered)
+  const color = own ? parseSrgbForm(own) : tryParse(rendered)
   const oklab = color === undefined ? undefined : toOklab(color)
   if (oklabCache.size >= COLOR_CACHE_SIZE) oklabCache.clear()
   oklabCache.set(value, oklab)
@@ -158,8 +161,8 @@ const component = (color: Color, name: string): number => Number(color[name] ?? 
 
 /**
  * The difference between two normal color values (N20, N21), across color spaces: the Euclidean
- * distance in OKLab of their opaque colors (ΔE OK) and both alphas. `undefined` unless both are
- * one color with every channel present.
+ * distance in OKLab of their opaque colors (ΔE OK) and both alphas, a missing (`none`) channel
+ * read as 0. `undefined` unless both are one color.
  */
 export function colorDifference(a: string, b: string): ColorDifference | undefined {
   const first = oklabOf(a)

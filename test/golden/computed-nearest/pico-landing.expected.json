@@ -1,0 +1,1851 @@
+{
+  "elements": [
+    {
+      "name": "nav-brand",
+      "tag": "strong",
+      "className": "bg-no-repeat",
+      "mappings": [
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "-m-2 inline-block rounded-sm bg-no-repeat p-2 text-[rgb(1,114,173)] underline-offset-2 [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:underline md:-m-2.25 md:rounded-[4.5px] md:p-2.25 md:underline-offset-[2.25px] xl:-m-2.5 xl:rounded-[5px] xl:p-2.5 xl:underline-offset-[2.5px]",
+      "mappings": [
+        [
+          "-m-2",
+          "bare",
+          "margin-bottom: -8px",
+          "margin-left: -8px",
+          "margin-right: -8px",
+          "margin-top: -8px"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "p-2",
+          "bare",
+          "padding-bottom: 8px",
+          "padding-left: 8px",
+          "padding-right: 8px",
+          "padding-top: 8px"
+        ],
+        [
+          "text-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "color: rgb(1, 114, 173)"
+        ],
+        [
+          "underline-offset-2",
+          "bare",
+          "text-underline-offset: 2px"
+        ],
+        [
+          "[transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration]",
+          "arbitrary-property",
+          "transition-property: background-color, color, text-decoration, box-shadow, -webkit-text-decoration"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "hover:text-sky-800",
+          "bare",
+          "&:hover | color: rgb(1, 88, 135)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:underline",
+          "named",
+          "&:hover | text-decoration-line: underline",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:-m-2.25",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: -9px",
+          "@media (width >= 768px) | margin-left: -9px",
+          "@media (width >= 768px) | margin-right: -9px",
+          "@media (width >= 768px) | margin-top: -9px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:p-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 9px",
+          "@media (width >= 768px) | padding-left: 9px",
+          "@media (width >= 768px) | padding-right: 9px",
+          "@media (width >= 768px) | padding-top: 9px"
+        ],
+        [
+          "md:underline-offset-[2.25px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | text-underline-offset: 2.25px"
+        ],
+        [
+          "xl:-m-2.5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: -10px",
+          "@media (width >= 1280px) | margin-left: -10px",
+          "@media (width >= 1280px) | margin-right: -10px",
+          "@media (width >= 1280px) | margin-top: -10px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:p-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 10px",
+          "@media (width >= 1280px) | padding-left: 10px",
+          "@media (width >= 1280px) | padding-right: 10px",
+          "@media (width >= 1280px) | padding-top: 10px"
+        ],
+        [
+          "xl:underline-offset-[2.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | text-underline-offset: 2.5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "nav-cta",
+      "tag": "a",
+      "className": "-mt-2 inline-block rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-1.5 pr-2 pb-1.5 pl-2 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:-mt-2.25 md:rounded-[4.5px] md:pt-[6.75px] md:pr-2.25 md:pb-[6.75px] md:pl-2.25 xl:-mt-2.5 xl:rounded-[5px] xl:pt-2 xl:pr-2.5 xl:pb-2 xl:pl-2.5",
+      "mappings": [
+        [
+          "-mt-2",
+          "bare",
+          "margin-top: -8px"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(1, 114, 173)",
+          "border-left-color: rgb(1, 114, 173)",
+          "border-right-color: rgb(1, 114, 173)",
+          "border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "background-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-1.5",
+          "bare",
+          "padding-top: 6px"
+        ],
+        [
+          "pr-2",
+          "bare",
+          "padding-right: 8px"
+        ],
+        [
+          "pb-1.5",
+          "bare",
+          "padding-bottom: 6px"
+        ],
+        [
+          "pl-2",
+          "bare",
+          "padding-left: 8px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | border-bottom-color: rgb(2, 101, 154)",
+          "&:hover | border-left-color: rgb(2, 101, 154)",
+          "&:hover | border-right-color: rgb(2, 101, 154)",
+          "&:hover | border-top-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:-mt-2.25",
+          "bare",
+          "@media (width >= 768px) | margin-top: -9px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-top: 6.75px"
+        ],
+        [
+          "md:pr-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-right: 9px"
+        ],
+        [
+          "md:pb-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-bottom: 6.75px"
+        ],
+        [
+          "md:pl-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-left: 9px"
+        ],
+        [
+          "xl:-mt-2.5",
+          "bare",
+          "@media (width >= 1280px) | margin-top: -10px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-2",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "xl:pr-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 10px"
+        ],
+        [
+          "xl:pb-2",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "xl:pl-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 10px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "bg-no-repeat text-[32px]/9 font-bold text-[rgb(45,49,56)] md:text-4xl/[40.5px] xl:text-[40px]/11.25",
+      "mappings": [
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[32px]/9",
+          "arbitrary-value",
+          "font-size: 32px",
+          "line-height: 36px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "text-[rgb(45,49,56)]",
+          "arbitrary-value",
+          "color: rgb(45, 49, 56)"
+        ],
+        [
+          "md:text-4xl/[40.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 36px",
+          "@media (width >= 768px) | line-height: 40.5px"
+        ],
+        [
+          "xl:text-[40px]/11.25",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 40px",
+          "@media (width >= 1280px) | line-height: 45px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "lead",
+      "tag": "p",
+      "className": "bg-no-repeat text-[rgb(100,107,121)]",
+      "mappings": [
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card",
+      "tag": "article",
+      "className": "mb-4 rounded-sm bg-white p-4 [box-shadow:rgba(129,145,181,0.016)_0.232px_0.464px_2.784px_0px,rgba(129,145,181,0.024)_0.536px_1.072px_6.432px_0px,rgba(129,145,181,0.03)_1px_2px_12px_0px,rgba(129,145,181,0.035)_1.8px_3.6px_21.6px_0px,rgba(129,145,181,0.043)_3.336px_6.672px_40.032px_0px,rgba(129,145,181,0.06)_8px_16px_96px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:p-4.5 md:[box-shadow:rgba(129,145,181,0.016)_0.261px_0.522px_3.132px_0px,rgba(129,145,181,0.024)_0.603px_1.206px_7.236px_0px,rgba(129,145,181,0.03)_1.125px_2.25px_13.5px_0px,rgba(129,145,181,0.035)_2.025px_4.05px_24.3px_0px,rgba(129,145,181,0.043)_3.753px_7.506px_45.036px_0px,rgba(129,145,181,0.06)_9px_18px_108px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:p-5 xl:[box-shadow:rgba(129,145,181,0.016)_0.29px_0.58px_3.48px_0px,rgba(129,145,181,0.024)_0.67px_1.34px_8.04px_0px,rgba(129,145,181,0.03)_1.25px_2.5px_15px_0px,rgba(129,145,181,0.035)_2.25px_4.5px_27px_0px,rgba(129,145,181,0.043)_4.17px_8.34px_50.04px_0px,rgba(129,145,181,0.06)_10px_20px_120px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.25px]",
+      "mappings": [
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "[box-shadow:rgba(129,145,181,0.016)_0.232px_0.464px_2.784px_0px,rgba(129,145,181,0.024)_0.536px_1.072px_6.432px_0px,rgba(129,145,181,0.03)_1px_2px_12px_0px,rgba(129,145,181,0.035)_1.8px_3.6px_21.6px_0px,rgba(129,145,181,0.043)_3.336px_6.672px_40.032px_0px,rgba(129,145,181,0.06)_8px_16px_96px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1px]",
+          "arbitrary-property",
+          "box-shadow: rgba(129, 145, 181, 0.016) 0.232px 0.464px 2.784px 0px, rgba(129, 145, 181, 0.024) 0.536px 1.072px 6.432px 0px, rgba(129, 145, 181, 0.03) 1px 2px 12px 0px, rgba(129, 145, 181, 0.035) 1.8px 3.6px 21.6px 0px, rgba(129, 145, 181, 0.043) 3.336px 6.672px 40.032px 0px, rgba(129, 145, 181, 0.06) 8px 16px 96px 0px, rgba(129, 145, 181, 0.016) 0px 0px 0px 1px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:p-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 18px",
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
+          "@media (width >= 768px) | padding-top: 18px"
+        ],
+        [
+          "md:[box-shadow:rgba(129,145,181,0.016)_0.261px_0.522px_3.132px_0px,rgba(129,145,181,0.024)_0.603px_1.206px_7.236px_0px,rgba(129,145,181,0.03)_1.125px_2.25px_13.5px_0px,rgba(129,145,181,0.035)_2.025px_4.05px_24.3px_0px,rgba(129,145,181,0.043)_3.753px_7.506px_45.036px_0px,rgba(129,145,181,0.06)_9px_18px_108px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.125px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | box-shadow: rgba(129, 145, 181, 0.016) 0.261px 0.522px 3.132px 0px, rgba(129, 145, 181, 0.024) 0.603px 1.206px 7.236px 0px, rgba(129, 145, 181, 0.03) 1.125px 2.25px 13.5px 0px, rgba(129, 145, 181, 0.035) 2.025px 4.05px 24.3px 0px, rgba(129, 145, 181, 0.043) 3.753px 7.506px 45.036px 0px, rgba(129, 145, 181, 0.06) 9px 18px 108px 0px, rgba(129, 145, 181, 0.016) 0px 0px 0px 1.125px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:p-5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 20px",
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          "@media (width >= 1280px) | padding-top: 20px"
+        ],
+        [
+          "xl:[box-shadow:rgba(129,145,181,0.016)_0.29px_0.58px_3.48px_0px,rgba(129,145,181,0.024)_0.67px_1.34px_8.04px_0px,rgba(129,145,181,0.03)_1.25px_2.5px_15px_0px,rgba(129,145,181,0.035)_2.25px_4.5px_27px_0px,rgba(129,145,181,0.043)_4.17px_8.34px_50.04px_0px,rgba(129,145,181,0.06)_10px_20px_120px_0px,rgba(129,145,181,0.016)_0px_0px_0px_1.25px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | box-shadow: rgba(129, 145, 181, 0.016) 0.29px 0.58px 3.48px 0px, rgba(129, 145, 181, 0.024) 0.67px 1.34px 8.04px 0px, rgba(129, 145, 181, 0.03) 1.25px 2.5px 15px 0px, rgba(129, 145, 181, 0.035) 2.25px 4.5px 27px 0px, rgba(129, 145, 181, 0.043) 4.17px 8.34px 50.04px 0px, rgba(129, 145, 181, 0.06) 10px 20px 120px 0px, rgba(129, 145, 181, 0.016) 0px 0px 0px 1.25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card-header",
+      "tag": "header",
+      "className": "-mt-4 -mr-4 mb-4 -ml-4 rounded-t-sm border-b border-b-slate-200 bg-mist-50 bg-no-repeat pt-2.5 pr-4 pb-2.5 pl-4 md:-mt-4.5 md:-mr-4.5 md:mb-4.5 md:-ml-4.5 md:rounded-t-[4.5px] md:pt-3 md:pr-4.5 md:pb-3 md:pl-4.5 xl:-mt-5 xl:-mr-5 xl:mb-5 xl:-ml-5 xl:rounded-t-[5px] xl:pt-3.5 xl:pr-5 xl:pb-3.5 xl:pl-5",
+      "mappings": [
+        [
+          "-mt-4",
+          "bare",
+          "margin-top: -16px"
+        ],
+        [
+          "-mr-4",
+          "bare",
+          "margin-right: -16px"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "-ml-4",
+          "bare",
+          "margin-left: -16px"
+        ],
+        [
+          "rounded-t-sm",
+          "named",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-b-slate-200",
+          "bare",
+          "border-bottom-color: rgb(231, 234, 240)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0088
+          }
+        ],
+        [
+          "bg-mist-50",
+          "bare",
+          "background-color: rgb(251, 252, 252)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0034
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-2.5",
+          "bare",
+          "padding-top: 10.56px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.56
+          }
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-2.5",
+          "bare",
+          "padding-bottom: 10.56px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.56
+          }
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "md:-mt-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-top: -18px"
+        ],
+        [
+          "md:-mr-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-right: -18px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:-ml-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-left: -18px"
+        ],
+        [
+          "md:rounded-t-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3",
+          "bare",
+          "@media (width >= 768px) | padding-top: 11.88px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.12
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 11.88px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.12
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "xl:-mt-5",
+          "bare",
+          "@media (width >= 1280px) | margin-top: -20px"
+        ],
+        [
+          "xl:-mr-5",
+          "bare",
+          "@media (width >= 1280px) | margin-right: -20px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:-ml-5",
+          "bare",
+          "@media (width >= 1280px) | margin-left: -20px"
+        ],
+        [
+          "xl:rounded-t-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.5",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 13.2px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.8
+          }
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 13.2px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.8
+          }
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "card-text",
+      "tag": "p",
+      "className": "mb-4 bg-no-repeat md:mb-4.5 xl:mb-5",
+      "mappings": [
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "code",
+      "tag": "code",
+      "className": "inline-block rounded-sm bg-gray-100 p-1.5 font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] text-sm/[normal] text-[rgb(100,107,121)] md:rounded-[4.5px] md:p-[6.75px] md:text-[15.75px] xl:rounded-[5px] xl:p-2 xl:text-[17.5px]",
+      "mappings": [
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "bg-gray-100",
+          "bare",
+          "background-color: rgb(243, 245, 247)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0024
+          }
+        ],
+        [
+          "p-1.5",
+          "bare",
+          "padding-bottom: 6px",
+          "padding-left: 6px",
+          "padding-right: 6px",
+          "padding-top: 6px"
+        ],
+        [
+          "font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji']",
+          "arbitrary-value",
+          "font-family: ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, \"Liberation Mono\", monospace, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+        ],
+        [
+          "text-sm/[normal]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: normal"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:p-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-bottom: 6.75px",
+          "@media (width >= 768px) | padding-left: 6.75px",
+          "@media (width >= 768px) | padding-right: 6.75px",
+          "@media (width >= 768px) | padding-top: 6.75px"
+        ],
+        [
+          "md:text-[15.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 15.75px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:p-2",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 7.5px",
+          "@media (width >= 1280px) | padding-left: 7.5px",
+          "@media (width >= 1280px) | padding-right: 7.5px",
+          "@media (width >= 1280px) | padding-top: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "xl:text-[17.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 17.5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "mark",
+      "tag": "mark",
+      "className": "bg-[rgb(253,231,192)] bg-no-repeat pt-0.5 pr-1 pb-0.5 pl-1 text-[rgb(15,17,20)] md:pt-[2.25px] md:pr-[4.5px] md:pb-[2.25px] md:pl-[4.5px] xl:pt-[2.5px] xl:pr-1.25 xl:pb-[2.5px] xl:pl-1.25",
+      "mappings": [
+        [
+          "bg-[rgb(253,231,192)]",
+          "arbitrary-value",
+          "background-color: rgb(253, 231, 192)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-0.5",
+          "bare",
+          "padding-top: 2px"
+        ],
+        [
+          "pr-1",
+          "bare",
+          "padding-right: 4px"
+        ],
+        [
+          "pb-0.5",
+          "bare",
+          "padding-bottom: 2px"
+        ],
+        [
+          "pl-1",
+          "bare",
+          "padding-left: 4px"
+        ],
+        [
+          "text-[rgb(15,17,20)]",
+          "arbitrary-value",
+          "color: rgb(15, 17, 20)"
+        ],
+        [
+          "md:pt-[2.25px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-top: 2.25px"
+        ],
+        [
+          "md:pr-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-right: 4.5px"
+        ],
+        [
+          "md:pb-[2.25px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-bottom: 2.25px"
+        ],
+        [
+          "md:pl-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-left: 4.5px"
+        ],
+        [
+          "xl:pt-[2.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | padding-top: 2.5px"
+        ],
+        [
+          "xl:pr-1.25",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 5px"
+        ],
+        [
+          "xl:pb-[2.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | padding-bottom: 2.5px"
+        ],
+        [
+          "xl:pl-1.25",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "buy",
+      "tag": "button",
+      "className": "cursor-pointer rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] focus-visible:border-[rgb(2,101,154)] focus-visible:bg-[rgb(2,101,154)] focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2px] md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.5px]",
+      "mappings": [
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(1, 114, 173)",
+          "border-left-color: rgb(1, 114, 173)",
+          "border-right-color: rgb(1, 114, 173)",
+          "border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "background-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | border-bottom-color: rgb(2, 101, 154)",
+          "&:hover | border-left-color: rgb(2, 101, 154)",
+          "&:hover | border-right-color: rgb(2, 101, 154)",
+          "&:hover | border-top-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "focus-visible:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:focus-visible | border-bottom-color: rgb(2, 101, 154)",
+          "&:focus-visible | border-left-color: rgb(2, 101, 154)",
+          "&:focus-visible | border-right-color: rgb(2, 101, 154)",
+          "&:focus-visible | border-top-color: rgb(2, 101, 154)"
+        ],
+        [
+          "focus-visible:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:focus-visible | background-color: rgb(2, 101, 154)"
+        ],
+        [
+          "focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2px]",
+          "arbitrary-property",
+          "&:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(2, 154, 232, 0.5) 0px 0px 0px 2px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.25px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(2, 154, 232, 0.5) 0px 0px 0px 2.25px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ],
+        [
+          "xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.5px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(2, 154, 232, 0.5) 0px 0px 0px 2.5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "later",
+      "tag": "button",
+      "className": "cursor-pointer rounded-sm border bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-[rgb(93,107,137)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:text-slate-600 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5",
+      "mappings": [
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-[rgb(93,107,137)]",
+          "arbitrary-value",
+          "color: rgb(93, 107, 137)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:text-slate-600",
+          "bare",
+          "&:hover | color: rgb(72, 83, 107)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "label",
+      "tag": "label",
+      "className": "mb-1.5 block bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "mappings": [
+        [
+          "mb-1.5",
+          "bare",
+          "margin-bottom: 6px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "md:mb-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-bottom: 6.75px"
+        ],
+        [
+          "xl:mb-2",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "email",
+      "tag": "input",
+      "className": "mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "mappings": [
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "appearance-none",
+          "named",
+          "appearance: none"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-slate-300",
+          "bare",
+          "border-bottom-color: rgb(207, 213, 226)",
+          "border-left-color: rgb(207, 213, 226)",
+          "border-right-color: rgb(207, 213, 226)",
+          "border-top-color: rgb(207, 213, 226)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0064
+          }
+        ],
+        [
+          "bg-mist-50",
+          "bare",
+          "background-color: rgb(251, 252, 252)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0034
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-zinc-800",
+          "bare",
+          "color: rgb(35, 38, 44)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.009
+          }
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "focus:border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "&:focus | border-bottom-color: rgb(1, 114, 173)",
+          "&:focus | border-left-color: rgb(1, 114, 173)",
+          "&:focus | border-right-color: rgb(1, 114, 173)",
+          "&:focus | border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "focus:bg-white",
+          "named",
+          "&:focus | background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px]",
+          "arbitrary-property",
+          "&:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.125px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ],
+        [
+          "xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "hint",
+      "tag": "small",
+      "className": "-mt-3 mb-4 block bg-no-repeat text-[13.3333px]/5 text-[rgb(100,107,121)] md:-mt-3.5 md:mb-4.5 md:text-sm/[22.5px] xl:-mt-3.75 xl:mb-5 xl:text-[16.6667px]/6.25",
+      "mappings": [
+        [
+          "-mt-3",
+          "bare",
+          "margin-top: -12px"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[13.3333px]/5",
+          "arbitrary-value",
+          "font-size: 13.3333px",
+          "line-height: 20px"
+        ],
+        [
+          "text-[rgb(100,107,121)]",
+          "arbitrary-value",
+          "color: rgb(100, 107, 121)"
+        ],
+        [
+          "md:-mt-3.5",
+          "bare",
+          "@media (width >= 768px) | margin-top: -13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:text-sm/[22.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 15px",
+          "@media (width >= 768px) | line-height: 22.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1
+          }
+        ],
+        [
+          "xl:-mt-3.75",
+          "bare",
+          "@media (width >= 1280px) | margin-top: -15px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:text-[16.6667px]/6.25",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 16.6667px",
+          "@media (width >= 1280px) | line-height: 25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "footer-link",
+      "tag": "a",
+      "className": "bg-no-repeat text-[rgb(1,114,173)] underline decoration-[rgba(1,114,173,0.5)] underline-offset-[1.66667px] [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:decoration-sky-800 md:underline-offset-[1.875px] xl:underline-offset-[2.08333px]",
+      "mappings": [
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "color: rgb(1, 114, 173)"
+        ],
+        [
+          "underline",
+          "named",
+          "text-decoration-line: underline"
+        ],
+        [
+          "decoration-[rgba(1,114,173,0.5)]",
+          "arbitrary-value",
+          "text-decoration-color: rgba(1, 114, 173, 0.5)"
+        ],
+        [
+          "underline-offset-[1.66667px]",
+          "arbitrary-value",
+          "text-underline-offset: 1.66667px"
+        ],
+        [
+          "[transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration]",
+          "arbitrary-property",
+          "transition-property: background-color, color, text-decoration, box-shadow, -webkit-text-decoration"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "hover:text-sky-800",
+          "bare",
+          "&:hover | color: rgb(1, 88, 135)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:decoration-sky-800",
+          "bare",
+          "&:hover | text-decoration-color: rgb(1, 88, 135)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:underline-offset-[1.875px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | text-underline-offset: 1.875px"
+        ],
+        [
+          "xl:underline-offset-[2.08333px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | text-underline-offset: 2.08333px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    }
+  ]
+}

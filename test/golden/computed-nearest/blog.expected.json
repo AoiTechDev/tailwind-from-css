@@ -1,0 +1,1153 @@
+{
+  "elements": [
+    {
+      "name": "body",
+      "tag": "body",
+      "className": "box-content font-[Georgia,'Times_New_Roman',serif] leading-6.5 text-neutral-800",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "font-[Georgia,'Times_New_Roman',serif]",
+          "arbitrary-value",
+          "font-family: Georgia, \"Times New Roman\", serif"
+        ],
+        [
+          "leading-6.5",
+          "bare",
+          "line-height: 25.6px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.4
+          }
+        ],
+        [
+          "text-neutral-800",
+          "bare",
+          "color: rgb(34, 34, 34)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.017
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "header",
+      "tag": "header",
+      "className": "box-content flex flex-col gap-2 border-b border-b-neutral-200 pt-4 pr-5 pb-4 pl-5 md:flex-row md:items-baseline md:justify-between md:pt-6 md:pr-10 md:pb-6 md:pl-10",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "flex",
+          "named",
+          "display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "flex-direction: column"
+        ],
+        [
+          "gap-2",
+          "bare",
+          "column-gap: 8px",
+          "row-gap: 8px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-b-neutral-200",
+          "bare",
+          "border-bottom-color: rgb(229, 229, 229)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0001
+          }
+        ],
+        [
+          "pt-4",
+          "bare",
+          "padding-top: 16px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-4",
+          "bare",
+          "padding-bottom: 16px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "md:flex-row",
+          "named",
+          "@media (width >= 768px) | flex-direction: row"
+        ],
+        [
+          "md:items-baseline",
+          "named",
+          "@media (width >= 768px) | align-items: baseline"
+        ],
+        [
+          "md:justify-between",
+          "named",
+          "@media (width >= 768px) | justify-content: space-between"
+        ],
+        [
+          "md:pt-6",
+          "bare",
+          "@media (width >= 768px) | padding-top: 24px"
+        ],
+        [
+          "md:pr-10",
+          "bare",
+          "@media (width >= 768px) | padding-right: 40px"
+        ],
+        [
+          "md:pb-6",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 24px"
+        ],
+        [
+          "md:pl-10",
+          "bare",
+          "@media (width >= 768px) | padding-left: 40px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "logo",
+      "tag": "a",
+      "className": "box-content h-6.5 font-[system-ui,sans-serif] text-xl/[26.4px] font-bold tracking-[-0.44px] text-[rgb(180,35,90)]",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-6.5",
+          "bare",
+          "height: 26.3906px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.3906
+          }
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-xl/[26.4px]",
+          "arbitrary-value",
+          "font-size: 22px",
+          "line-height: 26.4px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 2
+          }
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.44px]",
+          "arbitrary-value",
+          "letter-spacing: -0.44px"
+        ],
+        [
+          "text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "color: rgb(180, 35, 90)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "mr-4 box-content font-[system-ui,sans-serif] text-[15px]/6 text-neutral-600 hover:text-[rgb(180,35,90)] hover:underline hover:underline-offset-4 focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(180,35,90)]",
+      "mappings": [
+        [
+          "mr-4",
+          "bare",
+          "margin-right: 16px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-[15px]/6",
+          "arbitrary-value",
+          "font-size: 15px",
+          "line-height: 24px"
+        ],
+        [
+          "text-neutral-600",
+          "bare",
+          "color: rgb(85, 85, 85)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0105
+          }
+        ],
+        [
+          "hover:text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "&:hover | color: rgb(180, 35, 90)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:underline",
+          "named",
+          "&:hover | text-decoration-line: underline",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:underline-offset-4",
+          "bare",
+          "&:hover | text-underline-offset: 4px",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "focus-visible:rounded-xs",
+          "named",
+          "&:focus-visible | border-bottom-left-radius: 2px",
+          "&:focus-visible | border-bottom-right-radius: 2px",
+          "&:focus-visible | border-top-left-radius: 2px",
+          "&:focus-visible | border-top-right-radius: 2px"
+        ],
+        [
+          "focus-visible:outline-2",
+          "bare",
+          "&:focus-visible | outline-style: solid",
+          "&:focus-visible | outline-width: 2px"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "&:focus-visible | outline-color: rgb(180, 35, 90)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "article",
+      "tag": "article",
+      "className": "box-content max-w-170 pt-6 pr-5 pb-6 pl-5 md:mr-6 md:ml-6 xl:mr-65 xl:ml-65 xl:max-w-190 xl:pt-12 xl:pr-0 xl:pb-12 xl:pl-0",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "max-w-170",
+          "bare",
+          "max-width: 680px"
+        ],
+        [
+          "pt-6",
+          "bare",
+          "padding-top: 24px"
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pb-6",
+          "bare",
+          "padding-bottom: 24px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "md:mr-6",
+          "bare",
+          "@media (width >= 768px) | margin-right: 24px"
+        ],
+        [
+          "md:ml-6",
+          "bare",
+          "@media (width >= 768px) | margin-left: 24px"
+        ],
+        [
+          "xl:mr-65",
+          "bare",
+          "@media (width >= 1280px) | margin-right: 260px"
+        ],
+        [
+          "xl:ml-65",
+          "bare",
+          "@media (width >= 1280px) | margin-left: 260px"
+        ],
+        [
+          "xl:max-w-190",
+          "bare",
+          "@media (width >= 1280px) | max-width: 760px"
+        ],
+        [
+          "xl:pt-12",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 48px"
+        ],
+        [
+          "xl:pr-0",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 0px"
+        ],
+        [
+          "xl:pb-12",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 48px"
+        ],
+        [
+          "xl:pl-0",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 0px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "tag",
+      "tag": "span",
+      "className": "box-content inline-block h-5 w-9 rounded-[999px] bg-pink-100 px-2.5 py-0.5 font-[system-ui,sans-serif] text-xs/5 font-semibold tracking-[0.6px] text-[rgb(180,35,90)] uppercase",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "w-9",
+          "bare",
+          "width: 36.3594px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.3594
+          }
+        ],
+        [
+          "rounded-[999px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 999px",
+          "border-bottom-right-radius: 999px",
+          "border-top-left-radius: 999px",
+          "border-top-right-radius: 999px"
+        ],
+        [
+          "bg-pink-100",
+          "bare",
+          "background-color: rgb(246, 232, 238)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.012
+          }
+        ],
+        [
+          "px-2.5",
+          "bare",
+          "padding-left: 10px",
+          "padding-right: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-0.5",
+          "bare",
+          "padding-bottom: 2px",
+          "padding-top: 2px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-xs/5",
+          "named",
+          "font-size: 12px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "tracking-[0.6px]",
+          "arbitrary-value",
+          "letter-spacing: 0.6px"
+        ],
+        [
+          "text-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "color: rgb(180, 35, 90)"
+        ],
+        [
+          "uppercase",
+          "named",
+          "text-transform: uppercase"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "mb-3 box-content text-3xl/[36.8px] font-bold md:text-[44px]/[50.6px]",
+      "mappings": [
+        [
+          "mb-3",
+          "bare",
+          "margin-bottom: 12px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "text-3xl/[36.8px]",
+          "arbitrary-value",
+          "font-size: 32px",
+          "line-height: 36.8px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 2
+          }
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "md:text-[44px]/[50.6px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 44px",
+          "@media (width >= 768px) | line-height: 50.6px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "byline",
+      "tag": "p",
+      "className": "my-3.5 box-content h-5.5 text-sm/[22.4px] text-neutral-500 italic",
+      "mappings": [
+        [
+          "my-3.5",
+          "bare",
+          "margin-bottom: 14px",
+          "margin-top: 14px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-5.5",
+          "bare",
+          "height: 22.3906px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.3906
+          }
+        ],
+        [
+          "text-sm/[22.4px]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: 22.4px"
+        ],
+        [
+          "text-neutral-500",
+          "bare",
+          "color: rgb(118, 118, 118)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0098
+          }
+        ],
+        [
+          "italic",
+          "named",
+          "font-style: italic"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "body-text",
+      "tag": "p",
+      "className": "my-4 box-content",
+      "mappings": [
+        [
+          "my-4",
+          "bare",
+          "margin-bottom: 16px",
+          "margin-top: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "quote",
+      "tag": "blockquote",
+      "className": "relative my-8 box-content border-l-4 border-l-[rgb(180,35,90)] pl-6 text-xl/8 text-neutral-700 before:absolute before:-top-5 before:right-78 before:bottom-5 before:-left-2 before:box-content before:block before:h-16 before:w-6.5 before:text-[64px]/16 before:text-[rgba(180,35,90,0.2)] before:content-['“'] md:[&::before]:right-164.5 md:[&::before]:-bottom-3 xl:[&::before]:right-184.5",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "my-8",
+          "bare",
+          "margin-bottom: 32px",
+          "margin-top: 32px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "border-l-4",
+          "bare",
+          "border-left-style: solid",
+          "border-left-width: 4px"
+        ],
+        [
+          "border-l-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "border-left-color: rgb(180, 35, 90)"
+        ],
+        [
+          "pl-6",
+          "bare",
+          "padding-left: 24px"
+        ],
+        [
+          "text-xl/8",
+          "named",
+          "font-size: 20px",
+          "line-height: 32px"
+        ],
+        [
+          "text-neutral-700",
+          "bare",
+          "color: rgb(68, 68, 68)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0157
+          }
+        ],
+        [
+          "before:absolute",
+          "named",
+          "&::before | position: absolute"
+        ],
+        [
+          "before:-top-5",
+          "bare",
+          "&::before | top: -20px"
+        ],
+        [
+          "before:right-78",
+          "bare",
+          "&::before | right: 312.75px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.75
+          }
+        ],
+        [
+          "before:bottom-5",
+          "bare",
+          "&::before | bottom: 20px"
+        ],
+        [
+          "before:-left-2",
+          "bare",
+          "&::before | left: -8px"
+        ],
+        [
+          "before:box-content",
+          "named",
+          "&::before | box-sizing: content-box"
+        ],
+        [
+          "before:block",
+          "named",
+          "&::before | display: block"
+        ],
+        [
+          "before:h-16",
+          "bare",
+          "&::before | height: 64px"
+        ],
+        [
+          "before:w-6.5",
+          "bare",
+          "&::before | width: 26.25px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.25
+          }
+        ],
+        [
+          "before:text-[64px]/16",
+          "arbitrary-value",
+          "&::before | font-size: 64px",
+          "&::before | line-height: 64px"
+        ],
+        [
+          "before:text-[rgba(180,35,90,0.2)]",
+          "arbitrary-value",
+          "&::before | color: rgba(180, 35, 90, 0.2)"
+        ],
+        [
+          "before:content-['“']",
+          "arbitrary-value",
+          "&::before | content: \"“\""
+        ],
+        [
+          "md:[&::before]:right-164.5",
+          "bare",
+          "@media (width >= 768px) | &::before | right: 657.75px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.25
+          }
+        ],
+        [
+          "md:[&::before]:-bottom-3",
+          "bare",
+          "@media (width >= 768px) | &::before | bottom: -12px"
+        ],
+        [
+          "xl:[&::before]:right-184.5",
+          "bare",
+          "@media (width >= 1280px) | &::before | right: 737.75px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.25
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC301",
+        "TFC203",
+        "TFC203",
+        "TFC301"
+      ],
+      "exact": false
+    },
+    {
+      "name": "pre",
+      "tag": "pre",
+      "className": "mt-3.25 mb-3.25 box-content overflow-auto rounded-lg bg-[rgb(30,30,46)] p-4 font-[monospace,monospace] text-sm/[19.5px] text-[rgb(205,214,244)] md:mt-3.5 md:mb-3.5 md:pt-5 md:pr-6 md:pb-5 md:pl-6 md:text-sm/5.25",
+      "mappings": [
+        [
+          "mt-3.25",
+          "bare",
+          "margin-top: 13px"
+        ],
+        [
+          "mb-3.25",
+          "bare",
+          "margin-bottom: 13px"
+        ],
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "overflow-auto",
+          "named",
+          "overflow-x: auto",
+          "overflow-y: auto"
+        ],
+        [
+          "rounded-lg",
+          "named",
+          "border-bottom-left-radius: 8px",
+          "border-bottom-right-radius: 8px",
+          "border-top-left-radius: 8px",
+          "border-top-right-radius: 8px"
+        ],
+        [
+          "bg-[rgb(30,30,46)]",
+          "arbitrary-value",
+          "background-color: rgb(30, 30, 46)"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "font-[monospace,monospace]",
+          "arbitrary-value",
+          "font-family: monospace, monospace"
+        ],
+        [
+          "text-sm/[19.5px]",
+          "arbitrary-value",
+          "font-size: 13px",
+          "line-height: 19.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1
+          }
+        ],
+        [
+          "text-[rgb(205,214,244)]",
+          "arbitrary-value",
+          "color: rgb(205, 214, 244)"
+        ],
+        [
+          "md:mt-3.5",
+          "bare",
+          "@media (width >= 768px) | margin-top: 14px"
+        ],
+        [
+          "md:mb-3.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 14px"
+        ],
+        [
+          "md:pt-5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 20px"
+        ],
+        [
+          "md:pr-6",
+          "bare",
+          "@media (width >= 768px) | padding-right: 24px"
+        ],
+        [
+          "md:pb-5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 20px"
+        ],
+        [
+          "md:pl-6",
+          "bare",
+          "@media (width >= 768px) | padding-left: 24px"
+        ],
+        [
+          "md:text-sm/5.25",
+          "named",
+          "@media (width >= 768px) | font-size: 14px",
+          "@media (width >= 768px) | line-height: 21px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "subscribe",
+      "tag": "button",
+      "className": "h-10 w-25.5 cursor-pointer rounded-md bg-[rgb(180,35,90)] px-4.5 py-2.5 font-[system-ui,sans-serif] text-sm/[normal] font-semibold text-white [transition-property:background-color] duration-150 hover:bg-[rgb(143,28,72)] focus-visible:outline-offset-2 focus-visible:outline-[rgba(180,35,90,0.4)] focus-visible:outline-solid",
+      "mappings": [
+        [
+          "h-10",
+          "bare",
+          "height: 40px"
+        ],
+        [
+          "w-25.5",
+          "bare",
+          "width: 101.969px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.031
+          }
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-[rgb(180,35,90)]",
+          "arbitrary-value",
+          "background-color: rgb(180, 35, 90)"
+        ],
+        [
+          "px-4.5",
+          "bare",
+          "padding-left: 18px",
+          "padding-right: 18px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-2.5",
+          "bare",
+          "padding-bottom: 10px",
+          "padding-top: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "font-[system-ui,sans-serif]",
+          "arbitrary-value",
+          "font-family: system-ui, sans-serif"
+        ],
+        [
+          "text-sm/[normal]",
+          "arbitrary-value",
+          "font-size: 15px",
+          "line-height: normal",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1
+          }
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color]",
+          "arbitrary-property",
+          "transition-property: background-color"
+        ],
+        [
+          "duration-150",
+          "bare",
+          "transition-duration: 0.15s"
+        ],
+        [
+          "hover:bg-[rgb(143,28,72)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(143, 28, 72)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-[rgba(180,35,90,0.4)]",
+          "arbitrary-value",
+          "&:focus-visible | outline-color: rgba(180, 35, 90, 0.4)"
+        ],
+        [
+          "focus-visible:outline-solid",
+          "named",
+          "&:focus-visible | outline-style: solid"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC202",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "footer",
+      "tag": "footer",
+      "className": "box-content h-5.5 border-t border-t-taupe-100 py-8 pr-5 pl-5 text-center text-sm/[22.4px] text-neutral-500 xl:mx-65 xl:max-w-190 xl:pr-0 xl:pl-0 xl:text-left",
+      "mappings": [
+        [
+          "box-content",
+          "named",
+          "box-sizing: content-box"
+        ],
+        [
+          "h-5.5",
+          "bare",
+          "height: 22.3906px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.3906
+          }
+        ],
+        [
+          "border-t",
+          "named",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-t-taupe-100",
+          "bare",
+          "border-top-color: rgb(238, 238, 238)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0111
+          }
+        ],
+        [
+          "py-8",
+          "bare",
+          "padding-bottom: 32px",
+          "padding-top: 32px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "pr-5",
+          "bare",
+          "padding-right: 20px"
+        ],
+        [
+          "pl-5",
+          "bare",
+          "padding-left: 20px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-sm/[22.4px]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: 22.4px"
+        ],
+        [
+          "text-neutral-500",
+          "bare",
+          "color: rgb(118, 118, 118)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0098
+          }
+        ],
+        [
+          "xl:mx-65",
+          "bare",
+          "@media (width >= 1280px) | margin-left: 260px",
+          "@media (width >= 1280px) | margin-right: 260px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "xl:max-w-190",
+          "bare",
+          "@media (width >= 1280px) | max-width: 760px"
+        ],
+        [
+          "xl:pr-0",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 0px"
+        ],
+        [
+          "xl:pl-0",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 0px"
+        ],
+        [
+          "xl:text-left",
+          "named",
+          "@media (width >= 1280px) | text-align: left"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    }
+  ]
+}

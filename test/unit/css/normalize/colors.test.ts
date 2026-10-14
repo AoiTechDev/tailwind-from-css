@@ -292,11 +292,18 @@ describe('color difference (ΔE OK, for color-nearest)', () => {
     })
   })
 
-  it('has no answer unless both are one color with every channel present', () => {
+  it('has no answer unless both are one color', () => {
     expect(colorDifference('16px', red500)).toBeUndefined()
     expect(colorDifference(red500, 'linear-gradient(red, blue)')).toBeUndefined()
-    expect(colorDifference(color('rgb(none 0 0)'), red500)).toBeUndefined()
+  })
+
+  // Tailwind 4.3 writes its achromatic palettes with a missing hue (`oklch(55.6% 0 none)`).
+  it('reads a missing channel as 0, the way the color renders', () => {
+    const neutral500 = color('oklch(55.6% 0 none)')
+    expect(colorDifference(neutral500, color('oklch(55.6% 0 0)'))?.distance).toBe(0)
+    expect(colorDifference(color('#767676'), neutral500)?.distance).toBeCloseTo(0.0098, 4)
+    expect(colorDifference(color('rgb(none 0 0)'), color('black'))?.distance).toBe(0)
     // Again, from the cache.
-    expect(colorDifference(color('rgb(none 0 0)'), red500)).toBeUndefined()
+    expect(colorDifference(color('rgb(none 0 0)'), color('black'))?.distance).toBe(0)
   })
 })

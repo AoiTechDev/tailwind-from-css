@@ -286,6 +286,12 @@ describe('each relaxation fires only when enabled', () => {
     expect(convert(loose, { declarations: 'color: #ef4444' }).exact).toBe(false)
   })
 
+  it('color-nearest: a grey snaps to the achromatic palette, whose hue is missing in 4.3', () => {
+    expect(convert(only('color-nearest'), { declarations: 'color: #767676' }).className).toBe(
+      'text-neutral-500',
+    )
+  })
+
   it('length-nearest: a theme value or a spacing step of 0.5, within both limits', () => {
     const result = firesOnlyWhenEnabled(
       'length-nearest',
@@ -416,6 +422,15 @@ describe('nearest mode', () => {
     ])
     expect(codes(result).filter((code) => code === 'TFC203')).toHaveLength(5)
     expect(result.exact).toBe(false)
+  })
+
+  it('an arbitrary size takes the exact line-height as its modifier instead of a near one', () => {
+    const input = { declarations: 'font-size: 44px; line-height: 50.6px' }
+    expect(convert({}, input).className).toBe('text-[44px]/[50.6px]')
+    const result = convert({ mode: 'nearest' }, input)
+    expect(result.className).toBe('text-[44px]/[50.6px]')
+    expect(relaxed(result)).toEqual([])
+    expect(result.exact).toBe(true)
   })
 
   it('verifies against the relaxed target: no fallback, every class compiles', () => {

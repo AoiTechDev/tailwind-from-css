@@ -1,0 +1,961 @@
+{
+  "elements": [
+    {
+      "name": "body",
+      "tag": "body",
+      "className": "bg-gray-50 [-webkit-font-smoothing:antialiased]",
+      "mappings": [
+        [
+          "bg-gray-50",
+          "bare",
+          "background-color: oklch(0.985 0.002 247.839)"
+        ],
+        [
+          "[-webkit-font-smoothing:antialiased]",
+          "arbitrary-property",
+          "-webkit-font-smoothing: antialiased"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "header",
+      "tag": "header",
+      "className": "flex flex-col gap-2 border-b border-gray-200 bg-white py-3 pr-4 pl-4 md:flex-row md:items-center md:justify-between xl:pr-8 xl:pl-8",
+      "mappings": [
+        [
+          "flex",
+          "named",
+          "display: flex"
+        ],
+        [
+          "flex-col",
+          "named",
+          "flex-direction: column"
+        ],
+        [
+          "gap-2",
+          "bare",
+          "column-gap: 8px",
+          "row-gap: 8px"
+        ],
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-gray-200",
+          "bare",
+          "border-bottom-color: oklch(0.928 0.006 264.531)",
+          "border-left-color: oklch(0.928 0.006 264.531)",
+          "border-right-color: oklch(0.928 0.006 264.531)",
+          "border-top-color: oklch(0.928 0.006 264.531)"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "py-3",
+          "bare",
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "md:flex-row",
+          "named",
+          "@media (width >= 768px) | flex-direction: row"
+        ],
+        [
+          "md:items-center",
+          "named",
+          "@media (width >= 768px) | align-items: center"
+        ],
+        [
+          "md:justify-between",
+          "named",
+          "@media (width >= 768px) | justify-content: space-between"
+        ],
+        [
+          "xl:pr-8",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 32px"
+        ],
+        [
+          "xl:pl-8",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 32px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "brand",
+      "tag": "a",
+      "className": "h-7 text-lg/7 font-bold tracking-[-0.45px] text-gray-900 hover:text-indigo-600",
+      "mappings": [
+        [
+          "h-7",
+          "bare",
+          "height: 28px"
+        ],
+        [
+          "text-lg/7",
+          "named",
+          "font-size: 18px",
+          "line-height: 28px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.45px]",
+          "arbitrary-value",
+          "letter-spacing: -0.45px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "hover:text-indigo-600",
+          "bare",
+          "&:hover | color: oklch(0.511 0.262 276.966)",
+          {
+            "relaxation": "hover-media"
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "nav-link",
+      "tag": "a",
+      "className": "w-12.5 font-medium text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4",
+      "mappings": [
+        [
+          "w-12.5",
+          "bare",
+          "width: 49.2656px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.7344
+          }
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-600",
+          "bare",
+          "color: oklch(0.446 0.03 256.802)"
+        ],
+        [
+          "hover:text-gray-900",
+          "bare",
+          "&:hover | color: oklch(0.21 0.034 264.665)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:underline",
+          "named",
+          "&:hover | text-decoration-line: underline",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:underline-offset-4",
+          "bare",
+          "&:hover | text-underline-offset: 4px",
+          {
+            "relaxation": "hover-media"
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "title",
+      "tag": "h1",
+      "className": "text-3xl/9 font-bold tracking-[-0.75px] text-gray-900 md:text-5xl/12 md:tracking-[-1.2px]",
+      "mappings": [
+        [
+          "text-3xl/9",
+          "named",
+          "font-size: 30px",
+          "line-height: 36px"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "tracking-[-0.75px]",
+          "arbitrary-value",
+          "letter-spacing: -0.75px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "md:text-5xl/12",
+          "named",
+          "@media (width >= 768px) | font-size: 48px",
+          "@media (width >= 768px) | line-height: 48px"
+        ],
+        [
+          "md:tracking-[-1.2px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | letter-spacing: -1.2px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "lead",
+      "tag": "p",
+      "className": "mt-4 max-w-2xl leading-7 text-gray-600 md:text-lg/8",
+      "mappings": [
+        [
+          "mt-4",
+          "bare",
+          "margin-top: 16px"
+        ],
+        [
+          "max-w-2xl",
+          "named",
+          "max-width: 672px"
+        ],
+        [
+          "leading-7",
+          "bare",
+          "line-height: 28px"
+        ],
+        [
+          "text-gray-600",
+          "bare",
+          "color: oklch(0.446 0.03 256.802)"
+        ],
+        [
+          "md:text-lg/8",
+          "named",
+          "@media (width >= 768px) | font-size: 18px",
+          "@media (width >= 768px) | line-height: 32px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "primary",
+      "tag": "button",
+      "className": "w-17.5 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm/5 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+      "mappings": [
+        [
+          "w-17.5",
+          "bare",
+          "width: 69.7031px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.2969
+          }
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-indigo-600",
+          "bare",
+          "background-color: oklch(0.511 0.262 276.966)"
+        ],
+        [
+          "px-3.5",
+          "bare",
+          "padding-left: 14px",
+          "padding-right: 14px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-2.5",
+          "bare",
+          "padding-bottom: 10px",
+          "padding-top: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "shadow-xs",
+          "named",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
+        ],
+        [
+          "hover:bg-indigo-500",
+          "bare",
+          "&:hover | background-color: oklch(0.585 0.233 277.117)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "focus-visible:outline-2",
+          "bare",
+          "&:focus-visible | outline-style: solid",
+          "&:focus-visible | outline-width: 2px"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "focus-visible:outline-indigo-600",
+          "bare",
+          "&:focus-visible | outline-color: oklch(0.511 0.262 276.966)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "secondary",
+      "tag": "button",
+      "className": "w-16 rounded-md bg-white px-3.5 py-2.5 text-sm/5 font-semibold text-gray-900 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklch(0.872_0.01_258.338)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px] hover:bg-gray-50",
+      "mappings": [
+        [
+          "w-16",
+          "bare",
+          "width: 63.5781px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.4219
+          }
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "px-3.5",
+          "bare",
+          "padding-left: 14px",
+          "padding-right: 14px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-2.5",
+          "bare",
+          "padding-bottom: 10px",
+          "padding-top: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklch(0.872_0.01_258.338)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.872 0.01 258.338) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        ],
+        [
+          "hover:bg-gray-50",
+          "bare",
+          "&:hover | background-color: oklch(0.985 0.002 247.839)",
+          {
+            "relaxation": "hover-media"
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "grid",
+      "tag": "div",
+      "className": "mt-10 grid gap-6",
+      "mappings": [
+        [
+          "mt-10",
+          "bare",
+          "margin-top: 40px"
+        ],
+        [
+          "grid",
+          "named",
+          "display: grid"
+        ],
+        [
+          "gap-6",
+          "bare",
+          "column-gap: 24px",
+          "row-gap: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "card",
+      "tag": "div",
+      "className": "rounded-2xl bg-white p-6 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "mappings": [
+        [
+          "rounded-2xl",
+          "named",
+          "border-bottom-left-radius: 16px",
+          "border-bottom-right-radius: 16px",
+          "border-top-left-radius: 16px",
+          "border-top-right-radius: 16px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "p-6",
+          "bare",
+          "padding-bottom: 24px",
+          "padding-left: 24px",
+          "padding-right: 24px",
+          "padding-top: 24px"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.21 -0.00316127 -0.0338527 / 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202"
+      ],
+      "exact": true
+    },
+    {
+      "name": "card-label",
+      "tag": "p",
+      "className": "h-5 text-sm/5 font-medium text-gray-500",
+      "mappings": [
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "text-sm/5",
+          "named",
+          "font-size: 14px",
+          "line-height: 20px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-500",
+          "bare",
+          "color: oklch(0.551 0.027 264.364)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "card-value",
+      "tag": "p",
+      "className": "mt-2 h-10 text-4xl/10 font-semibold tracking-[-0.9px] text-gray-900",
+      "mappings": [
+        [
+          "mt-2",
+          "bare",
+          "margin-top: 8px"
+        ],
+        [
+          "h-10",
+          "bare",
+          "height: 40px"
+        ],
+        [
+          "text-4xl/10",
+          "named",
+          "font-size: 36px",
+          "line-height: 40px"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "tracking-[-0.9px]",
+          "arbitrary-value",
+          "letter-spacing: -0.9px"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "badge",
+      "tag": "span",
+      "className": "mt-3 inline-flex h-6 w-13 items-center rounded-full bg-green-50 px-2 py-1 text-xs/4 font-medium text-green-700 [box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px] before:mr-1 before:h-4 before:w-2.5 before:content-['▲']",
+      "mappings": [
+        [
+          "mt-3",
+          "bare",
+          "margin-top: 12px"
+        ],
+        [
+          "inline-flex",
+          "named",
+          "display: inline-flex"
+        ],
+        [
+          "h-6",
+          "bare",
+          "height: 24px"
+        ],
+        [
+          "w-13",
+          "bare",
+          "width: 51.9219px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.0781
+          }
+        ],
+        [
+          "items-center",
+          "named",
+          "align-items: center"
+        ],
+        [
+          "rounded-full",
+          "named",
+          "border-bottom-left-radius: 3.35544e+07px",
+          "border-bottom-right-radius: 3.35544e+07px",
+          "border-top-left-radius: 3.35544e+07px",
+          "border-top-right-radius: 3.35544e+07px",
+          {
+            "relaxation": "pill-radius"
+          }
+        ],
+        [
+          "bg-green-50",
+          "bare",
+          "background-color: oklch(0.982 0.018 155.826)"
+        ],
+        [
+          "px-2",
+          "bare",
+          "padding-left: 8px",
+          "padding-right: 8px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-1",
+          "bare",
+          "padding-bottom: 4px",
+          "padding-top: 4px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-xs/4",
+          "named",
+          "font-size: 12px",
+          "line-height: 16px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-green-700",
+          "bare",
+          "color: oklch(0.527 0.154 150.069)"
+        ],
+        [
+          "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+          "arbitrary-property",
+          "box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.627 -0.166662 0.0992956 / 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        ],
+        [
+          "before:mr-1",
+          "bare",
+          "&::before | margin-right: 4px"
+        ],
+        [
+          "before:h-4",
+          "bare",
+          "&::before | height: 16px"
+        ],
+        [
+          "before:w-2.5",
+          "bare",
+          "&::before | width: 10.3438px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.3438
+          }
+        ],
+        [
+          "before:content-['▲']",
+          "arbitrary-value",
+          "&::before | content: \"▲\""
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC202",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "label",
+      "tag": "label",
+      "className": "block h-6 text-sm/6 font-medium text-gray-900",
+      "mappings": [
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-6",
+          "bare",
+          "height: 24px"
+        ],
+        [
+          "text-sm/6",
+          "named",
+          "font-size: 14px",
+          "line-height: 24px"
+        ],
+        [
+          "font-medium",
+          "named",
+          "font-weight: 500"
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "search",
+      "tag": "input",
+      "className": "mt-2 block h-9 rounded-md bg-white px-3 py-1.5 text-gray-900 outline -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 md:text-sm/6",
+      "mappings": [
+        [
+          "mt-2",
+          "bare",
+          "margin-top: 8px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "h-9",
+          "bare",
+          "height: 36px"
+        ],
+        [
+          "rounded-md",
+          "named",
+          "border-bottom-left-radius: 6px",
+          "border-bottom-right-radius: 6px",
+          "border-top-left-radius: 6px",
+          "border-top-right-radius: 6px"
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "px-3",
+          "bare",
+          "padding-left: 12px",
+          "padding-right: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-1.5",
+          "bare",
+          "padding-bottom: 6px",
+          "padding-top: 6px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-gray-900",
+          "bare",
+          "color: oklch(0.21 0.034 264.665)"
+        ],
+        [
+          "outline",
+          "named",
+          "outline-style: solid",
+          "outline-width: 1px"
+        ],
+        [
+          "-outline-offset-1",
+          "bare",
+          "outline-offset: -1px"
+        ],
+        [
+          "outline-gray-300",
+          "bare",
+          "outline-color: oklch(0.872 0.01 258.338)"
+        ],
+        [
+          "focus:outline-2",
+          "bare",
+          "&:focus | outline-style: solid",
+          "&:focus | outline-width: 2px"
+        ],
+        [
+          "focus:-outline-offset-2",
+          "bare",
+          "&:focus | outline-offset: -2px"
+        ],
+        [
+          "focus:outline-indigo-600",
+          "bare",
+          "&:focus | outline-color: oklch(0.511 0.262 276.966)"
+        ],
+        [
+          "md:text-sm/6",
+          "named",
+          "@media (width >= 768px) | font-size: 14px",
+          "@media (width >= 768px) | line-height: 24px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "footer",
+      "tag": "footer",
+      "className": "h-18.25 border-t border-gray-200 px-4 py-6 text-center text-sm/6 text-gray-500 md:text-left",
+      "mappings": [
+        [
+          "h-18.25",
+          "bare",
+          "height: 73px"
+        ],
+        [
+          "border-t",
+          "named",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-gray-200",
+          "bare",
+          "border-bottom-color: oklch(0.928 0.006 264.531)",
+          "border-left-color: oklch(0.928 0.006 264.531)",
+          "border-right-color: oklch(0.928 0.006 264.531)",
+          "border-top-color: oklch(0.928 0.006 264.531)"
+        ],
+        [
+          "px-4",
+          "bare",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "py-6",
+          "bare",
+          "padding-bottom: 24px",
+          "padding-top: 24px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-sm/6",
+          "named",
+          "font-size: 14px",
+          "line-height: 24px"
+        ],
+        [
+          "text-gray-500",
+          "bare",
+          "color: oklch(0.551 0.027 264.364)"
+        ],
+        [
+          "md:text-left",
+          "named",
+          "@media (width >= 768px) | text-align: left"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    }
+  ]
+}

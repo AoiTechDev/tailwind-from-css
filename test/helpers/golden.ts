@@ -17,12 +17,18 @@ interface SuiteConfig {
   readonly css?: string
   /** Directory `css` resolves from, relative to the suite directory. */
   readonly base?: string
+  /** Suite whose `<case>.capture.json` files this suite converts (same captures, other options). */
+  readonly captures?: string
+}
+
+const suiteConfig = (suite: string): SuiteConfig => {
+  const path = resolve(GOLDEN, suite, '_config.json')
+  return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {}
 }
 
 /** Converter options of a golden suite, from its optional `_config.json`. */
 export function suiteOptions(suite: string): ConverterOptions {
-  const path = resolve(GOLDEN, suite, '_config.json')
-  const config: SuiteConfig = existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {}
+  const config = suiteConfig(suite)
   const options = config.options ?? {}
   if (config.fixture === undefined) {
     if (config.css === undefined) return options
@@ -49,12 +55,14 @@ export const goldenSuites = (): string[] =>
 
 /** Case names of a suite with the given input extension, sorted. */
 export const goldenCases = (suite: string, extension: string): string[] =>
-  readdirSync(resolve(GOLDEN, suite))
+  readdirSync(resolve(GOLDEN, extension === CAPTURE ? captureSuite(suite) : suite))
     .filter((file) => file.endsWith(extension))
     .map((file) => file.slice(0, -extension.length))
     .sort()
 
 export const CAPTURE = '.capture.json'
+
+const captureSuite = (suite: string): string => suiteConfig(suite).captures ?? suite
 
 type Style = Record<string, string>
 
@@ -167,7 +175,7 @@ function responsive(
  */
 export function capturedElements(suite: string, name: string): CapturedElement[] {
   const capture: Capture = JSON.parse(
-    readFileSync(resolve(GOLDEN, suite, `${name}${CAPTURE}`), 'utf8'),
+    readFileSync(resolve(GOLDEN, captureSuite(suite), `${name}${CAPTURE}`), 'utf8'),
   )
   const resolved = new Map<string, Style>()
   const style = (id: string): Style => {

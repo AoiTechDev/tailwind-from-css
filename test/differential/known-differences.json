@@ -11,6 +11,16 @@
       "tailwind": "p-[calc(var(--x)*0.5)_0]",
       "reasons": ["calc"]
     },
+    "computed-nearest/tailwind-app.capture.json badge": {
+      "ours": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+      "tailwind": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956/0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
+      "reasons": ["slash"]
+    },
+    "computed-nearest/tailwind-app.capture.json card": {
+      "ours": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527_/_0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "tailwind": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.21_-0.00316127_-0.0338527/0.05)_0px_0px_0px_1px,rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.1)_0px_1px_2px_-1px]",
+      "reasons": ["slash"]
+    },
     "computed/tailwind-app.capture.json badge": {
       "ours": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956_/_0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",
       "tailwind": "[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px,oklab(0.627_-0.166662_0.0992956/0.2)_0px_0px_0px_1px_inset,rgba(0,0,0,0)_0px_0px_0px_0px]",

@@ -918,7 +918,8 @@ function hintedOptions(
 
 // `text-[18.2px] leading-7` → `text-[18.2px]/7`: a variable or arbitrary value of a root that takes
 // modifiers gets one for a longhand another class sets alone, when the modified class sets exactly
-// both. Relaxed classes stay as they are.
+// both. A relaxed class stays as it is; a near one it absorbs gives up its relaxation, since the
+// modifier carries the input's value (`text-[44px] leading-12.5` → `text-[44px]/[50.6px]`).
 function mergeModifiers(group: Group): void {
   for (const match of [...group.matches]) {
     const option = group.accepted.get(match)
@@ -926,7 +927,8 @@ function mergeModifiers(group: Group): void {
     if (option === undefined || root?.modifiers !== true || group.relaxed.has(match)) continue
     let best: { readonly option: Option; readonly other: Match } | undefined
     for (const other of group.matches) {
-      if (other === match || other.declarations.length !== 1 || group.relaxed.has(other)) continue
+      if (other === match || other.declarations.length !== 1 || addsLonghands(group, other))
+        continue
       const position = other.declarations[0] as number
       const declaration = group.declarations[position] as MatchDeclaration
       if (!root.longhands.includes(declaration.property)) continue
@@ -948,10 +950,14 @@ function mergeModifiers(group: Group): void {
     for (const replaced of [match, best.other]) {
       group.matches.splice(group.matches.indexOf(replaced), 1)
       group.accepted.delete(replaced)
+      group.relaxed.delete(replaced)
     }
     accept(group, best.option)
   }
 }
+
+const addsLonghands = (group: Group, match: Match): boolean =>
+  group.relaxed.get(match)?.some((target) => target.position === undefined) === true
 
 /**
  * Bare values a functional root may accept for `value` (SPEC §5.4 step 3.2): a multiple of 0.25

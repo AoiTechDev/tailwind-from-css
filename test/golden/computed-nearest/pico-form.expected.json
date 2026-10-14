@@ -1,0 +1,2259 @@
+{
+  "elements": [
+    {
+      "name": "root",
+      "tag": "html",
+      "className": "bg-white bg-no-repeat font-[system-ui,'Segoe_UI',Roboto,Oxygen,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica_Neue',sans-serif,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] wrap-break-word text-zinc-700 underline-offset-[1.6px] scheme-light [text-rendering:optimizelegibility] md:text-lg/6.75 md:underline-offset-[1.8px] xl:text-xl/7.5 xl:underline-offset-2",
+      "mappings": [
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "font-[system-ui,'Segoe_UI',Roboto,Oxygen,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica_Neue',sans-serif,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji']",
+          "arbitrary-value",
+          "font-family: system-ui, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, Helvetica, Arial, \"Helvetica Neue\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+        ],
+        [
+          "wrap-break-word",
+          "named",
+          "overflow-wrap: break-word"
+        ],
+        [
+          "text-zinc-700",
+          "bare",
+          "color: rgb(55, 60, 68)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0169
+          }
+        ],
+        [
+          "underline-offset-[1.6px]",
+          "arbitrary-value",
+          "text-underline-offset: 1.6px"
+        ],
+        [
+          "scheme-light",
+          "named",
+          "color-scheme: light"
+        ],
+        [
+          "[text-rendering:optimizelegibility]",
+          "arbitrary-property",
+          "text-rendering: optimizelegibility"
+        ],
+        [
+          "md:text-lg/6.75",
+          "named",
+          "@media (width >= 768px) | font-size: 18px",
+          "@media (width >= 768px) | line-height: 27px"
+        ],
+        [
+          "md:underline-offset-[1.8px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | text-underline-offset: 1.8px"
+        ],
+        [
+          "xl:text-xl/7.5",
+          "named",
+          "@media (width >= 1280px) | font-size: 20px",
+          "@media (width >= 1280px) | line-height: 30px"
+        ],
+        [
+          "xl:underline-offset-2",
+          "bare",
+          "@media (width >= 1280px) | text-underline-offset: 2px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "heading",
+      "tag": "h2",
+      "className": "mb-4 bg-no-repeat text-3xl/[32.2px] font-bold md:mb-4.5 md:text-3xl/[36.225px] xl:mb-5 xl:text-4xl/[40.25px]",
+      "mappings": [
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "text-3xl/[32.2px]",
+          "arbitrary-value",
+          "font-size: 28px",
+          "line-height: 32.2px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 2
+          }
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:text-3xl/[36.225px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 31.5px",
+          "@media (width >= 768px) | line-height: 36.225px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1.5
+          }
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:text-4xl/[40.25px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 35px",
+          "@media (width >= 1280px) | line-height: 40.25px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "grid",
+      "tag": "div",
+      "className": "grid gap-4 bg-no-repeat md:gap-4.5 xl:gap-5",
+      "mappings": [
+        [
+          "grid",
+          "named",
+          "display: grid"
+        ],
+        [
+          "gap-4",
+          "bare",
+          "column-gap: 16px",
+          "row-gap: 16px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "md:gap-4.5",
+          "bare",
+          "@media (width >= 768px) | column-gap: 18px",
+          "@media (width >= 768px) | row-gap: 18px"
+        ],
+        [
+          "xl:gap-5",
+          "bare",
+          "@media (width >= 1280px) | column-gap: 20px",
+          "@media (width >= 1280px) | row-gap: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [],
+      "exact": true
+    },
+    {
+      "name": "name-label",
+      "tag": "label",
+      "className": "mb-1.5 min-w-0 bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "mappings": [
+        [
+          "mb-1.5",
+          "bare",
+          "margin-bottom: 6px"
+        ],
+        [
+          "min-w-0",
+          "bare",
+          "min-width: 0px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "md:mb-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-bottom: 6.75px"
+        ],
+        [
+          "xl:mb-2",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "name",
+      "tag": "input",
+      "className": "mt-1 mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mt-[4.5px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mt-1.25 xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "mappings": [
+        [
+          "mt-1",
+          "bare",
+          "margin-top: 4px"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "appearance-none",
+          "named",
+          "appearance: none"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-slate-300",
+          "bare",
+          "border-bottom-color: rgb(207, 213, 226)",
+          "border-left-color: rgb(207, 213, 226)",
+          "border-right-color: rgb(207, 213, 226)",
+          "border-top-color: rgb(207, 213, 226)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0064
+          }
+        ],
+        [
+          "bg-mist-50",
+          "bare",
+          "background-color: rgb(251, 252, 252)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0034
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-zinc-800",
+          "bare",
+          "color: rgb(35, 38, 44)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.009
+          }
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "focus:border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "&:focus | border-bottom-color: rgb(1, 114, 173)",
+          "&:focus | border-left-color: rgb(1, 114, 173)",
+          "&:focus | border-right-color: rgb(1, 114, 173)",
+          "&:focus | border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "focus:bg-white",
+          "named",
+          "&:focus | background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px]",
+          "arbitrary-property",
+          "&:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1px"
+        ],
+        [
+          "md:mt-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-top: 4.5px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.125px"
+        ],
+        [
+          "xl:mt-1.25",
+          "bare",
+          "@media (width >= 1280px) | margin-top: 5px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ],
+        [
+          "xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "bio",
+      "tag": "textarea",
+      "className": "mb-4 block appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "mappings": [
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "appearance-none",
+          "named",
+          "appearance: none"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-slate-300",
+          "bare",
+          "border-bottom-color: rgb(207, 213, 226)",
+          "border-left-color: rgb(207, 213, 226)",
+          "border-right-color: rgb(207, 213, 226)",
+          "border-top-color: rgb(207, 213, 226)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0064
+          }
+        ],
+        [
+          "bg-mist-50",
+          "bare",
+          "background-color: rgb(251, 252, 252)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0034
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-zinc-800",
+          "bare",
+          "color: rgb(35, 38, 44)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.009
+          }
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "focus:border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "&:focus | border-bottom-color: rgb(1, 114, 173)",
+          "&:focus | border-left-color: rgb(1, 114, 173)",
+          "&:focus | border-right-color: rgb(1, 114, 173)",
+          "&:focus | border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "focus:bg-white",
+          "named",
+          "&:focus | background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px]",
+          "arbitrary-property",
+          "&:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.125px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ],
+        [
+          "xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus | box-shadow: rgb(1, 114, 173) 0px 0px 0px 1.25px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "switch",
+      "tag": "input",
+      "className": "-mt-0.5 mr-2 h-5 w-9 cursor-pointer appearance-none rounded-[20px] [border-top-width:3px] [border-right-width:3px] [border-bottom-width:3px] [border-left-width:3px] border-solid border-[rgb(191,199,217)] bg-[rgb(191,199,217)] bg-no-repeat align-middle leading-5 text-white accent-[rgb(1,114,173)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] before:block before:aspect-square before:size-3.5 before:rounded-[50%] before:bg-white before:bg-no-repeat before:align-middle before:[transition-property:margin] before:duration-100 before:ease-[ease-in-out] before:content-[''] focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px] focus-visible:outline-offset-2 md:mt-[-2.25px] md:mr-2.25 md:h-5.5 md:w-10 md:rounded-3xl md:leading-5.5 md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:mt-[-2.5px] xl:mr-2.5 xl:h-6.25 xl:w-11.25 xl:rounded-3xl xl:leading-6.25 xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px] md:[&::before]:size-4 xl:[&::before]:size-4.75",
+      "mappings": [
+        [
+          "-mt-0.5",
+          "bare",
+          "margin-top: -2px"
+        ],
+        [
+          "mr-2",
+          "bare",
+          "margin-right: 8px"
+        ],
+        [
+          "h-5",
+          "bare",
+          "height: 20px"
+        ],
+        [
+          "w-9",
+          "bare",
+          "width: 36px"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "appearance-none",
+          "named",
+          "appearance: none"
+        ],
+        [
+          "rounded-[20px]",
+          "arbitrary-value",
+          "border-bottom-left-radius: 20px",
+          "border-bottom-right-radius: 20px",
+          "border-top-left-radius: 20px",
+          "border-top-right-radius: 20px"
+        ],
+        [
+          "[border-top-width:3px]",
+          "arbitrary-property",
+          "border-top-width: 3px"
+        ],
+        [
+          "[border-right-width:3px]",
+          "arbitrary-property",
+          "border-right-width: 3px"
+        ],
+        [
+          "[border-bottom-width:3px]",
+          "arbitrary-property",
+          "border-bottom-width: 3px"
+        ],
+        [
+          "[border-left-width:3px]",
+          "arbitrary-property",
+          "border-left-width: 3px"
+        ],
+        [
+          "border-solid",
+          "named",
+          "border-bottom-style: solid",
+          "border-left-style: solid",
+          "border-right-style: solid",
+          "border-top-style: solid"
+        ],
+        [
+          "border-[rgb(191,199,217)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(191, 199, 217)",
+          "border-left-color: rgb(191, 199, 217)",
+          "border-right-color: rgb(191, 199, 217)",
+          "border-top-color: rgb(191, 199, 217)"
+        ],
+        [
+          "bg-[rgb(191,199,217)]",
+          "arbitrary-value",
+          "background-color: rgb(191, 199, 217)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "align-middle",
+          "named",
+          "vertical-align: middle"
+        ],
+        [
+          "leading-5",
+          "bare",
+          "line-height: 20px"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "accent-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "accent-color: rgb(1, 114, 173)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "before:block",
+          "named",
+          "&::before | display: block"
+        ],
+        [
+          "before:aspect-square",
+          "named",
+          "&::before | aspect-ratio: 1 / 1"
+        ],
+        [
+          "before:size-3.5",
+          "bare",
+          "&::before | height: 14px",
+          "&::before | width: 14px"
+        ],
+        [
+          "before:rounded-[50%]",
+          "arbitrary-value",
+          "&::before | border-bottom-left-radius: 50%",
+          "&::before | border-bottom-right-radius: 50%",
+          "&::before | border-top-left-radius: 50%",
+          "&::before | border-top-right-radius: 50%"
+        ],
+        [
+          "before:bg-white",
+          "named",
+          "&::before | background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "before:bg-no-repeat",
+          "named",
+          "&::before | background-repeat: no-repeat"
+        ],
+        [
+          "before:align-middle",
+          "named",
+          "&::before | vertical-align: middle"
+        ],
+        [
+          "before:[transition-property:margin]",
+          "arbitrary-property",
+          "&::before | transition-property: margin"
+        ],
+        [
+          "before:duration-100",
+          "bare",
+          "&::before | transition-duration: 0.1s"
+        ],
+        [
+          "before:ease-[ease-in-out]",
+          "arbitrary-value",
+          "&::before | transition-timing-function: ease-in-out"
+        ],
+        [
+          "before:content-['']",
+          "arbitrary-value",
+          "&::before | content: \"\""
+        ],
+        [
+          "focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px]",
+          "arbitrary-property",
+          "&:focus-visible | box-shadow: rgba(2, 154, 232, 0.5) 0px 0px 0px 2px"
+        ],
+        [
+          "focus-visible:outline-offset-2",
+          "bare",
+          "&:focus-visible | outline-offset: 2px"
+        ],
+        [
+          "md:mt-[-2.25px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-top: -2.25px"
+        ],
+        [
+          "md:mr-2.25",
+          "bare",
+          "@media (width >= 768px) | margin-right: 9px"
+        ],
+        [
+          "md:h-5.5",
+          "bare",
+          "@media (width >= 768px) | height: 22.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:w-10",
+          "bare",
+          "@media (width >= 768px) | width: 40.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:rounded-3xl",
+          "named",
+          "@media (width >= 768px) | border-bottom-left-radius: 22.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 22.5px",
+          "@media (width >= 768px) | border-top-left-radius: 22.5px",
+          "@media (width >= 768px) | border-top-right-radius: 22.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1.5
+          }
+        ],
+        [
+          "md:leading-5.5",
+          "bare",
+          "@media (width >= 768px) | line-height: 22.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus-visible | box-shadow: rgba(2, 154, 232, 0.5) 0px 0px 0px 2.25px"
+        ],
+        [
+          "xl:mt-[-2.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | margin-top: -2.5px"
+        ],
+        [
+          "xl:mr-2.5",
+          "bare",
+          "@media (width >= 1280px) | margin-right: 10px"
+        ],
+        [
+          "xl:h-6.25",
+          "bare",
+          "@media (width >= 1280px) | height: 25px"
+        ],
+        [
+          "xl:w-11.25",
+          "bare",
+          "@media (width >= 1280px) | width: 45px"
+        ],
+        [
+          "xl:rounded-3xl",
+          "named",
+          "@media (width >= 1280px) | border-bottom-left-radius: 25px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 25px",
+          "@media (width >= 1280px) | border-top-left-radius: 25px",
+          "@media (width >= 1280px) | border-top-right-radius: 25px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 1
+          }
+        ],
+        [
+          "xl:leading-6.25",
+          "bare",
+          "@media (width >= 1280px) | line-height: 25px"
+        ],
+        [
+          "xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus-visible | box-shadow: rgba(2, 154, 232, 0.5) 0px 0px 0px 2.5px"
+        ],
+        [
+          "md:[&::before]:size-4",
+          "bare",
+          "@media (width >= 768px) | &::before | height: 16.5px",
+          "@media (width >= 768px) | &::before | width: 16.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "xl:[&::before]:size-4.75",
+          "bare",
+          "@media (width >= 1280px) | &::before | height: 19px",
+          "@media (width >= 1280px) | &::before | width: 19px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202",
+        "TFC202",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC202",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC203",
+        "TFC301",
+        "TFC301"
+      ],
+      "exact": false
+    },
+    {
+      "name": "switch-label",
+      "tag": "label",
+      "className": "mb-1.5 block cursor-pointer bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "mappings": [
+        [
+          "mb-1.5",
+          "bare",
+          "margin-bottom: 6px"
+        ],
+        [
+          "block",
+          "named",
+          "display: block"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "md:mb-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-bottom: 6.75px"
+        ],
+        [
+          "xl:mb-2",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "group",
+      "tag": "div",
+      "className": "relative mb-4 inline-flex rounded-sm bg-no-repeat align-middle [transition-property:box-shadow] duration-200 ease-[ease-in-out] md:mb-4.5 md:rounded-[4.5px] xl:mb-5 xl:rounded-[5px]",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "inline-flex",
+          "named",
+          "display: inline-flex"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "align-middle",
+          "named",
+          "vertical-align: middle"
+        ],
+        [
+          "[transition-property:box-shadow]",
+          "arbitrary-property",
+          "transition-property: box-shadow"
+        ],
+        [
+          "duration-200",
+          "bare",
+          "transition-duration: 0.2s"
+        ],
+        [
+          "ease-[ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201"
+      ],
+      "exact": true
+    },
+    {
+      "name": "save",
+      "tag": "button",
+      "className": "relative grow cursor-pointer rounded-l-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:rounded-l-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:rounded-l-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "grow",
+          "named",
+          "flex-grow: 1"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-l-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-top-left-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(1, 114, 173)",
+          "border-left-color: rgb(1, 114, 173)",
+          "border-right-color: rgb(1, 114, 173)",
+          "border-top-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-[rgb(1,114,173)]",
+          "arbitrary-value",
+          "background-color: rgb(1, 114, 173)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-8",
+          "bare",
+          "padding-right: 32px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-8",
+          "bare",
+          "padding-left: 32px"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:border-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | border-bottom-color: rgb(2, 101, 154)",
+          "&:hover | border-left-color: rgb(2, 101, 154)",
+          "&:hover | border-right-color: rgb(2, 101, 154)",
+          "&:hover | border-top-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:bg-[rgb(2,101,154)]",
+          "arbitrary-value",
+          "&:hover | background-color: rgb(2, 101, 154)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:rounded-l-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-9",
+          "bare",
+          "@media (width >= 768px) | padding-right: 36px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-9",
+          "bare",
+          "@media (width >= 768px) | padding-left: 36px"
+        ],
+        [
+          "xl:rounded-l-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-10",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 40px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-10",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 40px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "reset",
+      "tag": "button",
+      "className": "relative -ml-px grow cursor-pointer rounded-r-sm border border-[rgb(82,95,122)] bg-[rgb(82,95,122)] bg-no-repeat pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-slate-600 hover:bg-slate-600 md:ml-[-1.125px] md:rounded-r-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:ml-[-1.25px] xl:rounded-r-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "mappings": [
+        [
+          "relative",
+          "named",
+          "position: relative"
+        ],
+        [
+          "-ml-px",
+          "named",
+          "margin-left: -1px"
+        ],
+        [
+          "grow",
+          "named",
+          "flex-grow: 1"
+        ],
+        [
+          "cursor-pointer",
+          "named",
+          "cursor: pointer"
+        ],
+        [
+          "rounded-r-sm",
+          "named",
+          "border-bottom-right-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-[rgb(82,95,122)]",
+          "arbitrary-value",
+          "border-bottom-color: rgb(82, 95, 122)",
+          "border-left-color: rgb(82, 95, 122)",
+          "border-right-color: rgb(82, 95, 122)",
+          "border-top-color: rgb(82, 95, 122)"
+        ],
+        [
+          "bg-[rgb(82,95,122)]",
+          "arbitrary-value",
+          "background-color: rgb(82, 95, 122)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-8",
+          "bare",
+          "padding-right: 32px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-8",
+          "bare",
+          "padding-left: 32px"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:border-slate-600",
+          "bare",
+          "&:hover | border-bottom-color: rgb(72, 83, 107)",
+          "&:hover | border-left-color: rgb(72, 83, 107)",
+          "&:hover | border-right-color: rgb(72, 83, 107)",
+          "&:hover | border-top-color: rgb(72, 83, 107)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:bg-slate-600",
+          "bare",
+          "&:hover | background-color: rgb(72, 83, 107)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "md:ml-[-1.125px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | margin-left: -1.125px"
+        ],
+        [
+          "md:rounded-r-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-9",
+          "bare",
+          "@media (width >= 768px) | padding-right: 36px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-9",
+          "bare",
+          "@media (width >= 768px) | padding-left: 36px"
+        ],
+        [
+          "xl:ml-[-1.25px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | margin-left: -1.25px"
+        ],
+        [
+          "xl:rounded-r-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-10",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 40px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-10",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 40px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "quote",
+      "tag": "blockquote",
+      "className": "mt-4 mb-4 border-l-4 border-l-slate-200 bg-no-repeat p-4 md:mt-4.5 md:mb-4.5 md:p-4.5 xl:mt-5 xl:mb-5 xl:[border-left-width:5px] xl:p-5",
+      "mappings": [
+        [
+          "mt-4",
+          "bare",
+          "margin-top: 16px"
+        ],
+        [
+          "mb-4",
+          "bare",
+          "margin-bottom: 16px"
+        ],
+        [
+          "border-l-4",
+          "bare",
+          "border-left-style: solid",
+          "border-left-width: 4px"
+        ],
+        [
+          "border-l-slate-200",
+          "bare",
+          "border-left-color: rgb(231, 234, 240)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0088
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "p-4",
+          "bare",
+          "padding-bottom: 16px",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          "padding-top: 16px"
+        ],
+        [
+          "md:mt-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-top: 18px"
+        ],
+        [
+          "md:mb-4.5",
+          "bare",
+          "@media (width >= 768px) | margin-bottom: 18px"
+        ],
+        [
+          "md:p-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 18px",
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
+          "@media (width >= 768px) | padding-top: 18px"
+        ],
+        [
+          "xl:mt-5",
+          "bare",
+          "@media (width >= 1280px) | margin-top: 20px"
+        ],
+        [
+          "xl:mb-5",
+          "bare",
+          "@media (width >= 1280px) | margin-bottom: 20px"
+        ],
+        [
+          "xl:[border-left-width:5px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | border-left-width: 5px"
+        ],
+        [
+          "xl:p-5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 20px",
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          "@media (width >= 1280px) | padding-top: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "kbd",
+      "tag": "kbd",
+      "className": "inline-block rounded-sm bg-zinc-700 p-1.5 font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] text-sm/[normal] font-bold text-white md:rounded-[4.5px] md:p-[6.75px] md:text-[15.75px] xl:rounded-[5px] xl:p-2 xl:text-[17.5px]",
+      "mappings": [
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "bg-zinc-700",
+          "bare",
+          "background-color: rgb(55, 60, 68)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0169
+          }
+        ],
+        [
+          "p-1.5",
+          "bare",
+          "padding-bottom: 6px",
+          "padding-left: 6px",
+          "padding-right: 6px",
+          "padding-top: 6px"
+        ],
+        [
+          "font-[ui-monospace,SFMono-Regular,'SF_Mono',Menlo,Consolas,'Liberation_Mono',monospace,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji']",
+          "arbitrary-value",
+          "font-family: ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, \"Liberation Mono\", monospace, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+        ],
+        [
+          "text-sm/[normal]",
+          "arbitrary-value",
+          "font-size: 14px",
+          "line-height: normal"
+        ],
+        [
+          "font-bold",
+          "named",
+          "font-weight: 700"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:p-[6.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | padding-bottom: 6.75px",
+          "@media (width >= 768px) | padding-left: 6.75px",
+          "@media (width >= 768px) | padding-right: 6.75px",
+          "@media (width >= 768px) | padding-top: 6.75px"
+        ],
+        [
+          "md:text-[15.75px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | font-size: 15.75px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:p-2",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 7.5px",
+          "@media (width >= 1280px) | padding-left: 7.5px",
+          "@media (width >= 1280px) | padding-right: 7.5px",
+          "@media (width >= 1280px) | padding-top: 7.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "xl:text-[17.5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | font-size: 17.5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC201",
+        "TFC203"
+      ],
+      "exact": false
+    },
+    {
+      "name": "contrast",
+      "tag": "a",
+      "className": "inline-block rounded-sm border border-mist-900 bg-mist-900 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-black hover:bg-black focus-visible:border-black focus-visible:bg-black focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px] focus-visible:outline-offset-1 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
+      "mappings": [
+        [
+          "inline-block",
+          "named",
+          "display: inline-block"
+        ],
+        [
+          "rounded-sm",
+          "named",
+          "border-bottom-left-radius: 4px",
+          "border-bottom-right-radius: 4px",
+          "border-top-left-radius: 4px",
+          "border-top-right-radius: 4px"
+        ],
+        [
+          "border",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px",
+          "border-left-style: solid",
+          "border-left-width: 1px",
+          "border-right-style: solid",
+          "border-right-width: 1px",
+          "border-top-style: solid",
+          "border-top-width: 1px"
+        ],
+        [
+          "border-mist-900",
+          "bare",
+          "border-bottom-color: rgb(24, 28, 37)",
+          "border-left-color: rgb(24, 28, 37)",
+          "border-right-color: rgb(24, 28, 37)",
+          "border-top-color: rgb(24, 28, 37)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0162
+          }
+        ],
+        [
+          "bg-mist-900",
+          "bare",
+          "background-color: rgb(24, 28, 37)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0162
+          }
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-3",
+          "bare",
+          "padding-top: 12px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-3",
+          "bare",
+          "padding-bottom: 12px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-center",
+          "named",
+          "text-align: center"
+        ],
+        [
+          "text-white",
+          "named",
+          "color: rgb(255, 255, 255)"
+        ],
+        [
+          "[transition-property:background-color,border-color,color,box-shadow]",
+          "arbitrary-property",
+          "transition-property: background-color, border-color, color, box-shadow"
+        ],
+        [
+          "duration-[0.2s,0.2s,0.2s,0.2s]",
+          "arbitrary-value",
+          "transition-duration: 0.2s, 0.2s, 0.2s, 0.2s"
+        ],
+        [
+          "ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out]",
+          "arbitrary-value",
+          "transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out"
+        ],
+        [
+          "select-none",
+          "named",
+          "user-select: none"
+        ],
+        [
+          "hover:border-black",
+          "named",
+          "&:hover | border-bottom-color: rgb(0, 0, 0)",
+          "&:hover | border-left-color: rgb(0, 0, 0)",
+          "&:hover | border-right-color: rgb(0, 0, 0)",
+          "&:hover | border-top-color: rgb(0, 0, 0)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "hover:bg-black",
+          "named",
+          "&:hover | background-color: rgb(0, 0, 0)",
+          {
+            "relaxation": "hover-media"
+          }
+        ],
+        [
+          "focus-visible:border-black",
+          "named",
+          "&:focus-visible | border-bottom-color: rgb(0, 0, 0)",
+          "&:focus-visible | border-left-color: rgb(0, 0, 0)",
+          "&:focus-visible | border-right-color: rgb(0, 0, 0)",
+          "&:focus-visible | border-top-color: rgb(0, 0, 0)"
+        ],
+        [
+          "focus-visible:bg-black",
+          "named",
+          "&:focus-visible | background-color: rgb(0, 0, 0)"
+        ],
+        [
+          "focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px]",
+          "arbitrary-property",
+          "&:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(93, 107, 137, 0.25) 0px 0px 0px 2px"
+        ],
+        [
+          "focus-visible:outline-offset-1",
+          "bare",
+          "&:focus-visible | outline-offset: 1px"
+        ],
+        [
+          "md:rounded-[4.5px]",
+          "arbitrary-value",
+          "@media (width >= 768px) | border-bottom-left-radius: 4.5px",
+          "@media (width >= 768px) | border-bottom-right-radius: 4.5px",
+          "@media (width >= 768px) | border-top-left-radius: 4.5px",
+          "@media (width >= 768px) | border-top-right-radius: 4.5px"
+        ],
+        [
+          "md:pt-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-top: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-3.5",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 13.5px",
+          {
+            "relaxation": "length-nearest",
+            "delta": 0.5
+          }
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px]",
+          "arbitrary-property",
+          "@media (width >= 768px) | &:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(93, 107, 137, 0.25) 0px 0px 0px 2.25px"
+        ],
+        [
+          "xl:rounded-[5px]",
+          "arbitrary-value",
+          "@media (width >= 1280px) | border-bottom-left-radius: 5px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 5px",
+          "@media (width >= 1280px) | border-top-left-radius: 5px",
+          "@media (width >= 1280px) | border-top-right-radius: 5px"
+        ],
+        [
+          "xl:pt-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 15px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-3.75",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 15px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ],
+        [
+          "xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
+          "arbitrary-property",
+          "@media (width >= 1280px) | &:focus-visible | box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(93, 107, 137, 0.25) 0px 0px 0px 2.5px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC202",
+        "TFC201",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC202",
+        "TFC202",
+        "TFC202"
+      ],
+      "exact": false
+    },
+    {
+      "name": "th",
+      "tag": "th",
+      "className": "border-b-[3px] border-b-slate-200 bg-white bg-no-repeat pt-2 pr-4 pb-2 pl-4 text-start font-semibold md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "mappings": [
+        [
+          "border-b-[3px]",
+          "arbitrary-value",
+          "border-bottom-style: solid",
+          "border-bottom-width: 3px"
+        ],
+        [
+          "border-b-slate-200",
+          "bare",
+          "border-bottom-color: rgb(231, 234, 240)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0088
+          }
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-2",
+          "bare",
+          "padding-top: 8px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-2",
+          "bare",
+          "padding-bottom: 8px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "text-start",
+          "named",
+          "text-align: start"
+        ],
+        [
+          "font-semibold",
+          "named",
+          "font-weight: 600"
+        ],
+        [
+          "md:pt-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-top: 9px"
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 9px"
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "xl:pt-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 10px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 10px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203",
+        "TFC201"
+      ],
+      "exact": false
+    },
+    {
+      "name": "td",
+      "tag": "td",
+      "className": "border-b border-b-slate-200 bg-white bg-no-repeat pt-2 pr-4 pb-2 pl-4 md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "mappings": [
+        [
+          "border-b",
+          "named",
+          "border-bottom-style: solid",
+          "border-bottom-width: 1px"
+        ],
+        [
+          "border-b-slate-200",
+          "bare",
+          "border-bottom-color: rgb(231, 234, 240)",
+          {
+            "relaxation": "color-nearest",
+            "delta": 0.0088
+          }
+        ],
+        [
+          "bg-white",
+          "named",
+          "background-color: rgb(255, 255, 255)"
+        ],
+        [
+          "bg-no-repeat",
+          "named",
+          "background-repeat: no-repeat"
+        ],
+        [
+          "pt-2",
+          "bare",
+          "padding-top: 8px"
+        ],
+        [
+          "pr-4",
+          "bare",
+          "padding-right: 16px"
+        ],
+        [
+          "pb-2",
+          "bare",
+          "padding-bottom: 8px"
+        ],
+        [
+          "pl-4",
+          "bare",
+          "padding-left: 16px"
+        ],
+        [
+          "md:pt-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-top: 9px"
+        ],
+        [
+          "md:pr-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-right: 18px"
+        ],
+        [
+          "md:pb-2.25",
+          "bare",
+          "@media (width >= 768px) | padding-bottom: 9px"
+        ],
+        [
+          "md:pl-4.5",
+          "bare",
+          "@media (width >= 768px) | padding-left: 18px"
+        ],
+        [
+          "xl:pt-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-top: 10px"
+        ],
+        [
+          "xl:pr-5",
+          "bare",
+          "@media (width >= 1280px) | padding-right: 20px"
+        ],
+        [
+          "xl:pb-2.5",
+          "bare",
+          "@media (width >= 1280px) | padding-bottom: 10px"
+        ],
+        [
+          "xl:pl-5",
+          "bare",
+          "@media (width >= 1280px) | padding-left: 20px"
+        ]
+      ],
+      "unconverted": [],
+      "diagnostics": [
+        "TFC203"
+      ],
+      "exact": false
+    }
+  ]
+}
