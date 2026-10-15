@@ -443,3 +443,109 @@ describe('nearest mode', () => {
     expect(result.unconverted).toEqual([])
   })
 })
+
+describe('redundant relaxed layers', () => {
+  const LG = '@media (min-width: 1280px)'
+  const layers = (base: string, md: string, lg: string): StyleInput[] => [
+    { declarations: base },
+    { conditions: [MD], declarations: md },
+    { conditions: [LG], declarations: lg },
+  ]
+  const sourcesOf = (result: ConversionResult, className: string): string[] =>
+    (result.mappings.find((mapping) => mapping.className === className)?.sources ?? []).map(
+      (source) => [...source.conditions, `${source.property}: ${source.value}`].join(' | '),
+    )
+
+  it('drops a relaxed layer that repeats the base', () => {
+    const input = layers('font-size: 23.05px', 'font-size: 25.4px', 'font-size: 28px')
+    expect(convert({}, input).className).toBe('text-[23.05px] md:text-[25.4px] xl:text-[28px]')
+    const result = convert({ mode: 'nearest' }, input)
+    expect(result.className).toBe('text-2xl xl:text-3xl')
+    expect(codes(result)).not.toContain('TFC501')
+    expect(codes(result)).not.toContain('TFC401')
+    expect(result.unconverted).toEqual([])
+  })
+
+  it('drops a relaxed layer that repeats a narrower layer', () => {
+    const input = layers('margin-top: 16px', 'margin-top: 17.9px', 'margin-top: 18.2px')
+    expect(convert(only('length-nearest'), input).className).toBe('mt-4 md:mt-4.5')
+  })
+
+  it('keeps it when a layer in between sets another value', () => {
+    const input = layers('margin-top: 16px', 'margin-top: 20px', 'margin-top: 16.4px')
+    expect(convert(only('length-nearest'), input).className).toBe('mt-4 md:mt-5 xl:mt-4')
+  })
+
+  it('drops a chain of repeats down to the base', () => {
+    const input = layers('margin-top: 16.3px', 'margin-top: 15.8px', 'margin-top: 16.2px')
+    expect(convert(only('length-nearest'), input).className).toBe('mt-4')
+  })
+
+  it('drops each class whose longhands all repeat, and keeps the others', () => {
+    const repeated = layers('padding: 16px', 'padding: 17.9px', 'padding: 18.2px')
+    expect(convert(only('length-nearest'), repeated).className).toBe('p-4 md:p-4.5')
+    const split = layers('padding: 16px', 'padding: 17.9px', 'padding: 18.2px 20px')
+    expect(convert(only('length-nearest'), split).className).toBe('p-4 md:p-4.5 xl:pr-5 xl:pl-5')
+  })
+
+  it('reports the dropped declaration on the class that shows it, and stays inexact', () => {
+    const result = convert(only('length-nearest'), [
+      { declarations: 'margin-top: 18px' },
+      { conditions: [MD], declarations: 'margin-top: 18.3px' },
+    ])
+    expect(result.className).toBe('mt-4.5')
+    expect(sourcesOf(result, 'mt-4.5')).toEqual(['margin-top: 18px', `${MD} | margin-top: 18.3px`])
+    expect(relaxed(result)).toEqual([['mt-4.5', 'length-nearest', 0.3]])
+    expect(codes(result).filter((code) => code === 'TFC203')).toHaveLength(1)
+    expect(result.exact).toBe(false)
+  })
+
+  it('carries the layer’s context relaxations', () => {
+    const result = convert({ mode: 'nearest' }, [
+      { declarations: 'margin-top: 18px' },
+      { conditions: ['@media (min-width: 770px)'], declarations: 'margin-top: 18.3px' },
+    ])
+    expect(result.className).toBe('mt-4.5')
+    const mapping = result.mappings.find((item) => item.className === 'mt-4.5')
+    expect(mapping?.relaxation?.name).toBe('length-nearest')
+    expect(codes(result).filter((code) => code === 'TFC203')).toHaveLength(2)
+  })
+
+  it('keeps it when the class that would show its value needs a stacked class', () => {
+    const result = convert(only('length-nearest'), [
+      { declarations: 'margin-top: 10px' },
+      { conditions: ['@media print'], declarations: 'margin-top: 30px' },
+      { conditions: [MD], declarations: 'margin-top: 18px' },
+      { conditions: [LG], declarations: 'margin-top: 18.2px' },
+    ])
+    expect(result.className).toBe(
+      'mt-2.5 md:mt-4.5 xl:mt-4.5 print:mt-7.5 print:md:mt-4.5 print:xl:mt-4.5',
+    )
+    expect(codes(result)).toContain('TFC401')
+  })
+
+  it('never drops in exact mode, nor an exact repeat', () => {
+    const input = [
+      { declarations: 'margin-top: 16px' },
+      { conditions: [MD], declarations: 'margin-top: 16px' },
+    ]
+    expect(convert({}, input).className).toBe('mt-4 md:mt-4')
+    expect(convert({ mode: 'nearest' }, input).className).toBe('mt-4 md:mt-4')
+  })
+
+  it('only drops layers under a width condition', () => {
+    const result = convert(only('length-nearest'), [
+      { declarations: 'margin-top: 16px' },
+      { selector: '&:hover', declarations: 'margin-top: 16.4px' },
+    ])
+    expect(result.className).toBe('mt-4 [&:hover]:mt-4')
+  })
+
+  it('keeps it when the other block differs in importance', () => {
+    const result = convert(only('length-nearest'), [
+      { declarations: 'margin-top: 16px' },
+      { conditions: [MD], declarations: 'margin-top: 16.4px !important' },
+    ])
+    expect(result.className).toBe('mt-4 md:mt-4!')
+  })
+})

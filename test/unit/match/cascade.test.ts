@@ -3,7 +3,7 @@
 // that applies in a context, cascaded together (`resolveApplied`).
 import { beforeAll, describe, expect, it } from 'vitest'
 import { converterFromDesign } from '../../../src/converter.ts'
-import { conditionsDisjoint } from '../../../src/css/conditions.ts'
+import { conditionsDisjoint, widthConditionImplied } from '../../../src/css/conditions.ts'
 import { intersectSelectors } from '../../../src/css/selector.ts'
 import { contextIntersection } from '../../../src/match/cascade.ts'
 import { resolveOptions } from '../../../src/options.ts'
@@ -510,6 +510,28 @@ describe('context helpers', () => {
   ])('conditionsDisjoint(%j, %j) is %s', (a, b, expected) => {
     expect(conditionsDisjoint(a, b)).toBe(expected)
     expect(conditionsDisjoint(b, a)).toBe(expected)
+  })
+
+  it.each([
+    ['@media (width >= 768px)', ['@media (width >= 1280px)'], true],
+    ['@media (width >= 768px)', ['@media (width >= 768px)'], true],
+    ['@media (width >= 768px)', ['@media (width > 768px)'], true],
+    ['@media (width > 768px)', ['@media (width >= 768px)'], false],
+    ['@media (width > 768px)', ['@media (width > 768px)'], true],
+    ['@media (width >= 1280px)', ['@media (width >= 768px)'], false],
+    ['@media (width < 1280px)', ['@media (width < 768px)'], true],
+    ['@media (width < 768px)', ['@media (width <= 768px)'], false],
+    ['@media (width < 768px)', ['@media (width < 768px)'], true],
+    ['@media (width <= 768px)', ['@media (width < 768px)'], true],
+    ['@media (width < 768px)', ['@media (width >= 1280px)'], false],
+    ['@media (width >= 768px)', ['@media (hover: hover)'], false],
+    ['@media (width >= 768px)', ['@media (hover: hover) and (width >= 1024px)'], true],
+    ['@media (width >= 768px)', ['@media not all and (width < 1024px)'], false],
+    ['@media (hover: hover)', ['@media (width >= 1280px)'], false],
+    ['@container (width >= 400px)', ['@container (width >= 800px)'], false],
+    ['@media (width = 768px)', ['@media (width = 768px)'], false],
+  ])('widthConditionImplied(%s, %j) is %s', (condition, conditions, expected) => {
+    expect(widthConditionImplied(condition, conditions)).toBe(expected)
   })
 
   it.each([

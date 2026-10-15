@@ -4,9 +4,13 @@ import { parseStylesheet } from './css/parse.ts'
 import { type Specificity, specificity } from './css/selector.ts'
 import {
   type BlockDeclaration,
+  type CascadeBlock,
   type CascadeIssue,
+  type CascadeResult,
   checkCascade,
   contextIntersection,
+  type RedundantClass,
+  redundantClasses,
   type SourceRank,
   shadowedDeclarations,
   shorthandOrderConflicts,
@@ -22,7 +26,7 @@ import {
 } from './match/exact.ts'
 import { type Relaxation, type RelaxSettings, relaxContext, relaxSettings } from './match/relax.ts'
 import { createVariantResolver, type VariantResolver, variantChain } from './match/variants.ts'
-import { type VerifyBlock, verify } from './match/verify.ts'
+import { verify } from './match/verify.ts'
 import { resolveOptions } from './options.ts'
 import {
   type NoteCode,
@@ -397,6 +401,50 @@ function blockRelaxes(engine: Engine, inputs: readonly Matched[]): (BlockRelax |
   }))
 }
 
+interface Checked {
+  readonly cascade: CascadeResult
+  readonly issues: readonly { block: number; declaration: number; code: CascadeIssue['code'] }[]
+}
+
+// SPEC §5.7, then §5.8 on the classes that passed.
+function check(engine: Engine, blocks: readonly CascadeBlock[]): Checked {
+  const verified = verify(engine.matcher, blocks)
+  const cascade = checkCascade(
+    engine.matcher,
+    engine.resolver,
+    blocks.map((block, position) => ({ ...block, matches: verified.matches[position] ?? [] })),
+  )
+  return { cascade, issues: [...verified.issues, ...cascade.issues] }
+}
+
+/**
+ * SPEC §4: verifies and checks the blocks without their redundant relaxed classes.
+ * If a declaration that now shows a dropped class's value got an issue or a stacked class, the
+ * drop isn't taken.
+ */
+function checkWithout(
+  engine: Engine,
+  blocks: readonly CascadeBlock[],
+): { checked: Checked; redundant: readonly RedundantClass[] } {
+  const redundant = engine.relax === undefined ? [] : redundantClasses(blocks, engine.options)
+  if (redundant.length === 0) return { checked: check(engine, blocks), redundant }
+  const reduced = blocks.map((block, index) => ({
+    ...block,
+    matches: block.matches.filter(
+      (_, at) => !redundant.some((item) => item.block === index && item.match === at),
+    ),
+  }))
+  const checked = check(engine, reduced)
+  const showing = new Set(
+    redundant.flatMap((item) => item.shownBy.map(({ by }) => `${by.block}:${by.declaration}`)),
+  )
+  const touched = [
+    ...checked.issues,
+    ...checked.cascade.stacked.flatMap((stacked) => stacked.sources),
+  ].some((at) => showing.has(`${at.block}:${at.declaration}`))
+  return touched ? { checked: check(engine, blocks), redundant: [] } : { checked, redundant }
+}
+
 function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
   const collected: Collected = { sources: [], ranks: [], classes: [], unconverted: [], notes: [] }
   const written: Matched[] = collectBlocks(engine, entries, collected).map((block) => {
@@ -424,7 +472,7 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     ),
   )
   const matchedBlocks: Matched[] = []
-  const verifyBlocks: VerifyBlock[] = []
+  const cascadeBlocks: CascadeBlock[] = []
   for (const [index, input] of inputs.entries()) {
     const { block } = input
     const gone = new Set((shadowed.get(index) ?? []).map((item) => item.declaration))
@@ -460,28 +508,25 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
       else collected.unconverted.push({ ...entry, code: skipped.code })
     }
     matchedBlocks.push(matched)
-    verifyBlocks.push({
+    cascadeBlocks.push({
       context: block.context,
       variants: chain.variants,
       declarations: matched.declarations,
+      ranks: ranksOf(matched),
       matches: result.matches,
     })
   }
-  const verified = verify(engine.matcher, verifyBlocks)
-  const cascade = checkCascade(
-    engine.matcher,
-    engine.resolver,
-    verifyBlocks.map((block, position) => ({
-      ...block,
-      ranks: ranksOf(matchedBlocks[position] as Matched),
-      matches: verified.matches[position] ?? [],
-    })),
-  )
-  const issues: { block: number; declaration: number; code: CascadeIssue['code'] }[] = [
-    ...verified.issues,
-    ...cascade.issues,
-  ]
-  for (const [index, items] of byBlock(issues)) {
+  const { checked, redundant } = checkWithout(engine, cascadeBlocks)
+  const { cascade } = checked
+  // A dropped class's declarations are reported with the class that shows their value.
+  const carried = new Map<string, BlockDeclaration[]>()
+  for (const item of redundant) {
+    for (const { declaration, by } of item.shownBy) {
+      const key = `${by.block}:${by.declaration}`
+      carried.set(key, [...(carried.get(key) ?? []), { block: item.block, declaration }])
+    }
+  }
+  for (const [index, items] of byBlock(checked.issues)) {
     const matched = matchedBlocks[index] as Matched
     const positions = (code: CascadeIssue['code']): number[] =>
       items.filter((item) => item.code === code).map((item) => item.declaration)
@@ -503,11 +548,15 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
   }
   cascade.matches.forEach((matches, block) => {
     for (const match of matches) {
+      const shown = match.declarations.flatMap((declaration) => [
+        { block, declaration },
+        ...(carried.get(`${block}:${declaration}`) ?? []),
+      ])
       collected.classes.push({
         className: match.className,
         kind: match.kind,
-        sources: match.declarations.map((at) => sourceOf(block, at)),
-        relaxations: match.declarations.flatMap((at) => relaxationsOf(block, at)),
+        sources: shown.map((at) => sourceOf(at.block, at.declaration)),
+        relaxations: shown.flatMap((at) => relaxationsOf(at.block, at.declaration)),
       })
     }
   })

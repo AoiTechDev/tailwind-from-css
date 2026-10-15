@@ -395,6 +395,46 @@ function addMediaCondition(requirements: MediaRequirements, condition: string): 
  * conditionsDisjoint(['@media (width >= 768px)'], ['@media (hover: hover)'])  // false
  */
 export function conditionsDisjoint(a: readonly string[], b: readonly string[]): boolean {
+  const requirements = mediaRequirements([...a, ...b])
+  const { min, max } = requirements
+  return (
+    requirements.types.size > 1 ||
+    [...requirements.discrete.values()].some((values) => values.size > 1) ||
+    min > max ||
+    (min === max && !(requirements.minInclusive && requirements.maxInclusive))
+  )
+}
+
+/**
+ * Whether a normalized one-bound width condition (`@media (width >= 768px)`) holds wherever all
+ * of `conditions` hold, judged by their media width bounds. N33 keeps two width conditions
+ * apart, so `(width >= 1280px)` doesn't name `(width >= 768px)` as written.
+ *
+ * @example
+ * widthConditionImplied('@media (width >= 768px)', ['@media (width >= 1280px)']) // true
+ * widthConditionImplied('@media (width < 768px)', ['@media (width >= 1280px)'])  // false
+ */
+export function widthConditionImplied(condition: string, conditions: readonly string[]): boolean {
+  const [, query] = MEDIA_PRELUDE.exec(condition) ?? []
+  const [, operator, text] = WIDTH_TERM.exec(query ?? '') ?? []
+  if (operator === undefined) return false
+  const value = Number(text)
+  const { min, minInclusive, max, maxInclusive } = mediaRequirements(conditions)
+  switch (operator) {
+    case '>=':
+      return min >= value
+    case '>':
+      return min > value || (min === value && !minInclusive)
+    case '<=':
+      return max <= value
+    case '<':
+      return max < value || (max === value && !maxInclusive)
+    default:
+      return false
+  }
+}
+
+function mediaRequirements(conditions: readonly string[]): MediaRequirements {
   const requirements: MediaRequirements = {
     types: new Set(),
     discrete: new Map(),
@@ -403,12 +443,6 @@ export function conditionsDisjoint(a: readonly string[], b: readonly string[]): 
     max: Number.POSITIVE_INFINITY,
     maxInclusive: true,
   }
-  for (const condition of [...a, ...b]) addMediaCondition(requirements, condition)
-  const { min, max } = requirements
-  return (
-    requirements.types.size > 1 ||
-    [...requirements.discrete.values()].some((values) => values.size > 1) ||
-    min > max ||
-    (min === max && !(requirements.minInclusive && requirements.maxInclusive))
-  )
+  for (const condition of conditions) addMediaCondition(requirements, condition)
+  return requirements
 }

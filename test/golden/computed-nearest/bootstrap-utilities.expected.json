@@ -214,7 +214,7 @@
     {
       "name": "title",
       "tag": "h1",
-      "className": "mt-4 mb-2 box-content text-center text-2xl font-semibold md:mt-4.5 md:text-left md:text-2xl xl:mt-4.5 xl:text-3xl",
+      "className": "mt-4 mb-2 box-content text-center text-2xl font-semibold md:mt-4.5 md:text-left xl:text-3xl",
       "mappings": [
         [
           "mt-4",
@@ -244,9 +244,10 @@
           "text-2xl",
           "named",
           "font-size: 23.05px",
+          "@media (width >= 768px) | font-size: 25.408px",
           {
             "relaxation": "length-nearest",
-            "delta": 0.95
+            "delta": 1.408
           }
         ],
         [
@@ -258,6 +259,7 @@
           "md:mt-4.5",
           "bare",
           "@media (width >= 768px) | margin-top: 17.0234px",
+          "@media (width >= 1280px) | margin-top: 18.76px",
           {
             "relaxation": "length-nearest",
             "delta": 0.9766
@@ -267,24 +269,6 @@
           "md:text-left",
           "named",
           "@media (width >= 768px) | text-align: left"
-        ],
-        [
-          "md:text-2xl",
-          "named",
-          "@media (width >= 768px) | font-size: 25.408px",
-          {
-            "relaxation": "length-nearest",
-            "delta": 1.408
-          }
-        ],
-        [
-          "xl:mt-4.5",
-          "bare",
-          "@media (width >= 1280px) | margin-top: 18.76px",
-          {
-            "relaxation": "length-nearest",
-            "delta": 0.76
-          }
         ],
         [
           "xl:text-3xl",
@@ -298,9 +282,6 @@
       ],
       "unconverted": [],
       "diagnostics": [
-        "TFC203",
-        "TFC203",
-        "TFC203",
         "TFC203",
         "TFC203",
         "TFC203",

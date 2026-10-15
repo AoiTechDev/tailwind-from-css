@@ -1,4 +1,4 @@
-import { conditionsDisjoint } from '../css/conditions.ts'
+import { conditionsDisjoint, widthConditionImplied } from '../css/conditions.ts'
 import {
   covers,
   longhandsOf,
@@ -140,6 +140,7 @@ const MAX_CONFLICTING = 4
 const MAX_STACKED = 16
 const ZERO: Specificity = [0, 0, 0]
 const CACHE_LIMIT = 4096
+const WIDTH = /\(width [<>]=? /
 
 const compareText = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0)
 
@@ -264,6 +265,131 @@ export function shadowedDeclarations(
     })
   })
   return shadowed
+}
+
+// `appliesWithin`, also when a width condition of `outer` is only implied by `inner`'s bounds
+// (`md` within `xl`).
+const widerLayer = (outer: Context, inner: Context, options: EffectiveOptions): boolean =>
+  appliesWithin(
+    {
+      selector: outer.selector,
+      conditions: outer.conditions.filter(
+        (condition) => !widthConditionImplied(condition, inner.conditions),
+      ),
+    },
+    inner,
+    options,
+  )
+
+/** A class that shows nothing another block's class doesn't already show where it applies. */
+export interface RedundantClass {
+  readonly block: number
+  /** Position in the block's matches. */
+  readonly match: number
+  /** Per declaration it covers, the declaration of another block that shows the same value. */
+  readonly shownBy: readonly { readonly declaration: number; readonly by: BlockDeclaration }[]
+}
+
+/**
+ * Relaxed classes under a width condition that can go (SPEC §4): for each longhand
+ * the class covers, a block that applies wherever it does sets the same value with the same
+ * importance, and every other block setting that longhand where they overlap either beats the
+ * class in the source cascade or loses to that block. Then the source shows the same value
+ * everywhere without the class. Snapping makes repeats (`text-2xl md:text-2xl`); exact mode never
+ * has relaxed classes, so it keeps every class.
+ *
+ * @example
+ * redundantClasses([base, md, xl], options) // [{ block: 1, match: 0, shownBy: [{ declaration: 0, by: { block: 0, declaration: 0 } }] }]
+ */
+export function redundantClasses(
+  blocks: readonly CascadeBlock[],
+  options: EffectiveOptions,
+): RedundantClass[] {
+  const contexts = blocks.map((block) => normalizeContext(block.context, options))
+  const dropped = blocks.map(() => new Set<number>())
+  const coveredBy = blocks.map(
+    (block) =>
+      new Map(
+        block.matches.flatMap((match, at) =>
+          match.declarations.map((position) => [position, at] as const),
+        ),
+      ),
+  )
+  const shows = (block: number, position: number): boolean => {
+    const match = coveredBy[block]?.get(position)
+    return match !== undefined && !dropped[block]?.has(match)
+  }
+  const participant = (block: number, position: number): Participant =>
+    participantOf(blocks[block] as CascadeBlock, block, position, contexts[block] as Context)
+  const showing = (block: number, position: number): BlockDeclaration | undefined => {
+    const self = participant(block, position)
+    const { property } = self.declaration
+    if (longhandsOf(property).length !== 1 || longhandsOf(property)[0] !== property) return
+    const within = contexts[block] as Context
+    const candidates = blocks.flatMap((outer, other) =>
+      other === block || !widerLayer(contexts[other] as Context, within, options)
+        ? []
+        : outer.declarations.flatMap((_, at) =>
+            shows(other, at) && sameValue(participant(other, at), self)
+              ? [participant(other, at)]
+              : [],
+          ),
+    )
+    if (candidates.length === 0) return
+    const shown = highest(candidates, compareSource)
+    const between = blocks.some((rival, other) => {
+      if (
+        other === block ||
+        contextIntersection(within, contexts[other] as Context, options) === 'disjoint'
+      ) {
+        return false
+      }
+      return rival.declarations.some((item, at) => {
+        if (!longhandsOf(item.property).includes(property)) return false
+        const match = coveredBy[other]?.get(at)
+        if (match !== undefined && dropped[other]?.has(match)) return false
+        const contender = participant(other, at)
+        return (
+          !sameValue(contender, self) &&
+          compareSource(contender, self) < 0 &&
+          compareSource(contender, shown) > 0
+        )
+      })
+    })
+    return between ? undefined : { block: shown.block, declaration: shown.position }
+  }
+  const found: RedundantClass[] = []
+  blocks.forEach((block, index) => {
+    if (!(contexts[index] as Context).conditions.some((condition) => WIDTH.test(condition))) return
+    block.matches.forEach((match, at) => {
+      const relaxed = match.declarations.some(
+        (position) => block.declarations[position]?.relaxed !== undefined,
+      )
+      if (!relaxed) return
+      const shownBy: RedundantClass['shownBy'][number][] = []
+      for (const declaration of match.declarations) {
+        const by = showing(index, declaration)
+        if (by === undefined) return
+        shownBy.push({ declaration, by })
+      }
+      dropped[index]?.add(at)
+      found.push({ block: index, match: at, shownBy })
+    })
+  })
+  // A class that showed a dropped one's value may have gone too: follow to the one that stays.
+  const by = new Map(
+    found.flatMap((item) =>
+      item.shownBy.map((shown) => [`${item.block}:${shown.declaration}`, shown.by] as const),
+    ),
+  )
+  const last = (at: BlockDeclaration): BlockDeclaration => {
+    const next = by.get(`${at.block}:${at.declaration}`)
+    return next === undefined ? at : last(next)
+  }
+  return found.map((item) => ({
+    ...item,
+    shownBy: item.shownBy.map((shown) => ({ ...shown, by: last(shown.by) })),
+  }))
 }
 
 /**

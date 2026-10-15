@@ -712,7 +712,7 @@
     {
       "name": "switch",
       "tag": "input",
-      "className": "-mt-0.5 mr-2 h-5 w-9 cursor-pointer appearance-none rounded-[20px] [border-top-width:3px] [border-right-width:3px] [border-bottom-width:3px] [border-left-width:3px] border-solid border-[rgb(191,199,217)] bg-[rgb(191,199,217)] bg-no-repeat align-middle leading-5 text-white accent-[rgb(1,114,173)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] before:block before:aspect-square before:size-3.5 before:rounded-[50%] before:bg-white before:bg-no-repeat before:align-middle before:[transition-property:margin] before:duration-100 before:ease-[ease-in-out] before:content-[''] focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px] focus-visible:outline-offset-2 md:mt-[-2.25px] md:mr-2.25 md:h-5.5 md:w-10 md:rounded-3xl md:leading-5.5 md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:mt-[-2.5px] xl:mr-2.5 xl:h-6.25 xl:w-11.25 xl:rounded-3xl xl:leading-6.25 xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px] md:[&::before]:size-4 xl:[&::before]:size-4.75",
+      "className": "-mt-0.5 mr-2 h-5 w-9 cursor-pointer appearance-none rounded-[20px] [border-top-width:3px] [border-right-width:3px] [border-bottom-width:3px] [border-left-width:3px] border-solid border-[rgb(191,199,217)] bg-[rgb(191,199,217)] bg-no-repeat align-middle leading-5 text-white accent-[rgb(1,114,173)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] before:block before:aspect-square before:size-3.5 before:rounded-[50%] before:bg-white before:bg-no-repeat before:align-middle before:[transition-property:margin] before:duration-100 before:ease-[ease-in-out] before:content-[''] focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px] focus-visible:outline-offset-2 md:mt-[-2.25px] md:mr-2.25 md:h-5.5 md:w-10 md:rounded-3xl md:leading-5.5 md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:mt-[-2.5px] xl:mr-2.5 xl:h-6.25 xl:w-11.25 xl:leading-6.25 xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px] md:[&::before]:size-4 xl:[&::before]:size-4.75",
       "mappings": [
         [
           "-mt-0.5",
@@ -937,6 +937,10 @@
           "@media (width >= 768px) | border-bottom-right-radius: 22.5px",
           "@media (width >= 768px) | border-top-left-radius: 22.5px",
           "@media (width >= 768px) | border-top-right-radius: 22.5px",
+          "@media (width >= 1280px) | border-bottom-left-radius: 25px",
+          "@media (width >= 1280px) | border-bottom-right-radius: 25px",
+          "@media (width >= 1280px) | border-top-left-radius: 25px",
+          "@media (width >= 1280px) | border-top-right-radius: 25px",
           {
             "relaxation": "length-nearest",
             "delta": 1.5
@@ -975,18 +979,6 @@
           "xl:w-11.25",
           "bare",
           "@media (width >= 1280px) | width: 45px"
-        ],
-        [
-          "xl:rounded-3xl",
-          "named",
-          "@media (width >= 1280px) | border-bottom-left-radius: 25px",
-          "@media (width >= 1280px) | border-bottom-right-radius: 25px",
-          "@media (width >= 1280px) | border-top-left-radius: 25px",
-          "@media (width >= 1280px) | border-top-right-radius: 25px",
-          {
-            "relaxation": "length-nearest",
-            "delta": 1
-          }
         ],
         [
           "xl:leading-6.25",
@@ -1032,7 +1024,6 @@
         "TFC203",
         "TFC203",
         "TFC201",
-        "TFC203",
         "TFC203",
         "TFC201",
         "TFC202",
