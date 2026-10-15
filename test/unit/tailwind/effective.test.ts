@@ -2,11 +2,14 @@ import { describe, expect, it } from 'vitest'
 import type { NormalDeclaration } from '../../../src/css/normalize/index.ts'
 import {
   BASE_CONTEXT,
+  type CompiledCandidate,
   type Context,
   compileCandidates,
   contextKey,
   effectiveDeclarations,
   normalizeContext,
+  resolveApplied,
+  resolveEffective,
 } from '../../../src/tailwind/effective.ts'
 import { ast, type FakeDesignInput, fakeDesign, property, rule } from '../../helpers/fake-design.ts'
 
@@ -151,6 +154,29 @@ describe('cascade order (SPEC §5.6 step 2)', () => {
 
   it('lets the later declaration of a rule win', () => {
     expect(effective(input, ['twice'])).toEqual(['color: srgb(0 0 255 / 1)'])
+  })
+
+  it('ranks candidates compiled in different calls together', () => {
+    // Like Tailwind's `getClassOrder`: keys number the candidates of one call.
+    const absolute = fakeDesign(input)
+    const names = Object.keys(input.candidates)
+    const design = {
+      ...absolute,
+      classOrder: (candidates: readonly string[]) => {
+        const sorted = [...candidates].sort((a, b) => names.indexOf(a) - names.indexOf(b))
+        return candidates.map((name) => BigInt(sorted.indexOf(name)))
+      },
+    }
+    const [blue] = compileCandidates(design, ['text-blue'], OPTIONS)
+    const [, red] = compileCandidates(design, ['text-lime!', 'text-red'], OPTIONS)
+    expect(red?.order).toBeGreaterThan(blue?.order ?? 0n)
+    const compiled = [blue, red] as CompiledCandidate[]
+    expect(print(resolveEffective(design, compiled, BASE_CONTEXT, OPTIONS))).toEqual([
+      'color: srgb(0 0 255 / 1)',
+    ])
+    expect(print(resolveApplied(design, compiled, BASE_CONTEXT, OPTIONS))).toEqual([
+      'color: srgb(0 0 255 / 1)',
+    ])
   })
 
   it('cascades longhands, so a shorthand and a later longhand combine', () => {

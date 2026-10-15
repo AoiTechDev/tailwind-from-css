@@ -12,7 +12,7 @@ import {
 import { TfcError } from '../../src/errors.ts'
 import { resolveOptions } from '../../src/options.ts'
 import type { CandidateAst } from '../../src/tailwind/adapter.ts'
-import type { Converter } from '../../src/types.ts'
+import type { Converter, StyleInput } from '../../src/types.ts'
 import { FIXTURES, REPO_ROOT } from '../helpers/design-system.ts'
 import { ast, fakeDesign, rule } from '../helpers/fake-design.ts'
 
@@ -76,6 +76,35 @@ describe('conversion is synchronous', () => {
 })
 
 describe('convertStyles', () => {
+  // CI P3 seed -121319052: classes cached from an earlier conversion carried `getClassOrder`
+  // keys of another call, so verification cascaded them in the wrong order.
+  it('gives the same result whatever the converter converted before', async () => {
+    const input = [
+      {
+        selector: '&[data-state=open]',
+        conditions: ['@media (max-width: 767px)'],
+        declarations: 'padding-left: 0; border-radius: 72px',
+      },
+      {
+        selector: '&:first-child',
+        declarations:
+          'padding: 1.75rem 5.25rem 43px; content: none; border-radius: 50%; fill: transparent; border-width: 1px',
+      },
+      {
+        selector: '&:first-child',
+        conditions: ['@media (min-width: 768px)'],
+        declarations:
+          '--brand: a b !important; border-radius: 9999px; content: ""; line-height: 33px; inset: 23px 4rem',
+      },
+    ]
+    const fresh = await createConverter()
+    const warmed = await createConverter()
+    warmed.convertStyles(input[2] as StyleInput)
+    const expected = JSON.stringify(fresh.convertStyles(input))
+    expect(JSON.stringify(warmed.convertStyles(input))).toBe(expected)
+    expect(fresh.convertStyles(input).classes).toContain("md:first:content-['']")
+  })
+
   it('accepts every declarations shape', () => {
     for (const declarations of [
       'padding: 16px; color: #fff',

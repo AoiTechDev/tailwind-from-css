@@ -29,6 +29,8 @@ const OF_SELECTOR = /\s+of\s+/i
 // postcss-selector-parser drops a trailing empty member (`a,`) but keeps an inner one (`a,,b`).
 const EMPTY_LIST_MEMBER = /^,|,\s*(?:,|$)/
 const COMBINATORS: ReadonlySet<string> = new Set(['', '>', '+', '~'])
+const HEX_DIGIT = /^[0-9a-f]$/i
+const HEX_ESCAPE_DIGITS = /^[0-9a-f]{1,6}/i
 const TRAILING_HEX_ESCAPE = /(?:^|[^\\])(?:\\\\)*\\[0-9a-f]{1,6}$/i
 
 const LEGACY_PSEUDO_ELEMENTS: ReadonlySet<string> = new Set([
@@ -76,7 +78,7 @@ function pseudoName(node: selectorParser.Pseudo): string {
 }
 
 const rawArguments = (node: selectorParser.Pseudo): string =>
-  node.nodes.map(String).join(',').replace(WHITESPACE, ' ').trim()
+  collapseWhitespace(node.nodes.map(String).join(','))
 
 // `odd` is 2n+1 and `even` is 2n; otherwise An+B is printed without spaces or redundant parts.
 function normalizeAnPlusB(text: string): string {
@@ -86,7 +88,7 @@ function normalizeAnPlusB(text: string): string {
   if (INTEGER.test(compact)) return String(Number(compact))
   const match = AN_PLUS_B.exec(compact)
   // Not An+B: kept as written, never printed as `NaN`.
-  if (match === null) return text.replace(WHITESPACE, ' ').trim()
+  if (match === null) return collapseWhitespace(text)
   const [, a = '', b = ''] = match
   const step = a === '' || a === '+' ? '' : a === '-' ? '-' : String(Number(a))
   const offset =
@@ -110,7 +112,7 @@ function printAttribute(node: selectorParser.Attribute): string {
   return `[${name}${node.operator}${quoteString(node.value ?? '')}${flag}]`
 }
 
-// A hex escape at the end of a name (`.`) always gets its terminating space, so a space that
+// A hex escape at the end of a name (`.\31`) always gets its terminating space, so a space that
 // follows can't be read as part of the escape on the next pass.
 const terminateEscape = (text: string): string =>
   TRAILING_HEX_ESCAPE.test(text) ? `${text} ` : text
@@ -221,9 +223,8 @@ function printComplex(selector: ComplexSelector): string {
  * normalizeSelector('&:not(*:HOVER) >p') // '&:not(:hover) > p'
  */
 export function normalizeSelector(selector: string): string {
-  const spaced = selector.replace(WHITESPACE, ' ')
-  const collapsed = spaced.trim()
-  return printRoot(EMPTY_LIST_MEMBER.test(collapsed) ? undefined : parse(spaced), collapsed)
+  const collapsed = collapseWhitespace(selector)
+  return printRoot(EMPTY_LIST_MEMBER.test(collapsed) ? undefined : parse(collapsed), collapsed)
 }
 
 function printRoot(root: selectorParser.Root | undefined, collapsed: string): string {
@@ -243,7 +244,7 @@ function printRoot(root: selectorParser.Root | undefined, collapsed: string): st
  * relativeSelector('.hover\\:flex:hover', 'hover:flex') // '&:hover'
  */
 export function relativeSelector(selector: string, className: string): string | undefined {
-  const root = parse(selector.replace(WHITESPACE, ' '))
+  const root = parse(collapseWhitespace(selector))
   const classes: selectorParser.ClassName[] = []
   root?.walkClasses((node) => {
     if (node.value === className) classes.push(node)
@@ -371,22 +372,36 @@ export function extractSubject(selector: string): SubjectSplit | undefined {
   return { subject: normalizeSelector(subject), transform: normalizeSelector(transform) }
 }
 
-// Whitespace runs outside strings become one space, so a selector reads on one line without
-// changing an attribute value.
+// Whitespace runs outside strings become one space and the ends are trimmed, so a selector reads
+// on one line without changing an attribute value. One whitespace after a hex escape ends the
+// escape (CSS Syntax §4.3.7; CRLF counts once) and stays, so `.\31  .b` keeps its descendant
+// combinator and `.\31 .b` stays one compound.
 function collapseWhitespace(text: string): string {
   let result = ''
   let quote = ''
   let space = false
+  let terminated = false
   for (let index = 0; index < text.length; index++) {
     const char = text[index] as string
     if (quote === '' && WHITESPACE_CHAR.test(char)) {
       space = true
       continue
     }
+    if (terminated) result += ' '
     if (space && result !== '') result += ' '
     space = false
+    terminated = false
     result += char
-    if (char === '\\' && index + 1 < text.length) result += text[++index]
+    if (char === '\\' && HEX_DIGIT.test(text[index + 1] ?? '')) {
+      const [digits] = HEX_ESCAPE_DIGITS.exec(text.slice(index + 1)) as RegExpExecArray
+      result += digits
+      index += digits.length
+      const next = text[index + 1] ?? ''
+      if (quote === '' && WHITESPACE_CHAR.test(next)) {
+        terminated = true
+        index += next === '\r' && text[index + 2] === '\n' ? 2 : 1
+      }
+    } else if (char === '\\' && index + 1 < text.length) result += text[++index]
     else if (quote === '' && (char === '"' || char === "'")) quote = char
     else if (char === quote) quote = ''
   }

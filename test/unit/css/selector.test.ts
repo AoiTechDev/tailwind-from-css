@@ -110,6 +110,8 @@ describe('idempotence on malformed selectors (property-test seeds)', () => {
     String.raw`\ *`,
     'a ()a',
     String.raw`/\a/`,
+    // Nightly seed 1243126811: the first pass gave `\a  a`, the second `\a a`.
+    `${String.raw`\a*`}\na`,
   ])('%j', (selector) => {
     const once = normalizeSelector(selector)
     expect(normalizeSelector(once)).toBe(once)
@@ -118,6 +120,18 @@ describe('idempotence on malformed selectors (property-test seeds)', () => {
   it('terminates a trailing hex escape with a space', () => {
     expect(normalizeSelector(String.raw`.\31+.b`)).toBe(String.raw`.\31  + .b`)
     expect(normalizeSelector(String.raw`.\31 .b`)).toBe(String.raw`.\31 .b`)
+  })
+
+  it('keeps the combinator after a hex escape’s terminating whitespace', () => {
+    expect(normalizeSelector(String.raw`.\31  .b`)).toBe(String.raw`.\31  .b`)
+    expect(normalizeSelector(`${String.raw`.\31`}\n\t.b`)).toBe(String.raw`.\31  .b`)
+    expect(normalizeSelector(`${String.raw`.\31`}\r\n.b`)).toBe(String.raw`.\31 .b`)
+    expect(normalizeSelector(String.raw`\a  a`)).toBe(String.raw`\a  a`)
+    expect(normalizeSelector(String.raw`.\\31  .b`)).toBe(String.raw`.\\31 .b`)
+  })
+
+  it('keeps whitespace inside attribute strings', () => {
+    expect(normalizeSelector('[title="a  b"]  >  p')).toBe('[title="a  b"] > p')
   })
 
   it('treats empty list members and unknown combinators as unreadable', () => {

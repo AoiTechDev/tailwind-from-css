@@ -44,7 +44,7 @@ export interface CompiledRule {
 /** A candidate with its rules placed relative to the element, and its sort key. */
 export interface CompiledCandidate {
   readonly candidate: string
-  /** Tailwind's `getClassOrder` key. */
+  /** Tailwind's `getClassOrder` key, comparable only with candidates compiled in the same call. */
   readonly order: bigint
   readonly rules: readonly CompiledRule[]
   readonly properties: readonly PropertyRule[]
@@ -168,6 +168,9 @@ function escapeClassName(value: string): string {
   return escaped
 }
 
+/** What resolving declarations needs from the design system. */
+type ResolveDesign = Pick<TailwindDesignSystem, 'prefix' | 'themeValue' | 'classOrder'>
+
 /** A rule of the compiled set, with what the cascade needs. */
 interface PlacedRule {
   readonly context: Context
@@ -208,20 +211,41 @@ function place(rules: readonly PlacedRule[]): PlacedDeclaration[] {
 
 /** Everything one `resolveEffective` call shares. */
 interface Resolution {
-  readonly design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>
+  readonly design: ResolveDesign
   readonly options: EffectiveOptions
   readonly rules: readonly PlacedRule[]
   readonly registrations: ReadonlyMap<string, PropertyRule>
   readonly sources: Map<string, Sources>
 }
 
+const rankCache = new WeakMap<readonly CompiledCandidate[], ReadonlyMap<string, bigint>>()
+
+// `getClassOrder` numbers the candidates of one call, so keys of candidates compiled in
+// different calls (one cached from an earlier conversion) don't compare: the candidates that
+// cascade together are ranked again in one call.
+function ranksOf(
+  design: Pick<TailwindDesignSystem, 'classOrder'>,
+  compiled: readonly CompiledCandidate[],
+): ReadonlyMap<string, bigint> | undefined {
+  if (compiled.length < 2) return undefined
+  let ranks = rankCache.get(compiled)
+  if (ranks === undefined) {
+    const names = [...new Set(compiled.map((candidate) => candidate.candidate))]
+    const orders = design.classOrder(names)
+    ranks = new Map(names.map((name, index) => [name, orders[index] ?? 0n]))
+    rankCache.set(compiled, ranks)
+  }
+  return ranks
+}
+
 function resolutionOf(
-  design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
+  design: ResolveDesign,
   compiled: readonly CompiledCandidate[],
   options: EffectiveOptions,
 ): Resolution {
   const rules: PlacedRule[] = []
   const registrations = new Map<string, PropertyRule>()
+  const ranks = ranksOf(design, compiled)
   for (const candidate of compiled) {
     for (const rule of candidate.rules) {
       if (rule.context === undefined) continue
@@ -229,7 +253,7 @@ function resolutionOf(
         context: rule.context,
         key: contextKey(rule.context),
         specificity: rule.specificity,
-        order: candidate.order,
+        order: ranks?.get(candidate.candidate) ?? candidate.order,
         declarations: rule.declarations,
       })
     }
@@ -262,7 +286,7 @@ function sortedWinners(
  * Sorted by property.
  */
 export function resolveEffective(
-  design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
+  design: ResolveDesign,
   compiled: readonly CompiledCandidate[],
   context: Context,
   options: EffectiveOptions,
@@ -286,7 +310,7 @@ export function resolveEffective(
  * browser does, with `var()` resolved as in {@link resolveEffective}. Sorted by property.
  */
 export function resolveApplied(
-  design: Pick<TailwindDesignSystem, 'prefix' | 'themeValue'>,
+  design: ResolveDesign,
   compiled: readonly CompiledCandidate[],
   context: Context,
   options: EffectiveOptions,
