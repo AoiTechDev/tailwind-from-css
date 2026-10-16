@@ -78,6 +78,7 @@ pnpm add tailwind-from-css tailwindcss
 
 `convertStyles` takes the declarations of one element, in any of its states and contexts, and returns one class list.
 
+<!-- test -->
 ```js
 import { convertStyles } from 'tailwind-from-css'
 
@@ -99,6 +100,7 @@ Declarations can be a CSS string, an object (camelCase or kebab-case keys, numbe
 
 `convertCss` parses a stylesheet and groups the rules by the element they style. `.btn`, `.btn:hover` and `@media (…) { .btn }` give one class list for `.btn`.
 
+<!-- test -->
 ```js
 import { convertCss } from 'tailwind-from-css'
 
@@ -141,8 +143,12 @@ It prints one `subject { classes }` line per rule. See [Command line](#command-l
 
 The default mode is **`exact`**: the CSS Tailwind generates for the output is equivalent to your input. That's a strict promise, and it explains some output that may look surprising at first:
 
+<!-- test -->
 ```js
-await convertStyles({ declarations: 'padding: 8px 16px; background-color: #2563eb' })
+import { convertStyles } from 'tailwind-from-css'
+
+const result = await convertStyles({ declarations: 'padding: 8px 16px; background-color: #2563eb' })
+result.className
 // 'bg-[#2563eb] pt-2 pr-4 pb-2 pl-4'
 ```
 
@@ -150,11 +156,15 @@ await convertStyles({ declarations: 'padding: 8px 16px; background-color: #2563e
 
 **`nearest`** mode allows substitutions that are visually close but not identical. Each one is a named **relaxation**:
 
+<!-- test -->
 ```js
-await convertStyles(
+import { convertStyles } from 'tailwind-from-css'
+
+const result = await convertStyles(
   { declarations: 'padding: 8px 16px; color: #737373; margin-top: 13.3px' },
   { mode: 'nearest' },
 )
+result.className
 // 'mt-3.5 px-4 py-2 text-neutral-500'
 ```
 
@@ -185,7 +195,10 @@ Relaxations only apply where no exact class exists, and relaxed classes are veri
 
 Pass your project's entry stylesheet as `tailwind.css`. Imports, plugins and configs in it are resolved from `tailwind.base`, which defaults to the current working directory.
 
+<!-- test -->
 ```js
+import { createConverter } from 'tailwind-from-css'
+
 const converter = await createConverter({
   tailwind: {
     css: `
@@ -415,7 +428,7 @@ Unknown keys or invalid values throw `TfcError` with code `TFC904`.
 
 ## Diagnostics
 
-CSS problems never throw. They become diagnostics or unconverted declarations. Diagnostic **codes** are part of the public API and never change meaning; messages may be reworded in any release, so match on codes.
+CSS problems never throw. They become diagnostics or unconverted declarations. Diagnostic **codes** are part of the public API and never change meaning; messages may be reworded in any release, so match on codes. [docs/errors.md](docs/errors.md) explains every code with an example and what to do.
 
 | Code | Severity | Meaning |
 |---|---|---|
@@ -441,18 +454,21 @@ Thrown `TfcError` codes, all about setup:
 
 | Code | Meaning |
 |---|---|
-| `TFC901` | `tailwindcss` isn't installed or can't be resolved from `tailwind.base` |
+| `TFC901` | `tailwindcss` isn't installed next to `tailwind-from-css` |
 | `TFC902` | The installed `tailwindcss` is outside the supported range |
-| `TFC903` | The entry CSS failed to load (missing import, plugin error); the cause is attached |
+| `TFC903` | The entry CSS failed to load from `tailwind.base` (missing import, plugin error); the cause is attached |
 | `TFC904` | Invalid options |
 
+<!-- test -->
 ```js
-import { TfcError } from 'tailwind-from-css'
+import { createConverter, TfcError } from 'tailwind-from-css'
 
 try {
   await createConverter({ tailwind: { css: '@import "./missing.css";' } })
 } catch (error) {
-  if (error instanceof TfcError) console.error(error.code, error.message)
+  if (!(error instanceof TfcError)) throw error
+  error.code // 'TFC903'
+  console.error(error.message, error.docsUrl)
 }
 ```
 

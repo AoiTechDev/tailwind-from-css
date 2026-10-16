@@ -42,8 +42,8 @@ const config: ViteUserConfig = defineConfig({
       {
         test: {
           name: 'types',
-          include: [],
-          typecheck: { enabled: true, only: true, include: ['test/types/**/*.test-d.ts'] },
+          include: ['test/types/**/*.test.ts'],
+          typecheck: { enabled: true, include: ['test/types/**/*.test-d.ts'] },
         },
       },
       { test: { name: 'e2e', include: ['test/e2e/**/*.test.ts'], testTimeout: 300_000 } },

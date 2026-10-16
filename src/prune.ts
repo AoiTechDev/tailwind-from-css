@@ -266,6 +266,7 @@ const neverShown = (property: string): boolean => property.startsWith('--') || D
  * are kept or dropped together, so the one that won still wins. Invalid declarations are kept,
  * after the others, for the converter to report. Pure and synchronous.
  *
+ * @throws Nothing: problems in the styles are left for the converter to report.
  * @example
  * pruneStyles(
  *   { display: 'flex', color: 'rgb(51, 51, 51)', marginTop: '0px', opacity: '1' },

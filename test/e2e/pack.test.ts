@@ -3,10 +3,13 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { exportDocs } from '../helpers/public-docs.ts'
 
 const ROOT = resolve(import.meta.dirname, '..', '..')
 const MAX_UNPACKED_BYTES = 250_000
 const INSTALL_SCRIPTS = ['preinstall', 'install', 'postinstall', 'prepare']
+const FIXTURE = join(ROOT, 'test', 'fixtures', 'cli', 'button.css')
+const FIXTURE_CLASSES = '.btn { p-4 text-[#ef4444] [&:hover]:text-black }'
 
 interface PackResult {
   filename: string
@@ -75,6 +78,12 @@ describe('packed tarball', () => {
   it('ships the CLI with a shebang', () => {
     expect(readFileSync(join(ROOT, 'dist', 'cli.js'), 'utf8')).toMatch(/^#!\/usr\/bin\/env node\n/)
   })
+
+  it('ships the TSDoc of every public export', () => {
+    expect(exportDocs(join(ROOT, 'dist', 'index.d.ts'))).toEqual(
+      exportDocs(join(ROOT, 'src', 'index.ts')),
+    )
+  })
 })
 
 // Installs from the registry, so it runs on CI (and locally with CI=1).
@@ -120,5 +129,25 @@ describe.runIf(process.env.CI)('installed tarball', () => {
     const cli = join(project, 'node_modules', 'tailwind-from-css', 'dist', 'cli.js')
     const { version } = readJson<{ version: string }>(join(ROOT, 'package.json'))
     expect(run(process.execPath, [cli, '--version'], project).trim()).toBe(version)
+  })
+
+  it('converts a stylesheet with the API', () => {
+    const script = join(project, 'convert.mjs')
+    writeFileSync(
+      script,
+      [
+        "import { readFileSync } from 'node:fs'",
+        "import { convertCss } from 'tailwind-from-css'",
+        "const { rules } = await convertCss(readFileSync(process.argv[2], 'utf8'))",
+        "for (const { subject, result } of rules) console.log(subject, '{', result.className, '}')",
+        '',
+      ].join('\n'),
+    )
+    expect(run(process.execPath, [script, FIXTURE], project).trim()).toBe(FIXTURE_CLASSES)
+  })
+
+  it('converts a stylesheet with the CLI', () => {
+    const cli = join(project, 'node_modules', 'tailwind-from-css', 'dist', 'cli.js')
+    expect(run(process.execPath, [cli, FIXTURE], project).split('\n')[0]).toBe(FIXTURE_CLASSES)
   })
 })
