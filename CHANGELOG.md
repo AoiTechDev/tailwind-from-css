@@ -1,5 +1,15 @@
 # tailwind-from-css
 
+## 0.5.0
+
+### Minor Changes
+
+- 16bbe19: The `tailwind-from-css` command converts stylesheets. It reads a file or stdin and prints one `subject { classes }` line per rule, then the CSS that stays in a stylesheet; unconverted declarations and diagnostics go to stderr with their line and column. Flags: `--mode`, `--relax`, `--theme`, `--root-font-size`, `--format text|json` (JSON is the `convertCss` result), `--fail-on-unconverted`, `--print-config`, `--version` and `--help`. Exit codes: 0 ok, 1 Tailwind or the theme failed to load, 2 usage error, 3 unconverted with `--fail-on-unconverted`.
+
+### Patch Changes
+
+- da9d1ce: `docs/errors.md` explains every diagnostic and error code (`TFC101`–`TFC502`, `TFC901`–`TFC904`) with an example and what to do; `TfcError.docsUrl` and the CLI link to it. The README and error-reference examples now run in the test suite against the built package, the published type declarations are checked for TSDoc on every export, and the packed tarball is tested converting a stylesheet through the API and the CLI. `pruneStyles` documents that it never throws.
+
 ## 0.4.0
 
 ### Minor Changes
