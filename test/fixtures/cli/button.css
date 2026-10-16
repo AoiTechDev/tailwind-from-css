@@ -1,0 +1,14 @@
+.btn {
+  padding: 16px;
+  color: #ef4444;
+}
+
+.btn:hover {
+  color: #000;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}

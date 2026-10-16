@@ -37,6 +37,7 @@ Most CSS-to-Tailwind converters guess from a lookup table. `tailwind-from-css` d
 - [Using your own theme](#using-your-own-theme)
 - [Converting styles captured from a live page](#converting-styles-captured-from-a-live-page)
 - [Reading the result](#reading-the-result)
+- [Command line](#command-line)
 - [API](#api)
 - [Options](#options)
 - [Diagnostics](#diagnostics)
@@ -127,6 +128,14 @@ for (const element of elements) {
   const { className } = converter.convertStyles(element.styles)
 }
 ```
+
+### From the command line
+
+```bash
+npx tailwind-from-css styles.css
+```
+
+It prints one `subject { classes }` line per rule. See [Command line](#command-line) for the flags.
 
 ## Exact and nearest
 
@@ -253,6 +262,111 @@ The [capture guide](docs/guides/capture-tools.md) covers the full recipe: buildi
 
 `convertCss` returns `{ rules, passthroughCss, diagnostics }`. Each rule has the `subject` it styles, the original `selectors` merged into it, and a `ConversionResult`. Sources from a stylesheet also carry their `line` and `column`.
 
+## Command line
+
+The package installs a `tailwind-from-css` command that converts a stylesheet. It reads a file, or stdin when no file is given or the file is `-`.
+
+```text
+tailwind-from-css [file|-] [options]
+
+  --mode exact|nearest          relaxation preset (default: exact)
+  --relax a,b,!c                add relaxations to the preset, or remove them with "!"
+  --theme <file.css>            your Tailwind entry stylesheet (default: @import "tailwindcss")
+  --root-font-size <n|false>    px per rem; false keeps px and rem apart (default: 16)
+  --format text|json            output format (default: text)
+  --fail-on-unconverted         exit with 3 when anything is unconverted
+  --print-config                print the resolved options and exit
+  --version, --help
+```
+
+Given this `styles.css`:
+
+```css
+.btn {
+  display: inline-flex;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #4338ca;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    padding: 12px;
+  }
+}
+
+.card > .title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 650;
+  background-image: url("hero image.png");
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
+
+the text format prints one line per rule on stdout, followed by the CSS that has to stay in a stylesheet:
+
+```console
+$ tailwind-from-css styles.css 2>/dev/null
+.btn { inline-flex rounded-md bg-[#4f46e5] p-2 text-white md:p-3 [&:hover]:bg-[#4338ca] }
+.card > .title { text-lg/7 font-[650] }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
+
+Unconverted declarations and diagnostics go to stderr, one per line with the file, line and column, so stdout stays clean for piping:
+
+```console
+$ tailwind-from-css styles.css >/dev/null
+styles.css:5:3: info TFC201: bg-[#4f46e5] uses an arbitrary value.
+styles.css:10:3: info TFC201: [&:hover]:bg-[#4338ca] uses an arbitrary value.
+styles.css:10:3: info TFC301: The selector of &:hover needs an arbitrary variant.
+styles.css:22:3: info TFC201: font-[650] uses an arbitrary value.
+styles.css:23:3: unconverted TFC204: background-image: url("hero image.png")
+styles.css: info TFC103: The at-rule "@keyframes spin" was moved to passthroughCss. (26:1)
+```
+
+The same file in `nearest` mode:
+
+```console
+$ tailwind-from-css --mode nearest styles.css 2>/dev/null
+.btn { inline-flex rounded-md bg-[#4f46e5] p-2 text-white hover:bg-[#4338ca] md:p-3 }
+.card > .title { text-lg/7 font-bold }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
+
+Use your own theme with `--theme src/styles/app.css`; its imports and plugins resolve from the file's directory. `--format json` prints the [`convertCss` result](#reading-the-result) exactly as the API returns it, and `--print-config` shows the resolved options the flags give.
+
+Exit codes:
+
+| Code | Meaning |
+|---|---|
+| `0` | Converted (unconverted declarations are reported but don't fail the run) |
+| `1` | Tailwind or the theme could not be loaded (`TFC901`–`TFC903`) |
+| `2` | Usage error: an unknown flag, an invalid value, or a file that can't be read |
+| `3` | Something is unconverted and `--fail-on-unconverted` is set |
+
+In CI, `tailwind-from-css --fail-on-unconverted styles.css` fails the job when a declaration can't be expressed as a class.
+
 ## API
 
 Everything is exported from the package root.
@@ -360,7 +474,7 @@ try {
 - The library returns classes. It doesn't rewrite your HTML or JSX.
 - It doesn't create `@theme` tokens from repeated values yet.
 - `transform: matrix(…)` stays an arbitrary property; it isn't split into `translate`, `rotate` and `scale`.
-- The package has a `tailwind-from-css` binary, but for now it only prints `--version` and `--help`. A full command-line interface is planned.
+- The command line converts stylesheets. Converting a single element's styles (`convertStyles`) and `pruneStyles` are API-only.
 
 ## Versioning
 
