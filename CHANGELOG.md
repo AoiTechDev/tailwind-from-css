@@ -1,5 +1,24 @@
 # tailwind-from-css
 
+## 0.4.0
+
+### Minor Changes
+
+- fbd28d2: Nearest mode on captured pages:
+  
+  - Greys now snap to the `neutral-*` palette on Tailwind 4.3, which writes it with a missing hue (`oklch(55.6% 0 none)`). A missing color channel counts as 0, the way the color renders; before, `#767676` became `text-stone-500` instead of `text-neutral-500`.
+  - An arbitrary font size keeps the exact line-height as its modifier instead of taking a near `leading-*` class: `font-size: 44px; line-height: 50.6px` gives `text-[44px]/[50.6px]` in nearest mode too (was `text-[44px] leading-12.5`).
+  - The tolerance defaults (`colorDeltaE` 0.02, `lengthPx` 2, `lengthRatio` 0.1, `breakpointPx` 16) were measured on real captured pages and stay as they are.
+- 6b72ca6: Nearest mode drops a relaxed class under a width condition when a wider layer or the base already shows the same value there: `text-2xl md:text-2xl xl:text-3xl` becomes `text-2xl xl:text-3xl`, and `md:mt-4.5 xl:mt-4.5` becomes `md:mt-4.5`. What every context shows is unchanged and still verified. The dropped declarations are reported on the class that shows their value, with their relaxations. Exact mode is unaffected.
+
+### Patch Changes
+
+- 7b20ca4: A full README: what the package does and why its output is verified, installation, quick start for single elements, stylesheets and reusable converters, `exact` and `nearest` modes with every relaxation, custom themes, converting captured computed styles with `pruneStyles`, the result shape, the API and options, every diagnostic and error code, how conversion works, requirements and limitations, and the versioning policy.
+- 7cb2e90: Two fixes found by the property tests:
+  
+  - A converter gives the same result whatever it converted before. Verification cascaded classes it had compiled in different calls by sort keys that only compare within one call, so a class cached from an earlier conversion could be ordered wrongly and replaced: `content: ""` on `md:` + `:first-child` next to `content: none` came out as `md:first:[content:'']` after an earlier conversion and `md:first:content-['']` on a fresh converter.
+  - Selectors keep the combinator after a hex escape's terminating space (`.\31  .b` no longer becomes `.\31 .b`, one compound), and whitespace inside quoted attribute values is kept (`[title="a  b"]`).
+
 ## 0.3.0
 
 ### Minor Changes
