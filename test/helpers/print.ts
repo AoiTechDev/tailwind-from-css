@@ -34,8 +34,13 @@ export function declarations(design: TailwindDesignSystem, candidate: string): s
   )
 }
 
-/** `true` when `version` is at least `minimum` (both `major.minor.patch`, prerelease ignored). */
+/**
+ * `true` when `version` is at least `minimum` (both `major.minor.patch`, prerelease ignored).
+ * An insiders build (`0.0.0-insiders.<sha>`) is built from Tailwind's main branch, so it counts as
+ * newer than every release.
+ */
 export function versionAtLeast(version: string, minimum: string): boolean {
+  if (version.startsWith('0.0.0-insiders.')) return true
   const parse = (text: string): number[] => (text.split('-')[0] ?? '').split('.').map(Number)
   const [actual, wanted] = [parse(version), parse(minimum)]
   for (let index = 0; index < 3; index++) {

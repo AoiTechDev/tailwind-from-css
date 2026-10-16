@@ -76,10 +76,48 @@ describe('N50 selector transforms', () => {
     expect(n(':is(*)')).toBe('*')
   })
 
+  // Tailwind 4.3 prints `group-hover:` as `.c:is(:where(.group):hover *)`, insiders (after 4.3.3)
+  // as `:is(:where(.group):hover .c)`.
+  const elementOutside: readonly (readonly [string, string])[] = [
+    [':is(:where(.group):hover &)', '&:is(:where(.group):hover *)'],
+    [':is(:where(.group):focus &:hover)', '&:hover:is(:where(.group):focus *)'],
+    [':is(:where(.group):hover &):focus', '&:is(:where(.group):hover *):focus'],
+    [':is(:where(.group):hover &)::before', '&:is(:where(.group):hover *)::before'],
+    [':is(:where(.peer):checked ~ &)', '&:is(:where(.peer):checked ~ *)'],
+    [':is(:where(.group\\/item):hover &)', '&:is(:where(.group\\/item):hover *)'],
+    [':is(.a .b)', '.b:is(.a *)'],
+    [':is(.a .b .c)', '.c:is(.a .b *)'],
+    ['.x :is(.a > .b)', '.x .b:is(.a > *)'],
+    [':is(.a *.b)', '.b:is(.a *)'],
+    [':not(:is(.a .b))', ':not(.b:is(.a *))'],
+    [':is(.a :is(.b .c))', '.c:is(.b *):is(.a *)'],
+  ]
+
+  it('writes the element of a one-argument complex :is() outside it', () => {
+    for (const [selector, normal] of elementOutside) expect(n(selector)).toBe(normal)
+    expect(n(':is(:where(.group):hover &)')).toBe(n('&:is(:where(.group):hover *)'))
+  })
+
+  it('keeps the match and the specificity when it moves the element out of :is()', () => {
+    const nesting = { nesting: [0, 1, 0] as const }
+    for (const [selector, normal] of elementOutside) {
+      expect(specificity(normal, nesting)).toEqual(specificity(selector, nesting))
+      expect(n(normal)).toBe(normal)
+    }
+  })
+
+  it('keeps a complex :is() whose element is * or a pseudo-element, and lists', () => {
+    expect(n(':is(& > *)')).toBe(':is(& > *)')
+    expect(n(':is(.a .b, .c .d)')).toBe(':is(.a .b,.c .d)')
+    expect(n(':is(.a &::before)')).toBe(':is(.a &::before)')
+    expect(n(':where(.a .b)')).toBe(':where(.a .b)')
+    expect(n(':has(.a .b)')).toBe(':has(.a .b)')
+    expect(n('div:is(.a span)')).toBe('div:is(.a span)')
+  })
+
   it('keeps :where(), complex :is() and selectors that change meaning', () => {
     expect(n(':where(.a)')).toBe(':where(.a)')
     expect(n(':where(.a)')).not.toBe(n('.a'))
-    expect(n(':is(.a .b)')).toBe(':is(.a .b)')
     expect(n(':is(.a, .b)')).toBe(':is(.a,.b)')
     expect(n(':is(:where(.group):hover *)')).toBe(':is(:where(.group):hover *)')
     expect(n('div:is(span)')).toBe('div:is(span)')
@@ -188,6 +226,20 @@ describe('extractSubject', () => {
       transform: '&:is([aria-current],:hover)',
     })
     expect(extractSubject(':where(:root)')).toEqual({ subject: ':where(:root)', transform: '&' })
+  })
+
+  it('splits a one-argument complex :is() like the element written outside it', () => {
+    expect(extractSubject(':is(:where(.group):hover .b)')).toEqual({
+      subject: '.b',
+      transform: '&:is(:where(.group):hover *)',
+    })
+    expect(extractSubject(':is(:where(.group):hover .b)::before')).toEqual(
+      extractSubject('.b:is(:where(.group):hover *)::before'),
+    )
+    expect(extractSubject('.c :is(.a > .b):hover')).toEqual({
+      subject: '.c .b',
+      transform: '&:is(.a > *):hover',
+    })
   })
 
   it('strips :is()/:where() of states only, and those after the subject', () => {

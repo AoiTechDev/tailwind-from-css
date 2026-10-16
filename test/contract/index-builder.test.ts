@@ -112,6 +112,12 @@ describe('default theme', () => {
     expect(variants('&:is(:where(.group):hover *)', ['@media (hover: hover)'])).toEqual([
       'group-hover',
     ])
+    // Insiders (after 4.3.3) compiles group/peer variants with the class inside the `:is()`.
+    expect(variants(':is(:where(.group):hover &)', ['@media (hover: hover)'])).toEqual([
+      'group-hover',
+    ])
+    expect(variants('&:is(:where(.peer):checked ~ *)')).toEqual(['peer-checked'])
+    expect(variants(':is(:where(.peer):checked ~ &)')).toEqual(['peer-checked'])
     expect(variants('&:not(:first-child)')).toEqual(['not-first'])
     expect(variants('&:has(:checked)')).toEqual(['has-checked'])
     expect(variants('&[aria-checked="true"]')).toEqual(['aria-checked'])

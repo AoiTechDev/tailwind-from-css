@@ -106,12 +106,15 @@ describe('toAst', () => {
     expect(css(ds, 'hover:focus:flex')).toBe(
       '@media (hover: hover) { .hover\\:focus\\:flex:hover:focus { display: flex; } }',
     )
-    expect(css(ds, 'group-hover:flex')).toBe(
+    // Insiders (after 4.3.3) writes the class inside the `:is()`; N50 makes both shapes equal.
+    expect([
       '@media (hover: hover) { .group-hover\\:flex:is(:where(.group):hover *) { display: flex; } }',
-    )
-    expect(css(ds, 'peer-checked:flex')).toBe(
+      '@media (hover: hover) { :is(:where(.group):hover .group-hover\\:flex) { display: flex; } }',
+    ]).toContain(css(ds, 'group-hover:flex'))
+    expect([
       '.peer-checked\\:flex:is(:where(.peer):checked ~ *) { display: flex; }',
-    )
+      ':is(:where(.peer):checked ~ .peer-checked\\:flex) { display: flex; }',
+    ]).toContain(css(ds, 'peer-checked:flex'))
     expect(css(ds, '*:flex')).toBe(':is(.\\*\\:flex > *) { display: flex; }')
     expect(css(ds, 'starting:flex')).toBe('@starting-style { .starting\\:flex { display: flex; } }')
     expect(css(ds, '@md:flex')).toBe(

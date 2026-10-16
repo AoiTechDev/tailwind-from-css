@@ -301,6 +301,23 @@ describe('convertCss', () => {
     expect(rules.every((rule) => rule.result.exact)).toBe(true)
   })
 
+  it('reads group and peer variants in the shape of Tailwind 4.3 and of insiders', () => {
+    const { rules } = converter.convertCss(
+      [
+        '@media (hover: hover) {',
+        '  .a:is(:where(.group):hover *) { display: flex }',
+        '  :is(:where(.group):hover .b) { display: flex }',
+        '}',
+        ':is(:where(.peer):checked ~ .c) { display: flex }',
+      ].join('\n'),
+    )
+    expect(rules.map((rule) => [rule.subject, rule.result.className, rule.result.exact])).toEqual([
+      ['.a', 'group-hover:flex', true],
+      ['.b', 'group-hover:flex', true],
+      ['.c', 'peer-checked:flex', true],
+    ])
+  })
+
   it('gives every source its selector transform, conditions, line and column', () => {
     const [btn] = converter.convertCss(STYLESHEET).rules
     const sources = Object.fromEntries(

@@ -137,6 +137,48 @@ function unwrapIs(node: selectorParser.Pseudo): Part[] | undefined {
   return simple ? compound.flatMap(printPart) : undefined
 }
 
+interface ElementOutside {
+  /** The simple selectors of the argument's last compound, without spaces. */
+  readonly element: readonly ComplexSelector['nodes'][number][]
+  /** The argument with that compound replaced by `*`. */
+  readonly relation: ComplexSelector
+}
+
+// N50: `:is(A > L)` with one complex argument matches and weighs exactly like `L:is(A > *)`, the
+// shape Tailwind 4.3 prints for `group-*`/`peer-*` (insiders after 4.3.3 prints the first). The
+// element's compound `L` moves out; a bare `*` or a pseudo-element in it stays.
+function elementOutside(node: selectorParser.Pseudo): ElementOutside | undefined {
+  const [argument] = node.nodes
+  if (pseudoName(node) !== ':is' || node.nodes.length !== 1 || argument === undefined)
+    return undefined
+  const nodes = argument.nodes.filter((child) => child.type !== 'comment')
+  let start = nodes.length
+  while (start > 0 && nodes[start - 1]?.type !== 'combinator') start--
+  if (start <= 1 || start === nodes.length) return undefined
+  const element = nodes.slice(start).map((child) => {
+    const copy = child.clone()
+    copy.spaces.before = ''
+    copy.spaces.after = ''
+    return copy
+  })
+  const pseudoElement = element.some(
+    (child) => child.type === 'pseudo' && isPseudoElement(pseudoName(child)),
+  )
+  const bare = element.flatMap(printPart).every((part) => part.kind === 'universal')
+  if (pseudoElement || bare) return undefined
+  const relation = selectorParser.selector({ value: '', nodes: [] })
+  for (const child of nodes.slice(0, start)) relation.append(child.clone())
+  relation.append(selectorParser.universal({ value: '*' }))
+  return { element, relation }
+}
+
+function moveElementOut(node: selectorParser.Pseudo): Part[] | undefined {
+  const outside = elementOutside(node)
+  if (outside === undefined) return undefined
+  const relation = `:is(${printComplex(outside.relation)})`
+  return [...outside.element.flatMap(printPart), { kind: 'other', text: relation }]
+}
+
 function printPart(node: SelectorNode): Part[] {
   switch (node.type) {
     case 'tag':
@@ -149,7 +191,7 @@ function printPart(node: SelectorNode): Part[] {
     case 'attribute':
       return [{ kind: 'other', text: printAttribute(node) }]
     case 'pseudo':
-      return unwrapIs(node) ?? [{ kind: 'other', text: printPseudo(node) }]
+      return unwrapIs(node) ?? moveElementOut(node) ?? [{ kind: 'other', text: printPseudo(node) }]
     case 'comment':
       return []
     default:
@@ -349,6 +391,15 @@ export function extractSubject(selector: string): SubjectSplit | undefined {
   const root = parse(selector)
   const [complex] = root?.nodes ?? []
   if (complex === undefined || root?.nodes.length !== 1) return undefined
+  // `:is(.a .b):hover` splits like its N50 form `.b:is(.a *):hover`.
+  for (const node of [...complex.nodes]) {
+    const outside = node.type === 'pseudo' ? elementOutside(node) : undefined
+    if (outside === undefined) continue
+    for (const child of outside.element) complex.insertBefore(node, child)
+    const relation = selectorParser.pseudo({ value: ':is' })
+    relation.append(outside.relation)
+    node.replaceWith(relation)
+  }
   const nodes = complex.nodes.filter((node) => node.type !== 'comment')
   let start = nodes.length
   while (start > 0) {
