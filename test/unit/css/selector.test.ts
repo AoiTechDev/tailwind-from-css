@@ -150,6 +150,12 @@ describe('idempotence on malformed selectors (property-test seeds)', () => {
     String.raw`/\a/`,
     // Nightly seed 1243126811: the first pass gave `\a  a`, the second `\a a`.
     `${String.raw`\a*`}\na`,
+    // CI seed 1551588493: the first pass gave `\ +`, the second `\  +`.
+    '\\\n+',
+    '.a\\\n+.b',
+    '\\\t+',
+    '\\\r\n.b',
+    '\\\f.b',
   ])('%j', (selector) => {
     const once = normalizeSelector(selector)
     expect(normalizeSelector(once)).toBe(once)
@@ -175,6 +181,16 @@ describe('idempotence on malformed selectors (property-test seeds)', () => {
   it('treats empty list members and unknown combinators as unreadable', () => {
     expect(normalizeSelector('a, ')).toBe('a,')
     expect(normalizeSelector('a ()a')).toBe('a ()a')
+  })
+
+  // The parser reads `\` before a tab, LF, CR or FF as a lone backslash, but `\` before the space
+  // a printer would write as an escape, so no printed form reads back the same.
+  it('treats a backslash that escapes nothing as unreadable', () => {
+    expect(normalizeSelector('\\\n+')).toBe('\\\n+')
+    expect(normalizeSelector('.a\\\t  +  .b')).toBe('.a\\\t + .b')
+    expect(normalizeSelector('.a\\\\\n+.b')).toBe('.a\\\\ + .b')
+    expect(normalizeSelector('[title="a\\\nb"]  >  p')).toMatch(/^\[title="[^"]*"\] > p$/)
+    expect(normalizeSelector('.a\\\n')).toBe('.a\\\n')
   })
 })
 

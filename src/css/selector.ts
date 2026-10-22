@@ -31,6 +31,7 @@ const EMPTY_LIST_MEMBER = /^,|,\s*(?:,|$)/
 const COMBINATORS: ReadonlySet<string> = new Set(['', '>', '+', '~'])
 const HEX_DIGIT = /^[0-9a-f]$/i
 const HEX_ESCAPE_DIGITS = /^[0-9a-f]{1,6}/i
+const UNESCAPABLE = /^[\t\n\r\f]$/
 const TRAILING_HEX_ESCAPE = /(?:^|[^\\])(?:\\\\)*\\[0-9a-f]{1,6}$/i
 
 const LEGACY_PSEUDO_ELEMENTS: ReadonlySet<string> = new Set([
@@ -270,7 +271,7 @@ export function normalizeSelector(selector: string): string {
 }
 
 function printRoot(root: selectorParser.Root | undefined, collapsed: string): string {
-  let readable = root !== undefined
+  let readable = root !== undefined && !hasDanglingBackslash(collapsed)
   root?.walkCombinators((combinator) => {
     if (!COMBINATORS.has(combinator.value.trim())) readable = false
   })
@@ -457,6 +458,22 @@ function collapseWhitespace(text: string): string {
     else if (char === quote) quote = ''
   }
   return result
+}
+
+// postcss-selector-parser reads `\` before a tab, LF, CR or FF outside a string as a lone
+// backslash, and `\` before the space a printer writes as an escaped space: no printed form of
+// such a selector reads back the same.
+function hasDanglingBackslash(text: string): boolean {
+  let quote = ''
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index]
+    if (char === '\\') {
+      if (quote === '' && UNESCAPABLE.test(text[index + 1] ?? '')) return true
+      index++
+    } else if (quote === '' && (char === '"' || char === "'")) quote = char
+    else if (char === quote) quote = ''
+  }
+  return false
 }
 
 const isLeadingInCompound = (node: SelectorNode): boolean => {
