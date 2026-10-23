@@ -768,6 +768,172 @@ describe('pruneStyles', () => {
     })
   })
 
+  describe('what shows nothing, guarded by the other states', () => {
+    // Linear's composer toolbar button (issue #31): no outline at rest, one with its own color on
+    // :focus-visible. The baseline's color differs, so only showing nothing can drop it.
+    const button = {
+      color: 'rgb(255, 255, 255)',
+      outlineStyle: 'none',
+      outlineWidth: '3px',
+      outlineColor: 'rgba(0, 0, 0, 0)',
+    }
+    const baseline = { color: 'rgb(255, 255, 255)', outlineStyle: 'none', outlineWidth: '3px' }
+    const focused = {
+      ...button,
+      outlineStyle: 'solid',
+      outlineWidth: '1px',
+      outlineColor: 'rgb(94, 105, 209)',
+    }
+
+    it('keeps it without states: a state might show it', () => {
+      expect(kept(button, { baseline })).toEqual(['outline-color: rgba(0, 0, 0, 0)'])
+    })
+
+    it('drops a line color when the line is not drawn and no state draws it with that color', () => {
+      expect(kept(button, { baseline, states: [] })).toEqual([])
+      expect(kept(button, { baseline, states: [focused] })).toEqual([])
+      expect(
+        kept({ ...button, outlineStyle: 'solid', outlineWidth: '0px' }, { baseline, states: [] }),
+      ).toEqual(['outline-style: solid', 'outline-width: 0px'])
+      const border = {
+        borderTopStyle: 'none',
+        borderTopWidth: '0px',
+        borderTopColor: 'rgb(1, 2, 3)',
+      }
+      const flat = { baseline: { borderTopWidth: '0px' }, states: [] }
+      expect(kept(border, flat)).toEqual([])
+      expect(kept({ ...border, borderTopStyle: 'hidden' }, flat)).toEqual([
+        'border-top-style: hidden',
+      ])
+      expect(
+        kept({ columnRuleStyle: 'none', columnRuleColor: 'rgb(1, 2, 3)' }, { states: [] }),
+      ).toEqual([])
+    })
+
+    it('keeps the color of an undrawn border side equal to a drawn one, so one class covers all four', () => {
+      // `border-b border-gray-200` under Preflight's `border: 0 solid`.
+      const sides = ['top', 'right', 'bottom', 'left'].map((side) => [
+        [`border-${side}-style`, 'solid'],
+        [`border-${side}-width`, side === 'bottom' ? '1px' : '0px'],
+        [`border-${side}-color`, 'rgb(229, 231, 235)'],
+      ])
+      const box = Object.fromEntries(sides.flat())
+      const reference = { baseline: { ...box, 'border-bottom-width': '0px' }, states: [] }
+      const colors = (styles: Record<string, string>) =>
+        kept(styles, {
+          ...reference,
+          baseline: {
+            ...reference.baseline,
+            'border-top-color': 'red',
+            'border-right-color': 'red',
+            'border-bottom-color': 'red',
+            'border-left-color': 'red',
+          },
+        }).filter((line) => line.includes('-color'))
+      expect(colors(box)).toHaveLength(4)
+      expect(colors({ ...box, 'border-top-color': 'rgb(1, 2, 3)' })).toEqual([
+        'border-right-color: rgb(229, 231, 235)',
+        'border-bottom-color: rgb(229, 231, 235)',
+        'border-left-color: rgb(229, 231, 235)',
+      ])
+    })
+
+    it('keeps a line color a state draws with the same color, or that a state may draw', () => {
+      const outlined = { ...button, outlineStyle: 'solid', outlineWidth: '1px' }
+      expect(kept(button, { baseline, states: [focused, outlined] })).toEqual([
+        'outline-color: rgba(0, 0, 0, 0)',
+      ])
+      // A state that doesn't list the line's style can't be read: keep.
+      expect(kept(button, { baseline, states: [{ color: 'red' }] })).toEqual([
+        'outline-color: rgba(0, 0, 0, 0)',
+      ])
+      expect(
+        kept({ ...button, outlineStyle: 'solid', outlineWidth: '1px' }, { baseline, states: [] }),
+      ).toEqual(['outline-style: solid', 'outline-width: 1px', 'outline-color: rgba(0, 0, 0, 0)'])
+    })
+
+    it('drops insets on a static box unless a state positions it with them (issue #32)', () => {
+      const box = { position: 'static', top: '-16px', left: '24px', insetBlockStart: '-16px' }
+      expect(kept(box, { states: [] })).toEqual([])
+      expect(kept({ ...box, position: 'relative' }, { states: [] })).toEqual([
+        'position: relative',
+        'top: -16px',
+        'left: 24px',
+        'inset-block-start: -16px',
+      ])
+      expect(kept(box, { states: [{ ...box, position: 'relative', left: '0px' }] })).toEqual([
+        'top: -16px',
+        'inset-block-start: -16px',
+      ])
+    })
+
+    it('drops what places background images when there is none (issue #33)', () => {
+      const backdrop = {
+        backgroundImage: 'none',
+        backgroundColor: 'rgb(28, 29, 30)',
+        backgroundSize: '1280px 832px',
+        backgroundPosition: '-200px -107.719px',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+        backgroundOrigin: 'content-box',
+        backgroundClip: 'content-box',
+      }
+      expect(kept(backdrop, { states: [] })).toEqual([
+        'background-color: rgb(28, 29, 30)',
+        'background-clip: content-box',
+      ])
+      const image = 'url("https://x.example/a.png")'
+      expect(kept({ ...backdrop, backgroundImage: image }, { states: [] })).toHaveLength(8)
+      expect(kept({ ...backdrop, backgroundImage: 'none, none' }, { states: [] })).not.toContain(
+        'background-size: 1280px 832px',
+      )
+      // A hovered state adds the image and keeps the size.
+      expect(
+        kept(backdrop, {
+          states: [{ ...backdrop, backgroundImage: image, backgroundSize: '10px' }],
+        }),
+      ).toEqual([
+        'background-color: rgb(28, 29, 30)',
+        'background-position: -200px -107.719px',
+        'background-repeat: no-repeat',
+        'background-attachment: fixed',
+        'background-origin: content-box',
+        'background-clip: content-box',
+      ])
+    })
+
+    it('drops transition longhands when no transition can run (issue #34)', () => {
+      const icon = {
+        transitionProperty: 'fill',
+        transitionDuration: '0s',
+        transitionDelay: '0s',
+        transitionTimingFunction: 'linear',
+        transitionBehavior: 'allow-discrete',
+      }
+      expect(kept(icon, { states: [] })).toEqual([])
+      expect(kept({ ...icon, transitionDelay: '-1s, 0s' }, { states: [] })).toEqual([])
+      // A delay of its own still runs one: the value changes after it.
+      expect(kept({ ...icon, transitionDelay: '0.1s' }, { states: [] })).toHaveLength(4)
+      expect(kept({ ...icon, transitionDuration: '0s, 150ms' }, { states: [] })).toHaveLength(4)
+      // Hovered, it runs with the base's property list.
+      expect(kept(icon, { states: [{ ...icon, transitionDuration: '150ms' }] })).toEqual([
+        'transition-property: fill',
+        'transition-timing-function: linear',
+        'transition-behavior: allow-discrete',
+      ])
+    })
+
+    it('lets keep win, and drops nothing that shows', () => {
+      expect(kept(button, { baseline, states: [], keep: ['outline-color'] })).toEqual([
+        'outline-color: rgba(0, 0, 0, 0)',
+      ])
+      expect(kept({ color: 'red', paddingTop: '4px' }, { states: [] })).toEqual([
+        'color: red',
+        'padding-top: 4px',
+      ])
+    })
+  })
+
   describe('declarations that set the same longhands', () => {
     it('drops a shorthand and its longhands when every longhand is pruned', () => {
       expect(kept({ margin: '0px', marginTop: '0px' }, {})).toEqual([])

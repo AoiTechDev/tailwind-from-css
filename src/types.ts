@@ -227,4 +227,14 @@ export interface PruneOptions {
   keep?: string[]
   /** Properties to always drop (camelCase or kebab-case; a shorthand stands for its longhands). */
   drop?: string[]
+  /**
+   * Computed styles of the same element in its other captured states (`:hover`,
+   * `:focus-visible` …), each pruned with this style as its baseline. Given, a longhand that
+   * shows nothing here is dropped: a line's color where the line isn't drawn, insets of a static
+   * box, what places background images where there is none, transition longhands where no
+   * transition can run. It's kept when a state shows it with the same value, since that state
+   * doesn't repeat it. Without `states`, those are compared like any other longhand, as some
+   * state might show them; pass `[]` when there are no other states.
+   */
+  states?: DeclarationsInput[]
 }

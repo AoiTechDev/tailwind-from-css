@@ -3,17 +3,12 @@
     {
       "name": "root",
       "tag": "html",
-      "className": "bg-white bg-no-repeat font-[system-ui,'Segoe_UI',Roboto,Oxygen,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica_Neue',sans-serif,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] wrap-break-word text-zinc-700 underline-offset-[1.6px] scheme-light [text-rendering:optimizelegibility] md:text-lg/6.75 md:underline-offset-[1.8px] xl:text-xl/7.5 xl:underline-offset-2",
+      "className": "bg-white font-[system-ui,'Segoe_UI',Roboto,Oxygen,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica_Neue',sans-serif,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji'] wrap-break-word text-zinc-700 underline-offset-[1.6px] scheme-light [text-rendering:optimizelegibility] md:text-lg/6.75 md:underline-offset-[1.8px] xl:text-xl/7.5 xl:underline-offset-2",
       "mappings": [
         [
           "bg-white",
           "named",
           "background-color: rgb(255, 255, 255)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "font-[system-ui,'Segoe_UI',Roboto,Oxygen,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica_Neue',sans-serif,'Apple_Color_Emoji','Segoe_UI_Emoji','Segoe_UI_Symbol','Noto_Color_Emoji']",
@@ -85,17 +80,12 @@
     {
       "name": "heading",
       "tag": "h2",
-      "className": "mb-4 bg-no-repeat text-3xl/[32.2px] font-bold md:mb-4.5 md:text-3xl/[36.225px] xl:mb-5 xl:text-4xl/[40.25px]",
+      "className": "mb-4 text-3xl/[32.2px] font-bold md:mb-4.5 md:text-3xl/[36.225px] xl:mb-5 xl:text-4xl/[40.25px]",
       "mappings": [
         [
           "mb-4",
           "bare",
           "margin-bottom: 16px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "text-3xl/[32.2px]",
@@ -157,7 +147,7 @@
     {
       "name": "grid",
       "tag": "div",
-      "className": "grid gap-4 bg-no-repeat md:gap-4.5 xl:gap-5",
+      "className": "grid gap-4 md:gap-4.5 xl:gap-5",
       "mappings": [
         [
           "grid",
@@ -169,11 +159,6 @@
           "bare",
           "column-gap: 16px",
           "row-gap: 16px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "md:gap-4.5",
@@ -195,7 +180,7 @@
     {
       "name": "name-label",
       "tag": "label",
-      "className": "mb-1.5 min-w-0 bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "className": "mb-1.5 min-w-0 md:mb-[6.75px] xl:mb-2",
       "mappings": [
         [
           "mb-1.5",
@@ -206,11 +191,6 @@
           "min-w-0",
           "bare",
           "min-width: 0px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "md:mb-[6.75px]",
@@ -237,7 +217,7 @@
     {
       "name": "name",
       "tag": "input",
-      "className": "mt-1 mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mt-[4.5px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mt-1.25 xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "className": "mt-1 mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mt-[4.5px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mt-1.25 xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
       "mappings": [
         [
           "mt-1",
@@ -294,11 +274,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0034
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -480,7 +455,7 @@
     {
       "name": "bio",
       "tag": "textarea",
-      "className": "mb-4 block appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "className": "mb-4 block appearance-none rounded-sm border border-slate-300 bg-mist-50 pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
       "mappings": [
         [
           "mb-4",
@@ -537,11 +512,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0034
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -712,7 +682,7 @@
     {
       "name": "switch",
       "tag": "input",
-      "className": "-mt-0.5 mr-2 h-5 w-9 cursor-pointer appearance-none rounded-[20px] [border-top-width:3px] [border-right-width:3px] [border-bottom-width:3px] [border-left-width:3px] border-solid border-[rgb(191,199,217)] bg-[rgb(191,199,217)] bg-no-repeat align-middle leading-5 text-white accent-[rgb(1,114,173)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] before:block before:aspect-square before:size-3.5 before:rounded-[50%] before:bg-white before:bg-no-repeat before:align-middle before:[transition-property:margin] before:duration-100 before:ease-[ease-in-out] before:content-[''] focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px] focus-visible:outline-offset-2 md:mt-[-2.25px] md:mr-2.25 md:h-5.5 md:w-10 md:rounded-3xl md:leading-5.5 md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:mt-[-2.5px] xl:mr-2.5 xl:h-6.25 xl:w-11.25 xl:leading-6.25 xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px] md:[&::before]:size-4 xl:[&::before]:size-4.75",
+      "className": "-mt-0.5 mr-2 h-5 w-9 cursor-pointer appearance-none rounded-[20px] [border-top-width:3px] [border-right-width:3px] [border-bottom-width:3px] [border-left-width:3px] border-solid border-[rgb(191,199,217)] bg-[rgb(191,199,217)] align-middle leading-5 text-white accent-[rgb(1,114,173)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] before:block before:aspect-square before:size-3.5 before:rounded-[50%] before:bg-white before:align-middle before:[transition-property:margin] before:duration-100 before:ease-[ease-in-out] before:content-[''] focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2px] focus-visible:outline-offset-2 md:mt-[-2.25px] md:mr-2.25 md:h-5.5 md:w-10 md:rounded-3xl md:leading-5.5 md:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:mt-[-2.5px] xl:mr-2.5 xl:h-6.25 xl:w-11.25 xl:leading-6.25 xl:focus-visible:[box-shadow:rgba(2,154,232,0.5)_0px_0px_0px_2.5px] md:[&::before]:size-4 xl:[&::before]:size-4.75",
       "mappings": [
         [
           "-mt-0.5",
@@ -794,11 +764,6 @@
           "background-color: rgb(191, 199, 217)"
         ],
         [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
-        ],
-        [
           "align-middle",
           "named",
           "vertical-align: middle"
@@ -861,11 +826,6 @@
           "before:bg-white",
           "named",
           "&::before | background-color: rgb(255, 255, 255)"
-        ],
-        [
-          "before:bg-no-repeat",
-          "named",
-          "&::before | background-repeat: no-repeat"
         ],
         [
           "before:align-middle",
@@ -1042,7 +1002,7 @@
     {
       "name": "switch-label",
       "tag": "label",
-      "className": "mb-1.5 block cursor-pointer bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "className": "mb-1.5 block cursor-pointer md:mb-[6.75px] xl:mb-2",
       "mappings": [
         [
           "mb-1.5",
@@ -1058,11 +1018,6 @@
           "cursor-pointer",
           "named",
           "cursor: pointer"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "md:mb-[6.75px]",
@@ -1089,7 +1044,7 @@
     {
       "name": "group",
       "tag": "div",
-      "className": "relative mb-4 inline-flex rounded-sm bg-no-repeat align-middle [transition-property:box-shadow] duration-200 ease-[ease-in-out] md:mb-4.5 md:rounded-[4.5px] xl:mb-5 xl:rounded-[5px]",
+      "className": "relative mb-4 inline-flex rounded-sm align-middle [transition-property:box-shadow] duration-200 ease-[ease-in-out] md:mb-4.5 md:rounded-[4.5px] xl:mb-5 xl:rounded-[5px]",
       "mappings": [
         [
           "relative",
@@ -1113,11 +1068,6 @@
           "border-bottom-right-radius: 4px",
           "border-top-left-radius: 4px",
           "border-top-right-radius: 4px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "align-middle",
@@ -1178,7 +1128,7 @@
     {
       "name": "save",
       "tag": "button",
-      "className": "relative grow cursor-pointer rounded-l-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:rounded-l-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:rounded-l-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "className": "relative grow cursor-pointer rounded-l-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:rounded-l-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:rounded-l-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
       "mappings": [
         [
           "relative",
@@ -1225,11 +1175,6 @@
           "bg-[rgb(1,114,173)]",
           "arbitrary-value",
           "background-color: rgb(1, 114, 173)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -1377,7 +1322,7 @@
     {
       "name": "reset",
       "tag": "button",
-      "className": "relative -ml-px grow cursor-pointer rounded-r-sm border border-[rgb(82,95,122)] bg-[rgb(82,95,122)] bg-no-repeat pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-slate-600 hover:bg-slate-600 md:ml-[-1.125px] md:rounded-r-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:ml-[-1.25px] xl:rounded-r-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "className": "relative -ml-px grow cursor-pointer rounded-r-sm border border-[rgb(82,95,122)] bg-[rgb(82,95,122)] pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-slate-600 hover:bg-slate-600 md:ml-[-1.125px] md:rounded-r-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:ml-[-1.25px] xl:rounded-r-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
       "mappings": [
         [
           "relative",
@@ -1429,11 +1374,6 @@
           "bg-[rgb(82,95,122)]",
           "arbitrary-value",
           "background-color: rgb(82, 95, 122)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -1593,7 +1533,7 @@
     {
       "name": "quote",
       "tag": "blockquote",
-      "className": "mt-4 mb-4 border-l-4 border-l-slate-200 bg-no-repeat p-4 md:mt-4.5 md:mb-4.5 md:p-4.5 xl:mt-5 xl:mb-5 xl:[border-left-width:5px] xl:p-5",
+      "className": "mt-4 mb-4 border-l-4 border-l-slate-200 p-4 md:mt-4.5 md:mb-4.5 md:p-4.5 xl:mt-5 xl:mb-5 xl:[border-left-width:5px] xl:p-5",
       "mappings": [
         [
           "mt-4",
@@ -1619,11 +1559,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0088
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "p-4",
@@ -1802,7 +1737,7 @@
     {
       "name": "contrast",
       "tag": "a",
-      "className": "inline-block rounded-sm border border-mist-900 bg-mist-900 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-black hover:bg-black focus-visible:border-black focus-visible:bg-black focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px] focus-visible:outline-offset-1 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
+      "className": "inline-block rounded-sm border border-mist-900 bg-mist-900 pt-3 pr-4 pb-3 pl-4 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-black hover:bg-black focus-visible:border-black focus-visible:bg-black focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px] focus-visible:outline-offset-1 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
       "mappings": [
         [
           "inline-block",
@@ -1849,11 +1784,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0162
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -2044,7 +1974,7 @@
     {
       "name": "th",
       "tag": "th",
-      "className": "border-b-[3px] border-b-slate-200 bg-white bg-no-repeat pt-2 pr-4 pb-2 pl-4 text-start font-semibold md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "className": "border-b-[3px] border-b-slate-200 bg-white pt-2 pr-4 pb-2 pl-4 text-start font-semibold md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
       "mappings": [
         [
           "border-b-[3px]",
@@ -2065,11 +1995,6 @@
           "bg-white",
           "named",
           "background-color: rgb(255, 255, 255)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-2",
@@ -2152,7 +2077,7 @@
     {
       "name": "td",
       "tag": "td",
-      "className": "border-b border-b-slate-200 bg-white bg-no-repeat pt-2 pr-4 pb-2 pl-4 md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "className": "border-b border-b-slate-200 bg-white pt-2 pr-4 pb-2 pl-4 md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
       "mappings": [
         [
           "border-b",
@@ -2173,11 +2098,6 @@
           "bg-white",
           "named",
           "background-color: rgb(255, 255, 255)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-2",

@@ -67,6 +67,27 @@ const AUTO_SIZED: ReadonlySet<string> = new Set([
   'ruby-base-container',
   'ruby-text-container',
 ])
+// SPEC §9: longhands that show nothing in a block, whatever their value (`showsNothing`).
+const LINE_COLOR = /^(border-(?:top|right|bottom|left)|outline|column-rule|row-rule)-color$/
+const BORDER_SIDE_COLOR = /^border-(?:top|right|bottom|left)-color$/
+const BORDER_SIDE_COLORS = ['top', 'right', 'bottom', 'left'].map((side) => `border-${side}-color`)
+const INSET = /^(?:top|right|bottom|left|inset-(?:block|inline)-(?:start|end))$/
+const IMAGE_PLACEMENT: ReadonlySet<string> = new Set([
+  'background-attachment',
+  'background-origin',
+  'background-position',
+  'background-position-x',
+  'background-position-y',
+  'background-repeat',
+  'background-size',
+])
+const TRANSITION_DETAIL: ReadonlySet<string> = new Set([
+  'transition-property',
+  'transition-timing-function',
+  'transition-delay',
+  'transition-behavior',
+])
+const TIME = /^(-?\d*\.?\d+(?:e-?\d+)?)m?s$/
 const OPPOSITE: ReadonlyMap<string, string> = new Map([
   ['top', 'bottom'],
   ['bottom', 'top'],
@@ -250,6 +271,41 @@ function readBack(property: string, value: string, block: Block): string {
   return oneItem(property, value)
 }
 
+const items = (value: string): string[] => splitTopLevel(value, ',').map((item) => item.trim())
+
+// Every item of a time list is at most 0 (a list the block doesn't give can't be read).
+function noLaterThanNow(value: string | undefined): boolean {
+  if (value === undefined) return false
+  return items(value).every((item) => {
+    const match = TIME.exec(item)
+    return match !== null && Number(match[1]) <= 0
+  })
+}
+
+// Longhands whose value shows nothing in this block: the color of a line with style `none`
+// (`hidden` for borders) or width 0; insets of a static box; what places background images where
+// every layer is `none`; transition details where every duration and delay is at most 0, so no
+// transition runs (CSS Transitions 1 §3: a combined duration of 0 or less starts none).
+function showsNothing(property: string, block: Block): boolean {
+  const line = LINE_COLOR.exec(property)?.[1]
+  if (line !== undefined) {
+    const style = block.get(`${line}-style`)
+    return style === 'none' || style === 'hidden' || px(block.get(`${line}-width`)) === 0
+  }
+  if (INSET.test(property)) return block.get('position') === 'static'
+  if (IMAGE_PLACEMENT.has(property)) {
+    const images = block.get('background-image')
+    return images !== undefined && items(images).every((image) => image === 'none')
+  }
+  if (TRANSITION_DETAIL.has(property)) {
+    return (
+      noLaterThanNow(block.get('transition-duration')) &&
+      noLaterThanNow(block.get('transition-delay'))
+    )
+  }
+  return false
+}
+
 /** The physical longhand a logical one sets in a horizontal writing mode. */
 function physicalTwin(property: string, rtl: boolean): string | undefined {
   const inlineSide = (edge: string): string => ((edge === 'start') !== rtl ? 'left' : 'right')
@@ -323,7 +379,9 @@ const neverShown = (property: string): boolean => property.startsWith('--') || D
  * its initial value. Values computed against the element are read back first: a color equal to
  * the element's own `color` as `currentcolor`, an origin at the center of its border box as
  * `50% 50%`. A logical longhand equal to the physical one it sets (the element's `direction`,
- * horizontal `writing-mode`) is dropped. Custom properties are dropped (computed values have
+ * horizontal `writing-mode`) is dropped. Given `states` (the element's other captured states), a
+ * longhand that shows nothing here (a line's color with no line, insets of a static box …) is
+ * dropped unless a state shows it with the same value. Custom properties are dropped (computed values have
  * `var()` substituted), important declarations are kept, and `keep`/`drop` override everything
  * (a shorthand stands for its longhands; `keep` wins; read-backs still see dropped values, so
  * dropping `width` keeps an origin at the center). Declarations that set the same longhand
@@ -366,6 +424,31 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
   }
   const hidden = notRendered(block) || hides(references.parent)
   const outOfFlow = OUT_OF_FLOW.has(block.get('position') ?? '')
+  // A state is pruned against this block, so one that keeps a value here doesn't repeat it: a
+  // value that shows nothing here may go only if every state changes it or shows nothing either.
+  const states = options.states?.map(blockOf)
+  const shownByAState = (property: string, value: string): boolean =>
+    states === undefined ||
+    states.some((state) => {
+      const theirs = state.get(property)
+      const same =
+        theirs === undefined ||
+        normalValuesEqual(readBack(property, theirs, state), readBack(property, value, block))
+      return same && !showsNothing(property, state)
+    })
+  // Like a visible line's style (SPEC §9), an undrawn border side's color equal to a drawn side's
+  // stays, so `border-<color>` covers all four sides instead of one class per drawn side.
+  const drawnSideColor = (property: string, value: string): boolean =>
+    BORDER_SIDE_COLOR.test(property) &&
+    BORDER_SIDE_COLORS.some((other) => {
+      const color = block.get(other)
+      return (
+        other !== property &&
+        color !== undefined &&
+        !showsNothing(other, block) &&
+        normalValuesEqual(color, value)
+      )
+    })
   const equalsReference = (property: string, value: string): boolean => {
     if (hidden && unsized(property, value)) return true
     if (property === 'line-height' && !lineHeightComparable(value, block, references)) return false
@@ -383,6 +466,13 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
     if (value === undefined) return false
     if (twinned(property, value)) return true
     if (LINE_STYLE.test(property) && value === 'none') return true
+    if (
+      showsNothing(property, block) &&
+      !shownByAState(property, value) &&
+      !drawnSideColor(property, value)
+    ) {
+      return true
+    }
     const line = VISIBLE_STYLE.exec(property)?.[1]
     const width = line === undefined ? undefined : block.get(`${line}-width`)
     if (width !== undefined && px(width) !== 0 && !equalsReference(`${line}-width`, width)) {

@@ -204,6 +204,7 @@ export function capturedElements(suite: string, name: string): CapturedElement[]
       widths.map((width) => style(width.styles)),
       keep,
     )
+    const selectors = Object.keys(widths[0]?.states ?? {})
     const input = responsive(
       '&',
       px,
@@ -213,13 +214,14 @@ export function capturedElements(suite: string, name: string): CapturedElement[]
           baseline: style(width.baseline),
           keep,
           drop,
+          states: selectors.map((selector) => style(stateOf(width, selector))),
         }),
       ),
     )
     // `keep` names authored base values; a state only needs what changes.
-    for (const selector of Object.keys(widths[0]?.states ?? {})) {
+    for (const selector of selectors) {
       const states = widths.map((width) =>
-        prune(stateOf(width, selector), { baseline: style(width.styles), drop }),
+        prune(stateOf(width, selector), { baseline: style(width.styles), drop, states: [] }),
       )
       input.push(...responsive(selector, px, states))
     }
@@ -235,6 +237,7 @@ export function capturedElements(suite: string, name: string): CapturedElement[]
           baseline: style(pseudo.baseline),
           keep,
           drop: pseudoDrop,
+          states: [],
         }),
       )
       input.push(...responsive(selector, px, pruned))

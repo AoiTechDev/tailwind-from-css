@@ -41,7 +41,7 @@ The baseline answers one question: what would this element look like with no cla
    ```
 
 2. Load `base.css` into a hidden `<iframe>` on the captured page (the same browser, so the same fonts and UA styles).
-3. In the frame, create a wrapper that **copies the parent's whole computed style** as inline styles, and put a blank element with the element's tag inside it. Copy `lang` too, and the attributes the browser's own styles read: `type`, `href` (any value), `open`, `disabled`, `multiple`, `size`.
+3. In the frame, create a wrapper that **copies the parent's whole computed style** as inline styles, and put a blank element with the element's tag inside it. Copy `lang` too, and the attributes the browser's own styles read: `type`, `href` (any value), `open`, `disabled`, `multiple`, `size`, and the ones the browser maps to styles that your markup keeps: `width` and `height` (an `<img width="36" height="36">` computes `aspect-ratio: auto 36 / 36`), `hidden`, `dir`. For an SVG element, create it in the SVG namespace and copy its presentation attributes (`fill`, `stroke-width` …), so `fill="none"` doesn't come back as `fill-none`.
 4. Read the blank element's computed style. That's the baseline.
 
 Why copy the whole parent style, not just the inherited values? Because some of what an element shows comes from its parent's layout. A flex or grid item has `min-width: auto` and a blockified `display` (an `<a>` in a flex row computes to `display: block`). The wrapper has to be a flex or grid container too, or every flex item gets `block min-w-auto`. Copying everything also carries the inherited properties browsers have and the CSS data doesn't list, like Chromium's `-webkit-font-smoothing`.
@@ -60,7 +60,7 @@ You can cache baselines per tag, attributes and parent style.
 ```ts
 import { pruneStyles } from 'tailwind-from-css'
 
-const declarations = pruneStyles(styles, { parent, baseline })
+const declarations = pruneStyles(styles, { parent, baseline, states: [hoverStyles] })
 ```
 
 A longhand is dropped when it equals the baseline's value (or the parent's, for an inherited property the baseline doesn't list, or its initial value). Equality uses the converter's normal forms. Before comparing, `pruneStyles` reads back values the browser resolved against the element:
@@ -73,6 +73,8 @@ A longhand is dropped when it equals the baseline's value (or the parent's, for 
 - On a relatively positioned box, an end inset equal to the start one negated (`bottom: -10px` with `top: 10px`) counts as `auto`: only the start side shows.
 - A logical longhand (`padding-inline-start`) that repeats its physical twin (`padding-left`) is dropped.
 
+Given the element's other captured `states` (the computed styles you prune against this one, below), it also drops longhands that show nothing: a line's color where the line isn't drawn (`outline-style: none`), insets of a static box, what places background images where there is none (`background-size`, `-position`, `-repeat` …), and transition details where every duration and delay is 0. Each stays when a state shows it with the same value, since that state's classes don't repeat it. Pass `states: []` when there are none; without `states` these are compared like anything else. An undrawn border side's color equal to a drawn side's stays too, so `border-gray-200` covers all four sides.
+
 One value it never drops on equality alone: a px `line-height` when the font size differs from the reference's. Computed line-heights are always px, so `line-height: 1.5` and `line-height: 24px` look the same, but only the length stays 24px at another font size.
 
 `keep` and `drop` force properties in or out (a shorthand stands for its longhands; `keep` wins). Read-backs still see dropped values, so dropping `width` doesn't move the center of the box.
@@ -82,7 +84,7 @@ One value it never drops on equality alone: a px `line-height` when the font siz
 Force the state, wait for transitions, read the computed style, then prune it against the element's own computed style, so that only what changes is kept:
 
 ```ts
-const hovered = pruneStyles(hoverStyles, { baseline: styles })
+const hovered = pruneStyles(hoverStyles, { baseline: styles, states: [] })
 // → { selector: '&:hover', declarations: hovered }
 ```
 
@@ -201,7 +203,7 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
     if (lang) wrapper.setAttribute('lang', lang)
     carry(wrapper, getComputedStyle(element.parentElement as HTMLElement))
     const blank = frameDocument.createElement(element.localName)
-    for (const name of ['type', 'href', 'open', 'disabled', 'multiple', 'size']) {
+    for (const name of ['type', 'href', 'open', 'disabled', 'multiple', 'size', 'width', 'height', 'hidden', 'dir']) {
       const value = element.getAttribute(name)
       if (value !== null) blank.setAttribute(name, name === 'href' ? '#' : value)
     }
@@ -368,6 +370,7 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
         baseline: capture.baseline,
         keep,
         drop,
+        states: Object.values(capture.states),
       }),
     })),
   )
@@ -375,7 +378,7 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
   for (const state of Object.keys(sorted[0]?.states ?? {})) {
     const pruned = sorted.map((capture) => {
       const style = capture.states[state] as Style
-      return { raw: style, kept: pruneStyles(style, { baseline: capture.styles, drop }) }
+      return { raw: style, kept: pruneStyles(style, { baseline: capture.styles, drop, states: [] }) }
     })
     inputs.push(...layers(state, widths, pruned))
   }
@@ -394,7 +397,13 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
       const { styles, baseline } = pseudo
       return {
         raw: styles,
-        kept: pruneStyles(styles, { parent: capture.styles, baseline, keep, drop: pseudoDrop }),
+        kept: pruneStyles(styles, {
+          parent: capture.styles,
+          baseline,
+          keep,
+          drop: pseudoDrop,
+          states: [],
+        }),
       }
     })
     inputs.push(...layers(pseudo, widths, pruned))

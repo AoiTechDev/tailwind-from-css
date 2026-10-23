@@ -237,8 +237,8 @@ A computed style lists every property the browser knows, most of them defaults. 
 ```js
 import { convertStyles, pruneStyles } from 'tailwind-from-css'
 
-const declarations = pruneStyles(styles, { parent, baseline })
-const hover = pruneStyles(hoverStyles, { baseline: styles })
+const declarations = pruneStyles(styles, { parent, baseline, states: [hoverStyles] })
+const hover = pruneStyles(hoverStyles, { baseline: styles, states: [] })
 
 const { className } = await convertStyles([
   { declarations },
@@ -246,7 +246,7 @@ const { className } = await convertStyles([
 ])
 ```
 
-Before comparing, `pruneStyles` reads back values the browser has resolved: a color that follows the text color counts as `currentcolor`, an origin at the center of the box as `50% 50%`, and so on. Use `keep` and `drop` to override it for specific properties.
+Before comparing, `pruneStyles` reads back values the browser has resolved: a color that follows the text color counts as `currentcolor`, an origin at the center of the box as `50% 50%`, and so on. Given the element's other `states`, it also drops what shows nothing, such as an outline's color when there's no outline, unless one of those states shows it. Use `keep` and `drop` to override it for specific properties.
 
 The [capture guide](docs/guides/capture-tools.md) covers the full recipe: building the baseline, capturing hover and focus states, pseudo-elements and several viewport widths, plus a minimal Playwright script that does all of it. On the captured test pages, elements go from about 480 computed properties to a median of 11 classes, all exact.
 

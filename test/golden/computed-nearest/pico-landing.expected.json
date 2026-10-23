@@ -3,14 +3,8 @@
     {
       "name": "nav-brand",
       "tag": "strong",
-      "className": "bg-no-repeat",
-      "mappings": [
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
-        ]
-      ],
+      "className": "",
+      "mappings": [],
       "unconverted": [],
       "diagnostics": [],
       "exact": true
@@ -18,7 +12,7 @@
     {
       "name": "nav-link",
       "tag": "a",
-      "className": "-m-2 inline-block rounded-sm bg-no-repeat p-2 text-[rgb(1,114,173)] underline-offset-2 [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:underline md:-m-2.25 md:rounded-[4.5px] md:p-2.25 md:underline-offset-[2.25px] xl:-m-2.5 xl:rounded-[5px] xl:p-2.5 xl:underline-offset-[2.5px]",
+      "className": "-m-2 inline-block rounded-sm p-2 text-[rgb(1,114,173)] underline-offset-2 [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:underline md:-m-2.25 md:rounded-[4.5px] md:p-2.25 md:underline-offset-[2.25px] xl:-m-2.5 xl:rounded-[5px] xl:p-2.5 xl:underline-offset-[2.5px]",
       "mappings": [
         [
           "-m-2",
@@ -40,11 +34,6 @@
           "border-bottom-right-radius: 4px",
           "border-top-left-radius: 4px",
           "border-top-right-radius: 4px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "p-2",
@@ -173,7 +162,7 @@
     {
       "name": "nav-cta",
       "tag": "a",
-      "className": "-mt-2 inline-block rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-1.5 pr-2 pb-1.5 pl-2 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:-mt-2.25 md:rounded-[4.5px] md:pt-[6.75px] md:pr-2.25 md:pb-[6.75px] md:pl-2.25 xl:-mt-2.5 xl:rounded-[5px] xl:pt-2 xl:pr-2.5 xl:pb-2 xl:pl-2.5",
+      "className": "-mt-2 inline-block rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] pt-1.5 pr-2 pb-1.5 pl-2 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:-mt-2.25 md:rounded-[4.5px] md:pt-[6.75px] md:pr-2.25 md:pb-[6.75px] md:pl-2.25 xl:-mt-2.5 xl:rounded-[5px] xl:pt-2 xl:pr-2.5 xl:pb-2 xl:pl-2.5",
       "mappings": [
         [
           "-mt-2",
@@ -217,11 +206,6 @@
           "bg-[rgb(1,114,173)]",
           "arbitrary-value",
           "background-color: rgb(1, 114, 173)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-1.5",
@@ -390,13 +374,8 @@
     {
       "name": "title",
       "tag": "h1",
-      "className": "bg-no-repeat text-[32px]/9 font-bold text-[rgb(45,49,56)] md:text-4xl/[40.5px] xl:text-[40px]/11.25",
+      "className": "text-[32px]/9 font-bold text-[rgb(45,49,56)] md:text-4xl/[40.5px] xl:text-[40px]/11.25",
       "mappings": [
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
-        ],
         [
           "text-[32px]/9",
           "arbitrary-value",
@@ -438,13 +417,8 @@
     {
       "name": "lead",
       "tag": "p",
-      "className": "bg-no-repeat text-[rgb(100,107,121)]",
+      "className": "text-[rgb(100,107,121)]",
       "mappings": [
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
-        ],
         [
           "text-[rgb(100,107,121)]",
           "arbitrary-value",
@@ -559,7 +533,7 @@
     {
       "name": "card-header",
       "tag": "header",
-      "className": "-mt-4 -mr-4 mb-4 -ml-4 rounded-t-sm border-b border-b-slate-200 bg-mist-50 bg-no-repeat pt-2.5 pr-4 pb-2.5 pl-4 md:-mt-4.5 md:-mr-4.5 md:mb-4.5 md:-ml-4.5 md:rounded-t-[4.5px] md:pt-3 md:pr-4.5 md:pb-3 md:pl-4.5 xl:-mt-5 xl:-mr-5 xl:mb-5 xl:-ml-5 xl:rounded-t-[5px] xl:pt-3.5 xl:pr-5 xl:pb-3.5 xl:pl-5",
+      "className": "-mt-4 -mr-4 mb-4 -ml-4 rounded-t-sm border-b border-b-slate-200 bg-mist-50 pt-2.5 pr-4 pb-2.5 pl-4 md:-mt-4.5 md:-mr-4.5 md:mb-4.5 md:-ml-4.5 md:rounded-t-[4.5px] md:pt-3 md:pr-4.5 md:pb-3 md:pl-4.5 xl:-mt-5 xl:-mr-5 xl:mb-5 xl:-ml-5 xl:rounded-t-[5px] xl:pt-3.5 xl:pr-5 xl:pb-3.5 xl:pl-5",
       "mappings": [
         [
           "-mt-4",
@@ -610,11 +584,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0034
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-2.5",
@@ -771,17 +740,12 @@
     {
       "name": "card-text",
       "tag": "p",
-      "className": "mb-4 bg-no-repeat md:mb-4.5 xl:mb-5",
+      "className": "mb-4 md:mb-4.5 xl:mb-5",
       "mappings": [
         [
           "mb-4",
           "bare",
           "margin-bottom: 16px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "md:mb-4.5",
@@ -914,17 +878,12 @@
     {
       "name": "mark",
       "tag": "mark",
-      "className": "bg-[rgb(253,231,192)] bg-no-repeat pt-0.5 pr-1 pb-0.5 pl-1 text-[rgb(15,17,20)] md:pt-[2.25px] md:pr-[4.5px] md:pb-[2.25px] md:pl-[4.5px] xl:pt-[2.5px] xl:pr-1.25 xl:pb-[2.5px] xl:pl-1.25",
+      "className": "bg-[rgb(253,231,192)] pt-0.5 pr-1 pb-0.5 pl-1 text-[rgb(15,17,20)] md:pt-[2.25px] md:pr-[4.5px] md:pb-[2.25px] md:pl-[4.5px] xl:pt-[2.5px] xl:pr-1.25 xl:pb-[2.5px] xl:pl-1.25",
       "mappings": [
         [
           "bg-[rgb(253,231,192)]",
           "arbitrary-value",
           "background-color: rgb(253, 231, 192)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-0.5",
@@ -1008,7 +967,7 @@
     {
       "name": "buy",
       "tag": "button",
-      "className": "cursor-pointer rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] focus-visible:border-[rgb(2,101,154)] focus-visible:bg-[rgb(2,101,154)] focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2px] md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.5px]",
+      "className": "cursor-pointer rounded-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] pt-3 pr-4 pb-3 pl-4 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] focus-visible:border-[rgb(2,101,154)] focus-visible:bg-[rgb(2,101,154)] focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2px] md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(2,154,232,0.5)_0px_0px_0px_2.5px]",
       "mappings": [
         [
           "cursor-pointer",
@@ -1047,11 +1006,6 @@
           "bg-[rgb(1,114,173)]",
           "arbitrary-value",
           "background-color: rgb(1, 114, 173)"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -1236,7 +1190,7 @@
     {
       "name": "later",
       "tag": "button",
-      "className": "cursor-pointer rounded-sm border bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-[rgb(93,107,137)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:text-slate-600 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5",
+      "className": "cursor-pointer rounded-sm border pt-3 pr-4 pb-3 pl-4 text-[rgb(93,107,137)] [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:text-slate-600 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5",
       "mappings": [
         [
           "cursor-pointer",
@@ -1262,11 +1216,6 @@
           "border-right-width: 1px",
           "border-top-style: solid",
           "border-top-width: 1px"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -1404,7 +1353,7 @@
     {
       "name": "label",
       "tag": "label",
-      "className": "mb-1.5 block bg-no-repeat md:mb-[6.75px] xl:mb-2",
+      "className": "mb-1.5 block md:mb-[6.75px] xl:mb-2",
       "mappings": [
         [
           "mb-1.5",
@@ -1415,11 +1364,6 @@
           "block",
           "named",
           "display: block"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "md:mb-[6.75px]",
@@ -1446,7 +1390,7 @@
     {
       "name": "email",
       "tag": "input",
-      "className": "mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 bg-no-repeat pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "className": "mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
       "mappings": [
         [
           "mb-4",
@@ -1498,11 +1442,6 @@
             "relaxation": "color-nearest",
             "delta": 0.0034
           }
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "pt-3",
@@ -1673,7 +1612,7 @@
     {
       "name": "hint",
       "tag": "small",
-      "className": "-mt-3 mb-4 block bg-no-repeat text-[13.3333px]/5 text-[rgb(100,107,121)] md:-mt-3.5 md:mb-4.5 md:text-sm/[22.5px] xl:-mt-3.75 xl:mb-5 xl:text-[16.6667px]/6.25",
+      "className": "-mt-3 mb-4 block text-[13.3333px]/5 text-[rgb(100,107,121)] md:-mt-3.5 md:mb-4.5 md:text-sm/[22.5px] xl:-mt-3.75 xl:mb-5 xl:text-[16.6667px]/6.25",
       "mappings": [
         [
           "-mt-3",
@@ -1689,11 +1628,6 @@
           "block",
           "named",
           "display: block"
-        ],
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
         ],
         [
           "text-[13.3333px]/5",
@@ -1761,13 +1695,8 @@
     {
       "name": "footer-link",
       "tag": "a",
-      "className": "bg-no-repeat text-[rgb(1,114,173)] underline decoration-[rgba(1,114,173,0.5)] underline-offset-[1.66667px] [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:decoration-sky-800 md:underline-offset-[1.875px] xl:underline-offset-[2.08333px]",
+      "className": "text-[rgb(1,114,173)] underline decoration-[rgba(1,114,173,0.5)] underline-offset-[1.66667px] [transition-property:background-color,color,text-decoration,box-shadow,-webkit-text-decoration] duration-[0.2s,0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out,ease-in-out] hover:text-sky-800 hover:decoration-sky-800 md:underline-offset-[1.875px] xl:underline-offset-[2.08333px]",
       "mappings": [
-        [
-          "bg-no-repeat",
-          "named",
-          "background-repeat: no-repeat"
-        ],
         [
           "text-[rgb(1,114,173)]",
           "arbitrary-value",

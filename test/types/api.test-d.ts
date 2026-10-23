@@ -49,6 +49,10 @@ describe('pruneStyles', () => {
     expectTypeOf(pruneStyles).parameter(1).toEqualTypeOf<PruneOptions>()
     expectTypeOf<Declaration[]>().toExtend<StyleInput['declarations']>()
   })
+
+  it("takes the element's other states in the shape it takes styles", () => {
+    expectTypeOf<PruneOptions['states']>().toEqualTypeOf<DeclarationsInput[] | undefined>()
+  })
 })
 
 describe('ResolvedOptions', () => {
