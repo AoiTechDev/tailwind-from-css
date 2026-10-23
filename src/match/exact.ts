@@ -10,7 +10,7 @@ import {
 } from '../css/normalize/index.ts'
 import { type Dimension, formatNumber, parseDimension } from '../css/normalize/lengths.ts'
 import { canonicalProperty } from '../css/normalize/shorthands.ts'
-import { redundantVendorDeclarations } from '../css/vendor.ts'
+import { isVendorPrefixed, redundantVendorDeclarations } from '../css/vendor.ts'
 import type { TailwindDesignSystem } from '../tailwind/adapter.ts'
 import {
   BASE_CONTEXT,
@@ -291,6 +291,16 @@ export function matchDeclarations(
   const matches: Match[] = []
   const relaxed = new Map<Match, readonly RelaxedTarget[]>()
   const allowed = groupRelax(relax, declarations)
+  const normalPrefixed = new Set(
+    declarations
+      .filter(
+        (declaration, position) =>
+          !declaration.important &&
+          !redundant.has(position) &&
+          isVendorPrefixed(declaration.property),
+      )
+      .map((declaration) => declaration.property),
+  )
   for (const important of [false, true]) {
     const positions = declarations
       .map((_, position) => position)
@@ -299,6 +309,7 @@ export function matchDeclarations(
       )
     if (positions.length === 0) continue
     const group = createGroup(matcher, declarations, positions, important, variants, allowed)
+    if (important) for (const property of normalPrefixed) group.normalPrefixed.add(property)
     matchGroup(group)
     matches.push(...group.matches)
     skipped.push(...group.skipped)
@@ -387,6 +398,8 @@ interface Group {
   readonly relaxed: Map<Match, readonly RelaxedTarget[]>
   /** The option each match was made from. */
   readonly accepted: Map<Match, Option>
+  /** Important groups: vendor-prefixed longhands the block sets without `!important`. */
+  readonly normalPrefixed: Set<string>
 }
 
 /** What a class covers: positions, the longhands it relaxes or adds, and its largest delta. */
@@ -467,6 +480,7 @@ function createGroup(
     relax,
     relaxed: new Map(),
     accepted: new Map(),
+    normalPrefixed: new Set(),
   }
 }
 
@@ -477,8 +491,9 @@ function matchGroup(group: Group): void {
   )
   for (const utility of findBySignature(index, wanted)) {
     const found = covers(group, utility.declarations)
-    if (found?.positions.length === group.uncovered.size) {
-      accept(group, optionOf(unprefixed(group, utility.candidate), utility.kind, found))
+    const core = unprefixed(group, utility.candidate)
+    if (found?.positions.length === group.uncovered.size && !overridesPrefixed(group, core)) {
+      accept(group, optionOf(core, utility.kind, found))
       return
     }
   }
@@ -514,9 +529,13 @@ const uncoveredPositions = (group: Group): number[] => [...group.uncovered].sort
 // are hierarchical (`p` ⊃ `pt`), so greedy is optimal in practice. Among equal covers the class
 // with fewer relaxations wins (an exact one first), then the one with the smaller delta.
 function cover(group: Group, options: readonly Option[]): void {
+  const usable =
+    group.normalPrefixed.size === 0
+      ? options
+      : options.filter((option) => !overridesPrefixed(group, option.core))
   for (;;) {
     let best: Option | undefined
-    for (const option of options) {
+    for (const option of usable) {
       if (!option.positions.every((position) => group.uncovered.has(position))) continue
       if (best === undefined || compareOptions(option, best) < 0) best = option
     }
@@ -637,6 +656,25 @@ const isBase = (rule: CompiledRule): boolean =>
   rule.context.selector === '&' &&
   rule.context.conditions.length === 0
 
+// SPEC §5.4 step 6: effective declarations leave out a class's vendor copies (`select-none` also
+// writes `-webkit-user-select`), but in an important class the copy beats the block's normal one.
+function overridesPrefixed(group: Group, core: string): boolean {
+  if (group.normalPrefixed.size === 0) return false
+  const candidate = candidateName(core, { prefix: group.matcher.design.prefix, important: false })
+  return (compiledCandidate(group.matcher, candidate)?.rules ?? []).some((rule) =>
+    rule.declarations.some((declaration) => group.normalPrefixed.has(declaration.property)),
+  )
+}
+
+function compiledCandidate(matcher: Matcher, candidate: string): CompiledCandidate | null {
+  const cached = matcher.candidates.get(candidate)
+  if (cached !== undefined) return cached
+  const [compiled] = compileCandidates(matcher.design, [candidate], matcher.index.options)
+  if (matcher.candidates.size >= COMPILED_LIMIT) matcher.candidates.clear()
+  matcher.candidates.set(candidate, compiled ?? null)
+  return compiled ?? null
+}
+
 // Like the index (SPEC §5.2 step 3), only candidates whose every rule applies to the element
 // itself, unconditionally, can be used: anything else would add declarations to other contexts.
 function compiledDeclarations(
@@ -646,7 +684,7 @@ function compiledDeclarations(
   const cached = matcher.compiled.get(candidate)
   if (cached !== undefined) return cached
   const options = matcher.index.options
-  const [compiled] = compileCandidates(matcher.design, [candidate], options)
+  const compiled = compiledCandidate(matcher, candidate)
   const declarations =
     compiled == null || !compiled.rules.every(isBase)
       ? null
@@ -940,6 +978,7 @@ function mergeModifiers(group: Group): void {
         const found = attempt(group, core)
         for (const at of positions) group.uncovered.delete(at)
         if (found?.positions.length !== positions.length || found.relaxed.length > 0) continue
+        if (overridesPrefixed(group, core)) continue
         const merged = optionOf(core, modifiedKind(token, option.kind), found)
         if (best === undefined || compareOptions(merged, best.option) < 0) {
           best = { option: merged, other }

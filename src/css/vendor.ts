@@ -7,6 +7,8 @@ import {
 
 const VENDOR_PREFIX = /^-(?:webkit|moz|ms|o)-/
 
+export const isVendorPrefixed = (property: string): boolean => VENDOR_PREFIX.test(property)
+
 /**
  * Positions of vendor-prefixed declarations that repeat an unprefixed one of the same block
  * (SPEC §5.4 step 6): `-webkit-X: v` where the block sets `X` to `v` with the same importance.

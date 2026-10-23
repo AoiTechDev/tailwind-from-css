@@ -218,6 +218,43 @@ describe('matchDeclarations', () => {
     ).toEqual(['!flag'])
   })
 
+  it('never uses an important class that writes a vendor copy the block sets as normal', () => {
+    const on = matcher({
+      classList: ['select-none'],
+      candidates: {
+        'select-none': plain('select-none', ['-webkit-user-select: none', 'user-select: none']),
+        '[user-select:none]': plain('[user-select:none]', ['user-select: none']),
+        '[-webkit-user-select:none]': plain('[-webkit-user-select:none]', [
+          '-webkit-user-select: none',
+        ]),
+      },
+    })
+    expect(
+      names(
+        match(on, [
+          { property: 'user-select', value: 'none', important: true },
+          { property: '-webkit-user-select', value: 'none' },
+        ]),
+      ),
+    ).toEqual(['[-webkit-user-select:none]', '[user-select:none]!'])
+    expect(
+      names(
+        match(on, [
+          { property: 'user-select', value: 'none' },
+          { property: '-webkit-user-select', value: 'none', important: true },
+        ]),
+      ),
+    ).toEqual(['select-none', '[-webkit-user-select:none]!'])
+    expect(
+      names(
+        match(on, [
+          { property: 'user-select', value: 'none', important: true },
+          { property: '-webkit-user-select', value: 'none', important: true },
+        ]),
+      ),
+    ).toEqual(['select-none!'])
+  })
+
   it('tries type hints only when Tailwind reads the value as another longhand', () => {
     const on = matcher(spacing)
     expect(names(match(on, [{ property: 'font-size', value: 'var(--x)' }]))).toEqual([

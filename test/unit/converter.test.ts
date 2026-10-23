@@ -200,6 +200,55 @@ describe('convertStyles', () => {
     ])
   })
 
+  // Nightly seed 1723822597 (nearest mode): `select-none!` also writes an important
+  // `-webkit-user-select`, which beats the block's normal one, so no class for it could verify.
+  it('keeps important classes off vendor copies the block sets without !important', async () => {
+    const nearest = await createConverter({ mode: 'nearest' })
+    const seed = {
+      selector: '&',
+      conditions: [],
+      declarations: [
+        { property: 'user-select', value: 'none', important: true },
+        { property: '-webkit-user-select', value: 'none', important: false },
+        { property: 'line-height', value: '1', important: false },
+      ],
+    }
+    for (const on of [converter, nearest]) {
+      const result = on.convertStyles(seed)
+      expect(result.classes).toEqual([
+        'leading-none',
+        '[-webkit-user-select:none]',
+        '[user-select:none]!',
+      ])
+      expect(result.diagnostics.map((d) => d.code)).not.toContain('TFC501')
+      expect(result.exact).toBe(true)
+    }
+    const cases: [string, string[]][] = [
+      [
+        'user-select: none !important; -webkit-user-select: text',
+        ['[-webkit-user-select:text]', '[user-select:none]!'],
+      ],
+      [
+        'backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px)',
+        ['[backdrop-filter:blur(4px)]!', '[-webkit-backdrop-filter:blur(4px)]'],
+      ],
+      // An important prefixed declaration, or a normal class: the arbitrary property wins.
+      [
+        'user-select: none; -webkit-user-select: none !important',
+        ['select-none', '[-webkit-user-select:none]!'],
+      ],
+      [
+        'user-select: text; -webkit-user-select: none',
+        ['select-text', '[-webkit-user-select:none]'],
+      ],
+    ]
+    for (const [declarations, classes] of cases) {
+      const result = converter.convertStyles({ declarations })
+      expect(result.classes, declarations).toEqual(classes)
+      expect(result.exact, declarations).toBe(true)
+    }
+  })
+
   it('reports values that cannot be classes per longhand when the declaration was expanded', () => {
     const result = converter.convertStyles({
       declarations: 'content: "a`b"; margin: 1px 2px; list-style: "a`b" inside',
