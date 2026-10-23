@@ -270,6 +270,21 @@ describe('convertStyles', () => {
     ])
   })
 
+  // Issue #20 (linear.app capture): the same value got a different class next to other longhands.
+  it('prefers a class without a modifier among equal covers (transparent, not black/0)', () => {
+    const cases: Array<[string, string[]]> = [
+      ['outline-color: rgba(0, 0, 0, 0)', ['outline-transparent']],
+      ['outline-color: rgba(0, 0, 0, 0); font-weight: 510', ['font-[510]', 'outline-transparent']],
+      ['background-color: rgba(0, 0, 0, 0); max-width: 360px', ['max-w-90', 'bg-transparent']],
+      ['background-color: rgba(0, 0, 0, 0.5); font-weight: 510', ['bg-black/50', 'font-[510]']],
+    ]
+    for (const [declarations, classes] of cases) {
+      const result = converter.convertStyles({ declarations })
+      expect(result.classes, declarations).toEqual(classes)
+      expect(result.exact, declarations).toBe(true)
+    }
+  })
+
   it('converts nothing to an empty, exact result', () => {
     expect(converter.convertStyles([])).toEqual({
       className: '',

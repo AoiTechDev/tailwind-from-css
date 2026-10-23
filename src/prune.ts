@@ -50,7 +50,23 @@ const FLOW_BORDER = /^border-(block|inline)-(start|end)-(width|style|color)$/
 const FLOW_CORNER = /^border-(start|end)-(start|end)-radius$/
 const FLOW_SIZE = /^(min-|max-)?(block|inline)-size$/
 const FLOW_AXIS = /^(overscroll-behavior|contain-intrinsic|overflow)-(block|inline)(-size)?$/
-const MIN_SIZES: ReadonlySet<string> = new Set(['min-width', 'min-height'])
+const MIN_SIZES: ReadonlySet<string> = new Set([
+  'min-width',
+  'min-height',
+  'min-inline-size',
+  'min-block-size',
+])
+const SIZES: ReadonlySet<string> = new Set(['width', 'height', 'inline-size', 'block-size'])
+const OUT_OF_FLOW: ReadonlySet<string> = new Set(['absolute', 'fixed'])
+// Rendered boxes whose computed width and height stay `auto`: inline-level, non-replaced.
+const AUTO_SIZED: ReadonlySet<string> = new Set([
+  'inline',
+  'ruby',
+  'ruby-base',
+  'ruby-text',
+  'ruby-base-container',
+  'ruby-text-container',
+])
 const OPPOSITE: ReadonlyMap<string, string> = new Map([
   ['top', 'bottom'],
   ['bottom', 'top'],
@@ -139,6 +155,53 @@ function atCenter(value: string, block: Block): boolean {
   )
 }
 
+// A box that isn't rendered (`display: none` or `contents`, or any box under a hidden ancestor)
+// has no used size, so its width or height comes back as computed (`auto`, `100%`). A rendered
+// box has both in px unless it's inline.
+function notRendered(block: Block): boolean {
+  const display = block.get('display')
+  if (display === 'none' || display === 'contents') return true
+  const width = block.get('width')
+  const height = block.get('height')
+  return (
+    display !== undefined &&
+    !AUTO_SIZED.has(display) &&
+    width !== undefined &&
+    height !== undefined &&
+    (px(width) === undefined || px(height) === undefined)
+  )
+}
+
+// A parent that isn't rendered hides its children, whatever their own sizes say, unless it's
+// `display: contents`, which only has no box of its own.
+const hides = (parent: Block | undefined): boolean =>
+  parent !== undefined && parent.get('display') !== 'contents' && notRendered(parent)
+
+// A box that isn't rendered has no size: `auto` and a 0px minimum show nothing, whatever the
+// reference is (a rendered baseline has used px sizes, and `auto` minimums only as a flex item).
+const unsized = (property: string, value: string): boolean =>
+  (SIZES.has(property) && value === 'auto') || (MIN_SIZES.has(property) && px(value) === 0)
+
+// With both insets of an axis set, a relatively positioned box ignores the end one, and an `auto`
+// inset resolves to the start one negated: an end inset that is exactly that shows nothing.
+function ignoredInset(property: string, value: string, block: Block): boolean {
+  if (block.get('position') !== 'relative' || block.get('writing-mode') !== 'horizontal-tb') {
+    return false
+  }
+  const direction = block.get('direction')
+  const start =
+    property === 'bottom'
+      ? 'top'
+      : property === 'right' && direction === 'ltr'
+        ? 'left'
+        : property === 'left' && direction === 'rtl'
+          ? 'right'
+          : undefined
+  const end = px(value)
+  const from = start === undefined ? undefined : px(block.get(start))
+  return end !== undefined && from !== undefined && end === -from
+}
+
 // No transform applies to an inline box, so its origin (`0px 0px` in Chromium) means nothing.
 const inlineBox = (block: Block): boolean =>
   block.get('display') === 'inline' && px(block.get('width')) === undefined
@@ -178,9 +241,10 @@ function readBack(property: string, value: string, block: Block): string {
   ) {
     return initialOf(property) ?? value
   }
+  if (ignoredInset(property, value, block)) return initialOf(property) ?? value
   // `min-width: auto` computes to 0px unless the box is a flex or grid item; a box that isn't
   // rendered is neither, whatever its parent.
-  if (MIN_SIZES.has(property) && block.get('display') === 'none' && px(value) === 0) {
+  if (MIN_SIZES.has(property) && notRendered(block) && px(value) === 0) {
     return initialOf(property) ?? value
   }
   return oneItem(property, value)
@@ -300,10 +364,19 @@ export function pruneStyles(styles: DeclarationsInput, options: PruneOptions): D
     const twinValue = twin === undefined ? undefined : block.get(twin)
     return twinValue !== undefined && normalValuesEqual(value, twinValue)
   }
+  const hidden = notRendered(block) || hides(references.parent)
+  const outOfFlow = OUT_OF_FLOW.has(block.get('position') ?? '')
   const equalsReference = (property: string, value: string): boolean => {
+    if (hidden && unsized(property, value)) return true
     if (property === 'line-height' && !lineHeightComparable(value, block, references)) return false
     const expected = reference(property, references)
-    return expected !== undefined && normalValuesEqual(readBack(property, value, block), expected)
+    if (expected === undefined) return false
+    // An absolutely positioned box is never a flex or grid item, so a 0px minimum is its `auto`,
+    // and a reference that isn't a flex item either reports its `auto` as 0px.
+    if (outOfFlow && MIN_SIZES.has(property) && px(value) === 0) {
+      return expected === 'auto' || px(expected) === 0
+    }
+    return normalValuesEqual(readBack(property, value, block), expected)
   }
   const removable = (property: string): boolean => {
     const value = block.get(property)

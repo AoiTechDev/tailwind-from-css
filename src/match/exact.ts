@@ -418,6 +418,8 @@ interface Option extends Cover {
   readonly kind: MatchKind
   readonly root?: FunctionalRoot | undefined
   readonly hinted?: boolean
+  /** `utility/modifier`: an indexed class with a modifier the matcher added. */
+  readonly modified?: boolean
 }
 
 const optionOf = (
@@ -525,7 +527,8 @@ function matchGroup(group: Group): void {
 
 const uncoveredPositions = (group: Group): number[] => [...group.uncovered].sort(ascending)
 
-// SPEC §5.4 step 2: greedy by number of covered longhands, then kind, length and name. Families
+// SPEC §5.4 step 2: greedy by number of covered longhands, then kind, a class without a modifier
+// before one with (as the signature index has them), then length and name. Families
 // are hierarchical (`p` ⊃ `pt`), so greedy is optimal in practice. Among equal covers the class
 // with fewer relaxations wins (an exact one first), then the one with the smaller delta.
 function cover(group: Group, options: readonly Option[]): void {
@@ -553,6 +556,7 @@ function compareOptions(a: Option, b: Option): number {
     relaxationCount(a) - relaxationCount(b) ||
     a.delta - b.delta ||
     KIND_RANK[a.kind] - KIND_RANK[b.kind] ||
+    Number(a.modified === true) - Number(b.modified === true) ||
     Number(a.hinted === true) - Number(b.hinted === true) ||
     (a.root?.longhands.length ?? 0) - (b.root?.longhands.length ?? 0) ||
     Number(a.core.startsWith('-')) - Number(b.core.startsWith('-')) ||
@@ -776,7 +780,7 @@ function modifierOptions(
     const core = `${base}/${token}`
     const found = attempt(group, core)
     if (found === undefined) continue
-    options.push(optionOf(core, modifiedKind(token, utility.kind), found))
+    options.push({ ...optionOf(core, modifiedKind(token, utility.kind), found), modified: true })
   }
   return options
 }
@@ -826,9 +830,10 @@ function relaxedOptions(group: Group, position: number): Option[] {
   const declaration = group.declarations[position] as MatchDeclaration
   const options: Option[] = []
   const tried = new Set<string>()
-  const consider = (core: string, kind: MatchKind, found: Cover | undefined): void => {
+  const consider = (core: string, kind: MatchKind, found: Cover | undefined, modified = false) => {
     tried.add(core)
-    if (found?.positions.includes(position)) options.push(optionOf(core, kind, found))
+    if (found?.positions.includes(position))
+      options.push({ ...optionOf(core, kind, found), modified })
   }
   const translucent = TRANSLUCENT_COLOR.exec(declaration.value)
   const opaque = translucent === null ? undefined : `${translucent[1]} / 1)`
@@ -847,11 +852,13 @@ function relaxedOptions(group: Group, position: number): Option[] {
         for (const token of modifierTokens(group, utility)) {
           const modified = `${core}/${token}`
           const kind = modifiedKind(token, utility.kind)
-          if (!tried.has(modified)) consider(modified, kind, attempt(group, modified, true))
+          if (!tried.has(modified)) consider(modified, kind, attempt(group, modified, true), true)
         }
       } else if (opaque !== undefined && utility.modifiers.length > 0 && near(opaque, own.value)) {
         const modified = `${core}/${alpha}`
-        if (!tried.has(modified)) consider(modified, utility.kind, attempt(group, modified, true))
+        if (!tried.has(modified)) {
+          consider(modified, utility.kind, attempt(group, modified, true), true)
+        }
       }
     }
   }

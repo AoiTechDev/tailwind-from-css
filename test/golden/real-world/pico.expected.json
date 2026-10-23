@@ -4117,7 +4117,7 @@
         "progress:indeterminate",
         "progress:indeterminate::-moz-progress-bar"
       ],
-      "className": "mb-[calc(var(--pico-spacing)_*_0.5)] inline-block h-2 w-full appearance-none overflow-hidden rounded-(--pico-border-radius) [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] border-none border-current bg-(--pico-progress-background-color) align-baseline text-(--pico-progress-color) accent-(--pico-primary) motion-safe:indeterminate:[animation-delay:0ms] motion-safe:indeterminate:[animation-direction:normal] motion-safe:indeterminate:[animation-duration:1000ms] motion-safe:indeterminate:[animation-fill-mode:none] motion-safe:indeterminate:[animation-iteration-count:infinite] motion-safe:indeterminate:[animation-name:progress-indeterminate] motion-safe:indeterminate:[animation-play-state:running] motion-safe:indeterminate:[animation-timeline:auto] motion-safe:indeterminate:[animation-timing-function:linear] motion-safe:indeterminate:[background:var(--pico-progress-background-color)_linear-gradient(to_right,var(--pico-progress-color)_30%,var(--pico-progress-background-color)_30%)_top_left/150%_150%_no-repeat] [&::-moz-progress-bar]:bg-(--pico-progress-color) motion-safe:indeterminate:[&::-moz-progress-bar]:bg-transparent [&::-webkit-progress-bar]:rounded-(--pico-border-radius) [&::-webkit-progress-bar]:bg-black/0 [&::-webkit-progress-bar]:bg-none [&::-webkit-progress-bar]:bg-size-[auto_auto] [&::-webkit-progress-bar]:bg-scroll [&::-webkit-progress-bar]:bg-clip-border [&::-webkit-progress-bar]:bg-position-[0%_0%] [&::-webkit-progress-bar]:bg-repeat [&::-webkit-progress-bar]:bg-origin-padding",
+      "className": "mb-[calc(var(--pico-spacing)_*_0.5)] inline-block h-2 w-full appearance-none overflow-hidden rounded-(--pico-border-radius) [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] border-none border-current bg-(--pico-progress-background-color) align-baseline text-(--pico-progress-color) accent-(--pico-primary) motion-safe:indeterminate:[animation-delay:0ms] motion-safe:indeterminate:[animation-direction:normal] motion-safe:indeterminate:[animation-duration:1000ms] motion-safe:indeterminate:[animation-fill-mode:none] motion-safe:indeterminate:[animation-iteration-count:infinite] motion-safe:indeterminate:[animation-name:progress-indeterminate] motion-safe:indeterminate:[animation-play-state:running] motion-safe:indeterminate:[animation-timeline:auto] motion-safe:indeterminate:[animation-timing-function:linear] motion-safe:indeterminate:[background:var(--pico-progress-background-color)_linear-gradient(to_right,var(--pico-progress-color)_30%,var(--pico-progress-background-color)_30%)_top_left/150%_150%_no-repeat] [&::-moz-progress-bar]:bg-(--pico-progress-color) motion-safe:indeterminate:[&::-moz-progress-bar]:bg-transparent [&::-webkit-progress-bar]:rounded-(--pico-border-radius) [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-bar]:bg-none [&::-webkit-progress-bar]:bg-size-[auto_auto] [&::-webkit-progress-bar]:bg-scroll [&::-webkit-progress-bar]:bg-clip-border [&::-webkit-progress-bar]:bg-position-[0%_0%] [&::-webkit-progress-bar]:bg-repeat [&::-webkit-progress-bar]:bg-origin-padding",
       "mappings": [
         [
           "mb-[calc(var(--pico-spacing)_*_0.5)]",
@@ -4270,7 +4270,7 @@
           "2604:3 | &::-webkit-progress-bar | border-radius: var(--pico-border-radius)"
         ],
         [
-          "[&::-webkit-progress-bar]:bg-black/0",
+          "[&::-webkit-progress-bar]:bg-transparent",
           "named",
           "2605:3 | &::-webkit-progress-bar | background: none"
         ],
@@ -4354,7 +4354,7 @@
         "[type=range]:active::-moz-range-thumb",
         "[type=range]:active::-ms-thumb"
       ],
-      "className": "h-5 w-full appearance-none [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] bg-black/0 bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-0 accent-(--pico-primary) focus-within:[--pico-range-border-color:var(--pico-range-active-border-color)] focus-within:[--pico-range-thumb-color:var(--pico-range-thumb-active-color)] active:[--pico-range-border-color:var(--pico-range-active-border-color)] active:[--pico-range-thumb-color:var(--pico-range-thumb-active-color)] [&::-moz-range-thumb]:-mt-1.75 [&::-moz-range-thumb]:size-5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-[50%] [&::-moz-range-thumb]:bg-(--pico-range-thumb-color) [&::-moz-range-thumb]:[-webkit-appearance:none] [&::-moz-range-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-moz-range-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-moz-range-thumb]:transform-[scale(1.25)] [&::-moz-range-track]:h-1.5 [&::-moz-range-track]:w-full [&::-moz-range-track]:rounded-(--pico-border-radius) [&::-moz-range-track]:bg-(--pico-range-border-color) [&::-moz-range-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-ms-thumb]:-mt-1.75 [&::-ms-thumb]:size-5 [&::-ms-thumb]:cursor-pointer [&::-ms-thumb]:rounded-[50%] [&::-ms-thumb]:bg-(--pico-range-thumb-color) [&::-ms-thumb]:[-webkit-appearance:none] [&::-ms-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-ms-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-ms-thumb]:transform-[scale(1.25)] [&::-ms-track]:h-1.5 [&::-ms-track]:w-full [&::-ms-track]:rounded-(--pico-border-radius) [&::-ms-track]:bg-(--pico-range-border-color) [&::-ms-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-runnable-track]:rounded-(--pico-border-radius) [&::-webkit-slider-runnable-track]:bg-(--pico-range-border-color) [&::-webkit-slider-runnable-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-webkit-slider-thumb]:-mt-1.75 [&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:rounded-[50%] [&::-webkit-slider-thumb]:bg-(--pico-range-thumb-color) [&::-webkit-slider-thumb]:[-webkit-appearance:none] [&::-webkit-slider-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-webkit-slider-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-webkit-slider-thumb]:transform-[scale(1.25)]",
+      "className": "h-5 w-full appearance-none [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] bg-transparent bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-0 accent-(--pico-primary) focus-within:[--pico-range-border-color:var(--pico-range-active-border-color)] focus-within:[--pico-range-thumb-color:var(--pico-range-thumb-active-color)] active:[--pico-range-border-color:var(--pico-range-active-border-color)] active:[--pico-range-thumb-color:var(--pico-range-thumb-active-color)] [&::-moz-range-thumb]:-mt-1.75 [&::-moz-range-thumb]:size-5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-[50%] [&::-moz-range-thumb]:bg-(--pico-range-thumb-color) [&::-moz-range-thumb]:[-webkit-appearance:none] [&::-moz-range-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-moz-range-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-moz-range-thumb]:transform-[scale(1.25)] [&::-moz-range-track]:h-1.5 [&::-moz-range-track]:w-full [&::-moz-range-track]:rounded-(--pico-border-radius) [&::-moz-range-track]:bg-(--pico-range-border-color) [&::-moz-range-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-ms-thumb]:-mt-1.75 [&::-ms-thumb]:size-5 [&::-ms-thumb]:cursor-pointer [&::-ms-thumb]:rounded-[50%] [&::-ms-thumb]:bg-(--pico-range-thumb-color) [&::-ms-thumb]:[-webkit-appearance:none] [&::-ms-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-ms-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-ms-thumb]:transform-[scale(1.25)] [&::-ms-track]:h-1.5 [&::-ms-track]:w-full [&::-ms-track]:rounded-(--pico-border-radius) [&::-ms-track]:bg-(--pico-range-border-color) [&::-ms-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-webkit-slider-runnable-track]:h-1.5 [&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-runnable-track]:rounded-(--pico-border-radius) [&::-webkit-slider-runnable-track]:bg-(--pico-range-border-color) [&::-webkit-slider-runnable-track]:[transition:background-color_var(--pico-transition),box-shadow_var(--pico-transition)] [&::-webkit-slider-thumb]:-mt-1.75 [&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:rounded-[50%] [&::-webkit-slider-thumb]:bg-(--pico-range-thumb-color) [&::-webkit-slider-thumb]:[-webkit-appearance:none] [&::-webkit-slider-thumb]:[border:2px_solid_var(--pico-range-thumb-border-color)] [&::-webkit-slider-thumb]:[transition:background-color_var(--pico-transition),transform_var(--pico-transition)] active:[&::-webkit-slider-thumb]:transform-[scale(1.25)]",
       "mappings": [
         [
           "h-5",
@@ -4392,7 +4392,7 @@
           "1359:3 | border-width: 0"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "1811:3 | background: none"
         ],
@@ -7129,7 +7129,7 @@
         "[type=file]:is(:hover, :active, :focus)::file-selector-button",
         "[type=file]:focus::file-selector-button"
       ],
-      "className": "-ml-(--pico-outline-width) rounded-none [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] border-none border-current bg-black/0 bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)_0] pl-(--pico-outline-width) [--pico-color:var(--pico-muted-color)] file:mr-[calc(var(--pico-spacing)_/_2)] file:cursor-pointer file:rounded-(--pico-border-radius) file:bg-(--pico-background-color) file:p-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)_var(--pico-form-element-spacing-horizontal)] file:text-center file:text-base/(--pico-line-height) file:font-(--pico-font-weight) file:text-(--pico-color) file:no-underline file:decoration-current file:decoration-solid file:decoration-auto file:shadow-(--pico-box-shadow) file:[outline-width:medium] file:outline-[auto] file:outline-none file:select-none file:[--pico-background-color:var(--pico-secondary-background)] file:[--pico-border-color:var(--pico-secondary-border)] file:[--pico-box-shadow:var(--pico-button-box-shadow,0_0_0_rgba(0,0,0,0))] file:[--pico-color:var(--pico-secondary-inverse)] file:[border:var(--pico-border-width)_solid_var(--pico-border-color)] file:[transition:background-color_var(--pico-transition),border-color_var(--pico-transition),color_var(--pico-transition),box-shadow_var(--pico-transition)] file:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] file:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] file:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] file:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] [&:is(:hover,:active,:focus)]:file:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:[&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] file:[&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-inverse)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)]",
+      "className": "-ml-(--pico-outline-width) rounded-none [border-top-width:0] [border-right-width:0] [border-bottom-width:0] [border-left-width:0] border-none border-current bg-transparent bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)_0] pl-(--pico-outline-width) [--pico-color:var(--pico-muted-color)] file:mr-[calc(var(--pico-spacing)_/_2)] file:cursor-pointer file:rounded-(--pico-border-radius) file:bg-(--pico-background-color) file:p-[calc(var(--pico-form-element-spacing-vertical)_*_0.5)_var(--pico-form-element-spacing-horizontal)] file:text-center file:text-base/(--pico-line-height) file:font-(--pico-font-weight) file:text-(--pico-color) file:no-underline file:decoration-current file:decoration-solid file:decoration-auto file:shadow-(--pico-box-shadow) file:[outline-width:medium] file:outline-[auto] file:outline-none file:select-none file:[--pico-background-color:var(--pico-secondary-background)] file:[--pico-border-color:var(--pico-secondary-border)] file:[--pico-box-shadow:var(--pico-button-box-shadow,0_0_0_rgba(0,0,0,0))] file:[--pico-color:var(--pico-secondary-inverse)] file:[border:var(--pico-border-width)_solid_var(--pico-border-color)] file:[transition:background-color_var(--pico-transition),border-color_var(--pico-transition),color_var(--pico-transition),box-shadow_var(--pico-transition)] file:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] file:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] file:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:aria-[current]:not-[[aria-current='false']]:[--pico-color:var(--pico-primary-inverse)] file:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] [&:is(:hover,:active,:focus)]:file:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-background-color:var(--pico-primary-hover-background)] file:[&:is(:hover,:active,:focus)]:[--pico-border-color:var(--pico-primary-hover-border)] file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] file:[&:is(:hover,:active,:focus)]:[--pico-color:var(--pico-primary-inverse)] file:[&:is(:hover,:active,:focus)]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] focus:file:[&:is(:hover,:active,:focus)]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-background-color:var(--pico-primary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-border-color:var(--pico-primary-hover-border)] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0))] focus:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:focus:[--pico-box-shadow:var(--pico-button-hover-box-shadow,0_0_0_rgba(0,0,0,0)),0_0_0_var(--pico-outline-width)_var(--pico-secondary-focus)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)] file:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-color:var(--pico-secondary-inverse)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-background-color:var(--pico-secondary-hover-background)] [&:is(:hover,:active,:focus)]:file:[&:is(:hover,:active,:focus)]:aria-[current]:not-[[aria-current='false']]:[&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:[--pico-border-color:var(--pico-secondary-hover-border)]",
       "mappings": [
         [
           "-ml-(--pico-outline-width)",
@@ -7172,7 +7172,7 @@
           "1786:3 | border: 0"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "1788:3 | background: none"
         ],
@@ -8487,7 +8487,7 @@
       "selectors": [
         "pre > code"
       ],
-      "className": "block bg-black/0 bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-(--pico-spacing) leading-(--pico-line-height)",
+      "className": "block bg-transparent bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-(--pico-spacing) leading-(--pico-line-height)",
       "mappings": [
         [
           "block",
@@ -8495,7 +8495,7 @@
           "1237:3 | display: block"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "1239:3 | background: none"
         ],
@@ -8557,7 +8557,7 @@
       "selectors": [
         "pre > samp"
       ],
-      "className": "block bg-black/0 bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-(--pico-spacing) leading-(--pico-line-height)",
+      "className": "block bg-transparent bg-none bg-size-[auto_auto] bg-scroll bg-clip-border bg-position-[0%_0%] bg-repeat bg-origin-padding p-(--pico-spacing) leading-(--pico-line-height)",
       "mappings": [
         [
           "block",
@@ -8565,7 +8565,7 @@
           "1237:3 | display: block"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "1239:3 | background: none"
         ],
@@ -8854,7 +8854,7 @@
         "select::-ms-expand",
         "select:not([multiple], [size])"
       ],
-      "className": "mt-0 mr-0 mb-(--pico-spacing) ml-0 w-full appearance-none rounded-(--pico-border-radius) bg-(--pico-background-color) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] font-[inherit] text-base/(--pico-line-height) font-(--pico-font-weight) tracking-[inherit] text-(--pico-color) normal-case shadow-(--pico-box-shadow) [outline-width:medium] outline-[auto] outline-none [--pico-background-color:var(--pico-form-element-background-color)] [--pico-border-color:var(--pico-form-element-border-color)] [--pico-box-shadow:none] [--pico-color:var(--pico-form-element-color)] [-ms-touch-action:manipulation] [border:var(--pico-border-width)_solid_var(--pico-border-color)] [transition:background-color_var(--pico-transition),border-color_var(--pico-transition),color_var(--pico-transition),box-shadow_var(--pico-transition)] invalid:text-(--pico-form-element-placeholder-color) invalid:opacity-100 [&::-ms-expand]:[border-top-width:0] [&::-ms-expand]:[border-right-width:0] [&::-ms-expand]:[border-bottom-width:0] [&::-ms-expand]:[border-left-width:0] [&::-ms-expand]:border-none [&::-ms-expand]:border-current [&::-ms-expand]:bg-black/0 [&:not([multiple],[size])]:bg-(url:--pico-icon-chevron) [&:not([multiple],[size])]:bg-size-[1rem_auto] [&:not([multiple],[size])]:bg-position-[center_right_0.75rem] [&:not([multiple],[size])]:bg-no-repeat [&:not([multiple],[size])]:ps-(--pico-form-element-spacing-horizontal) [&:not([multiple],[size])]:pe-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)] [&:not([multiple],[size])]:pr-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)] [&:not([multiple],[size])]:pl-(--pico-form-element-spacing-horizontal)",
+      "className": "mt-0 mr-0 mb-(--pico-spacing) ml-0 w-full appearance-none rounded-(--pico-border-radius) bg-(--pico-background-color) p-[var(--pico-form-element-spacing-vertical)_var(--pico-form-element-spacing-horizontal)] font-[inherit] text-base/(--pico-line-height) font-(--pico-font-weight) tracking-[inherit] text-(--pico-color) normal-case shadow-(--pico-box-shadow) [outline-width:medium] outline-[auto] outline-none [--pico-background-color:var(--pico-form-element-background-color)] [--pico-border-color:var(--pico-form-element-border-color)] [--pico-box-shadow:none] [--pico-color:var(--pico-form-element-color)] [-ms-touch-action:manipulation] [border:var(--pico-border-width)_solid_var(--pico-border-color)] [transition:background-color_var(--pico-transition),border-color_var(--pico-transition),color_var(--pico-transition),box-shadow_var(--pico-transition)] invalid:text-(--pico-form-element-placeholder-color) invalid:opacity-100 [&::-ms-expand]:[border-top-width:0] [&::-ms-expand]:[border-right-width:0] [&::-ms-expand]:[border-bottom-width:0] [&::-ms-expand]:[border-left-width:0] [&::-ms-expand]:border-none [&::-ms-expand]:border-current [&::-ms-expand]:bg-transparent [&:not([multiple],[size])]:bg-(url:--pico-icon-chevron) [&:not([multiple],[size])]:bg-size-[1rem_auto] [&:not([multiple],[size])]:bg-position-[center_right_0.75rem] [&:not([multiple],[size])]:bg-no-repeat [&:not([multiple],[size])]:ps-(--pico-form-element-spacing-horizontal) [&:not([multiple],[size])]:pe-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)] [&:not([multiple],[size])]:pr-[calc(var(--pico-form-element-spacing-horizontal)_+_1.5rem)] [&:not([multiple],[size])]:pl-(--pico-form-element-spacing-horizontal)",
       "mappings": [
         [
           "mt-0",
@@ -9028,7 +9028,7 @@
           "1532:3 | &::-ms-expand | border: 0"
         ],
         [
-          "[&::-ms-expand]:bg-black/0",
+          "[&::-ms-expand]:bg-transparent",
           "named",
           "1533:3 | &::-ms-expand | background-color: transparent"
         ],
@@ -12090,7 +12090,7 @@
         "details.dropdown[open] > summary",
         "details.dropdown[open] > summary::before"
       ],
-      "className": "mb-0 before:fixed before:inset-0 before:z-1 before:block before:h-screen before:w-screen before:cursor-default before:bg-black/0 before:bg-none before:bg-size-[auto_auto] before:bg-scroll before:bg-clip-border before:bg-position-[0%_0%] before:bg-repeat before:bg-origin-padding before:content-['']",
+      "className": "mb-0 before:fixed before:inset-0 before:z-1 before:block before:h-screen before:w-screen before:cursor-default before:bg-transparent before:bg-none before:bg-size-[auto_auto] before:bg-scroll before:bg-clip-border before:bg-position-[0%_0%] before:bg-repeat before:bg-origin-padding before:content-['']",
       "mappings": [
         [
           "mb-0",
@@ -12133,7 +12133,7 @@
           "2175:3 | &::before | cursor: default"
         ],
         [
-          "before:bg-black/0",
+          "before:bg-transparent",
           "named",
           "2173:3 | &::before | background: none"
         ],
@@ -13372,7 +13372,7 @@
         "dialog > article .close",
         "dialog > article .close:is([aria-current]:not([aria-current=false]), :hover, :active, :focus)"
       ],
-      "className": "-mt-(--pico-spacing) mb-(--pico-spacing) ml-auto block size-4 [border-top-width:medium] [border-right-width:medium] [border-bottom-width:medium] [border-left-width:medium] border-none border-current bg-black/0 bg-(url:--pico-icon-close) bg-size-[auto_1rem] bg-center bg-no-repeat opacity-50 [transition:opacity_var(--pico-transition)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
+      "className": "-mt-(--pico-spacing) mb-(--pico-spacing) ml-auto block size-4 [border-top-width:medium] [border-right-width:medium] [border-bottom-width:medium] [border-left-width:medium] border-none border-current bg-transparent bg-(url:--pico-icon-close) bg-size-[auto_1rem] bg-center bg-no-repeat opacity-50 [transition:opacity_var(--pico-transition)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
       "mappings": [
         [
           "-mt-(--pico-spacing)",
@@ -13431,7 +13431,7 @@
           "2414:3 | border: none"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "2419:3 | background-color: transparent"
         ],
@@ -13489,7 +13489,7 @@
         "dialog > article :is(a, button)[rel=prev]",
         "dialog > article :is(a, button)[rel=prev]:is([aria-current]:not([aria-current=false]), :hover, :active, :focus)"
       ],
-      "className": "-mt-(--pico-spacing) mb-(--pico-spacing) ml-auto block size-4 [border-top-width:medium] [border-right-width:medium] [border-bottom-width:medium] [border-left-width:medium] border-none border-current bg-black/0 bg-(url:--pico-icon-close) bg-size-[auto_1rem] bg-center bg-no-repeat opacity-50 [transition:opacity_var(--pico-transition)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
+      "className": "-mt-(--pico-spacing) mb-(--pico-spacing) ml-auto block size-4 [border-top-width:medium] [border-right-width:medium] [border-bottom-width:medium] [border-left-width:medium] border-none border-current bg-transparent bg-(url:--pico-icon-close) bg-size-[auto_1rem] bg-center bg-no-repeat opacity-50 [transition:opacity_var(--pico-transition)] [&:is([aria-current]:not([aria-current='false']),:hover,:active,:focus)]:opacity-100",
       "mappings": [
         [
           "-mt-(--pico-spacing)",
@@ -13548,7 +13548,7 @@
           "2414:3 | border: none"
         ],
         [
-          "bg-black/0",
+          "bg-transparent",
           "named",
           "2419:3 | background-color: transparent"
         ],
@@ -14391,7 +14391,7 @@
       "selectors": [
         "nav[aria-label=breadcrumb] a[aria-current]:not([aria-current=false])"
       ],
-      "className": "not-[[aria-current='false']]:pointer-events-none not-[[aria-current='false']]:bg-black/0 not-[[aria-current='false']]:text-inherit not-[[aria-current='false']]:no-underline not-[[aria-current='false']]:decoration-current not-[[aria-current='false']]:decoration-solid not-[[aria-current='false']]:decoration-auto",
+      "className": "not-[[aria-current='false']]:pointer-events-none not-[[aria-current='false']]:bg-transparent not-[[aria-current='false']]:text-inherit not-[[aria-current='false']]:no-underline not-[[aria-current='false']]:decoration-current not-[[aria-current='false']]:decoration-solid not-[[aria-current='false']]:decoration-auto",
       "mappings": [
         [
           "not-[[aria-current='false']]:pointer-events-none",
@@ -14399,7 +14399,7 @@
           "2558:3 | &:not([aria-current=\"false\"]) | pointer-events: none"
         ],
         [
-          "not-[[aria-current='false']]:bg-black/0",
+          "not-[[aria-current='false']]:bg-transparent",
           "named",
           "2555:3 | &:not([aria-current=\"false\"]) | background-color: transparent"
         ],
@@ -14639,7 +14639,7 @@
         "[data-tooltip]:hover::before",
         "[data-tooltip]:hover::after"
       ],
-      "className": "relative before:pointer-events-none before:absolute before:bottom-full before:left-1/2 before:z-99 before:block before:transform-[translate(-50%,-0.25rem)] before:truncate before:rounded-(--pico-border-radius) before:pt-1 before:pr-2 before:pb-1 before:pl-2 before:text-[0.875rem] before:font-(--pico-font-weight) before:text-(--pico-tooltip-color) before:not-italic before:no-underline before:decoration-current before:decoration-solid before:decoration-auto before:opacity-0 before:content-[attr(data-tooltip)] before:[background:var(--pico-tooltip-background-color)] after:pointer-events-none after:absolute after:bottom-full after:left-1/2 after:z-99 after:block after:transform-[translate(-50%,0rem)] after:truncate after:rounded-none after:border-t-[4.8px] after:border-r-[4.8px] after:border-l-[4.8px] after:border-t-current after:border-r-black/0 after:border-l-black/0 after:p-0 after:text-[0.875rem] after:font-(--pico-font-weight) after:text-(--pico-tooltip-background-color) after:not-italic after:no-underline after:decoration-current after:decoration-solid after:decoration-auto after:opacity-0 after:content-[''] after:[background:var(--pico-tooltip-background-color)] [&:focus::after]:opacity-100 [&:focus::before]:opacity-100 [&:hover::after]:opacity-100 [&:hover::before]:opacity-100 [&:not(a,button,input,[role='button'])]:cursor-help [&:not(a,button,input,[role='button'])]:[border-bottom-width:1px] [&:not(a,button,input,[role='button'])]:[border-bottom-style:dotted] [&:not(a,button,input,[role='button'])]:border-b-current [&:not(a,button,input,[role='button'])]:no-underline [&:not(a,button,input,[role='button'])]:decoration-current [&:not(a,button,input,[role='button'])]:decoration-solid [&:not(a,button,input,[role='button'])]:decoration-auto pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-50%,0rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-50%,0.75rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-50%,0rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-50%,0.75rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
+      "className": "relative before:pointer-events-none before:absolute before:bottom-full before:left-1/2 before:z-99 before:block before:transform-[translate(-50%,-0.25rem)] before:truncate before:rounded-(--pico-border-radius) before:pt-1 before:pr-2 before:pb-1 before:pl-2 before:text-[0.875rem] before:font-(--pico-font-weight) before:text-(--pico-tooltip-color) before:not-italic before:no-underline before:decoration-current before:decoration-solid before:decoration-auto before:opacity-0 before:content-[attr(data-tooltip)] before:[background:var(--pico-tooltip-background-color)] after:pointer-events-none after:absolute after:bottom-full after:left-1/2 after:z-99 after:block after:transform-[translate(-50%,0rem)] after:truncate after:rounded-none after:border-t-[4.8px] after:border-r-[4.8px] after:border-l-[4.8px] after:border-t-current after:border-r-transparent after:border-l-transparent after:p-0 after:text-[0.875rem] after:font-(--pico-font-weight) after:text-(--pico-tooltip-background-color) after:not-italic after:no-underline after:decoration-current after:decoration-solid after:decoration-auto after:opacity-0 after:content-[''] after:[background:var(--pico-tooltip-background-color)] [&:focus::after]:opacity-100 [&:focus::before]:opacity-100 [&:hover::after]:opacity-100 [&:hover::before]:opacity-100 [&:not(a,button,input,[role='button'])]:cursor-help [&:not(a,button,input,[role='button'])]:[border-bottom-width:1px] [&:not(a,button,input,[role='button'])]:[border-bottom-style:dotted] [&:not(a,button,input,[role='button'])]:border-b-current [&:not(a,button,input,[role='button'])]:no-underline [&:not(a,button,input,[role='button'])]:decoration-current [&:not(a,button,input,[role='button'])]:decoration-solid [&:not(a,button,input,[role='button'])]:decoration-auto pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-50%,0rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-50%,0.75rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-50%,0rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-50%,0.75rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:opacity-0 pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-50%,-0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-duration:0.2s] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-fill-mode:forwards] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
       "mappings": [
         [
           "relative",
@@ -14836,12 +14836,12 @@
           "2678:3 | &::after | border-top: 0.3rem solid"
         ],
         [
-          "after:border-r-black/0",
+          "after:border-r-transparent",
           "named",
           "2679:3 | &::after | border-right: 0.3rem solid transparent"
         ],
         [
-          "after:border-l-black/0",
+          "after:border-l-transparent",
           "named",
           "2680:3 | &::after | border-left: 0.3rem solid transparent"
         ],
@@ -15170,7 +15170,7 @@
         "[data-tooltip][data-placement=top]::before",
         "[data-tooltip][data-placement=top]::after"
       ],
-      "className": "before:pointer-events-none before:absolute before:bottom-full before:left-1/2 before:z-99 before:block before:transform-[translate(-50%,-0.25rem)] before:truncate before:rounded-(--pico-border-radius) before:pt-1 before:pr-2 before:pb-1 before:pl-2 before:text-[0.875rem] before:font-(--pico-font-weight) before:text-(--pico-tooltip-color) before:not-italic before:no-underline before:decoration-current before:decoration-solid before:decoration-auto before:opacity-0 before:content-[attr(data-tooltip)] before:[background:var(--pico-tooltip-background-color)] after:pointer-events-none after:absolute after:bottom-full after:left-1/2 after:z-99 after:block after:transform-[translate(-50%,0rem)] after:truncate after:rounded-none after:border-t-[4.8px] after:border-r-[4.8px] after:border-l-[4.8px] after:border-t-current after:border-r-black/0 after:border-l-black/0 after:p-0 after:text-[0.875rem] after:font-(--pico-font-weight) after:text-(--pico-tooltip-background-color) after:not-italic after:no-underline after:decoration-current after:decoration-solid after:decoration-auto after:opacity-0 after:content-[''] after:[background:var(--pico-tooltip-background-color)]",
+      "className": "before:pointer-events-none before:absolute before:bottom-full before:left-1/2 before:z-99 before:block before:transform-[translate(-50%,-0.25rem)] before:truncate before:rounded-(--pico-border-radius) before:pt-1 before:pr-2 before:pb-1 before:pl-2 before:text-[0.875rem] before:font-(--pico-font-weight) before:text-(--pico-tooltip-color) before:not-italic before:no-underline before:decoration-current before:decoration-solid before:decoration-auto before:opacity-0 before:content-[attr(data-tooltip)] before:[background:var(--pico-tooltip-background-color)] after:pointer-events-none after:absolute after:bottom-full after:left-1/2 after:z-99 after:block after:transform-[translate(-50%,0rem)] after:truncate after:rounded-none after:border-t-[4.8px] after:border-r-[4.8px] after:border-l-[4.8px] after:border-t-current after:border-r-transparent after:border-l-transparent after:p-0 after:text-[0.875rem] after:font-(--pico-font-weight) after:text-(--pico-tooltip-background-color) after:not-italic after:no-underline after:decoration-current after:decoration-solid after:decoration-auto after:opacity-0 after:content-[''] after:[background:var(--pico-tooltip-background-color)]",
       "mappings": [
         [
           "before:pointer-events-none",
@@ -15362,12 +15362,12 @@
           "2678:3 | &::after | border-top: 0.3rem solid"
         ],
         [
-          "after:border-r-black/0",
+          "after:border-r-transparent",
           "named",
           "2679:3 | &::after | border-right: 0.3rem solid transparent"
         ],
         [
-          "after:border-l-black/0",
+          "after:border-l-transparent",
           "named",
           "2680:3 | &::after | border-left: 0.3rem solid transparent"
         ],
@@ -15470,7 +15470,7 @@
         "[data-tooltip][data-placement=bottom]:hover::before",
         "[data-tooltip][data-placement=bottom]:hover::after"
       ],
-      "className": "[&::after]:top-full [&::after]:bottom-auto [&::after]:transform-[translate(-50%,-0.3rem)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-black/0 [&::after]:border-r-black/0 [&::after]:border-b-current [&::after]:border-l-black/0 [&::before]:top-full [&::before]:bottom-auto [&::before]:transform-[translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-50%,-0.5rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-50%,-0.3rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-50%,-0.75rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-50%,-0.5rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-50%,-0.3rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-50%,-0.75rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
+      "className": "[&::after]:top-full [&::after]:bottom-auto [&::after]:transform-[translate(-50%,-0.3rem)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-transparent [&::after]:border-r-transparent [&::after]:border-b-current [&::after]:border-l-transparent [&::before]:top-full [&::before]:bottom-auto [&::before]:transform-[translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-50%,-0.5rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-50%,-0.3rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-50%,-0.75rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-50%,-0.5rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-50%,-0.3rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-50%,-0.75rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-50%,0.25rem)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
       "mappings": [
         [
           "[&::after]:top-full",
@@ -15514,12 +15514,12 @@
           "2694:3 | &::after | border-bottom: 0.3rem solid"
         ],
         [
-          "[&::after]:border-t-black/0",
+          "[&::after]:border-t-transparent",
           "named",
           "2693:3 | &::after | border: 0.3rem solid transparent"
         ],
         [
-          "[&::after]:border-r-black/0",
+          "[&::after]:border-r-transparent",
           "named",
           "2693:3 | &::after | border: 0.3rem solid transparent"
         ],
@@ -15529,7 +15529,7 @@
           "2694:3 | &::after | border-bottom: 0.3rem solid"
         ],
         [
-          "[&::after]:border-l-black/0",
+          "[&::after]:border-l-transparent",
           "named",
           "2693:3 | &::after | border: 0.3rem solid transparent"
         ],
@@ -15670,7 +15670,7 @@
         "[data-tooltip][data-placement=left]:hover::before",
         "[data-tooltip][data-placement=left]:hover::after"
       ],
-      "className": "[&::after]:top-1/2 [&::after]:right-full [&::after]:bottom-auto [&::after]:left-auto [&::after]:transform-[translate(0.3rem,-50%)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-black/0 [&::after]:border-r-black/0 [&::after]:border-b-black/0 [&::after]:border-l-current [&::before]:top-1/2 [&::before]:right-full [&::before]:bottom-auto [&::before]:left-auto [&::before]:transform-[translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
+      "className": "[&::after]:top-1/2 [&::after]:right-full [&::after]:bottom-auto [&::after]:left-auto [&::after]:transform-[translate(0.3rem,-50%)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-transparent [&::after]:border-r-transparent [&::after]:border-b-transparent [&::after]:border-l-current [&::before]:top-1/2 [&::before]:right-full [&::before]:bottom-auto [&::before]:left-auto [&::before]:transform-[translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(-0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
       "mappings": [
         [
           "[&::after]:top-1/2",
@@ -15724,17 +15724,17 @@
           "2706:3 | &::after | border-left: 0.3rem solid"
         ],
         [
-          "[&::after]:border-t-black/0",
+          "[&::after]:border-t-transparent",
           "named",
           "2705:3 | &::after | border: 0.3rem solid transparent"
         ],
         [
-          "[&::after]:border-r-black/0",
+          "[&::after]:border-r-transparent",
           "named",
           "2705:3 | &::after | border: 0.3rem solid transparent"
         ],
         [
-          "[&::after]:border-b-black/0",
+          "[&::after]:border-b-transparent",
           "named",
           "2705:3 | &::after | border: 0.3rem solid transparent"
         ],
@@ -15890,7 +15890,7 @@
         "[data-tooltip][data-placement=right]:hover::before",
         "[data-tooltip][data-placement=right]:hover::after"
       ],
-      "className": "[&::after]:top-1/2 [&::after]:right-auto [&::after]:bottom-auto [&::after]:left-full [&::after]:transform-[translate(-0.3rem,-50%)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-black/0 [&::after]:border-r-current [&::after]:border-b-black/0 [&::after]:border-l-black/0 [&::before]:top-1/2 [&::before]:right-auto [&::before]:bottom-auto [&::before]:left-full [&::before]:transform-[translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
+      "className": "[&::after]:top-1/2 [&::after]:right-auto [&::after]:bottom-auto [&::after]:left-full [&::after]:transform-[translate(-0.3rem,-50%)] [&::after]:[border-top-width:4.8px] [&::after]:[border-right-width:4.8px] [&::after]:[border-bottom-width:4.8px] [&::after]:[border-left-width:4.8px] [&::after]:border-solid [&::after]:border-t-transparent [&::after]:border-r-current [&::after]:border-b-transparent [&::after]:border-l-transparent [&::before]:top-1/2 [&::before]:right-auto [&::before]:bottom-auto [&::before]:left-full [&::before]:transform-[translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:transform-[translate(-0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-caret-slide-to:translate(-0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:focus::before]:transform-[translate(-0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:focus::before]:[animation-name:tooltip-slide] pointer-fine:[@media(hover:hover)]:[&:hover::after]:transform-[translate(-0.05rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-caret-slide-to:translate(-0.3rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::after]:[animation-name:tooltip-caret-slide] pointer-fine:[@media(hover:hover)]:[&:hover::before]:transform-[translate(-0.75rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[--pico-tooltip-slide-to:translate(0.25rem,-50%)] pointer-fine:[@media(hover:hover)]:[&:hover::before]:[animation-name:tooltip-slide]",
       "mappings": [
         [
           "[&::after]:top-1/2",
@@ -15944,7 +15944,7 @@
           "2718:3 | &::after | border-right: 0.3rem solid"
         ],
         [
-          "[&::after]:border-t-black/0",
+          "[&::after]:border-t-transparent",
           "named",
           "2717:3 | &::after | border: 0.3rem solid transparent"
         ],
@@ -15954,12 +15954,12 @@
           "2718:3 | &::after | border-right: 0.3rem solid"
         ],
         [
-          "[&::after]:border-b-black/0",
+          "[&::after]:border-b-transparent",
           "named",
           "2717:3 | &::after | border: 0.3rem solid transparent"
         ],
         [
-          "[&::after]:border-l-black/0",
+          "[&::after]:border-l-transparent",
           "named",
           "2717:3 | &::after | border: 0.3rem solid transparent"
         ],

@@ -69,7 +69,8 @@ A longhand is dropped when it equals the baseline's value (or the parent's, for 
 - A transform or perspective origin at the center of the box counts as `50% 50%`.
 - A transition or animation list of equal items counts as one item.
 - Insets of `0px` on both sides of a relatively positioned box count as `auto`.
-- A `min-width: 0px` on a box that isn't rendered counts as `auto`.
+- On a box that isn't rendered (`display: none` or `contents`, or any box under a hidden ancestor, whose sizes come back as computed, `auto` or `100%`, not px), an `auto` size or a `0px` minimum counts as nothing. A `0px` minimum on an absolutely positioned box counts as `auto`: it's never a flex or grid item.
+- On a relatively positioned box, an end inset equal to the start one negated (`bottom: -10px` with `top: 10px`) counts as `auto`: only the start side shows.
 - A logical longhand (`padding-inline-start`) that repeats its physical twin (`padding-left`) is dropped.
 
 One value it never drops on equality alone: a px `line-height` when the font size differs from the reference's. Computed line-heights are always px, so `line-height: 1.5` and `line-height: 24px` look the same, but only the length stays 24px at another font size.
@@ -85,7 +86,7 @@ const hovered = pruneStyles(hoverStyles, { baseline: styles })
 // → { selector: '&:hover', declarations: hovered }
 ```
 
-With the Chrome DevTools Protocol, `CSS.forcePseudoState` forces pseudo-classes on one node (`DOM.enable` and `CSS.enable` first, then `DOM.querySelector` for its `nodeId`). It's more reliable than moving the mouse, and it can force focus states. After forcing, wait two animation frames and for `document.getAnimations()` to finish, or you read the start of a transition.
+With the Chrome DevTools Protocol, `CSS.forcePseudoState` forces pseudo-classes on one node (`DOM.enable` and `CSS.enable` first, then `DOM.querySelector` for its `nodeId`). It's more reliable than moving the mouse, and it can force focus states. After forcing, wait two animation frames and for the element's own transitions to finish, or you read the start of a transition. Wait only for animations with an end, and not for long: an infinite one (a spinner) never finishes.
 
 Name the state by the selector that holds whenever the captured style does:
 
@@ -235,11 +236,18 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
   }
 }
 
-/** Runs in the page: waits until no transition or animation runs, then reads the computed style. */
+/** Runs in the page: waits for the element's transitions (at most 1.5 s), then reads its style. */
 async function readSettled(selector: string): Promise<Style> {
+  const element = document.querySelector(selector) as Element
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-  await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => {})))
-  const style = getComputedStyle(document.querySelector(selector) as Element)
+  // An infinite animation never finishes, and one elsewhere on the page doesn't matter.
+  const running = element.getAnimations().filter((animation) => {
+    const end = animation.effect?.getComputedTiming().endTime
+    return typeof end === 'number' && Number.isFinite(end)
+  })
+  const finished = Promise.all(running.map((animation) => animation.finished.catch(() => {})))
+  await Promise.race([finished, new Promise((resolve) => setTimeout(resolve, 1500))])
+  const style = getComputedStyle(element)
   const out: Style = {}
   for (let index = 0; index < style.length; index++) {
     const property = style.item(index)
@@ -424,6 +432,22 @@ console.log(result.className)
 ```
 
 The script loads the page once per width, so every element on that page is captured again at every width. For many elements, capture them all after each load instead.
+
+### Converting in a serverless function
+
+Captures are often converted on a server. `createConverter` reads Tailwind's stylesheets from `tailwind.base`, which is the working directory by default. In a bundled function (a Convex Node action, a Lambda) the working directory isn't the project, so it throws `TFC903` even though `tailwindcss` itself loads. Install `tailwindcss` with the function (Convex: `externalPackages`), and resolve the stylesheets from the package:
+
+```ts
+import { createRequire } from 'node:module'
+import { dirname } from 'node:path'
+import { createConverter } from 'tailwind-from-css'
+
+const base = dirname(createRequire(import.meta.url).resolve('tailwindcss/package.json'))
+// Once per instance: loading the design system takes a second or two.
+const converter = await createConverter({ tailwind: { base } })
+```
+
+`pruneStyles` imports the same entry, which loads Node modules, so it runs where the converter does, not in a browser extension.
 
 ## What the result means
 

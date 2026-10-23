@@ -548,6 +548,100 @@ describe('pruneStyles', () => {
       ])
       expect(kept({ display: 'block', minWidth: '0px' }, { baseline })).toEqual(['min-width: 0px'])
     })
+
+    // Issue #18 (github.com, linear.app, stripe.com captures): the classes meant nothing.
+    it('drops a 0px minimum against a baseline outside a flex or grid item (0px too)', () => {
+      const baseline = { display: 'block', minWidth: '0px', minHeight: '0px' }
+      expect(kept({ display: 'none', minWidth: '0px', minHeight: '0px' }, { baseline })).toEqual([
+        'display: none',
+      ])
+    })
+
+    it('drops the auto sizes of a box that is not rendered against a rendered baseline', () => {
+      const baseline = { display: 'block', width: '319px', height: '0px', inlineSize: '319px' }
+      expect(
+        kept({ display: 'none', width: 'auto', height: 'auto', inlineSize: 'auto' }, { baseline }),
+      ).toEqual(['display: none'])
+    })
+
+    it('reads display: contents as not rendered', () => {
+      const baseline = { display: 'block', width: '42px', height: '0px', minWidth: 'auto' }
+      expect(
+        kept({ display: 'contents', width: 'auto', height: 'auto', minWidth: '0px' }, { baseline }),
+      ).toEqual(['display: contents'])
+    })
+
+    it('reads a box with auto width and height inside a hidden ancestor as not rendered', () => {
+      const baseline = { display: 'block', width: '0px', height: '0px', minWidth: 'auto' }
+      expect(
+        kept({ display: 'flex', width: 'auto', height: 'auto', minWidth: '0px' }, { baseline }),
+      ).toEqual(['display: flex'])
+    })
+
+    it('reads the 0px minimum of a baseline that is not rendered back as auto', () => {
+      const baseline = { display: 'none', minWidth: '0px' }
+      expect(kept({ display: 'none', minWidth: 'auto' }, { baseline })).toEqual([])
+    })
+
+    it('reads 0px back as auto on an absolutely positioned box, which is never a flex item', () => {
+      const baseline = { display: 'flex', minWidth: 'auto', minHeight: 'auto' }
+      const style = { display: 'flex', position: 'absolute', minWidth: '0px', minHeight: '0px' }
+      expect(kept(style, { baseline })).toEqual(['position: absolute'])
+      // A baseline outside a flex item reports its auto minimum as 0px too.
+      const block = { display: 'flex', minWidth: '0px', minHeight: '0px' }
+      expect(kept({ ...style, position: 'fixed' }, { baseline: block })).toEqual([
+        'position: fixed',
+      ])
+      expect(kept({ ...style, minWidth: '12px' }, { baseline })).toEqual([
+        'position: absolute',
+        'min-width: 12px',
+      ])
+      expect(kept({ ...style, position: 'static' }, { baseline })).toEqual([
+        'min-width: 0px',
+        'min-height: 0px',
+      ])
+    })
+
+    it('reads a size that is not px (a computed 100%) as not rendered', () => {
+      const baseline = { display: 'block', width: '0px', height: '0px', minWidth: 'auto' }
+      expect(
+        kept({ display: 'flex', width: '100%', height: 'auto', minWidth: '0px' }, { baseline }),
+      ).toEqual(['display: flex', 'width: 100%'])
+    })
+
+    it('reads a box under a hidden parent as not rendered, whatever its own sizes', () => {
+      const style = { display: 'block', width: '40px', height: '40px', minWidth: '0px' }
+      const baseline = { display: 'block', width: 'auto', height: 'auto', minWidth: '0px' }
+      expect(kept(style, { parent: { display: 'none' }, baseline })).toEqual([
+        'width: 40px',
+        'height: 40px',
+      ])
+      const hiddenParent = { display: 'flex', width: 'auto', height: 'auto' }
+      expect(kept(style, { parent: hiddenParent, baseline })).toEqual([
+        'width: 40px',
+        'height: 40px',
+      ])
+      // A `contents` parent has no box of its own, and its children still render.
+      const flexItem = { ...baseline, width: '40px', height: '40px', minWidth: 'auto' }
+      expect(
+        kept(style, {
+          parent: { display: 'contents', width: 'auto', height: 'auto' },
+          baseline: flexItem,
+        }),
+      ).toEqual(['min-width: 0px'])
+    })
+
+    it('keeps sizes a box that is not rendered sets, and the auto sizes of an inline box', () => {
+      const baseline = { display: 'block', width: '319px', height: '0px', minWidth: '0px' }
+      expect(
+        kept({ display: 'none', width: '80px', height: 'auto', minWidth: '12px' }, { baseline }),
+      ).toEqual(['display: none', 'width: 80px', 'min-width: 12px'])
+      expect(kept({ display: 'inline', width: 'auto', height: 'auto' }, { baseline })).toEqual([
+        'display: inline',
+        'width: auto',
+        'height: auto',
+      ])
+    })
   })
 
   describe('insets of a relatively positioned box', () => {
@@ -556,10 +650,37 @@ describe('pruneStyles', () => {
       expect(kept({ position: 'relative', ...insets }, {})).toEqual(['position: relative'])
     })
 
+    // Issue #19: with both insets of an axis set, the end side is ignored, and an `auto` one
+    // resolves to the negated start side; either way only the start side shows.
+    it('reads the end side of an offset axis back as auto (top, and left in LTR, win)', () => {
+      const flow = { writingMode: 'horizontal-tb', direction: 'ltr' }
+      expect(
+        kept(
+          {
+            position: 'relative',
+            ...flow,
+            top: '10px',
+            bottom: '-10px',
+            left: '4px',
+            right: '-4px',
+          },
+          {},
+        ),
+      ).toEqual(['position: relative', 'top: 10px', 'left: 4px'])
+      expect(
+        kept({ position: 'relative', ...flow, direction: 'rtl', left: '4px', right: '-4px' }, {}),
+      ).toEqual(['position: relative', 'direction: rtl', 'right: -4px'])
+    })
+
     it('keeps an axis with an offset, and the insets of other positions', () => {
       expect(
-        kept({ position: 'relative', top: '10px', bottom: '-10px', left: '0px', right: '0px' }, {}),
-      ).toEqual(['position: relative', 'top: 10px', 'bottom: -10px'])
+        kept({ position: 'relative', top: '10px', bottom: '-12px', left: '0px', right: '0px' }, {}),
+      ).toEqual(['position: relative', 'top: 10px', 'bottom: -12px'])
+      expect(kept({ position: 'relative', top: '10px', bottom: '-10px' }, {})).toEqual([
+        'position: relative',
+        'top: 10px',
+        'bottom: -10px',
+      ])
       expect(kept({ position: 'sticky', top: '0px', bottom: '0px' }, {})).toEqual([
         'position: sticky',
         'top: 0px',

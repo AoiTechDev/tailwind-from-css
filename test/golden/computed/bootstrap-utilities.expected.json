@@ -126,7 +126,7 @@
     {
       "name": "side-link",
       "tag": "a",
-      "className": "box-content block pt-1 pb-1 underline decoration-black/0 underline-offset-4 [&:hover]:text-black/75 [&:hover]:decoration-black/75",
+      "className": "box-content block pt-1 pb-1 underline decoration-transparent underline-offset-4 [&:hover]:text-black/75 [&:hover]:decoration-black/75",
       "mappings": [
         [
           "box-content",
@@ -154,7 +154,7 @@
           "text-decoration-line: underline"
         ],
         [
-          "decoration-black/0",
+          "decoration-transparent",
           "named",
           "text-decoration-color: rgba(0, 0, 0, 0)"
         ],
