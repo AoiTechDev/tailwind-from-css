@@ -124,13 +124,21 @@ Then, for each selector (`&`, each state, each pseudo-element), layer the widths
 
 ### Used sizes
 
-`width`, `height` and a grid container's `grid-template-columns`/`grid-template-rows` come back as **used** px values, the result of layout: `w-[343px]` at 375px, `w-[700px]` at 768px. Compare them across widths:
+`width`, `height` and a grid container's `grid-template-columns`/`grid-template-rows` come back as **used** px values, the result of layout: `w-[343px]` at 375px, `w-[700px]` at 768px. Whether a size was authored or the layout's can't be seen in the number, so ask the browser, **per element and per width**: set `width` to `auto` on that element alone, read the used `width` back, restore the element's style, then do the same for `height`.
 
-- A size that **changes** between widths is a layout result. Drop it (`drop: ['width', 'inline-size']`) at every width.
-- A size that's the **same** at every width is kept when it differs from the baseline. That keeps authored sizes (a 32px icon), and also content sizes that never change (a one-line label's height). Drop those by name when you know them.
+- **Equal** to what it was: the layout gave that size (a label's text, a flex item's share), and a class would freeze it. Drop it at that width. Where a narrower width set one, the wider width says `auto`, which undoes it.
+- **Different**: the size is authored. Keep it, per width: `size-6 md:size-7` stays.
+- A width where the box **isn't rendered** (`display: none`, or a size that reads back as written, not in px) has no size to read. It takes the decision of the nearest width where the box is rendered, wider first: a size kept there stays only if it reads the same.
+- A size that is a **share of the parent** (`width: 100%` on an input) isn't `auto`'s size, so it reads as authored and stays px at each width. Compare it with the parent's used size and write the share as a percentage yourself.
 - A size **authored in em or rem** changes with the font size. If the root font size changes between widths, as in Pico CSS, name it in `keep`.
 
-Other used values stay px at each width, and are exact only at the captured widths: `margin: auto` (`md:mx-6 xl:mx-65`), the insets of an absolutely positioned box that weren't set, and lengths written with `vw` or `clamp()`.
+Read one property at a time, because an ancestor's or the other axis's size feeds into it: a block fills an authored parent, and a wrapped text's height follows its width.
+
+Margins are read the same way. A non-zero used margin that stays the same when set to `auto` is an `auto` margin (`mx-auto`, a flex item pushed to the end of its row): capture it as `margin: auto`, and read it with the sizes that were equal set to `auto` as well, because a block's `auto` margins are 0 at `auto` width. A 0px margin isn't read, as `auto` often gives 0 too.
+
+Grid tracks, and the sizes of a pseudo-element (which a script can't set to `auto`), use the older rule: a value that changes between widths is a layout result and is dropped at every width.
+
+Other used values stay px at each width, and are exact only at the captured widths: the insets of an absolutely positioned box that weren't set, and lengths written with `vw` or `clamp()`.
 
 ## A minimal Playwright script
 
@@ -147,6 +155,10 @@ export interface WidthCapture {
   styles: Style
   /** Missing for the root element. */
   parent?: Style
+  /** The sizes (`width`, `height`) that read the same with `auto`: the layout's, not authored. */
+  intrinsic: string[]
+  /** The margins that read the same with `auto`. */
+  autoMargins: string[]
   baseline: Style
   /** `'&:hover'` → the computed style while the state is forced. */
   states: Record<string, Style>
@@ -173,6 +185,27 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
       const value = from.getPropertyValue(property)
       target.style.setProperty(property, property !== 'color' && value === from.color ? 'currentcolor' : value)
     }
+  }
+
+  // Which used sizes and margins are what `auto` gives: set to `auto` on this element alone, read
+  // back, restored in the same task (nothing paints).
+  const autoReads = (target: Element) => {
+    const style = (target as HTMLElement).style
+    const computed = getComputedStyle(target)
+    const saved = target.getAttribute('style')
+    const sameWhenAuto = (property: string, also: string[] = []) => {
+      const before = computed.getPropertyValue(property)
+      for (const name of [property, ...also]) style.setProperty(name, 'auto', 'important')
+      const after = getComputedStyle(target).getPropertyValue(property)
+      if (saved === null) target.removeAttribute('style')
+      else target.setAttribute('style', saved)
+      return before === after
+    }
+    const intrinsic = ['width', 'height'].filter((property) => sameWhenAuto(property))
+    const autoMargins = ['margin-top', 'margin-right', 'margin-bottom', 'margin-left'].filter(
+      (property) => !/^-?0(\.0+)?px$/.test(computed.getPropertyValue(property)) && sameWhenAuto(property, intrinsic),
+    )
+    return { intrinsic, autoMargins }
   }
 
   // One hidden frame with Preflight, reused for every element of the page.
@@ -230,10 +263,13 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
     }
   }
   const parent = element === document.documentElement ? undefined : element.parentElement
+  const { intrinsic, autoMargins } = autoReads(element)
   return {
     styles: read(getComputedStyle(element)),
     ...(parent ? { parent: read(getComputedStyle(parent)) } : {}),
     baseline: baselineOf(),
+    intrinsic,
+    autoMargins,
     pseudos,
   }
 }
@@ -303,20 +339,75 @@ export async function captureElement(
   return captures
 }
 
-// Computed styles resolve sizes and grid tracks to used px; a value that changes between widths
-// is a layout result. A document inside an iframe gets `app-region: no-drag` in Chromium.
-const SIZES: Record<string, string[]> = {
-  width: ['width', 'inline-size'],
-  height: ['height', 'block-size'],
-  'grid-template-columns': ['grid-template-columns'],
-  'grid-template-rows': ['grid-template-rows'],
+const PX = /^-?\d+(\.\d+)?px$/
+const SIZES: Record<string, string[]> = { width: ['width', 'inline-size'], height: ['height', 'block-size'] }
+const TRACKS = ['grid-template-columns', 'grid-template-rows']
+
+// Grid tracks and pseudo-element sizes can't be read with `auto`: a value that changes between
+// widths is a layout result. A document inside an iframe gets `app-region: no-drag` in Chromium.
+function dropped(styles: Style[], keep: string[], names: string[]): string[] {
+  const varying = names.filter((name) => !keep.includes(name) && new Set(styles.map((style) => style[name])).size > 1)
+  return ['app-region', ...varying.flatMap((name) => SIZES[name] ?? [name])]
 }
 
-function dropped(styles: Style[], keep: string[]): string[] {
-  const varying = Object.entries(SIZES).filter(
-    ([size]) => !keep.includes(size) && new Set(styles.map((style) => style[size])).size > 1,
+interface SizeDecision {
+  /** Left out of this width's declarations. */
+  drop: string[]
+  /** Said as `auto` where a narrower width set a class. */
+  auto: Style
+  /** Neither dropped nor added back: this width has no size to say. */
+  unset: string[]
+}
+
+function sizeDecisions(captures: WidthCapture[], keep: string[]): SizeDecision[] {
+  const rendered = captures.map(({ styles }) => styles.display !== 'none' && styles.display !== 'contents')
+  const own = captures.map(({ styles, intrinsic }) =>
+    Object.keys(SIZES).filter((size) => !keep.includes(size) && (intrinsic.includes(size) || !PX.test(styles[size] ?? ''))),
   )
-  return ['app-region', ...varying.flatMap(([, properties]) => properties)]
+  return captures.map((capture, index) => {
+    if (rendered[index]) {
+      const drop = own[index]!.flatMap((size) => SIZES[size]!)
+      return { drop, auto: Object.fromEntries(drop.map((property) => [property, 'auto'])), unset: [] }
+    }
+    // Not rendered: the nearest width where it is (wider first) decides.
+    const wider = rendered.findIndex((shown, i) => shown && i > index)
+    const donor = wider >= 0 ? wider : rendered.findLastIndex((shown, i) => shown && i < index)
+    const unset = Object.keys(SIZES)
+      .filter((size) => !keep.includes(size))
+      .filter(
+        (size) => donor < 0 || own[donor]!.includes(size) || capture.styles[size] !== captures[donor]!.styles[size],
+      )
+      .flatMap((size) => SIZES[size]!)
+    return { drop: unset, auto: {}, unset }
+  })
+}
+
+/** Says `auto` for the margins that read the same with `auto` (and their logical twin), in the element and its states. */
+function withAutoMargins(capture: WidthCapture): WidthCapture {
+  const rtl = capture.styles.direction === 'rtl'
+  const twins: Record<string, string> =
+    (capture.styles['writing-mode'] ?? 'horizontal-tb') === 'horizontal-tb'
+      ? {
+          'margin-top': 'margin-block-start',
+          'margin-bottom': 'margin-block-end',
+          'margin-left': rtl ? 'margin-inline-end' : 'margin-inline-start',
+          'margin-right': rtl ? 'margin-inline-start' : 'margin-inline-end',
+        }
+      : {}
+  const rewrite = (style: Style): Style => {
+    const out = { ...style }
+    for (const margin of capture.autoMargins) {
+      if (style[margin] !== capture.styles[margin]) continue
+      out[margin] = 'auto'
+      if (twins[margin]) out[twins[margin]] = 'auto'
+    }
+    return out
+  }
+  return {
+    ...capture,
+    styles: rewrite(capture.styles),
+    states: Object.fromEntries(Object.entries(capture.states).map(([state, style]) => [state, rewrite(style)])),
+  }
 }
 
 /**
@@ -354,31 +445,39 @@ function layers(
 
 /** Prunes the captures of one element and layers its widths, ready for `convertStyles`. */
 export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): StyleInput[] {
-  const sorted = [...captures].sort((a, b) => a.width - b.width)
+  const sorted = [...captures].sort((a, b) => a.width - b.width).map(withAutoMargins)
   const widths = sorted.map((capture) => capture.width)
-  const drop = dropped(
+  const decisions = sizeDecisions(sorted, keep)
+  const tracks = dropped(
     sorted.map((capture) => capture.styles),
     keep,
+    TRACKS,
   )
+  const dropAt = (index: number) => [...tracks, ...decisions[index]!.drop]
   const inputs = layers(
     '&',
     widths,
-    sorted.map((capture) => ({
-      raw: capture.styles,
-      kept: pruneStyles(capture.styles, {
-        ...(capture.parent ? { parent: capture.parent } : {}),
-        baseline: capture.baseline,
-        keep,
-        drop,
-        states: Object.values(capture.states),
-      }),
-    })),
+    sorted.map((capture, index) => {
+      // `auto` stands for a size the layout gave: where a narrower width set a class, it comes back as `auto`.
+      const raw = { ...capture.styles, ...decisions[index]!.auto }
+      for (const property of decisions[index]!.unset) delete raw[property]
+      return {
+        raw,
+        kept: pruneStyles(capture.styles, {
+          ...(capture.parent ? { parent: capture.parent } : {}),
+          baseline: capture.baseline,
+          keep,
+          drop: dropAt(index),
+          states: Object.values(capture.states),
+        }),
+      }
+    }),
   )
   // A state needs only what changes, so it's pruned against the element's own computed style.
   for (const state of Object.keys(sorted[0]?.states ?? {})) {
-    const pruned = sorted.map((capture) => {
+    const pruned = sorted.map((capture, index) => {
       const style = capture.states[state] as Style
-      return { raw: style, kept: pruneStyles(style, { baseline: capture.styles, drop, states: [] }) }
+      return { raw: style, kept: pruneStyles(style, { baseline: capture.styles, drop: dropAt(index), states: [] }) }
     })
     inputs.push(...layers(state, widths, pruned))
   }
@@ -392,6 +491,7 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
     const pseudoDrop = dropped(
       captured.map(({ pseudo }) => pseudo.styles),
       keep,
+      [...TRACKS, ...Object.keys(SIZES)],
     )
     const pruned = captured.map(({ capture, pseudo }) => {
       const { styles, baseline } = pseudo
