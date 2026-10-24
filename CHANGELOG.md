@@ -1,5 +1,11 @@
 # tailwind-from-css
 
+## 0.7.1
+
+### Patch Changes
+
+- 36a8e7f: Capture guide: used sizes are read per element with `auto` (set `width`/`height`/margins to `auto` on that element, compare, restore) instead of dropping any size that changes between widths. Authored responsive sizes like `size-6 md:size-7` now survive, and the Playwright script matches.
+
 ## 0.7.0
 
 ### Minor Changes
