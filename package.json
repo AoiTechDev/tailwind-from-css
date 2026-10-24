@@ -1,6 +1,6 @@
 {
   "name": "tailwind-from-css",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Convert CSS and computed styles to Tailwind CSS v4 classes, exactly. Verified against your own Tailwind theme.",
   "license": "MIT",
   "author": "Paweł Bornikowski",
