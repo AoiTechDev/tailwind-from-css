@@ -71,6 +71,19 @@ describe('encodeValue', () => {
       '[background-image:linear-gradient(red,blue),url(x_y.png)]',
       'background-image: linear-gradient(red,blue),url(x_y.png)',
     ],
+    // N44: a space in a data: URL's body is %20 there
+    [
+      'background-image',
+      `url("data:image/svg+xml,<svg a='1' b='2'/>")`,
+      `[background-image:url("data:image/svg+xml,<svg%20a='1'%20b='2'/>")]`,
+      `background-image: url("data:image/svg+xml,<svg%20a='1'%20b='2'/>")`,
+    ],
+    [
+      'background-image',
+      'url( "data:,a b" )',
+      "[background-image:url('data:,a%20b')]",
+      "background-image: url('data:,a%20b')",
+    ],
     // strings: spaces become `_`, underscores `\_`, `"` becomes `'` when lossless
     ['content', '"a b"', "[content:'a_b']", "content: 'a b'"],
     ['content', '"a_b"', "[content:'a\\_b']", "content: 'a_b'"],
@@ -136,6 +149,10 @@ describe('encodeValue', () => {
     ['an escaped space', 'a\\ b'],
     ['an escaped tab inside a string', '"a\\\tb"'],
     ['an escaped space inside a string in url()', 'url("a\\ b.png")'],
+    ['a space in the media type of a data: URL', 'url("data:text/plain ,a")'],
+    ['a trailing space in a data: URL', 'url("data:,a ")'],
+    ['an escaped space in a data: URL', 'url("data:,a\\ b")'],
+    ['a tab in a data: URL', 'url("data:,a\tb")'],
   ])('rejects %s (TFC204)', (_, value) => {
     expect(encodeValue(value)).toBeUndefined()
   })

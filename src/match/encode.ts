@@ -1,3 +1,5 @@
+import { isDataUrl } from '../css/normalize/urls.ts'
+
 const WHITESPACE = /[ \t\n\r\f]/
 const IDENT_CHAR = /[\w-]/
 // Tailwind's candidate scanner (Oxide) can't extract a class containing these.
@@ -42,7 +44,12 @@ export function encodeValue(value: string): string | undefined {
       index++
     } else if (char === '"' || char === "'") {
       const end = closingQuote(text, index)
-      const string = end === -1 ? undefined : encodeString(text.slice(index + 1, end), char, inUrl)
+      const url = !inUrl
+        ? 'none'
+        : depth === urlDepth + 1 && out.endsWith('(') && isDataUrl(text.slice(index + 1, index + 6))
+          ? 'data'
+          : 'other'
+      const string = end === -1 ? undefined : encodeString(text.slice(index + 1, end), char, url)
       if (string === undefined) return undefined
       out += string
       index = end
@@ -82,9 +89,18 @@ function closingQuote(text: string, open: number): number {
 
 // Tailwind turns `_` back into a space inside strings too, and `\_` into `_`. A `"` string
 // becomes a `'` string when that needs no escape, so the class fits in `class="…"`.
-function encodeString(content: string, quote: string, inUrl: boolean): string | undefined {
+// `url` is where the string is: outside `url()`, the argument of a `data:` URL, or other.
+function encodeString(
+  content: string,
+  quote: string,
+  url: 'none' | 'data' | 'other',
+): string | undefined {
   const requote = quote === '"' && !content.includes("'")
   const target = requote ? "'" : quote
+  const inUrl = url !== 'none'
+  // SPEC §6 N44: a space in a data: URL's body is `%20`, but not one the URL parser trims.
+  const bodyEnd = content.trimEnd().length
+  let inBody = false
   let out = target
   for (let index = 0; index < content.length; index++) {
     const char = content[index] as string
@@ -95,8 +111,12 @@ function encodeString(content: string, quote: string, inUrl: boolean): string | 
       out += next === ' ' ? '_' : requote && next === '"' ? next : char + next
       index++
     } else if (WHITESPACE.test(char)) {
-      if (char !== ' ' || inUrl) return undefined
-      out += '_'
+      if (char === ' ' && url === 'data' && inBody && index < bodyEnd) out += '%20'
+      else if (char !== ' ' || inUrl) return undefined
+      else out += '_'
+    } else if (char === ',') {
+      inBody = true
+      out += char
     } else if (char === '_') {
       out += inUrl ? '_' : '\\_'
     } else {

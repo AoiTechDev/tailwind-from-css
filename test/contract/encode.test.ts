@@ -30,6 +30,12 @@ const CORPUS: readonly (readonly [string, string])[] = [
   ['background-image', 'linear-gradient(to right, red 0%, blue 100%), url(x_y.png)'],
   ['background', 'url(a_b.png) center / cover no-repeat'],
   ['mask-image', 'url("data:image/svg+xml;utf8,<svg></svg>")'],
+  [
+    'background-image',
+    `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8'></svg>")`,
+  ],
+  ['mask-image', `url('data:image/svg+xml;utf8,<svg a="1" b="2"></svg>')`],
+  ['background-image', 'url("data:text/plain;base64,YW Jj"), url(a_b.png)'],
   ['content', '"a b"'],
   ['content', '"a_b"'],
   ['content', '""'],

@@ -193,7 +193,7 @@ card.css:1:9: info TFC203: text-neutral-500 relaxes color-nearest: color: #73737
 
 ### TFC204
 
-**Warning.** The value can't be written inside a class. Here, a class can't contain a space, and inside `url()` Tailwind keeps `_` as an underscore, so there's no way to spell the file name. The declaration is listed in `unconverted`.
+**Warning.** The value can't be written inside a class. Here, a class can't contain a space, and inside `url()` Tailwind keeps `_` as an underscore, so there's no way to spell the file name. The declaration is listed in `unconverted`. A `data:` URL is the exception: a space in its data (after the first comma) is written as `%20`, which is the same data, so inline SVG backgrounds convert.
 
 ```css
 .hero { background-image: url("hero image.png"); }

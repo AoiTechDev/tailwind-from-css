@@ -21,6 +21,7 @@ import {
 import { normalizeShadowList } from './shadows.ts'
 import { decodeEscapes, normalizeString, quoteString } from './strings.ts'
 import { toMsOrDeg } from './time-angle.ts'
+import { percentEncodeDataUrlSpaces } from './urls.ts'
 
 /** Inputs of value normalization besides the value itself. */
 export interface ValueOptions extends LengthBasis {
@@ -135,7 +136,7 @@ function printWord(word: string, scope: Scope): string {
 function printUrl(node: FunctionNode): string {
   const [first] = node.nodes
   const raw = first?.type === 'string' ? first.value : valueParser.stringify(node.nodes)
-  return `url(${quoteString(decodeEscapes(raw.trim()))})`
+  return `url(${quoteString(percentEncodeDataUrlSpaces(decodeEscapes(raw.trim())))})`
 }
 
 function printFunction(node: FunctionNode, scope: Scope): string {

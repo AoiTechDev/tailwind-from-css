@@ -161,6 +161,16 @@ describe('default theme', () => {
     expect(conversion.result.skipped).toEqual([{ declaration: 1, code: 'TFC204' }])
     expect(conversion.input[1]?.property).toBe('font-family')
   })
+
+  it('converts a data: URL with spaces, writing them as %20 (N44)', () => {
+    const conversion = convert(
+      `background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8'/>")`,
+    )
+    expect(conversion.classes).toEqual([
+      `bg-[url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='8'/>")]`,
+    ])
+    expect(conversion.result.skipped).toEqual([])
+  })
 })
 
 describe('custom theme', () => {

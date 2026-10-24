@@ -26,6 +26,7 @@ const NORMAL_FORMS = [
   'N41',
   'N42',
   'N43',
+  'N44',
   'N50',
 ]
 
