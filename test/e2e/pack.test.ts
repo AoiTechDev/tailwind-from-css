@@ -75,6 +75,15 @@ describe('packed tarball', () => {
     expect(Object.keys(scripts).filter((name) => INSTALL_SCRIPTS.includes(name))).toEqual([])
   })
 
+  // `"moduleResolution": "node"` ignores `exports` and reads only the top-level `types`.
+  it('names its types at the top level too', () => {
+    const manifest = readJson<{ types?: string; exports: { '.': { types: string } } }>(
+      join(ROOT, 'package.json'),
+    )
+    expect(manifest.types).toBe(manifest.exports['.'].types)
+    expect(dryRun().files.map((file) => file.path)).toContain(manifest.types?.replace('./', ''))
+  })
+
   it('ships the CLI with a shebang', () => {
     expect(readFileSync(join(ROOT, 'dist', 'cli.js'), 'utf8')).toMatch(/^#!\/usr\/bin\/env node\n/)
   })

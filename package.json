@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Paweł Bornikowski",
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
