@@ -70,7 +70,7 @@ export type DiagnosticCode =
   | 'TFC502'
 
 /** Code of an error thrown as `TfcError`: environment and usage problems only. */
-export type TfcErrorCode = 'TFC901' | 'TFC902' | 'TFC903' | 'TFC904'
+export type TfcErrorCode = 'TFC901' | 'TFC902' | 'TFC903' | 'TFC904' | 'TFC905'
 
 /** Severity of a {@link Diagnostic}. */
 export type DiagnosticSeverity = 'info' | 'warning' | 'error'
@@ -196,9 +196,17 @@ export interface Converter {
   /** Version of the tailwindcss package that was actually loaded. */
   readonly tailwindVersion: string
   readonly options: ResolvedOptions
-  /** Converts styles that all describe one element into one class list. */
+  /**
+   * Converts styles that all describe one element into one class list.
+   *
+   * @throws {TfcError} `TFC905` when the input isn't a {@link StyleInput} or an array of them.
+   */
   convertStyles(input: StyleInput | StyleInput[]): ConversionResult
-  /** Parses a stylesheet and converts every rule, grouped by subject selector. */
+  /**
+   * Parses a stylesheet and converts every rule, grouped by subject selector.
+   *
+   * @throws {TfcError} `TFC905` when `css` isn't a string.
+   */
   convertCss(css: string): CssConversionResult
   /** The CSS Tailwind generates for the given classes. Meant for debugging and tests. */
   toCss(classes: string[]): string

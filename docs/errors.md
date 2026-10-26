@@ -38,6 +38,7 @@ The examples below run the command line on a `card.css` next to a project with `
 | [TFC902](#tfc902) | thrown | Unsupported `tailwindcss` version |
 | [TFC903](#tfc903) | thrown | The Tailwind entry CSS failed to load |
 | [TFC904](#tfc904) | thrown | Invalid options |
+| [TFC905](#tfc905) | thrown | Input of the wrong shape |
 
 ## Parsing and input
 
@@ -371,3 +372,17 @@ error.code // 'TFC904'
 ```
 
 **What to do:** fix the option. See [Options](../README.md#options) for the valid keys and values.
+
+### TFC905
+
+**Thrown.** `convertStyles` or `convertCss` was called with input of the wrong shape, which TypeScript would have caught: something other than a `StyleInput` (or an array of them), a `declarations` that isn't a string, array or object, a `selector` that isn't a string, `conditions` that aren't an array of strings, or a stylesheet that isn't a string. The message says which entry and field. The common case is passing the declarations themselves, the way `pruneStyles` takes them.
+
+<!-- test -->
+```js
+import { convertStyles } from 'tailwind-from-css'
+
+const error = await convertStyles({ 'padding-top': '16px' }).catch((error) => error)
+error.code // 'TFC905'
+```
+
+**What to do:** wrap the declarations: `convertStyles({ declarations: { 'padding-top': '16px' } })`.

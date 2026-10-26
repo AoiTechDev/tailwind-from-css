@@ -390,7 +390,7 @@ Everything is exported from the package root.
 | `convertStyles(input, options?)` | One element's styles → one class list. Returns `Promise<ConversionResult>`. |
 | `convertCss(css, options?)` | A stylesheet → class lists grouped by subject. Returns `Promise<CssConversionResult>`. |
 | `pruneStyles(styles, options)` | A computed style → the declarations that need classes. Pure and synchronous. |
-| `TfcError` | The only error the library throws, for setup problems (codes `TFC901`–`TFC904`). |
+| `TfcError` | The only error the library throws, for setup and usage problems (codes `TFC901`–`TFC905`). |
 
 A `Converter` has synchronous `convertStyles(input)`, `convertCss(css)` and `toCss(classes)` methods, plus `tailwindVersion` (the version actually loaded) and `options` (the resolved, frozen options).
 
@@ -458,6 +458,7 @@ Thrown `TfcError` codes, all about setup:
 | `TFC902` | The installed `tailwindcss` is outside the supported range |
 | `TFC903` | The entry CSS failed to load from `tailwind.base` (missing import, plugin error); the cause is attached |
 | `TFC904` | Invalid options |
+| `TFC905` | Input of the wrong shape (from JavaScript), e.g. `convertStyles` given declarations instead of `{ declarations }` |
 
 <!-- test -->
 ```js

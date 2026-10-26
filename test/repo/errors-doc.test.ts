@@ -11,6 +11,7 @@ const ERROR_CODES: Record<TfcErrorCode, true> = {
   TFC902: true,
   TFC903: true,
   TFC904: true,
+  TFC905: true,
 }
 
 const DOC = readFileSync(resolve(import.meta.dirname, '..', '..', 'docs', 'errors.md'), 'utf8')

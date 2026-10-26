@@ -52,6 +52,29 @@ describe('createConverter', () => {
     ).toBe('TFC903')
   })
 
+  it('rejects input that is not a StyleInput or a stylesheet string with TFC905', () => {
+    const code = (run: () => unknown): string | undefined => {
+      try {
+        run()
+      } catch (error) {
+        return error instanceof TfcError ? error.code : 'not a TfcError'
+      }
+      return undefined
+    }
+    const styles = (input: unknown) => () => converter.convertStyles(input as never)
+    expect(code(styles({ 'padding-top': '16px' }))).toBe('TFC905')
+    expect(code(styles(null))).toBe('TFC905')
+    expect(code(styles([{ declarations: 'color: red' }, 'color: red']))).toBe('TFC905')
+    expect(code(styles({ declarations: 42 }))).toBe('TFC905')
+    expect(code(styles({ declarations: 'color: red', selector: 1 }))).toBe('TFC905')
+    expect(code(styles({ declarations: 'color: red', conditions: '@media print' }))).toBe('TFC905')
+    expect(code(() => converter.convertCss({ css: 'a{}' } as never))).toBe('TFC905')
+    expect(code(styles({ declarations: { color: 'red' }, selector: '&', conditions: [] }))).toBe(
+      undefined,
+    )
+    expect(code(styles([]))).toBe(undefined)
+  })
+
   it('loads the entry CSS relative to tailwind.base', async () => {
     const custom = await createConverter({
       tailwind: {

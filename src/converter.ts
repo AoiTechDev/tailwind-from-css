@@ -2,6 +2,7 @@ import { toDeclarations } from './css/declarations.ts'
 import { canonicalProperty, longhandsOf } from './css/normalize/shorthands.ts'
 import { parseStylesheet } from './css/parse.ts'
 import { type Specificity, specificity } from './css/selector.ts'
+import { TfcError } from './errors.ts'
 import {
   type BlockDeclaration,
   type CascadeBlock,
@@ -140,7 +141,7 @@ export async function createConverter(options?: ConverterOptions): Promise<Conve
  *
  * @param css - The stylesheet. Syntax errors are recovered from or reported, never thrown.
  * @param options - As for {@link createConverter}.
- * @throws {TfcError} As {@link createConverter} does.
+ * @throws {TfcError} As {@link createConverter} does, and `TFC905` when `css` isn't a string.
  * @example
  * ```ts
  * const { rules } = await convertCss('.btn { padding: 16px } .btn:hover { color: #000 }')
@@ -162,7 +163,8 @@ export async function convertCss(
  *
  * @param input - The element's declarations, one context per entry (`selector`, `conditions`).
  * @param options - As for {@link createConverter}.
- * @throws {TfcError} As {@link createConverter} does.
+ * @throws {TfcError} As {@link createConverter} does, and `TFC905` when `input` isn't a
+ * {@link StyleInput} or an array of them.
  * @example
  * ```ts
  * const result = await convertStyles([
@@ -233,10 +235,56 @@ export function converterFromDesign(
     tailwindVersion: design.version,
     options,
     convertStyles: (input: StyleInput | StyleInput[]) =>
-      convert(engine, (Array.isArray(input) ? input : [input]).map(entryOf)),
-    convertCss: (css: string) => convertStylesheet(engine, css),
+      convert(engine, checkStyleInputs(input).map(entryOf)),
+    convertCss: (css: string) => {
+      if (typeof css !== 'string') throw invalidInput(`convertCss takes a string, got ${kind(css)}`)
+      return convertStylesheet(engine, css)
+    },
     toCss: (classes: string[]) => toCss(design, classes),
   })
+}
+
+const invalidInput = (message: string): TfcError => new TfcError('TFC905', message)
+
+const kind = (value: unknown): string =>
+  value === null ? 'null' : Array.isArray(value) ? 'an array' : typeof value
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+// SPEC §3.2: JavaScript callers can pass any shape; a wrong one is TFC905, never a TypeError.
+function checkStyleInputs(input: StyleInput | StyleInput[]): StyleInput[] {
+  const inputs: unknown[] = Array.isArray(input) ? input : [input]
+  inputs.forEach((entry, position) => {
+    const at = Array.isArray(input) ? `convertStyles input[${position}]` : 'convertStyles input'
+    if (!isRecord(entry))
+      throw invalidInput(`${at} must be a StyleInput object, got ${kind(entry)}`)
+    const { declarations, selector, conditions } = entry
+    if (declarations === undefined) {
+      throw invalidInput(
+        `${at} has no \`declarations\`: pass { declarations: … }, not the declarations themselves`,
+      )
+    }
+    if (
+      typeof declarations !== 'string' &&
+      !Array.isArray(declarations) &&
+      !isRecord(declarations)
+    ) {
+      throw invalidInput(
+        `${at}.declarations must be a string, an array or an object, got ${kind(declarations)}`,
+      )
+    }
+    if (selector !== undefined && typeof selector !== 'string') {
+      throw invalidInput(`${at}.selector must be a string, got ${kind(selector)}`)
+    }
+    if (
+      conditions !== undefined &&
+      !(Array.isArray(conditions) && conditions.every((c) => typeof c === 'string'))
+    ) {
+      throw invalidInput(`${at}.conditions must be an array of strings`)
+    }
+  })
+  return inputs as StyleInput[]
 }
 
 // The element's own selector is the same in every entry, so `&` counts for nothing.
