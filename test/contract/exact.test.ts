@@ -162,6 +162,16 @@ describe('default theme', () => {
     expect(conversion.input[1]?.property).toBe('font-family')
   })
 
+  it('finds the shorthand class for equal overscroll-behavior longhands (N01)', () => {
+    expect(classes('overscroll-behavior-x: none; overscroll-behavior-y: none')).toEqual([
+      'overscroll-none',
+    ])
+    expect(classes('overscroll-behavior-x: contain; overscroll-behavior-y: auto')).toEqual([
+      'overscroll-x-contain',
+      'overscroll-y-auto',
+    ])
+  })
+
   it('converts a data: URL with spaces, writing them as %20 (N44)', () => {
     const conversion = convert(
       `background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8'/>")`,

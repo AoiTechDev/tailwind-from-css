@@ -56,6 +56,12 @@ describe('N01 shorthand expansion', () => {
       expect(normal('gap', '1px 2px')).toBe('row-gap: 1px; column-gap: 2px')
       expect(normal('overflow', 'hidden')).toBe('overflow-x: hidden; overflow-y: hidden')
       expect(normal('overflow', 'hidden auto')).toBe('overflow-x: hidden; overflow-y: auto')
+      expect(normal('overscroll-behavior', 'none')).toBe(
+        'overscroll-behavior-x: none; overscroll-behavior-y: none',
+      )
+      expect(normal('overscroll-behavior', 'contain auto')).toBe(
+        'overscroll-behavior-x: contain; overscroll-behavior-y: auto',
+      )
     })
 
     it('expands border-radius per corner, with an optional vertical radius', () => {
@@ -461,12 +467,12 @@ describe('N01 shorthand expansion', () => {
 
   it('sets the longhands mdn-data lists for each shorthand', () => {
     // text-decoration also resets the thickness (CSS Text Decoration 4); mdn-data doesn't list
-    // overflow as a shorthand.
+    // overflow and overscroll-behavior as shorthands.
     const extra: Record<string, string[]> = {
       'text-decoration': ['text-decoration-thickness'],
     }
     for (const [shorthand, longhands] of EXPANDED_LONGHANDS) {
-      if (shorthand === 'overflow') continue
+      if (shorthand === 'overflow' || shorthand === 'overscroll-behavior') continue
       const expected = [...(shorthandLonghands.get(shorthand) ?? []), ...(extra[shorthand] ?? [])]
       expect([...longhands].sort(), shorthand).toEqual(expected.sort())
     }

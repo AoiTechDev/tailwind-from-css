@@ -638,6 +638,7 @@ const SHORTHANDS: ReadonlyMap<string, Shorthand> = new Map<string, Shorthand>([
   ),
   ['gap', twoValues(['row-gap', 'column-gap'])],
   ['overflow', twoValues(['overflow-x', 'overflow-y'])],
+  ['overscroll-behavior', twoValues(['overscroll-behavior-x', 'overscroll-behavior-y'])],
   ['place-content', place('align-content', 'justify-content')],
   ['place-items', place('align-items', 'justify-items')],
   ['place-self', place('align-self', 'justify-self')],
