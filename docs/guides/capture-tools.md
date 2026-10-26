@@ -46,6 +46,8 @@ The baseline answers one question: what would this element look like with no cla
 
 Why copy the whole parent style, not just the inherited values? Because some of what an element shows comes from its parent's layout. A flex or grid item has `min-width: auto` and a blockified `display` (an `<a>` in a flex row computes to `display: block`). The wrapper has to be a flex or grid container too, or every flex item gets `block min-w-auto`. Copying everything also carries the inherited properties browsers have and the CSS data doesn't list, like Chromium's `-webkit-font-smoothing`.
 
+A parent with `display: contents` has no box: its children are laid out by the first ancestor that has one. Nest copies of the ancestors up to that one, outermost first, and put the blank element in the innermost (the parent's copy). Inheritance still comes from the parent, and the formatting context from the boxed ancestor, so a flex item under a `contents` wrapper is still a flex item.
+
 Two details matter when copying:
 
 - A value equal to the parent's `color`, other than `color` itself, is copied as `currentcolor`. `caret-color`, `-webkit-text-fill-color` and friends follow the text color, and the blank element's own color (a `<mark>` is black) must still be able to change them.
@@ -100,6 +102,10 @@ Name the state by the selector that holds whenever the captured style does:
 
 A forced `:hover` applies to the node only, not its ancestors as a real hover would. Styles keyed to a hovered ancestor (`.card:hover .title`) need that ancestor forced instead.
 
+Some of what changes in a state is the browser's own doing: Chromium draws a focus ring (`outline: auto 1px -webkit-focus-ring-color`) on `:focus-visible`, and a checkbox gets `outline-offset: 2px`. A Tailwind project shows them too, since Preflight doesn't remove them. Keep a blank element in the baseline frame and force the same state on it. A longhand that the state changes on the blank element, to the value the element shows, is the browser's: drop it. An author rule would have beaten the browser's, so an equal value means there was none, or one with the same value.
+
+Properties that an endless animation drives (a pulsing outline) show a different moment at each read, and so a different class at each width. No class can show a moment of an animation: drop the properties in the animation's keyframes (`element.getAnimations()`, then `getKeyframes()` of each one without an end). Let animations with an end finish before reading, as for states.
+
 ## Pseudo-elements
 
 Capture `::before` and `::after` only when their `content` isn't `none` or `normal`. Prune them with the element's computed style as `parent`, and a baseline from the blank element's pseudo-element:
@@ -138,7 +144,9 @@ Margins are read the same way. A non-zero used margin that stays the same when s
 
 Grid tracks, and the sizes of a pseudo-element (which a script can't set to `auto`), use the older rule: a value that changes between widths is a layout result and is dropped at every width.
 
-Other used values stay px at each width, and are exact only at the captured widths: the insets of an absolutely positioned box that weren't set, and lengths written with `vw` or `clamp()`.
+The insets of an absolutely or fixed positioned box follow the same older rule: an inset that changes between widths is where the layout put it (an inset that wasn't set, or a percentage), and is dropped at every width. A responsive inset you authored (`top-4 md:top-8`) is lost with it; name it in `keep` if it matters.
+
+Other used values stay px at each width, and are exact only at the captured widths: an inset that wasn't set but reads the same at every width, and lengths written with `vw` or `clamp()`.
 
 ## A minimal Playwright script
 
@@ -160,8 +168,12 @@ export interface WidthCapture {
   /** The margins that read the same with `auto`. */
   autoMargins: string[]
   baseline: Style
+  /** Properties the element's endless animations drive: no class can show a moment of them. */
+  animated: string[]
   /** `'&:hover'` → the computed style while the state is forced. */
   states: Record<string, Style>
+  /** `'&:hover'` → the baseline's computed style with the same state forced. */
+  baselineStates: Record<string, Style>
   /** `'&::before'` → the pseudo-element's computed style and its baseline. */
   pseudos: Record<string, { styles: Style; baseline: Style }>
 }
@@ -225,6 +237,35 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
 
   const element = document.querySelector(selector) as HTMLElement
   const lang = element.closest('[lang]')?.getAttribute('lang')
+  // The blank element inside copies of its parent, and of the ancestors up to the first one with a
+  // box when the parent is `display: contents`: inheritance comes from the parent, the formatting
+  // context (a flex item's `min-width: auto`) from the boxed ancestor.
+  const mountBlank = () => {
+    const chain: HTMLElement[] = []
+    for (let at = element.parentElement; at !== null; at = at.parentElement) {
+      chain.unshift(at)
+      if (getComputedStyle(at).display !== 'contents') break
+    }
+    const outer = frameDocument.createElement('div')
+    if (lang) outer.setAttribute('lang', lang)
+    let wrapper = outer
+    chain.forEach((ancestor, index) => {
+      const copy = index === 0 ? outer : frameDocument.createElement('div')
+      carry(copy, getComputedStyle(ancestor))
+      if (copy !== outer) {
+        wrapper.append(copy)
+        wrapper = copy
+      }
+    })
+    const blank = frameDocument.createElement(element.localName)
+    for (const name of ['type', 'href', 'open', 'disabled', 'multiple', 'size', 'width', 'height', 'hidden', 'dir']) {
+      const value = element.getAttribute(name)
+      if (value !== null) blank.setAttribute(name, name === 'href' ? '#' : value)
+    }
+    wrapper.append(blank)
+    frameDocument.body.append(outer)
+    return { outer, blank }
+  }
   const baselineOf = (pseudo?: string): Style => {
     if (element === document.documentElement) {
       if (lang) frameDocument.documentElement.setAttribute('lang', lang)
@@ -232,16 +273,7 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
       frameDocument.documentElement.removeAttribute('lang')
       return style
     }
-    const wrapper = frameDocument.createElement('div')
-    if (lang) wrapper.setAttribute('lang', lang)
-    carry(wrapper, getComputedStyle(element.parentElement as HTMLElement))
-    const blank = frameDocument.createElement(element.localName)
-    for (const name of ['type', 'href', 'open', 'disabled', 'multiple', 'size', 'width', 'height', 'hidden', 'dir']) {
-      const value = element.getAttribute(name)
-      if (value !== null) blank.setAttribute(name, name === 'href' ? '#' : value)
-    }
-    wrapper.append(blank)
-    frameDocument.body.append(wrapper)
+    const { outer, blank } = mountBlank()
     let style: Style
     if (pseudo === undefined) {
       style = read(frameWindow.getComputedStyle(blank))
@@ -251,9 +283,32 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
       style = read(frameWindow.getComputedStyle(blank, pseudo))
       delete style.content
     }
-    wrapper.remove()
+    outer.remove()
     return style
   }
+  // A blank element that stays in the frame, for `readState` to force the same states on.
+  frameDocument.querySelector('[data-tfc-outer]')?.remove()
+  if (element !== document.documentElement) {
+    const { outer, blank } = mountBlank()
+    outer.setAttribute('data-tfc-outer', '')
+    blank.setAttribute('data-tfc-blank', '')
+  }
+
+  // An endless animation (a pulsing ring) shows a different moment at each read and width.
+  const kebab = (name: string) =>
+    name === 'cssFloat'
+      ? 'float'
+      : name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`).replace(/^webkit-/, '-webkit-')
+  const animated = element.getAnimations().flatMap((animation) => {
+    const effect = animation.effect
+    const end = effect?.getComputedTiming().endTime
+    if (!(effect instanceof KeyframeEffect) || (typeof end === 'number' && Number.isFinite(end))) return []
+    return effect
+      .getKeyframes()
+      .flatMap((frame) => Object.keys(frame))
+      .filter((key) => !['offset', 'computedOffset', 'easing', 'composite'].includes(key))
+      .map(kebab)
+  })
 
   const pseudos: WidthCapture['pseudos'] = {}
   for (const pseudo of ['::before', '::after']) {
@@ -270,6 +325,7 @@ async function capturePage({ selector, baseCss }: { selector: string; baseCss: s
     baseline: baselineOf(),
     intrinsic,
     autoMargins,
+    animated: [...new Set(animated)],
     pseudos,
   }
 }
@@ -294,14 +350,47 @@ async function readSettled(selector: string): Promise<Style> {
   return out
 }
 
+/** Runs in the page: the computed style of the frame's blank element. */
+function readBlank(): Style {
+  const frame = (window as unknown as { tfcFrame: HTMLIFrameElement }).tfcFrame
+  const blank = frame.contentDocument?.querySelector('[data-tfc-blank]') as Element
+  const style = (frame.contentWindow as Window).getComputedStyle(blank)
+  const out: Style = {}
+  for (let index = 0; index < style.length; index++) {
+    const property = style.item(index)
+    if (!property.startsWith('--')) out[property] = style.getPropertyValue(property)
+  }
+  return out
+}
+
+interface DomNode {
+  nodeId: number
+  attributes?: string[]
+  children?: DomNode[]
+  contentDocument?: DomNode
+}
+
+function findBlank(node: DomNode): number | undefined {
+  if (node.attributes?.includes('data-tfc-blank')) return node.nodeId
+  for (const child of [...(node.children ?? []), ...(node.contentDocument ? [node.contentDocument] : [])]) {
+    const found = findBlank(child)
+    if (found !== undefined) return found
+  }
+  return undefined
+}
+
+/** The element's style with `force` on, and the blank element's with the same state forced. */
 async function readState(page: Page, cdp: CDPSession, selector: string, force: string[]) {
-  const { root } = await cdp.send('DOM.getDocument', { depth: 0 })
+  const { root } = await cdp.send('DOM.getDocument', { depth: -1, pierce: true })
   const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector })
-  await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: force })
+  const blank = findBlank(root as DomNode)
+  const nodes = blank === undefined ? [nodeId] : [nodeId, blank]
+  for (const id of nodes) await cdp.send('CSS.forcePseudoState', { nodeId: id, forcedPseudoClasses: force })
   const style = await page.evaluate(readSettled, selector)
-  await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] })
+  const baseline = blank === undefined ? undefined : await page.evaluate(readBlank)
+  for (const id of nodes) await cdp.send('CSS.forcePseudoState', { nodeId: id, forcedPseudoClasses: [] })
   await page.evaluate(readSettled, selector)
-  return style
+  return { style, baseline }
 }
 
 /** Loads `url` at each width (a desktop viewport) and captures one element. */
@@ -324,6 +413,8 @@ export async function captureElement(
     await page.evaluate(async () => {
       await document.fonts.ready
     })
+    // Lets entry animations and transitions finish first.
+    await page.evaluate(readSettled, options.selector)
     await cdp.send('DOM.enable')
     await cdp.send('CSS.enable')
     const captured = await page.evaluate(capturePage, {
@@ -331,10 +422,13 @@ export async function captureElement(
       baseCss: options.baseCss,
     })
     const states: Record<string, Style> = {}
+    const baselineStates: Record<string, Style> = {}
     for (const [state, force] of Object.entries(options.states ?? {})) {
-      states[state] = await readState(page, cdp, options.selector, force)
+      const { style, baseline } = await readState(page, cdp, options.selector, force)
+      states[state] = style
+      if (baseline !== undefined) baselineStates[state] = baseline
     }
-    captures.push({ width, ...captured, states })
+    captures.push({ width, ...captured, states, baselineStates })
   }
   return captures
 }
@@ -348,6 +442,22 @@ const TRACKS = ['grid-template-columns', 'grid-template-rows']
 function dropped(styles: Style[], keep: string[], names: string[]): string[] {
   const varying = names.filter((name) => !keep.includes(name) && new Set(styles.map((style) => style[name])).size > 1)
   return ['app-region', ...varying.flatMap((name) => SIZES[name] ?? [name])]
+}
+
+const INSETS: Record<string, string[]> = {
+  top: ['top', 'inset-block-start'],
+  right: ['right', 'inset-inline-end'],
+  bottom: ['bottom', 'inset-block-end'],
+  left: ['left', 'inset-inline-start'],
+}
+
+// An inset of an absolutely or fixed positioned box that changes between widths is where the
+// layout put it, like a used size: dropped at every width.
+function placedInsets(styles: Style[], keep: string[]): string[] {
+  if (!styles.some((style) => style.position === 'absolute' || style.position === 'fixed')) return []
+  return Object.keys(INSETS)
+    .filter((name) => !keep.includes(name) && new Set(styles.map((style) => style[name])).size > 1)
+    .flatMap((name) => INSETS[name]!)
 }
 
 interface SizeDecision {
@@ -453,7 +563,11 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
     keep,
     TRACKS,
   )
-  const dropAt = (index: number) => [...tracks, ...decisions[index]!.drop]
+  const insets = placedInsets(
+    sorted.map((capture) => capture.styles),
+    keep,
+  )
+  const dropAt = (index: number) => [...tracks, ...insets, ...decisions[index]!.drop, ...sorted[index]!.animated]
   const inputs = layers(
     '&',
     widths,
@@ -474,10 +588,22 @@ export function toStyleInputs(captures: WidthCapture[], keep: string[] = []): St
     }),
   )
   // A state needs only what changes, so it's pruned against the element's own computed style.
+  // What the browser itself changes in the state (Chromium's focus ring) changes the same way on
+  // the blank element, and shows without a class: an author rule would have beaten it.
   for (const state of Object.keys(sorted[0]?.states ?? {})) {
     const pruned = sorted.map((capture, index) => {
       const style = capture.states[state] as Style
-      return { raw: style, kept: pruneStyles(style, { baseline: capture.styles, drop: dropAt(index), states: [] }) }
+      const blank = capture.baselineStates[state]
+      const browser =
+        blank === undefined
+          ? []
+          : Object.keys(style).filter(
+              (property) => style[property] === blank[property] && blank[property] !== capture.baseline[property],
+            )
+      return {
+        raw: style,
+        kept: pruneStyles(style, { baseline: capture.styles, drop: [...dropAt(index), ...browser], states: [] }),
+      }
     })
     inputs.push(...layers(state, widths, pruned))
   }
