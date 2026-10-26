@@ -1,5 +1,19 @@
 # tailwind-from-css
 
+## 0.9.0
+
+### Minor Changes
+
+- 900e4fa: With the default `tailwind.base` (the working directory), `@import "tailwindcss"` that the working directory can't resolve now loads the `tailwindcss` this package imports, so `createConverter()` works in bundled serverless functions without options. An explicit `tailwind.base` never falls back.
+- b744bb4: New thrown code `TFC905`: `convertStyles` and `convertCss` given input of the wrong shape (for example the declarations themselves instead of `{ declarations }`) throw `TfcError` with `TFC905` and a message naming the entry and field, instead of a raw `TypeError`.
+- 5660a82: `nearest`: physical pairs that change between contexts now collapse with the `logical-properties` relaxation (`py-4 md:py-6` instead of `pt-4 pb-4 md:pt-6 md:pb-6`). A context that sets one side alone, or a physical class covering the side, keeps the whole family physical, so the cascade check stays sound.
+- 4af2a63: Expand `overscroll-behavior` into its `-x` and `-y` longhands (N01), so equal longhands, as computed styles list them, convert to one class (`overscroll-none`) instead of two.
+
+### Patch Changes
+
+- 0a5196a: Capture guide: the baseline of an element under a `display: contents` parent nests copies of the ancestors up to the first one with a box; properties an endless animation drives are dropped; what the browser itself changes in a forced state (Chromium's focus ring) is dropped by forcing the same state on the blank element; insets of an absolutely or fixed positioned box that change between widths are dropped at every width.
+- 34b85e1: Add a top-level `types` field, so TypeScript projects using `"moduleResolution": "node"` find the type declarations.
+
 ## 0.8.0
 
 ### Minor Changes
