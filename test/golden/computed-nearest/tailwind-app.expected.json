@@ -25,7 +25,7 @@
     {
       "name": "header",
       "tag": "header",
-      "className": "flex flex-col gap-2 border-b border-gray-200 bg-white py-3 pr-4 pl-4 md:flex-row md:items-center md:justify-between xl:pr-8 xl:pl-8",
+      "className": "flex flex-col gap-2 border-b border-gray-200 bg-white px-4 py-3 md:flex-row md:items-center md:justify-between xl:px-8",
       "mappings": [
         [
           "flex",
@@ -63,6 +63,15 @@
           "background-color: rgb(255, 255, 255)"
         ],
         [
+          "px-4",
+          "bare",
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
+        ],
+        [
           "py-3",
           "bare",
           "padding-bottom: 12px",
@@ -70,16 +79,6 @@
           {
             "relaxation": "logical-properties"
           }
-        ],
-        [
-          "pr-4",
-          "bare",
-          "padding-right: 16px"
-        ],
-        [
-          "pl-4",
-          "bare",
-          "padding-left: 16px"
         ],
         [
           "md:flex-row",
@@ -97,18 +96,19 @@
           "@media (width >= 768px) | justify-content: space-between"
         ],
         [
-          "xl:pr-8",
+          "xl:px-8",
           "bare",
-          "@media (width >= 1280px) | padding-right: 32px"
-        ],
-        [
-          "xl:pl-8",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 32px"
+          "@media (width >= 1280px) | padding-left: 32px",
+          "@media (width >= 1280px) | padding-right: 32px",
+          {
+            "relaxation": "logical-properties"
+          }
         ]
       ],
       "unconverted": [],
       "diagnostics": [
+        "TFC203",
+        "TFC203",
         "TFC203"
       ],
       "exact": false

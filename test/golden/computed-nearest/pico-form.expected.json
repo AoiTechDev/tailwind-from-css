@@ -217,7 +217,7 @@
     {
       "name": "name",
       "tag": "input",
-      "className": "mt-1 mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mt-[4.5px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mt-1.25 xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "className": "mt-1 mb-4 appearance-none rounded-sm border border-slate-300 bg-mist-50 px-4 py-3 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mt-[4.5px] md:mb-4.5 md:rounded-[4.5px] md:px-4.5 md:py-3.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mt-1.25 xl:mb-5 xl:rounded-[5px] xl:px-5 xl:py-3.75 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
       "mappings": [
         [
           "mt-1",
@@ -276,24 +276,22 @@
           }
         ],
         [
-          "pt-3",
+          "px-4",
           "bare",
-          "padding-top: 12px"
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-4",
+          "py-3",
           "bare",
-          "padding-right: 16px"
-        ],
-        [
-          "pb-3",
-          "bare",
-          "padding-bottom: 12px"
-        ],
-        [
-          "pl-4",
-          "bare",
-          "padding-left: 16px"
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-zinc-800",
@@ -356,32 +354,22 @@
           "@media (width >= 768px) | border-top-right-radius: 4.5px"
         ],
         [
-          "md:pt-3.5",
+          "md:px-4.5",
           "bare",
-          "@media (width >= 768px) | padding-top: 13.5px",
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
         ],
         [
-          "md:pr-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-right: 18px"
-        ],
-        [
-          "md:pb-3.5",
+          "md:py-3.5",
           "bare",
           "@media (width >= 768px) | padding-bottom: 13.5px",
+          "@media (width >= 768px) | padding-top: 13.5px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
-        ],
-        [
-          "md:pl-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-left: 18px"
         ],
         [
           "md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px]",
@@ -407,24 +395,22 @@
           "@media (width >= 1280px) | border-top-right-radius: 5px"
         ],
         [
-          "xl:pt-3.75",
+          "xl:px-5",
           "bare",
-          "@media (width >= 1280px) | padding-top: 15px"
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "xl:pr-5",
+          "xl:py-3.75",
           "bare",
-          "@media (width >= 1280px) | padding-right: 20px"
-        ],
-        [
-          "xl:pb-3.75",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 15px"
-        ],
-        [
-          "xl:pl-5",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 20px"
+          "@media (width >= 1280px) | padding-bottom: 15px",
+          "@media (width >= 1280px) | padding-top: 15px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
@@ -437,6 +423,8 @@
         "TFC203",
         "TFC203",
         "TFC203",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC201",
@@ -444,7 +432,10 @@
         "TFC201",
         "TFC203",
         "TFC203",
+        "TFC203",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC202",
@@ -455,7 +446,7 @@
     {
       "name": "bio",
       "tag": "textarea",
-      "className": "mb-4 block appearance-none rounded-sm border border-slate-300 bg-mist-50 pt-3 pr-4 pb-3 pl-4 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
+      "className": "mb-4 block appearance-none rounded-sm border border-slate-300 bg-mist-50 px-4 py-3 text-zinc-800 [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] focus:border-[rgb(1,114,173)] focus:bg-white focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1px] md:mb-4.5 md:rounded-[4.5px] md:px-4.5 md:py-3.5 md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px] xl:mb-5 xl:rounded-[5px] xl:px-5 xl:py-3.75 xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
       "mappings": [
         [
           "mb-4",
@@ -514,24 +505,22 @@
           }
         ],
         [
-          "pt-3",
+          "px-4",
           "bare",
-          "padding-top: 12px"
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-4",
+          "py-3",
           "bare",
-          "padding-right: 16px"
-        ],
-        [
-          "pb-3",
-          "bare",
-          "padding-bottom: 12px"
-        ],
-        [
-          "pl-4",
-          "bare",
-          "padding-left: 16px"
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-zinc-800",
@@ -589,32 +578,22 @@
           "@media (width >= 768px) | border-top-right-radius: 4.5px"
         ],
         [
-          "md:pt-3.5",
+          "md:px-4.5",
           "bare",
-          "@media (width >= 768px) | padding-top: 13.5px",
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
         ],
         [
-          "md:pr-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-right: 18px"
-        ],
-        [
-          "md:pb-3.5",
+          "md:py-3.5",
           "bare",
           "@media (width >= 768px) | padding-bottom: 13.5px",
+          "@media (width >= 768px) | padding-top: 13.5px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
-        ],
-        [
-          "md:pl-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-left: 18px"
         ],
         [
           "md:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.125px]",
@@ -635,24 +614,22 @@
           "@media (width >= 1280px) | border-top-right-radius: 5px"
         ],
         [
-          "xl:pt-3.75",
+          "xl:px-5",
           "bare",
-          "@media (width >= 1280px) | padding-top: 15px"
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "xl:pr-5",
+          "xl:py-3.75",
           "bare",
-          "@media (width >= 1280px) | padding-right: 20px"
-        ],
-        [
-          "xl:pb-3.75",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 15px"
-        ],
-        [
-          "xl:pl-5",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 20px"
+          "@media (width >= 1280px) | padding-bottom: 15px",
+          "@media (width >= 1280px) | padding-top: 15px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "xl:focus:[box-shadow:rgb(1,114,173)_0px_0px_0px_1.25px]",
@@ -665,13 +642,18 @@
         "TFC203",
         "TFC203",
         "TFC203",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC201",
         "TFC201",
         "TFC203",
         "TFC203",
+        "TFC203",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC202",
@@ -1128,7 +1110,7 @@
     {
       "name": "save",
       "tag": "button",
-      "className": "relative grow cursor-pointer rounded-l-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:rounded-l-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:rounded-l-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "className": "relative grow cursor-pointer rounded-l-sm border border-[rgb(1,114,173)] bg-[rgb(1,114,173)] px-8 py-3 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-[rgb(2,101,154)] hover:bg-[rgb(2,101,154)] md:rounded-l-[4.5px] md:px-9 md:py-3.5 xl:rounded-l-[5px] xl:px-10 xl:py-3.75",
       "mappings": [
         [
           "relative",
@@ -1177,24 +1159,22 @@
           "background-color: rgb(1, 114, 173)"
         ],
         [
-          "pt-3",
+          "px-8",
           "bare",
-          "padding-top: 12px"
+          "padding-left: 32px",
+          "padding-right: 32px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-8",
+          "py-3",
           "bare",
-          "padding-right: 32px"
-        ],
-        [
-          "pb-3",
-          "bare",
-          "padding-bottom: 12px"
-        ],
-        [
-          "pl-8",
-          "bare",
-          "padding-left: 32px"
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-white",
@@ -1247,32 +1227,22 @@
           "@media (width >= 768px) | border-top-left-radius: 4.5px"
         ],
         [
-          "md:pt-3.5",
+          "md:px-9",
           "bare",
-          "@media (width >= 768px) | padding-top: 13.5px",
+          "@media (width >= 768px) | padding-left: 36px",
+          "@media (width >= 768px) | padding-right: 36px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
         ],
         [
-          "md:pr-9",
-          "bare",
-          "@media (width >= 768px) | padding-right: 36px"
-        ],
-        [
-          "md:pb-3.5",
+          "md:py-3.5",
           "bare",
           "@media (width >= 768px) | padding-bottom: 13.5px",
+          "@media (width >= 768px) | padding-top: 13.5px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
-        ],
-        [
-          "md:pl-9",
-          "bare",
-          "@media (width >= 768px) | padding-left: 36px"
         ],
         [
           "xl:rounded-l-[5px]",
@@ -1281,37 +1251,40 @@
           "@media (width >= 1280px) | border-top-left-radius: 5px"
         ],
         [
-          "xl:pt-3.75",
+          "xl:px-10",
           "bare",
-          "@media (width >= 1280px) | padding-top: 15px"
+          "@media (width >= 1280px) | padding-left: 40px",
+          "@media (width >= 1280px) | padding-right: 40px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "xl:pr-10",
+          "xl:py-3.75",
           "bare",
-          "@media (width >= 1280px) | padding-right: 40px"
-        ],
-        [
-          "xl:pb-3.75",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 15px"
-        ],
-        [
-          "xl:pl-10",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 40px"
+          "@media (width >= 1280px) | padding-bottom: 15px",
+          "@media (width >= 1280px) | padding-top: 15px",
+          {
+            "relaxation": "logical-properties"
+          }
         ]
       ],
       "unconverted": [],
       "diagnostics": [
         "TFC201",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC201",
         "TFC201",
         "TFC203",
         "TFC203",
+        "TFC203",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC203",
         "TFC201",
@@ -1322,7 +1295,7 @@
     {
       "name": "reset",
       "tag": "button",
-      "className": "relative -ml-px grow cursor-pointer rounded-r-sm border border-[rgb(82,95,122)] bg-[rgb(82,95,122)] pt-3 pr-8 pb-3 pl-8 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-slate-600 hover:bg-slate-600 md:ml-[-1.125px] md:rounded-r-[4.5px] md:pt-3.5 md:pr-9 md:pb-3.5 md:pl-9 xl:ml-[-1.25px] xl:rounded-r-[5px] xl:pt-3.75 xl:pr-10 xl:pb-3.75 xl:pl-10",
+      "className": "relative -ml-px grow cursor-pointer rounded-r-sm border border-[rgb(82,95,122)] bg-[rgb(82,95,122)] px-8 py-3 text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-slate-600 hover:bg-slate-600 md:ml-[-1.125px] md:rounded-r-[4.5px] md:px-9 md:py-3.5 xl:ml-[-1.25px] xl:rounded-r-[5px] xl:px-10 xl:py-3.75",
       "mappings": [
         [
           "relative",
@@ -1376,24 +1349,22 @@
           "background-color: rgb(82, 95, 122)"
         ],
         [
-          "pt-3",
+          "px-8",
           "bare",
-          "padding-top: 12px"
+          "padding-left: 32px",
+          "padding-right: 32px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-8",
+          "py-3",
           "bare",
-          "padding-right: 32px"
-        ],
-        [
-          "pb-3",
-          "bare",
-          "padding-bottom: 12px"
-        ],
-        [
-          "pl-8",
-          "bare",
-          "padding-left: 32px"
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-white",
@@ -1451,32 +1422,22 @@
           "@media (width >= 768px) | border-top-right-radius: 4.5px"
         ],
         [
-          "md:pt-3.5",
+          "md:px-9",
           "bare",
-          "@media (width >= 768px) | padding-top: 13.5px",
+          "@media (width >= 768px) | padding-left: 36px",
+          "@media (width >= 768px) | padding-right: 36px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
         ],
         [
-          "md:pr-9",
-          "bare",
-          "@media (width >= 768px) | padding-right: 36px"
-        ],
-        [
-          "md:pb-3.5",
+          "md:py-3.5",
           "bare",
           "@media (width >= 768px) | padding-bottom: 13.5px",
+          "@media (width >= 768px) | padding-top: 13.5px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
-        ],
-        [
-          "md:pl-9",
-          "bare",
-          "@media (width >= 768px) | padding-left: 36px"
         ],
         [
           "xl:ml-[-1.25px]",
@@ -1490,30 +1451,30 @@
           "@media (width >= 1280px) | border-top-right-radius: 5px"
         ],
         [
-          "xl:pt-3.75",
+          "xl:px-10",
           "bare",
-          "@media (width >= 1280px) | padding-top: 15px"
+          "@media (width >= 1280px) | padding-left: 40px",
+          "@media (width >= 1280px) | padding-right: 40px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "xl:pr-10",
+          "xl:py-3.75",
           "bare",
-          "@media (width >= 1280px) | padding-right: 40px"
-        ],
-        [
-          "xl:pb-3.75",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 15px"
-        ],
-        [
-          "xl:pl-10",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 40px"
+          "@media (width >= 1280px) | padding-bottom: 15px",
+          "@media (width >= 1280px) | padding-top: 15px",
+          {
+            "relaxation": "logical-properties"
+          }
         ]
       ],
       "unconverted": [],
       "diagnostics": [
         "TFC201",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC201",
@@ -1521,8 +1482,11 @@
         "TFC201",
         "TFC203",
         "TFC203",
+        "TFC203",
         "TFC201",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC203",
         "TFC203",
         "TFC203",
@@ -1533,17 +1497,16 @@
     {
       "name": "quote",
       "tag": "blockquote",
-      "className": "mt-4 mb-4 border-l-4 border-l-slate-200 p-4 md:mt-4.5 md:mb-4.5 md:p-4.5 xl:mt-5 xl:mb-5 xl:[border-left-width:5px] xl:p-5",
+      "className": "my-4 border-l-4 border-l-slate-200 p-4 md:my-4.5 md:p-4.5 xl:my-5 xl:[border-left-width:5px] xl:p-5",
       "mappings": [
         [
-          "mt-4",
+          "my-4",
           "bare",
-          "margin-top: 16px"
-        ],
-        [
-          "mb-4",
-          "bare",
-          "margin-bottom: 16px"
+          "margin-bottom: 16px",
+          "margin-top: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "border-l-4",
@@ -1569,14 +1532,13 @@
           "padding-top: 16px"
         ],
         [
-          "md:mt-4.5",
+          "md:my-4.5",
           "bare",
-          "@media (width >= 768px) | margin-top: 18px"
-        ],
-        [
-          "md:mb-4.5",
-          "bare",
-          "@media (width >= 768px) | margin-bottom: 18px"
+          "@media (width >= 768px) | margin-bottom: 18px",
+          "@media (width >= 768px) | margin-top: 18px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "md:p-4.5",
@@ -1587,14 +1549,13 @@
           "@media (width >= 768px) | padding-top: 18px"
         ],
         [
-          "xl:mt-5",
+          "xl:my-5",
           "bare",
-          "@media (width >= 1280px) | margin-top: 20px"
-        ],
-        [
-          "xl:mb-5",
-          "bare",
-          "@media (width >= 1280px) | margin-bottom: 20px"
+          "@media (width >= 1280px) | margin-bottom: 20px",
+          "@media (width >= 1280px) | margin-top: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "xl:[border-left-width:5px]",
@@ -1613,7 +1574,10 @@
       "unconverted": [],
       "diagnostics": [
         "TFC203",
-        "TFC202"
+        "TFC203",
+        "TFC203",
+        "TFC202",
+        "TFC203"
       ],
       "exact": false
     },
@@ -1737,7 +1701,7 @@
     {
       "name": "contrast",
       "tag": "a",
-      "className": "inline-block rounded-sm border border-mist-900 bg-mist-900 pt-3 pr-4 pb-3 pl-4 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-black hover:bg-black focus-visible:border-black focus-visible:bg-black focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px] focus-visible:outline-offset-1 md:rounded-[4.5px] md:pt-3.5 md:pr-4.5 md:pb-3.5 md:pl-4.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:pt-3.75 xl:pr-5 xl:pb-3.75 xl:pl-5 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
+      "className": "inline-block rounded-sm border border-mist-900 bg-mist-900 px-4 py-3 text-center text-white [transition-property:background-color,border-color,color,box-shadow] duration-[0.2s,0.2s,0.2s,0.2s] ease-[ease-in-out,ease-in-out,ease-in-out,ease-in-out] select-none hover:border-black hover:bg-black focus-visible:border-black focus-visible:bg-black focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2px] focus-visible:outline-offset-1 md:rounded-[4.5px] md:px-4.5 md:py-3.5 md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px] xl:rounded-[5px] xl:px-5 xl:py-3.75 xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
       "mappings": [
         [
           "inline-block",
@@ -1786,24 +1750,22 @@
           }
         ],
         [
-          "pt-3",
+          "px-4",
           "bare",
-          "padding-top: 12px"
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-4",
+          "py-3",
           "bare",
-          "padding-right: 16px"
-        ],
-        [
-          "pb-3",
-          "bare",
-          "padding-bottom: 12px"
-        ],
-        [
-          "pl-4",
-          "bare",
-          "padding-left: 16px"
+          "padding-bottom: 12px",
+          "padding-top: 12px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-center",
@@ -1886,32 +1848,22 @@
           "@media (width >= 768px) | border-top-right-radius: 4.5px"
         ],
         [
-          "md:pt-3.5",
+          "md:px-4.5",
           "bare",
-          "@media (width >= 768px) | padding-top: 13.5px",
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
         ],
         [
-          "md:pr-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-right: 18px"
-        ],
-        [
-          "md:pb-3.5",
+          "md:py-3.5",
           "bare",
           "@media (width >= 768px) | padding-bottom: 13.5px",
+          "@media (width >= 768px) | padding-top: 13.5px",
           {
-            "relaxation": "length-nearest",
-            "delta": 0.5
+            "relaxation": "logical-properties"
           }
-        ],
-        [
-          "md:pl-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-left: 18px"
         ],
         [
           "md:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.25px]",
@@ -1927,24 +1879,22 @@
           "@media (width >= 1280px) | border-top-right-radius: 5px"
         ],
         [
-          "xl:pt-3.75",
+          "xl:px-5",
           "bare",
-          "@media (width >= 1280px) | padding-top: 15px"
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "xl:pr-5",
+          "xl:py-3.75",
           "bare",
-          "@media (width >= 1280px) | padding-right: 20px"
-        ],
-        [
-          "xl:pb-3.75",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 15px"
-        ],
-        [
-          "xl:pl-5",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 20px"
+          "@media (width >= 1280px) | padding-bottom: 15px",
+          "@media (width >= 1280px) | padding-top: 15px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "xl:focus-visible:[box-shadow:rgba(0,0,0,0)_0px_0px_0px_0px,rgba(93,107,137,0.25)_0px_0px_0px_2.5px]",
@@ -1956,13 +1906,18 @@
       "diagnostics": [
         "TFC203",
         "TFC203",
+        "TFC203",
+        "TFC203",
         "TFC201",
         "TFC202",
         "TFC201",
         "TFC201",
         "TFC203",
         "TFC203",
+        "TFC203",
         "TFC201",
+        "TFC203",
+        "TFC203",
         "TFC203",
         "TFC203",
         "TFC202",
@@ -1974,7 +1929,7 @@
     {
       "name": "th",
       "tag": "th",
-      "className": "border-b-[3px] border-b-slate-200 bg-white pt-2 pr-4 pb-2 pl-4 text-start font-semibold md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "className": "border-b-[3px] border-b-slate-200 bg-white px-4 py-2 text-start font-semibold md:px-4.5 md:py-2.25 xl:px-5 xl:py-2.5",
       "mappings": [
         [
           "border-b-[3px]",
@@ -1997,24 +1952,22 @@
           "background-color: rgb(255, 255, 255)"
         ],
         [
-          "pt-2",
+          "px-4",
           "bare",
-          "padding-top: 8px"
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-4",
+          "py-2",
           "bare",
-          "padding-right: 16px"
-        ],
-        [
-          "pb-2",
-          "bare",
-          "padding-bottom: 8px"
-        ],
-        [
-          "pl-4",
-          "bare",
-          "padding-left: 16px"
+          "padding-bottom: 8px",
+          "padding-top: 8px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
           "text-start",
@@ -2027,57 +1980,59 @@
           "font-weight: 600"
         ],
         [
-          "md:pt-2.25",
+          "md:px-4.5",
           "bare",
-          "@media (width >= 768px) | padding-top: 9px"
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "md:pr-4.5",
+          "md:py-2.25",
           "bare",
-          "@media (width >= 768px) | padding-right: 18px"
+          "@media (width >= 768px) | padding-bottom: 9px",
+          "@media (width >= 768px) | padding-top: 9px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "md:pb-2.25",
+          "xl:px-5",
           "bare",
-          "@media (width >= 768px) | padding-bottom: 9px"
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "md:pl-4.5",
+          "xl:py-2.5",
           "bare",
-          "@media (width >= 768px) | padding-left: 18px"
-        ],
-        [
-          "xl:pt-2.5",
-          "bare",
-          "@media (width >= 1280px) | padding-top: 10px"
-        ],
-        [
-          "xl:pr-5",
-          "bare",
-          "@media (width >= 1280px) | padding-right: 20px"
-        ],
-        [
-          "xl:pb-2.5",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 10px"
-        ],
-        [
-          "xl:pl-5",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 20px"
+          "@media (width >= 1280px) | padding-bottom: 10px",
+          "@media (width >= 1280px) | padding-top: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
         ]
       ],
       "unconverted": [],
       "diagnostics": [
         "TFC203",
-        "TFC201"
+        "TFC201",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203"
       ],
       "exact": false
     },
     {
       "name": "td",
       "tag": "td",
-      "className": "border-b border-b-slate-200 bg-white pt-2 pr-4 pb-2 pl-4 md:pt-2.25 md:pr-4.5 md:pb-2.25 md:pl-4.5 xl:pt-2.5 xl:pr-5 xl:pb-2.5 xl:pl-5",
+      "className": "border-b border-b-slate-200 bg-white px-4 py-2 md:px-4.5 md:py-2.25 xl:px-5 xl:py-2.5",
       "mappings": [
         [
           "border-b",
@@ -2100,68 +2055,68 @@
           "background-color: rgb(255, 255, 255)"
         ],
         [
-          "pt-2",
+          "px-4",
           "bare",
-          "padding-top: 8px"
+          "padding-left: 16px",
+          "padding-right: 16px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pr-4",
+          "py-2",
           "bare",
-          "padding-right: 16px"
+          "padding-bottom: 8px",
+          "padding-top: 8px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pb-2",
+          "md:px-4.5",
           "bare",
-          "padding-bottom: 8px"
+          "@media (width >= 768px) | padding-left: 18px",
+          "@media (width >= 768px) | padding-right: 18px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "pl-4",
+          "md:py-2.25",
           "bare",
-          "padding-left: 16px"
+          "@media (width >= 768px) | padding-bottom: 9px",
+          "@media (width >= 768px) | padding-top: 9px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "md:pt-2.25",
+          "xl:px-5",
           "bare",
-          "@media (width >= 768px) | padding-top: 9px"
+          "@media (width >= 1280px) | padding-left: 20px",
+          "@media (width >= 1280px) | padding-right: 20px",
+          {
+            "relaxation": "logical-properties"
+          }
         ],
         [
-          "md:pr-4.5",
+          "xl:py-2.5",
           "bare",
-          "@media (width >= 768px) | padding-right: 18px"
-        ],
-        [
-          "md:pb-2.25",
-          "bare",
-          "@media (width >= 768px) | padding-bottom: 9px"
-        ],
-        [
-          "md:pl-4.5",
-          "bare",
-          "@media (width >= 768px) | padding-left: 18px"
-        ],
-        [
-          "xl:pt-2.5",
-          "bare",
-          "@media (width >= 1280px) | padding-top: 10px"
-        ],
-        [
-          "xl:pr-5",
-          "bare",
-          "@media (width >= 1280px) | padding-right: 20px"
-        ],
-        [
-          "xl:pb-2.5",
-          "bare",
-          "@media (width >= 1280px) | padding-bottom: 10px"
-        ],
-        [
-          "xl:pl-5",
-          "bare",
-          "@media (width >= 1280px) | padding-left: 20px"
+          "@media (width >= 1280px) | padding-bottom: 10px",
+          "@media (width >= 1280px) | padding-top: 10px",
+          {
+            "relaxation": "logical-properties"
+          }
         ]
       ],
       "unconverted": [],
       "diagnostics": [
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
+        "TFC203",
         "TFC203"
       ],
       "exact": false

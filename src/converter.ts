@@ -25,7 +25,14 @@ import {
   matchInput,
   overriddenDeclarations,
 } from './match/exact.ts'
-import { type Relaxation, type RelaxSettings, relaxContext, relaxSettings } from './match/relax.ts'
+import {
+  logicalProperty,
+  physicalProperty,
+  type Relaxation,
+  type RelaxSettings,
+  relaxContext,
+  relaxSettings,
+} from './match/relax.ts'
 import { createVariantResolver, type VariantResolver, variantChain } from './match/variants.ts'
 import { verify } from './match/verify.ts'
 import { resolveOptions } from './options.ts'
@@ -437,14 +444,21 @@ function relaxContexts(engine: Engine, inputs: readonly Matched[]): Matched[] {
 
 /**
  * What the matcher may relax in each block: the longhands of the other blocks that can apply
- * together with it (§5.8) are occupied.
+ * together with it (§5.8) are occupied. A physical side with a logical twin isn't, unless it is
+ * in `physicalSides`: {@link mixedLogicalSides} finds the sides that must stay physical.
  */
-function blockRelaxes(engine: Engine, inputs: readonly Matched[]): (BlockRelax | undefined)[] {
+function blockRelaxes(
+  engine: Engine,
+  inputs: readonly Matched[],
+  physicalSides: ReadonlySet<string>,
+): (BlockRelax | undefined)[] {
   const { relax, options } = engine
   if (relax === undefined) return inputs.map(() => undefined)
   const contexts = inputs.map((input) => normalizeContext(input.block.context, options))
   const longhands = inputs.map((input) =>
-    input.declarations.flatMap((declaration) => longhandsOf(declaration.property)),
+    input.declarations
+      .flatMap((declaration) => longhandsOf(declaration.property))
+      .filter((longhand) => logicalProperty(longhand) === undefined || physicalSides.has(longhand)),
   )
   return contexts.map((context, index) => ({
     settings: relax,
@@ -503,6 +517,115 @@ function checkWithout(
   return touched ? { checked: check(engine, blocks), redundant: [] } : { checked, redundant }
 }
 
+/** The blocks matched under `relaxes`, with what matching reported, ready for §5.7 and §5.8. */
+interface MatchedAttempt {
+  readonly matchedBlocks: Matched[]
+  readonly cascadeBlocks: CascadeBlock[]
+  readonly unconverted: ReportEntry<UnconvertedCode>[]
+  readonly notes: ReportEntry<NoteCode>[]
+}
+
+function matchBlocks(
+  engine: Engine,
+  inputs: readonly Matched[],
+  relaxes: readonly (BlockRelax | undefined)[],
+  shadowed: ReadonlyMap<number, readonly { declaration: number }[]>,
+  ranksOf: (matched: Matched) => SourceRank[],
+): MatchedAttempt {
+  const matchedBlocks: Matched[] = []
+  const cascadeBlocks: CascadeBlock[] = []
+  const unconverted: ReportEntry<UnconvertedCode>[] = []
+  const notes: ReportEntry<NoteCode>[] = []
+  for (const [index, input] of inputs.entries()) {
+    const { block } = input
+    const gone = new Set((shadowed.get(index) ?? []).map((item) => item.declaration))
+    notes.push(...lostTogether(input, [...gone], 'TFC106'))
+    const declarations = input.declarations.filter((_, position) => !gone.has(position))
+    if (declarations.length === 0) continue
+    const winners = [...new Set(declarations.map((declaration) => declaration.source))].sort(
+      (a, b) => a - b,
+    )
+    const properties = new Set(declarations.map((declaration) => declaration.property))
+    const chain = variantChain(engine.resolver, block.context, properties)
+    if ('code' in chain) {
+      for (const winner of winners) {
+        unconverted.push({ source: block.sources[winner] as number, code: chain.code })
+      }
+      continue
+    }
+    const first = block.sources[winners[0] as number] as number
+    for (const code of chain.codes) notes.push({ source: first, code })
+    const relax = relaxes[index]
+    let result = matchDeclarations(engine.matcher, declarations, chain.variants, relax)
+    let matched: Matched = { block, declarations: result.target }
+    const hidden = shorthandOrderConflicts(engine.matcher, result.target, result.matches)
+    if (hidden.length > 0) {
+      unconverted.push(...lostTogether(matched, hidden, 'TFC402'))
+      const kept = declarations.filter((_, position) => !hidden.includes(position))
+      result = matchDeclarations(engine.matcher, kept, chain.variants, relax)
+      matched = { block, declarations: result.target }
+    }
+    for (const skipped of result.skipped) {
+      const entry = lost(matched, skipped.declaration, skipped.code)
+      if (skipped.code === 'TFC105') notes.push({ source: entry.source, code: 'TFC105' })
+      else unconverted.push({ ...entry, code: skipped.code })
+    }
+    matchedBlocks.push(matched)
+    cascadeBlocks.push({
+      context: block.context,
+      variants: chain.variants,
+      declarations: matched.declarations,
+      ranks: ranksOf(matched),
+      matches: result.matches,
+    })
+  }
+  return { matchedBlocks, cascadeBlocks, unconverted, notes }
+}
+
+/**
+ * ADR-0019: the cascade check compares longhands by name, so a physical side (`padding-top`) may
+ * be set through its logical twin in one block only if no block that can apply together with it
+ * keeps the side physical. Returns the sides where they mix.
+ */
+function mixedLogicalSides(engine: Engine, blocks: readonly CascadeBlock[]): string[] {
+  if (engine.relax?.relaxations.has('logical-properties') !== true) return []
+  const renamed = blocks.map(
+    (block) => new Set(block.declarations.flatMap((declaration) => renamedSide(declaration) ?? [])),
+  )
+  if (renamed.every((sides) => sides.size === 0)) return []
+  const physical = blocks.map(
+    (block) =>
+      new Set(
+        block.declarations.flatMap((declaration) =>
+          renamedSide(declaration) === undefined ? longhandsOf(declaration.property) : [],
+        ),
+      ),
+  )
+  const contexts = blocks.map((block) => normalizeContext(block.context, engine.options))
+  const mixed = new Set<string>()
+  renamed.forEach((sides, index) => {
+    physical.forEach((others, at) => {
+      if (at === index) return
+      const together = contextIntersection(
+        contexts[index] as Context,
+        contexts[at] as Context,
+        engine.options,
+      )
+      if (together === 'disjoint') return
+      for (const side of sides) if (others.has(side)) mixed.add(side)
+    })
+  })
+  return [...mixed].sort()
+}
+
+// The physical side a `logical-properties` class sets through its twin.
+function renamedSide(declaration: MatchDeclaration): string | undefined {
+  const original = declaration.relaxed?.original?.property
+  return original !== undefined && physicalProperty(declaration.property) === original
+    ? original
+    : undefined
+}
+
 function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
   const collected: Collected = { sources: [], ranks: [], classes: [], unconverted: [], notes: [] }
   const written: Matched[] = collectBlocks(engine, entries, collected).map((block) => {
@@ -513,7 +636,6 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     return { block, declarations }
   })
   const inputs = relaxContexts(engine, written)
-  const relaxes = blockRelaxes(engine, inputs)
   const ranksOf = ({ block, declarations }: Matched): SourceRank[] =>
     declarations.map(
       (declaration) => collected.ranks[block.sources[declaration.source] as number] as SourceRank,
@@ -529,51 +651,29 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
       engine.options,
     ),
   )
-  const matchedBlocks: Matched[] = []
-  const cascadeBlocks: CascadeBlock[] = []
-  for (const [index, input] of inputs.entries()) {
-    const { block } = input
-    const gone = new Set((shadowed.get(index) ?? []).map((item) => item.declaration))
-    collected.notes.push(...lostTogether(input, [...gone], 'TFC106'))
-    const declarations = input.declarations.filter((_, position) => !gone.has(position))
-    if (declarations.length === 0) continue
-    const winners = [...new Set(declarations.map((declaration) => declaration.source))].sort(
-      (a, b) => a - b,
+  const physicalSides = new Set<string>()
+  let attempt = matchBlocks(
+    engine,
+    inputs,
+    blockRelaxes(engine, inputs, physicalSides),
+    shadowed,
+    ranksOf,
+  )
+  for (;;) {
+    const mixed = mixedLogicalSides(engine, attempt.cascadeBlocks)
+    if (mixed.length === 0) break
+    for (const side of mixed) physicalSides.add(side)
+    attempt = matchBlocks(
+      engine,
+      inputs,
+      blockRelaxes(engine, inputs, physicalSides),
+      shadowed,
+      ranksOf,
     )
-    const properties = new Set(declarations.map((declaration) => declaration.property))
-    const chain = variantChain(engine.resolver, block.context, properties)
-    if ('code' in chain) {
-      for (const winner of winners) {
-        collected.unconverted.push({ source: block.sources[winner] as number, code: chain.code })
-      }
-      continue
-    }
-    const first = block.sources[winners[0] as number] as number
-    for (const code of chain.codes) collected.notes.push({ source: first, code })
-    const relax = relaxes[index]
-    let result = matchDeclarations(engine.matcher, declarations, chain.variants, relax)
-    let matched: Matched = { block, declarations: result.target }
-    const hidden = shorthandOrderConflicts(engine.matcher, result.target, result.matches)
-    if (hidden.length > 0) {
-      collected.unconverted.push(...lostTogether(matched, hidden, 'TFC402'))
-      const kept = declarations.filter((_, position) => !hidden.includes(position))
-      result = matchDeclarations(engine.matcher, kept, chain.variants, relax)
-      matched = { block, declarations: result.target }
-    }
-    for (const skipped of result.skipped) {
-      const entry = lost(matched, skipped.declaration, skipped.code)
-      if (skipped.code === 'TFC105') collected.notes.push({ source: entry.source, code: 'TFC105' })
-      else collected.unconverted.push({ ...entry, code: skipped.code })
-    }
-    matchedBlocks.push(matched)
-    cascadeBlocks.push({
-      context: block.context,
-      variants: chain.variants,
-      declarations: matched.declarations,
-      ranks: ranksOf(matched),
-      matches: result.matches,
-    })
   }
+  const { matchedBlocks, cascadeBlocks } = attempt
+  collected.unconverted.push(...attempt.unconverted)
+  collected.notes.push(...attempt.notes)
   const { checked, redundant } = checkWithout(engine, cascadeBlocks)
   const { cascade } = checked
   // A dropped class's declarations are reported with the class that shows their value.

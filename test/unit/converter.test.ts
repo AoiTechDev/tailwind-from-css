@@ -331,6 +331,64 @@ describe('convertStyles', () => {
   })
 })
 
+// SPEC §4 logical-properties, ADR-0019: pairs collapse in every context or in none.
+describe('logical pairs across contexts (nearest)', () => {
+  let nearest: Converter
+  beforeAll(async () => {
+    nearest = await createConverter({ mode: 'nearest' })
+  })
+  const md = ['@media (min-width: 48rem)']
+  const lg = ['@media (min-width: 64rem)']
+  const convert = (...inputs: StyleInput[]) => {
+    const result = nearest.convertStyles(inputs)
+    expect(result.unconverted).toEqual([])
+    return result.className
+  }
+
+  it('collapses a pair that every context sets', () => {
+    expect(
+      convert(
+        { declarations: 'padding-top: 16px; padding-bottom: 16px' },
+        { conditions: md, declarations: 'padding-top: 24px; padding-bottom: 24px' },
+      ),
+    ).toBe('py-4 md:py-6')
+    expect(
+      convert(
+        { declarations: 'padding-right: 16px; padding-left: 16px' },
+        { conditions: md, declarations: 'padding-right: 24px; padding-left: 24px' },
+        { conditions: lg, declarations: 'padding-right: 32px; padding-left: 32px' },
+      ),
+    ).toBe('px-4 md:px-6 lg:px-8')
+  })
+
+  it('keeps every context physical when one sets a side alone', () => {
+    expect(
+      convert(
+        { declarations: 'padding-top: 16px; padding-bottom: 16px' },
+        { conditions: md, declarations: 'padding-top: 24px' },
+      ),
+    ).toBe('pt-4 pb-4 md:pt-6')
+  })
+
+  it('collapses next to a context that sets neither side', () => {
+    expect(
+      convert(
+        { declarations: 'margin-top: 8px; margin-bottom: 8px' },
+        { conditions: md, declarations: 'color: #000' },
+      ),
+    ).toBe('my-2 md:text-black')
+  })
+
+  it('collapses a pair in a state that the base sets too', () => {
+    expect(
+      convert(
+        { declarations: 'margin-left: 8px; margin-right: 8px' },
+        { selector: '&:hover', declarations: 'margin-left: 16px; margin-right: 16px' },
+      ),
+    ).toBe('mx-2 hover:mx-4')
+  })
+})
+
 describe('verification failures', () => {
   // A design system whose classes change after the index was built: the index promises red, but
   // the class (and, for `TFC502`, its arbitrary property too) compiles to blue.
