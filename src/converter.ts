@@ -49,7 +49,12 @@ import {
   normalizeContext,
 } from './tailwind/effective.ts'
 import { utilityIndex } from './tailwind/index-builder.ts'
-import { currentDirectory, loadModule, loadStylesheet } from './tailwind/loader.ts'
+import {
+  currentDirectory,
+  loadModule,
+  loadStylesheet,
+  loadStylesheetOrOwn,
+} from './tailwind/loader.ts'
 import type {
   ConversionResult,
   Converter,
@@ -131,7 +136,10 @@ const shared = new Map<string, Promise<Converter>>()
  * ```
  */
 export async function createConverter(options?: ConverterOptions): Promise<Converter> {
-  return converterFor(resolveOptions(options, { base: currentDirectory() }))
+  return converterFor(
+    resolveOptions(options, { base: currentDirectory() }),
+    options?.tailwind?.base === undefined,
+  )
 }
 
 /**
@@ -189,14 +197,15 @@ export function sharedConverter(options?: ConverterOptions): Promise<Converter> 
   } catch (error) {
     return Promise.reject(error)
   }
-  const key = JSON.stringify(resolved)
+  const defaultBase = options?.tailwind?.base === undefined
+  const key = JSON.stringify([resolved, defaultBase])
   const cached = shared.get(key)
   if (cached !== undefined) {
     shared.delete(key)
     shared.set(key, cached)
     return cached
   }
-  const created = converterFor(resolved)
+  const created = converterFor(resolved, defaultBase)
   shared.set(key, created)
   created.catch(() => {
     if (shared.get(key) === created) shared.delete(key)
@@ -208,10 +217,11 @@ export function sharedConverter(options?: ConverterOptions): Promise<Converter> 
   return created
 }
 
-async function converterFor(options: ResolvedOptions): Promise<Converter> {
+// SPEC §3.4: only the default base falls back to the tailwindcss this package imports.
+async function converterFor(options: ResolvedOptions, defaultBase: boolean): Promise<Converter> {
   const design = await loadDesignSystem(options.tailwind.css, {
     base: options.tailwind.base,
-    loadStylesheet,
+    loadStylesheet: defaultBase ? loadStylesheetOrOwn : loadStylesheet,
     loadModule,
   })
   return converterFromDesign(design, options)

@@ -544,17 +544,15 @@ The script loads the page once per width, so every element on that page is captu
 
 ### Converting in a serverless function
 
-Captures are often converted on a server. `createConverter` reads Tailwind's stylesheets from `tailwind.base`, which is the working directory by default. In a bundled function (a Convex Node action, a Lambda) the working directory isn't the project, so it throws `TFC903` even though `tailwindcss` itself loads. Install `tailwindcss` with the function (Convex: `externalPackages`), and resolve the stylesheets from the package:
+Captures are often converted on a server. Install `tailwindcss` with the function (Convex: `externalPackages`). In a bundled function (a Convex Node action, a Lambda) the working directory usually isn't the project; with the default `tailwind.base`, `@import "tailwindcss"` then comes from the `tailwindcss` that `tailwind-from-css` itself imports (since 0.9.0; before, this threw `TFC903`). Create the converter once per instance: loading the design system takes a second or two.
 
 ```ts
-import { createRequire } from 'node:module'
-import { dirname } from 'node:path'
 import { createConverter } from 'tailwind-from-css'
 
-const base = dirname(createRequire(import.meta.url).resolve('tailwindcss/package.json'))
-// Once per instance: loading the design system takes a second or two.
-const converter = await createConverter({ tailwind: { base } })
+const converter = await createConverter()
 ```
+
+With your own theme, pass its directory as `tailwind.base`: an explicit base never falls back.
 
 `pruneStyles` imports the same entry, which loads Node modules, so it runs where the converter does, not in a browser extension.
 

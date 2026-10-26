@@ -1,6 +1,7 @@
 // ADR-0007: async factory, synchronous conversion, structured results, one-shot helpers memoized.
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
 import {
   convertCss,
@@ -73,6 +74,16 @@ describe('createConverter', () => {
       undefined,
     )
     expect(code(styles([]))).toBe(undefined)
+  })
+
+  it('never falls back to its own tailwindcss for an explicit tailwind.base', async () => {
+    const empty = mkdtempSync(join(tmpdir(), 'tfc-base-'))
+    try {
+      expect(await rejectionCode(createConverter({ tailwind: { base: empty } }))).toBe('TFC903')
+      expect(await rejectionCode(sharedConverter({ tailwind: { base: empty } }))).toBe('TFC903')
+    } finally {
+      rmSync(empty, { recursive: true, force: true })
+    }
   })
 
   it('loads the entry CSS relative to tailwind.base', async () => {

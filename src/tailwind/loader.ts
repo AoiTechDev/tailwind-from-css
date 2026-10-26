@@ -60,6 +60,39 @@ export async function loadStylesheet(id: string, base: string): Promise<LoadedSt
   }
 }
 
+const TAILWIND_IMPORT = /^tailwindcss(?:\/|$)/
+
+/**
+ * {@link loadStylesheet} for the default `tailwind.base` (SPEC §3.4). When `tailwindcss` (or one of
+ * its files) can't be loaded from `base`, it comes from the `tailwindcss` this package imports,
+ * so the stylesheets and the JavaScript are the same install. A bundled function's working
+ * directory often has none.
+ *
+ * @throws {TfcError} `TFC903` from loading from `base` when the fallback fails too.
+ * @example
+ * ```ts
+ * await loadStylesheetOrOwn('tailwindcss', '/var/task') // → { path: '…/tailwindcss/index.css', … }
+ * ```
+ */
+export async function loadStylesheetOrOwn(id: string, base: string): Promise<LoadedStylesheet> {
+  try {
+    return await loadStylesheet(id, base)
+  } catch (error) {
+    const own = TAILWIND_IMPORT.test(id) ? ownTailwindRoot() : undefined
+    if (own === undefined) throw error
+    return loadStylesheet(id, own).catch(() => Promise.reject(error))
+  }
+}
+
+// Node's lookup from the package folder includes the node_modules folder that holds it.
+function ownTailwindRoot(): string | undefined {
+  try {
+    return dirname(createRequire(import.meta.url).resolve('tailwindcss/package.json'))
+  } catch {
+    return undefined
+  }
+}
+
 /**
  * Loads a module for `@plugin` or `@config` with a dynamic `import()`, so ESM and CommonJS both
  * work. TypeScript files need a Node version that strips types (22.18 and later).

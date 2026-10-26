@@ -1,8 +1,9 @@
-import { readFileSync, realpathSync } from 'node:fs'
+import { mkdtempSync, readFileSync, realpathSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { TfcError } from '../../../src/errors.ts'
-import { loadModule, loadStylesheet } from '../../../src/tailwind/loader.ts'
+import { loadModule, loadStylesheet, loadStylesheetOrOwn } from '../../../src/tailwind/loader.ts'
 
 const ROOT = resolve(import.meta.dirname, '..', '..', '..')
 const FIXTURES = resolve(ROOT, 'test', 'fixtures', 'loader')
@@ -108,6 +109,28 @@ describe('loadStylesheet', () => {
     'tfc-plain/sub/none',
   ])('throws TFC903 for %s: not exported, excluded, missing file', async (id) => {
     expect((await rejection(loadStylesheet(id, FIXTURES))).code).toBe('TFC903')
+  })
+})
+
+// SPEC §3.4: the default base (cwd) of a bundled function may have no tailwindcss.
+describe('loadStylesheetOrOwn', () => {
+  const empty = mkdtempSync(join(tmpdir(), 'tfc-no-tailwind-'))
+  afterAll(() => rmSync(empty, { recursive: true, force: true }))
+
+  it('falls back to the tailwindcss this package imports', async () => {
+    expect((await rejection(loadStylesheet('tailwindcss', empty))).code).toBe('TFC903')
+    expect((await loadStylesheetOrOwn('tailwindcss', empty)).path).toBe(join(TAILWIND, 'index.css'))
+    expect((await loadStylesheetOrOwn('tailwindcss/theme.css', empty)).path).toBe(
+      join(TAILWIND, 'theme.css'),
+    )
+  })
+
+  it('loads from the base when it can, and never falls back for other imports', async () => {
+    expect(await loadStylesheetOrOwn('./partials/colors.css', FIXTURES)).toEqual(
+      await loadStylesheet('./partials/colors.css', FIXTURES),
+    )
+    expect((await rejection(loadStylesheetOrOwn('./missing.css', empty))).code).toBe('TFC903')
+    expect((await rejection(loadStylesheetOrOwn('tailwindcss-x', empty))).code).toBe('TFC903')
   })
 })
 

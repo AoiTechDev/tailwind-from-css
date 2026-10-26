@@ -193,7 +193,7 @@ Relaxations only apply where no exact class exists, and relaxed classes are veri
 
 ## Using your own theme
 
-Pass your project's entry stylesheet as `tailwind.css`. Imports, plugins and configs in it are resolved from `tailwind.base`, which defaults to the current working directory.
+Pass your project's entry stylesheet as `tailwind.css`. Imports, plugins and configs in it are resolved from `tailwind.base`, which defaults to the current working directory. With that default, `@import "tailwindcss"` that the working directory can't resolve (a bundled serverless function) comes from the `tailwindcss` this package imports; an explicit `base` never falls back.
 
 <!-- test -->
 ```js

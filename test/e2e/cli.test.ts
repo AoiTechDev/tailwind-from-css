@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from 'node:child_process'
 import { once } from 'node:events'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { beforeAll, describe, expect, it } from 'vitest'
@@ -18,9 +19,9 @@ interface Run {
   stderr: string
 }
 
-function cli(args: string[], input?: string): Run {
+function cli(args: string[], input?: string, cwd = ROOT): Run {
   const { status, stdout, stderr } = spawnSync(process.execPath, [CLI, ...args], {
-    cwd: ROOT,
+    cwd,
     encoding: 'utf8',
     input: input ?? '',
   })
@@ -94,6 +95,16 @@ describe('input', () => {
 
   it('reads stdin for -', () => {
     expect(cli(['-'], read(BUTTON)).stdout).toBe(BUTTON_TEXT)
+  })
+
+  // A bundled function's working directory may have no tailwindcss (SPEC §3.4).
+  it('runs from a directory without tailwindcss, with the one it imports', () => {
+    const empty = mkdtempSync(join(tmpdir(), 'tfc-cli-cwd-'))
+    try {
+      expect(cli([], read(BUTTON), empty).stdout).toBe(BUTTON_TEXT)
+    } finally {
+      rmSync(empty, { recursive: true, force: true })
+    }
   })
 
   it('prints nothing for an empty stylesheet', () => {
