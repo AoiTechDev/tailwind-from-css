@@ -660,7 +660,10 @@ function convert(engine: Engine, entries: readonly Entry[]): ConversionResult {
     ranksOf,
   )
   for (;;) {
-    const mixed = mixedLogicalSides(engine, attempt.cascadeBlocks)
+    // Each round marks a new side (a marked side is occupied wherever it could mix).
+    const mixed = mixedLogicalSides(engine, attempt.cascadeBlocks).filter(
+      (side) => !physicalSides.has(side),
+    )
     if (mixed.length === 0) break
     for (const side of mixed) physicalSides.add(side)
     attempt = matchBlocks(
